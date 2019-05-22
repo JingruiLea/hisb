@@ -3,7 +3,6 @@ import { Layout, Menu, Breadcrumb, Icon, Typography, Divider } from 'antd';
 import { Tree } from 'antd';
 import { Row, Col,Card } from 'antd';
 import DiagnosticDirectoryManagementTable from './DiagnosticDirectoryManagementTable'
-import InfiniteScroll from 'react-infinite-scroller';
 import DashboardHeader from './DashboardHeader'
 
 const {Content,Footer} = Layout

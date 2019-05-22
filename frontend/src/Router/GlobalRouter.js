@@ -4,9 +4,9 @@ import { BrowserRouter, Route} from 'react-router-dom';
 import LoginPage from '../Page/LoginPage';
 import DashboardRouter from '../Page/DashboardPage';
 
-class GlobalRouter extends React.Component {
- 
+import Demo from '../Demo'
 
+class GlobalRouter extends React.Component {
   render() {
       return (
         <BrowserRouter>
@@ -16,6 +16,10 @@ class GlobalRouter extends React.Component {
             <Route path="/diagnose" component={DashboardRouter}/>
             <Route path="/officeManage" component={DashboardRouter}/>
             <Route path="/diagnosticDirectoryManage" component={DashboardRouter}/>
+            <Route path="/outpatientDispensing" component={DashboardRouter}/>
+            <Route path="/outpatientDepartmentsWorkloadStatistic" component={DashboardRouter}/>
+            
+            <Route path="/demo" component={Demo}/>
         </BrowserRouter>);
   }
 }

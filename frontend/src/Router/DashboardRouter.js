@@ -5,16 +5,19 @@ import { BrowserRouter, Route} from 'react-router-dom';
 import OfficesDisplaySection from '../Component/OfficesDisplaySection'
 import DiagnosticDirectoryManagementSection from '../Component/DiagnosticDirectoryManagementSection'
 import DiagnoseSection from '../Component/DiagnoseSection'
+import OutpatientDispensingSection from '../Component/OutpatientDispensingSection'
+import OutpatientDepartmentsWorkloadStatisticSection from '../Component/OutpatientDepartmentsWorkloadStatisticSection'
 
 class DashboardRouter extends React.Component {
- 
-
   render() {
       return (
         <BrowserRouter>
           <Route path="/diagnose" component={DiagnoseSection}/>
           <Route path="/officeManage" component={OfficesDisplaySection}/>
           <Route path="/diagnosticDirectoryManage" component={DiagnosticDirectoryManagementSection}/>
+          <Route path="/outpatientDispensing" component={OutpatientDispensingSection}/>
+          <Route path="/outpatientDepartmentsWorkloadStatistic" component={OutpatientDepartmentsWorkloadStatisticSection}/>
+
         </BrowserRouter>);
   }
 }

@@ -6,15 +6,16 @@
     "antd": "^3.18.2",
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.11.2",
+    "bizcharts": "^3.5.3-beta.0",
     "customize-cra": "^0.2.12",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
     "react": "^16.8.6",
     "react-app-rewired": "^2.1.3",
     "react-dom": "^16.8.6",
-    "react-infinite-scroller": "^1.2.4",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "react-to-print": "^2.1.2"
   },
   "scripts": {
     "start": "react-app-rewired start",
