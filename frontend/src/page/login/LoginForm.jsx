@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import axios from 'axios';
-import API from '../Config/ApiConfig'
+import API from '../../config/ApiConfig'
 
 class LoginForm extends React.Component {
 

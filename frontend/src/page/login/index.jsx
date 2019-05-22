@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout, Menu, Breadcrumb, Icon,Card,Typography } from 'antd';
 
 //import '../login.css'
-import LoginFrom from '../Component/LoginForm'
+import LoginFrom from './LoginForm'
 
 class LoginPage extends React.Component {
     

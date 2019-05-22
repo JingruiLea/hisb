@@ -1,7 +1,8 @@
 import React from 'react';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 
-import DashboardRouter from '../Router/DashboardRouter'
+import DashboardSection from './DashboardSection'
+import DashboardHeader from '../main/section/DashboardHeader'
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -9,12 +10,28 @@ const SubMenu = Menu.SubMenu;
 class DashboardPage extends React.Component {
   state = {
     collapsed: false,
+    sectionKey:"0",
+    openKey:"sub3"
   };
 
   onCollapse = collapsed => {
-    console.log(collapsed);
     this.setState({ collapsed });
   };
+
+  onOpenChange = selected => {
+    for(var key of selected) {
+      if(key!=this.state.openKey) {
+        this.setState({openKey:key})
+        return;
+      }
+    }
+  }
+
+  changeSection = e =>{
+    this.setState({
+      sectionKey:e.key,
+    })
+  }
 
   render() {
     return (
@@ -24,7 +41,7 @@ class DashboardPage extends React.Component {
           <h1 style={{color:'white',textAlign:'center'}}>HIS</h1>
           </div>
 
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu theme="dark" onClick={this.changeSection} onOpenChange={this.onOpenChange} openKeys={[this.state.openKey]} defaultSelectedKeys={['0']} mode="inline">
 
             <SubMenu
               key="sub3"
@@ -35,11 +52,11 @@ class DashboardPage extends React.Component {
                 </span>
               }
             >
-              <Menu.Item key="3-1" onClick={()=>{window.location.href="/officeManage"}}>科室管理 √</Menu.Item>
+              <Menu.Item key="3-1">科室管理</Menu.Item>
               <Menu.Item key="3-2">用户管理</Menu.Item>
               <Menu.Item key="3-3">挂号级别管理</Menu.Item>
               <Menu.Item key="3-4">结算类别管理</Menu.Item>
-              <Menu.Item key="3-5" onClick={()=>{window.location.href="/diagnosticDirectoryManage"}}>诊断目录管理 √</Menu.Item>
+              <Menu.Item key="3-5">诊断目录管理</Menu.Item>
               <Menu.Item key="3-6">非药品收费项目管理</Menu.Item>
               <Menu.Item key="3-7">医生排班管理</Menu.Item>
             </SubMenu>
@@ -70,7 +87,7 @@ class DashboardPage extends React.Component {
                 </span>
               }
             >
-              <Menu.Item key="5-1" onClick={()=>{window.location.href="/diagnose"}}>门诊病例首页 √</Menu.Item>
+              <Menu.Item key="5-1">门诊病例首页</Menu.Item>
               <Menu.Item key="5-2">检查申请</Menu.Item>
               <Menu.Item key="5-3">检验申请</Menu.Item>
               <Menu.Item key="5-4">门诊确诊</Menu.Item>
@@ -110,7 +127,7 @@ class DashboardPage extends React.Component {
                 </span>
               }
             >
-              <Menu.Item key="7-1" onClick={()=>{window.location.href="/outpatientDispensing"}}>门诊发药 √</Menu.Item>
+              <Menu.Item key="7-1">门诊发药</Menu.Item>
               <Menu.Item key="7-2">门诊退药</Menu.Item>
               <Menu.Item key="7-3">药品目录管理</Menu.Item>
             </SubMenu>
@@ -126,13 +143,18 @@ class DashboardPage extends React.Component {
             >
               <Menu.Item key="8-1">费用科目管理</Menu.Item>
               <Menu.Item key="8-2">门诊日结核对</Menu.Item>
-              <Menu.Item key="8-3" onClick={()=>{window.location.href="/outpatientDepartmentsWorkloadStatistic"}}>工作量统计 √</Menu.Item>
+              <Menu.Item key="8-3">工作量统计</Menu.Item>
             </SubMenu>
 
           </Menu>
         </Sider>
 
-        <DashboardRouter/>
+        <Layout>
+          <DashboardHeader/>
+          <DashboardSection sectionKey={this.state.sectionKey}/>
+          <Footer style={{textAlign:'center'}}/>
+        </Layout>
+        
 
       </Layout>
     );

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Table, Button } from 'antd';
-import DashboardHeader from './DashboardHeader';
 
 const columns = [
   {

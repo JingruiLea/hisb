@@ -1,6 +1,5 @@
 import React from 'react';
 import {Layout, Divider} from 'antd'
-import DashboardHeader from './DashboardHeader'
 import {Row,Col,Table,Card,Typography,Pagination} from 'antd'
 import { Tabs } from 'antd';
 import { Tree } from 'antd';
@@ -171,9 +170,6 @@ class DiagnoseSection extends React.Component {
 
   render() {
     return (
-    <Layout>
-      <DashboardHeader/>
-
       <Content style={{ margin: '0 16px',paddingTop:3}}>
         <Row>
           <Col span={5}>
@@ -226,10 +222,8 @@ class DiagnoseSection extends React.Component {
             </Card>
           </Col>
 
-          
         </Row>
-      </Content>
-    </Layout>)
+      </Content>)
   }
 }
 

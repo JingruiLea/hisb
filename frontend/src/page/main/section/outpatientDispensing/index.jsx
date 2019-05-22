@@ -1,7 +1,6 @@
 import React from 'react';
 import {Row,Col,Layout,Card,Typography,Pagination, Form, Table, Divider} from 'antd'
 import { Tree,Input } from 'antd';
-import DashboardHeader from './DashboardHeader'
 
 const {Content, Footer} = Layout;
 
@@ -127,42 +126,37 @@ class OutpatientDispensingSection extends React.Component {
 
   render() {
     return(
-      <Layout>
-        <DashboardHeader/>
-        <Content style={{ margin: '0 16px',paddingTop:5 }}>
-          <Row>
-            <Col span={6} style={{minWidth:'100px'}}>
-              <Card title="待退药列表" style={{overflow:'scroll',minWidth:'100px',height:'400px'}} >
-              
-              </Card>
+      <Content style={{ margin: '0 16px',paddingTop:5 }}>
+        <Row>
+          <Col span={6} style={{minWidth:'100px'}}>
+            <Card title="待退药列表" style={{overflow:'scroll',minWidth:'100px',height:'400px'}} >
+            
+            </Card>
 
-              <Card title="退药列表" style={{overflow:'scroll',minWidth:'100px',height:'400px'}} >
-                <Table columns={siderColumn} dataSource={data1}/>
-              </Card>
-            </Col>
+            <Card title="退药列表" style={{overflow:'scroll',minWidth:'100px',height:'400px'}} >
+              <Table columns={siderColumn} dataSource={data1}/>
+            </Card>
+          </Col>
 
-            <Col span={18}>
-              <Card title="退药明细信息" style={{minHeight:'800px'}}>
-                <Typography.Title style={{textAlign:'center'}}>门诊退药</Typography.Title>
-                <Input addonBefore="病例号" disabled style={{width:'30%'}}/>
-                <Input addonBefore="患者姓名" disabled  style={{width:'30%'}}/>
-                <Input addonBefore="年龄" disabled  style={{width:'30%'}}/>
+          <Col span={18}>
+            <Card title="退药明细信息" style={{minHeight:'800px'}}>
+              <Typography.Title style={{textAlign:'center'}}>门诊退药</Typography.Title>
+              <Input addonBefore="病例号" disabled style={{width:'30%'}}/>
+              <Input addonBefore="患者姓名" disabled  style={{width:'30%'}}/>
+              <Input addonBefore="年龄" disabled  style={{width:'30%'}}/>
 
-                <Input addonBefore="阶段类别" disabled  style={{width:'30%'}}/>
-                <Input addonBefore="就诊科室" disabled  style={{width:'30%'}}/>
-                <Input addonBefore="处方状态" disabled  style={{width:'30%'}}/>
+              <Input addonBefore="阶段类别" disabled  style={{width:'30%'}}/>
+              <Input addonBefore="就诊科室" disabled  style={{width:'30%'}}/>
+              <Input addonBefore="处方状态" disabled  style={{width:'30%'}}/>
 
-                <Input addonBefore="发药日期" disabled  style={{width:'45%'}}/>
-                <Input addonBefore="农合卡号" disabled  style={{width:'45%'}}/>
-                <Divider/>
-                <Table columns={mainColumn} dataSource={data2}/>
-              </Card>
-            </Col>
-          </Row>
-        </Content>
-
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-      </Layout>)
+              <Input addonBefore="发药日期" disabled  style={{width:'45%'}}/>
+              <Input addonBefore="农合卡号" disabled  style={{width:'45%'}}/>
+              <Divider/>
+              <Table columns={mainColumn} dataSource={data2}/>
+            </Card>
+          </Col>
+        </Row>
+      </Content>)
   }
 
 }

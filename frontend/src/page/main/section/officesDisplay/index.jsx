@@ -1,8 +1,6 @@
 import React from 'react';
 import { Layout, Button } from 'antd';
 import { Table, Divider, Tag } from 'antd';
-import DashboardHeader from './DashboardHeader';
-
 
 const { Column, ColumnGroup } = Table;
 const { Header, Content, Footer} = Layout;
@@ -50,18 +48,11 @@ for (let i = 0; i < 46; i++) {
 class OfficesDisplaySection extends React.Component {
     render() {
         return (
-        <Layout>
-            <DashboardHeader/>
-            <br></br>
-            
-            <Content style={{ margin: '0 16px' }}>
-                <Table 
-                    columns={columns} 
-                    dataSource={data} />
-            </Content>
-
-            <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-        </Layout>)
+        <Content style={{ margin: '0 16px' }}>
+            <Table 
+                columns={columns} 
+                dataSource={data} />
+        </Content>)
     }
 }
 

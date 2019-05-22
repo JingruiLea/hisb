@@ -1,7 +1,6 @@
 import React from 'react';
 import {Row,Col,Layout,Card,Typography,Pagination, Form, Table, Divider} from 'antd'
 import { Tree,Input,DatePicker } from 'antd';
-import DashboardHeader from './DashboardHeader'
 import {
   G2,
   Chart,
@@ -129,33 +128,29 @@ for(var i=0;i<5;i++) data2.push({
   treatment_material_fee:1,
   surgical_treatment_fee:1,
   other_treatment_cost:1,
-  key:1
+  key:i
 })
 
 class OutpatientDepartmentsWorkloadStatisticSection extends React.Component {
   render() {
     return(
-      <Layout>
-        <DashboardHeader/>
-        <Content style={{ margin: '0 16px',paddingTop:30 }}>
-          <Typography.Title style={{textAlign:'center'}} level={4}>门诊科室工作量统计（开单科室）</Typography.Title>
-          <RangePicker renderExtraFooter={() => 'extra footer'} showTime />
-          <br/><br/>
-          <Table columns={columns} dataSource={data2} pagination={false}></Table>
+      <Content style={{ margin: '0 16px',paddingTop:30 }}>
+        <Typography.Title style={{textAlign:'center'}} level={4}>门诊科室工作量统计（开单科室）</Typography.Title>
+        <RangePicker renderExtraFooter={() => 'extra footer'} showTime />
+        <br/><br/>
+        <Table columns={columns} dataSource={data2} pagination={false}></Table>
 
-          <Chart height={400} data={data} scale={cols} forceFit>
-            <Axis name="year" />
-            <Axis name="sales" />
-            <Tooltip
-              crosshairs={{
-                type: "y"
-              }}
-            />
-            <Geom type="interval" position="year*sales" />
-          </Chart>
-          
-        </Content>
-    </Layout>)
+        <Chart height={400} data={data} scale={cols} forceFit>
+          <Axis name="year" />
+          <Axis name="sales" />
+          <Tooltip
+            crosshairs={{
+              type: "y"
+            }}
+          />
+          <Geom type="interval" position="year*sales" />
+        </Chart>
+    </Content>)
   }
 }
 
