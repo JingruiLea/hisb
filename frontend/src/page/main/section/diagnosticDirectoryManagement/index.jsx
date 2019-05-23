@@ -41,7 +41,7 @@ class DiagnosticDirectoryManagementSection extends React.Component {
     return (
       <Content style={{ margin: '0 16px' }}>
         <Row>
-          <Col span={4} style={{minWidth:'100px'}}>
+          <Col span={6} style={{minWidth:'120px'}}>
             <Card style={{overflow:'scroll',minWidth:'100px',height:'800px'}} >
             <Typography.Paragraph>疾病目录分类</Typography.Paragraph>
             <Tree showLine defaultExpandedKeys={['0-0-0']} onSelect={this.onSelect}>
@@ -55,7 +55,7 @@ class DiagnosticDirectoryManagementSection extends React.Component {
               </Tree>
             </Card>
           </Col>
-          <Col span={20}>
+          <Col span={18}>
             <Card  style={{minHeight:'800px'}}>
               <DiagnosticDirectoryManagementTable/>
             </Card>

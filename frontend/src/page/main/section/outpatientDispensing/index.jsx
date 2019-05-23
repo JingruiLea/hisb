@@ -22,9 +22,9 @@ const siderColumn = [
 
 const data1 = [
   {
-    case_number:'0120321000',
+    case_number:'0120000',
     name:'刘金星',
-    invoice_number:'1928310381903'
+    invoice_number:'1988828903'
   }
 ]
 
