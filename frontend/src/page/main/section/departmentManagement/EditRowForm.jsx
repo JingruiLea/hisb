@@ -11,13 +11,13 @@ class EditRowForm extends React.Component {
     const form = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received post values of form: ', values);
+        console.log('Received editRow values of form: ', values);
         values.id = form.props.data.key;
-        this.props.updateRow(values)
+        this.props.updateRow(values);
+        this.props.exit();
       }
     });
   };
-
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -40,7 +40,6 @@ class EditRowForm extends React.Component {
             hidden
             name="id"
           />
-        )}
       </Form.Item>
        <Form.Item label="科室名称">
         {getFieldDecorator('name', {
@@ -78,7 +77,7 @@ class EditRowForm extends React.Component {
               option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             >
-            {this.props.classification.map((x)=>(<Option value={x} key={x}>{x}</Option>))}
+            {this.props.departmentClassification.map((x)=>(<Option value={x} key={x}>{x}</Option>))}
             </Select>
         )}
         </Form.Item>
@@ -87,4 +86,4 @@ class EditRowForm extends React.Component {
   }
 }
 
-export default Form.create({ name: 'new_row',option:{}})(EditRowForm);
+export default Form.create({ name: 'new_row'})(EditRowForm);

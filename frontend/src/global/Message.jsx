@@ -1,9 +1,10 @@
 //import React from 'react';
-import {Modal,notification} from 'antd';
+import {Modal,notification,message} from 'antd';
 
 const confirm = Modal.confirm; 
 
 export default {
+  //确认对话框
   showConfirm:(title,content)=> {
     confirm({
       title: title,
@@ -16,6 +17,7 @@ export default {
       onCancel() {},
     });
   },
+  //登录过期错误对话框
   showAuthExpiredMessage:()=> {
     confirm({
       title: '退出',
@@ -32,6 +34,7 @@ export default {
       },
     });
   },
+  //网络错误错误对话框
   showNetworkErrorMessage:()=> {
     confirm({
       title: '错误',
@@ -40,6 +43,7 @@ export default {
       onCancel() {},
     });
   },
+  //显示通知
   openNotification: (message,description) => {
     notification.open({
       message: message,
@@ -49,5 +53,13 @@ export default {
         console.log('Notification Clicked!');
       },
     });
+  },
+  //成功提示
+  success:(msg) =>{
+    message.success(msg)
+  },
+  //失败提示
+  error:(msg)=>{
+    message.error(msg)
   }
 }

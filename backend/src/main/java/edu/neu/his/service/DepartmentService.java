@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @Service
 public class DepartmentService {
@@ -20,7 +19,7 @@ public class DepartmentService {
     }
 
     @Transactional
-    public List<Department> findDepartmentByName(String name) {
+    public Department findDepartmentByName(String name) {
         return departmentMapper.findByName(name);
     }
 
@@ -35,6 +34,9 @@ public class DepartmentService {
     }
 
     @Transactional
+    public List<String> findAllNames() {return departmentMapper.findAllNames();}
+
+    @Transactional
     public List<String> findAllClassification() {
         return departmentMapper.findAllClassification();
     }
@@ -42,5 +44,16 @@ public class DepartmentService {
     @Transactional
     public void deleteDepartment(int id) {
         departmentMapper.deleteDepartment(id);
+    }
+
+    @Transactional
+    public int findClassificationIdByName(String name) {
+        int id = 0;
+        try {
+             id = departmentMapper.findClassificationIdByName(name);
+        } catch (Exception e) {
+            id = -1;
+        }
+        return id;
     }
 }

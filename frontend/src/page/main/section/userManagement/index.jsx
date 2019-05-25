@@ -1,6 +1,5 @@
 import React from 'react';
 import { Layout, Button,Input,Icon, Table, Divider, Tag,Spin,Typography} from 'antd';
-import Highlighter from 'react-highlight-words';
 import axios from 'axios';
 import ToolBar from './ToolBar';
 import API from '../../../../global/ApiConfig';
@@ -13,27 +12,27 @@ const {Content} = Layout;
 const tableData = [];
 for (let i = 0; i < 10; i+=2) {
   tableData.push({
-    key: i,
-    code:'IX'+(i+100000),
-    name:'心血管内科',
-    is_clinical:true,
-    classification:'内科'
-  })
-  tableData.push({
-    key: i+1,
-    code:'IX'+(i+100001),
-    name:'放射科',
-    is_clinical:false,
-    classification:'医学影像科'
+    key:i,
+    uid: i,
+    username:'USER'+(i+100000),
+    password:"2132131"+i,
+    real_name:'菜徐坤',
+    role:'NBA形象大使',
+    department_name:"鬼畜区",
+    is_doctor:true,
+    participate_in_scheduling:true,
+    title:'最好的kunkun'
   })
 }
 */
 
-class DepartmentManagement extends React.Component {
+
+class UserManagement extends React.Component {
     state = {
         selectedRows:[],//选中项
-        tableData:[],//表格数据
-        departmentClassification:[],//分类数据
+        users:[],//表格数据
+        departmentClassification:[],//科室分类数据
+        roles:[],//用户角色
         loading:true//加载状态
     };
 
@@ -49,19 +48,20 @@ class DepartmentManagement extends React.Component {
         const _this = this;
         this.setState({loading:true})
         axios({
-            method: API.getDepartmentInfo.method,
-            url: API.getDepartmentInfo.url,
+            method: API.getAllUserInfo.method,
+            url: API.getAllUserInfo.url,
             data: {},
             crossDomain: true
           }).then((res)=>{
             const data = res.data;
             //console.log('receive',data)
             if(data.code===Status.Ok) {
-                var tableData = data.data.department;
-                for(var d of tableData) {d.key = d.id;}
+                var users = data.data.users;
+                for(var d of users) {d.key = d.uid;}
                 this.setState({
-                    tableData:data.data.department,
-                    departmentClassification:data.data.department_classification,
+                    roles:data.data.roles,
+                    departmentClassification:data.data.departmentClassification,
+                    users:data.data.users,
                     loading:false
                 });
             } else if(data.code===Status.PermissionDenied) {
@@ -77,8 +77,8 @@ class DepartmentManagement extends React.Component {
     updateRow=(data)=>{
         const _this = this;
         axios({
-            method: API.updateDepartmentInfo.method,
-            url: API.updateDepartmentInfo.url,
+            method: API.updateUserInfo.method,
+            url: API.updateUserInfo.url,
             data: data,
             crossDomain: true
           }).then((res)=>{
@@ -102,8 +102,8 @@ class DepartmentManagement extends React.Component {
     newRow=(data)=>{
         const _this = this;
         axios({
-            method: API.addDepartmentInfo.method,
-            url: API.addDepartmentInfo.url,
+            method: API.addUserInfo.method,
+            url: API.addUserInfo.url,
             data: data,
             crossDomain: true
           }).then((res)=>{
@@ -126,9 +126,9 @@ class DepartmentManagement extends React.Component {
     deleteRow=(data)=>{
         const _this = this;
         axios({
-            method: API.deleteDepartmentInfo.method,
-            url: API.deleteDepartmentInfo.url,
-            data: {data:data},
+            method: API.deleteUserInfo.method,
+            url: API.deleteUserInfo.url,
+            data: {data},
             crossDomain: true
           }).then((res)=>{
             const data = res.data;
@@ -157,7 +157,7 @@ class DepartmentManagement extends React.Component {
                 selectedRows={this.state.selectedRows}
                 reloadData={this.reloadData.bind(this)}
                 departmentClassification={this.state.departmentClassification}
-
+                roles={this.state.roles}
                 updateRow={this.updateRow.bind(this)}
                 deleteRow={this.deleteRow.bind(this)}
                 newRow={this.newRow.bind(this)}
@@ -169,7 +169,7 @@ class DepartmentManagement extends React.Component {
                 <Typography.Paragraph>加载中...</Typography.Paragraph>
             </div>
             :<DataTable
-                data={this.state.tableData} 
+                data={this.state.users} 
                 rowSelection={this.state.rowSelection}
                 reloadData={this.reloadData.bind(this)}
                 setSelected={this.setSelected.bind(this)}
@@ -179,4 +179,4 @@ class DepartmentManagement extends React.Component {
     }
 }
 
-export default DepartmentManagement;
+export default UserManagement;

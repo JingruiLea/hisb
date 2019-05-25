@@ -2,12 +2,10 @@ package edu.neu.his.controller;
 
 import edu.neu.his.bean.Department;
 import edu.neu.his.config.Response;
-import edu.neu.his.service.DepartmentClassificationService;
 import edu.neu.his.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +19,6 @@ public class DepartmentManageController {
 
     @Autowired
     private DepartmentService departmentService;
-    @Autowired
-    private DepartmentClassificationService departmentClassificationService;
 
     @PostMapping("/findByName")
     @ResponseBody
@@ -35,7 +31,7 @@ public class DepartmentManageController {
     @ResponseBody
     public Map listAllDepartment(){
         Map data = new HashMap();
-        data.put("classification",departmentService.findAllClassification());
+        data.put("department_classification",departmentService.findAllClassification());
         data.put("department",departmentService.findAll());
         return Response.Ok(data);
     }
@@ -48,7 +44,7 @@ public class DepartmentManageController {
         String code = (String)req.get("code");
         String name = (String)req.get("name");
         String classification = (String)req.get("classification");
-        int classification_id = departmentClassificationService.getIdByName(classification);
+        int classification_id = departmentService.findClassificationIdByName(classification);
 
         if(canUpdate(id,name,code,classification)) {
             Department department = new Department(id, code, name, classification, isClinical(name),classification_id);
@@ -65,7 +61,7 @@ public class DepartmentManageController {
         String code = (String)req.get("code");
         String name = (String)req.get("name");
         String classification = (String)req.get("classification");
-        int classfication_id = departmentClassificationService.getIdByName(classification);
+        int classfication_id = departmentService.findClassificationIdByName(classification);
         Department department = new Department();
         department.setCode(code);
         department.setName(name);

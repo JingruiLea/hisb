@@ -11,12 +11,12 @@ class AddRowForm extends React.Component {
     const form = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received post values of form: ', values);
+        console.log('Received addRow values of form: ', values);
         this.props.newRow(values)
+        this.props.exit();
       }
     });
   };
-
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -65,7 +65,7 @@ class AddRowForm extends React.Component {
               option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             >
-            {this.props.classification.map((x)=>(<Option value={x} key={x}>{x}</Option>))}
+            {this.props.departmentClassification.map((x)=>(<Option value={x} key={x}>{x}</Option>))}
             </Select>
         )}
         </Form.Item>

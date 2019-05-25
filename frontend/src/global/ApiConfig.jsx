@@ -25,6 +25,23 @@ const API = {
     updateDepartmentInfo:{
         method:'post',
         url:ServerDomain+'/departmentManage/update'
+    },
+    //添加用户
+    addUserInfo:{
+        method:'post',
+        url:ServerDomain+'/userManagement/add'
+    },
+    deleteUserInfo:{
+        method:'post',
+        url:ServerDomain+'/userManagement/delete'
+    },
+    updateUserInfo:{
+        method:'post',
+        url:ServerDomain+'/userManagement/update'
+    },
+    getAllUserInfo:{
+        method:'get',
+        url:ServerDomain+'/userManagement/all'
     }
 }
 

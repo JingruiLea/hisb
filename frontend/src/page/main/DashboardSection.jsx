@@ -1,7 +1,10 @@
 import React from 'react';
 
 import DepartmentManagement from './section/departmentManagement'
+import UserManagement from './section/userManagement'
 import DiagnosticDirectoryManagementSection from './section/diagnosticDirectoryManagement'
+
+
 import DiagnoseSection from './section/diagnose'
 import OutpatientDispensingSection from './section/outpatientDispensing'
 import OutpatientDepartmentsWorkloadStatisticSection from './section/outpatientDepartmentsWorkloadStatistic'
@@ -14,10 +17,10 @@ class DashboardSection extends React.Component {
       const {sectionKey} = this.props;
       return (
         <div>
-          {sectionKey==="0"?<div><DepartmentManagement/></div>:null}
+          {sectionKey==="0"?<div><UserManagement/></div>:null}
 
           {sectionKey==="3-1"?<DepartmentManagement/>:null}
-          {sectionKey==="3-2"?<div>ToBeImplement</div>:null}
+          {sectionKey==="3-2"?<UserManagement/>:null}
           {sectionKey==="3-3"?<div>ToBeImplement</div>:null}
           {sectionKey==="3-4"?<div>ToBeImplement</div>:null}
           {sectionKey==="3-5"?<DiagnosticDirectoryManagementSection/>:null}

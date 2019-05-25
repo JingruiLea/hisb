@@ -85,7 +85,7 @@ class ToolBar extends React.Component {
             基础信息管理
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            科室管理
+            用户管理
           </Breadcrumb.Item>
         </Breadcrumb>
 
@@ -135,6 +135,7 @@ class ToolBar extends React.Component {
             reloadData={this.props.reloadData.bind(this)}
             newRow={this.props.newRow.bind(this)} 
             exit={this.hideAddRowModal.bind(this)}
+            roles={this.props.roles}
             departmentClassification={this.props.departmentClassification} />
         </Modal>
 
@@ -150,6 +151,7 @@ class ToolBar extends React.Component {
             data={this.props.selectedRows[0]}  
             updateRow={this.props.updateRow.bind(this)}
             exit={this.hideEditModal.bind(this)}
+            roles={this.props.roles}
             departmentClassification={this.props.departmentClassification} />
         </Modal>
 
@@ -166,4 +168,4 @@ class ToolBar extends React.Component {
   }
 }
 
-export default Form.create({ name: 'normal_login' })(ToolBar);
+export default ToolBar;

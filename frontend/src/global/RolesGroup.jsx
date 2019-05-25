@@ -4,7 +4,10 @@ const Roles = {
   DoctorOfTechnology:3,
   PharmacyOperator:4,
   FinancialAdmin:5,
-  HospitialAdmin:6
+  HospitialAdmin:6,
+  isDoctor:(str)=>{
+    return str==="门诊医生";
+  }
 }
 
 export default Roles;
