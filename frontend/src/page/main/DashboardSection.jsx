@@ -1,21 +1,22 @@
 import React from 'react';
 
-import { BrowserRouter, Route} from 'react-router-dom';
-
-import OfficesDisplaySection from './section/officesDisplay'
+import DepartmentManagement from './section/departmentManagement'
 import DiagnosticDirectoryManagementSection from './section/diagnosticDirectoryManagement'
 import DiagnoseSection from './section/diagnose'
 import OutpatientDispensingSection from './section/outpatientDispensing'
 import OutpatientDepartmentsWorkloadStatisticSection from './section/outpatientDepartmentsWorkloadStatistic'
+import PatentMedicinePrescription from './section/patentMedicinePrescription'
+import OutpatientRegistration from './section/outpatientRegistration'
+
 
 class DashboardSection extends React.Component {
   render() {
       const {sectionKey} = this.props;
       return (
         <div>
-          {sectionKey==="0"?<div>Welcome</div>:null}
+          {sectionKey==="0"?<div><DepartmentManagement/></div>:null}
 
-          {sectionKey==="3-1"?<OfficesDisplaySection/>:null}
+          {sectionKey==="3-1"?<DepartmentManagement/>:null}
           {sectionKey==="3-2"?<div>ToBeImplement</div>:null}
           {sectionKey==="3-3"?<div>ToBeImplement</div>:null}
           {sectionKey==="3-4"?<div>ToBeImplement</div>:null}
@@ -23,7 +24,7 @@ class DashboardSection extends React.Component {
           {sectionKey==="3-6"?<div>ToBeImplement</div>:null}
           {sectionKey==="3-7"?<div>ToBeImplement</div>:null}
 
-          {sectionKey==="4-1"?<div>ToBeImplement</div>:null}
+          {sectionKey==="4-1"?<OutpatientRegistration/>:null}
           {sectionKey==="4-2"?<div>ToBeImplement</div>:null}
           {sectionKey==="4-3"?<div>ToBeImplement</div>:null}
           {sectionKey==="4-4"?<div>ToBeImplement</div>:null}
@@ -35,7 +36,7 @@ class DashboardSection extends React.Component {
           {sectionKey==="5-3"?<div>ToBeImplement</div>:null}
           {sectionKey==="5-4"?<div>ToBeImplement</div>:null}
           {sectionKey==="5-5"?<div>ToBeImplement</div>:null}
-          {sectionKey==="5-6"?<div>ToBeImplement</div>:null}
+          {sectionKey==="5-6"?<PatentMedicinePrescription/>:null}
           {sectionKey==="5-7"?<div>ToBeImplement</div>:null}
           {sectionKey==="5-8"?<div>ToBeImplement</div>:null}
           {sectionKey==="5-9"?<div>ToBeImplement</div>:null}

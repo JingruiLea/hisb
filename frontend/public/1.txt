@@ -1,0 +1,65 @@
+POST /departmentManage/getAll
+REQ {} 
+RES {
+  code:200, //状态码
+  msg:""
+  data:[{
+    code:"100001",
+    name:"心血管",
+    is_clinical:false,//是否临床
+    classification:"内科"
+  },{
+    ...
+  },
+  ]
+}
+
+POST  /departmentManage/delete
+REQ   科室编码的字符串数组  {data:["100001","100002",...]}
+RES 返回剩余所有的数据
+{
+  code:200,
+  msg:""
+  data:[{
+    code:"100001",
+    name:"心血管",
+    is_clinical:false,
+    classification:"内科"
+  },{
+    ...
+  },
+  ]
+}
+
+POST    /departmentManage/add
+REQ   
+{
+  code:"100001",
+  name:"心血管",
+  classification:"内科"
+}
+RES 返回处理过的数据（如果成功，判断是不是临床，增加一个属性;如果插入失败比如科室编码存在，名称存在，返回错误码500,并返回msg字段 说明错误原因，错误时data字段是null）
+{
+  code:200,
+  msg:'',
+  data:[{
+    code:"100001",
+    name:"心血管",
+    is_clinical:false,
+    classification:"内科"
+  }]
+}
+
+POST    /departmentManage/classification
+REQ   {} 用于获取所有科室的种类数据 供增操作使用
+RES 返回处理过的数据（如果成功，判断是不是临床，增加一个属性;如果插入失败比如科室编码存在，名称存在，返回错误码500,并返回msg字段 说明错误原因，错误时data字段是null）
+{
+  code:200,
+  msg:"",
+  data:["外科"，"内科”，。。。。]
+}
+
+所有RES都包含code和msg字段，用于判断状态和返回错误信息，一般正常是200,登录过期是403,查找和逻辑错误是500,如果有错误就要写msg字段，没有就不用写
+改操作我目前还没想好 怎么写 我觉得应该做成删+增
+
+
