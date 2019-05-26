@@ -6,6 +6,7 @@ import edu.neu.his.config.Response;
 import edu.neu.his.config.Roles;
 import edu.neu.his.service.DepartmentService;
 import edu.neu.his.service.UserService;
+import edu.neu.his.util.Crypto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,7 +73,7 @@ public class UserManagementController {
         user.setDepartment_id(department.getId());
         user.setDepartment_name((String)req.get("department_name"));
         user.setUsername((String)req.get("username"));
-        user.setPassword((String)req.get("password"));
+        user.setPassword(Crypto.getSHA256String((String)req.get("password")));
         user.setParticipate_in_scheduling((boolean)req.get("participate_in_scheduling"));
         user.setReal_name((String)req.get("real_name"));
         user.setRole((String)req.get("role"));

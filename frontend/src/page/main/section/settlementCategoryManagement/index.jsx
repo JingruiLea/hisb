@@ -14,25 +14,15 @@ for (let i = 0; i < 10; i+=2) {
   tableData.push({
     key:i,
     uid: i,
-    username:'USER'+(i+100000),
-    password:"2132131"+i,
-    real_name:'菜徐坤',
-    role:'NBA形象大使',
-    department_name:"鬼畜区",
-    is_doctor:true,
-    participate_in_scheduling:true,
-    title:'最好的kunkun'
+    name:"ABC"
   })
 }
 */
 
-
-class UserManagement extends React.Component {
+class SettlementCategoryManagement extends React.Component {
     state = {
         selectedRows:[],//选中项
-        users:[],//表格数据
-        departmentClassification:[],//科室分类数据
-        roles:[],//用户角色
+        settlementCategory:[],//表格数据
         loading:true//加载状态
     };
 
@@ -48,20 +38,18 @@ class UserManagement extends React.Component {
         const _this = this;
         this.setState({loading:true})
         axios({
-            method: API.bacisInfoManagement.getAllUserInfo.method,
-            url: API.bacisInfoManagement.getAllUserInfo.url,
+            method: API.bacisInfoManagement.getSettlementCatrgoryInfo.method,
+            url: API.bacisInfoManagement.getSettlementCatrgoryInfo.url,
             data: {},
             crossDomain: true
           }).then((res)=>{
             const data = res.data;
             //console.log('receive',data)
             if(data.code===Status.Ok) {
-                var users = data.data.users;
-                for(var d of users) {d.key = d.uid;}
+                var settlementCategory = data.data;
+                for(var d of settlementCategory) {d.key = d.id;}
                 this.setState({
-                    roles:data.data.roles,
-                    departmentClassification:data.data.departmentClassification,
-                    users:data.data.users,
+                    settlementCategory:settlementCategory,
                     loading:false
                 });
             } else if(data.code===Status.PermissionDenied) {
@@ -77,8 +65,8 @@ class UserManagement extends React.Component {
     updateRow=(data)=>{
         const _this = this;
         axios({
-            method: API.bacisInfoManagement.updateUserInfo.method,
-            url: API.bacisInfoManagement.updateUserInfo.url,
+            method: API.bacisInfoManagement.updateSettlementCatrgoryInfo.method,
+            url: API.bacisInfoManagement.updateSettlementCatrgoryInfo.url,
             data: data,
             crossDomain: true
           }).then((res)=>{
@@ -102,8 +90,8 @@ class UserManagement extends React.Component {
     newRow=(data)=>{
         const _this = this;
         axios({
-            method: API.bacisInfoManagement.addUserInfo.method,
-            url: API.bacisInfoManagement.addUserInfo.url,
+            method: API.bacisInfoManagement.addSettlementCatrgoryInfo.method,
+            url: API.bacisInfoManagement.addSettlementCatrgoryInfo.url,
             data: data,
             crossDomain: true
           }).then((res)=>{
@@ -126,8 +114,8 @@ class UserManagement extends React.Component {
     deleteRow=(data)=>{
         const _this = this;
         axios({
-            method: API.bacisInfoManagement.deleteUserInfo.method,
-            url: API.bacisInfoManagement.deleteUserInfo.url,
+            method: API.bacisInfoManagement.deleteSettlementCatrgoryInfo.method,
+            url: API.bacisInfoManagement.deleteSettlementCatrgoryInfo.url,
             data: {data},
             crossDomain: true
           }).then((res)=>{
@@ -155,9 +143,8 @@ class UserManagement extends React.Component {
             <ToolBar
                 disabled={this.state.loading}
                 selectedRows={this.state.selectedRows}
+                settlementCategory={this.state.settlementCategory}
                 reloadData={this.reloadData.bind(this)}
-                departmentClassification={this.state.departmentClassification}
-                roles={this.state.roles}
                 updateRow={this.updateRow.bind(this)}
                 deleteRow={this.deleteRow.bind(this)}
                 newRow={this.newRow.bind(this)}
@@ -169,7 +156,7 @@ class UserManagement extends React.Component {
                 <Typography.Paragraph>加载中...</Typography.Paragraph>
             </div>
             :<DataTable
-                data={this.state.users} 
+                data={this.state.settlementCategory} 
                 rowSelection={this.state.rowSelection}
                 reloadData={this.reloadData.bind(this)}
                 setSelected={this.setSelected.bind(this)}
@@ -179,4 +166,4 @@ class UserManagement extends React.Component {
     }
 }
 
-export default UserManagement;
+export default SettlementCategoryManagement;

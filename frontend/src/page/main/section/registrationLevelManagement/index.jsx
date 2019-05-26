@@ -13,7 +13,7 @@ const tableData = [];
 for (let i = 0; i < 10; i+=2) {
   tableData.push({
     key:i,
-    uid: i,
+    id:i,
     username:'USER'+(i+100000),
     password:"2132131"+i,
     real_name:'菜徐坤',
@@ -48,8 +48,8 @@ class UserManagement extends React.Component {
         const _this = this;
         this.setState({loading:true})
         axios({
-            method: API.bacisInfoManagement.getAllUserInfo.method,
-            url: API.bacisInfoManagement.getAllUserInfo.url,
+            method: API.getAllUserInfo.method,
+            url: API.getAllUserInfo.url,
             data: {},
             crossDomain: true
           }).then((res)=>{
@@ -77,8 +77,8 @@ class UserManagement extends React.Component {
     updateRow=(data)=>{
         const _this = this;
         axios({
-            method: API.bacisInfoManagement.updateUserInfo.method,
-            url: API.bacisInfoManagement.updateUserInfo.url,
+            method: API.updateUserInfo.method,
+            url: API.updateUserInfo.url,
             data: data,
             crossDomain: true
           }).then((res)=>{
@@ -102,8 +102,8 @@ class UserManagement extends React.Component {
     newRow=(data)=>{
         const _this = this;
         axios({
-            method: API.bacisInfoManagement.addUserInfo.method,
-            url: API.bacisInfoManagement.addUserInfo.url,
+            method: API.addUserInfo.method,
+            url: API.addUserInfo.url,
             data: data,
             crossDomain: true
           }).then((res)=>{
@@ -126,8 +126,8 @@ class UserManagement extends React.Component {
     deleteRow=(data)=>{
         const _this = this;
         axios({
-            method: API.bacisInfoManagement.deleteUserInfo.method,
-            url: API.bacisInfoManagement.deleteUserInfo.url,
+            method: API.deleteUserInfo.method,
+            url: API.deleteUserInfo.url,
             data: {data},
             crossDomain: true
           }).then((res)=>{

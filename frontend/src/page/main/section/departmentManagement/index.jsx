@@ -49,8 +49,8 @@ class DepartmentManagement extends React.Component {
         const _this = this;
         this.setState({loading:true})
         axios({
-            method: API.getDepartmentInfo.method,
-            url: API.getDepartmentInfo.url,
+            method: API.bacisInfoManagement.getDepartmentInfo.method,
+            url: API.bacisInfoManagement.getDepartmentInfo.url,
             data: {},
             crossDomain: true
           }).then((res)=>{
@@ -77,8 +77,8 @@ class DepartmentManagement extends React.Component {
     updateRow=(data)=>{
         const _this = this;
         axios({
-            method: API.updateDepartmentInfo.method,
-            url: API.updateDepartmentInfo.url,
+            method: API.bacisInfoManagement.updateDepartmentInfo.method,
+            url: API.bacisInfoManagement.updateDepartmentInfo.url,
             data: data,
             crossDomain: true
           }).then((res)=>{
@@ -102,8 +102,8 @@ class DepartmentManagement extends React.Component {
     newRow=(data)=>{
         const _this = this;
         axios({
-            method: API.addDepartmentInfo.method,
-            url: API.addDepartmentInfo.url,
+            method: API.bacisInfoManagement.addDepartmentInfo.method,
+            url: API.bacisInfoManagement.addDepartmentInfo.url,
             data: data,
             crossDomain: true
           }).then((res)=>{
@@ -126,8 +126,8 @@ class DepartmentManagement extends React.Component {
     deleteRow=(data)=>{
         const _this = this;
         axios({
-            method: API.deleteDepartmentInfo.method,
-            url: API.deleteDepartmentInfo.url,
+            method: API.bacisInfoManagement.deleteDepartmentInfo.method,
+            url: API.bacisInfoManagement.deleteDepartmentInfo.url,
             data: {data:data},
             crossDomain: true
           }).then((res)=>{

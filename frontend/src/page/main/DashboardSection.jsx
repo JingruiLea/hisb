@@ -2,6 +2,7 @@ import React from 'react';
 
 import DepartmentManagement from './section/departmentManagement'
 import UserManagement from './section/userManagement'
+import SettlementCategoryManagement from './section/settlementCategoryManagement'
 import DiagnosticDirectoryManagementSection from './section/diagnosticDirectoryManagement'
 
 
@@ -17,12 +18,12 @@ class DashboardSection extends React.Component {
       const {sectionKey} = this.props;
       return (
         <div>
-          {sectionKey==="0"?<div><UserManagement/></div>:null}
+          {sectionKey==="0"?<div><SettlementCategoryManagement/></div>:null}
 
           {sectionKey==="3-1"?<DepartmentManagement/>:null}
           {sectionKey==="3-2"?<UserManagement/>:null}
           {sectionKey==="3-3"?<div>ToBeImplement</div>:null}
-          {sectionKey==="3-4"?<div>ToBeImplement</div>:null}
+          {sectionKey==="3-4"?<SettlementCategoryManagement/>:null}
           {sectionKey==="3-5"?<DiagnosticDirectoryManagementSection/>:null}
           {sectionKey==="3-6"?<div>ToBeImplement</div>:null}
           {sectionKey==="3-7"?<div>ToBeImplement</div>:null}
