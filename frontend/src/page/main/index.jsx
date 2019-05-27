@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 
 import DashboardSection from './DashboardSection'
-import DashboardHeader from '../main/section/DashboardHeader'
+import DashboardHeader from '../../section/DashboardHeader'
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;

@@ -9,18 +9,18 @@ import java.util.List;
 @Mapper
 @Component(value = "RegistrationLevelMapper")
 public interface RegistrationLevelMapper {
-    @Select("SELECT * FROM REGISTRATION_LEVEL WHERE name = #{name}")
+    @Select("SELECT * FROM registration_level WHERE name = #{name}")
     List<Registration_level> findByName(@Param("name") String name);
 
-    @Insert("INSERT INTO registration_level(id, name, is_default, seq_num, fee) VALUES(#{id}, #{name}, #{is_default}, #{seq_num}, #{fee})")
+    @Insert("INSERT INTO registration_level (name, is_default, seq_num, fee) VALUES(#{name}, #{is_default}, #{seq_num}, #{fee})")
     void insert(Registration_level registration_level);
 
     @Update("UPDATE registration_level SET name = #{name}, is_default = #{is_default}, seq_num = #{seq_num}, fee = #{fee} WHERE id = #{id}")
     void update(Registration_level registration_level);
 
-    @Select("SELECT * FROM REGISTRATION_LEVEL")
+    @Select("SELECT * FROM registration_level")
     List<Registration_level> findAll();
 
-    @Delete("DELETE FROM REGISTRATION_LEVEL WHERE id=#{id}")
+    @Delete("DELETE FROM registration_level WHERE id=#{id}")
     void delete(int id);
 }
