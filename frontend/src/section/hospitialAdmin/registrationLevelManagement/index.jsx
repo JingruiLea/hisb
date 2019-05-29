@@ -8,15 +8,6 @@ import Message from '../../../global/Message';
 import DataTable from './DataTable'
 const {Content} = Layout;
 
-/*
-const tableData = [];
-for (let i = 0; i < 10; i+=2) {
-  tableData.push({
-  })
-}
-*/
-
-
 class RegistrationLevelManagement extends React.Component {
     state = {
         selectedRows:[],//选中项

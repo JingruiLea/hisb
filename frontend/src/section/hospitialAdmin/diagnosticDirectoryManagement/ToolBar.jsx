@@ -1,11 +1,11 @@
 import React from 'react';
-import { Layout, Button,Input,Modal,Breadcrumb,Form,Icon} from 'antd';
+import { Select, Button,Input,Modal,Breadcrumb,Form,Icon} from 'antd';
 import AddRowForm from './AddRowForm';
 import EditRowForm from './EditRowForm';
 import BatchImportUpload from './BatchImportUpload';
 
 const confirm = Modal.confirm;
-
+const Option = Select.Option;
 
 class ToolBar extends React.Component {
   state = {
@@ -79,21 +79,33 @@ class ToolBar extends React.Component {
 
       return (
       <div >
-        <Breadcrumb style={{float:'left',paddingTop:10}}>
-          <Breadcrumb.Item>HIS</Breadcrumb.Item>
-          <Breadcrumb.Item>
-            基础信息管理
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            费用结算方式管理
-          </Breadcrumb.Item>
-        </Breadcrumb>
+        <div style={{float:'left',paddingTop:10}}>
+          <Breadcrumb>
+            <Breadcrumb.Item>HIS</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              基础信息管理
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              诊断目录管理
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
 
         <div style={{float:'right',margin:5}}>
-          <Button onClick={this.props.reloadData}>
-            <Icon type="sync" spin={this.props.disabled}></Icon>
-          </Button>
-          &nbsp;
+          <Select
+            showSearch
+            style={{ width: 200 }}
+            placeholder="选择类型"
+            optionFilterProp="children"
+            onChange={this.props.handleSelectClassification}
+            filterOption={(input, option) =>
+              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            >
+            {this.props.diseaseClassification.map(x=>(<Option value={x.id} key={x.id}>{x.name}</Option>))}
+          </Select>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
           <Button 
             icon="edit"
             disabled={editButtonDisbbled}
@@ -135,7 +147,7 @@ class ToolBar extends React.Component {
             reloadData={this.props.reloadData.bind(this)}
             newRow={this.props.newRow.bind(this)} 
             exit={this.hideAddRowModal.bind(this)}
-            roles={this.props.roles} />
+            diseaseClassification={this.props.diseaseClassification} />
         </Modal>
 
         <Modal
@@ -150,7 +162,7 @@ class ToolBar extends React.Component {
             data={this.props.selectedRows[0]}  
             updateRow={this.props.updateRow.bind(this)}
             exit={this.hideEditModal.bind(this)}
-            roles={this.props.roles} />
+            diseaseClassification={this.props.diseaseClassification} />
         </Modal>
 
         <Modal

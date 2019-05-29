@@ -31,9 +31,9 @@ class AddRowForm extends React.Component {
     });
   }
 
-  selectRole=(name)=>{
-    console.log('select role value', name);
-    if(Roles.isDoctor(name)) {
+  selectRole=(value)=>{
+    console.log('select role value', value);
+    if(Roles.isDoctor(value)) {
       this.setState({
         isDoctor:true,
         participate_in_scheduling:true
@@ -95,7 +95,7 @@ class AddRowForm extends React.Component {
         )}
       </Form.Item>
       <Form.Item label="角色">
-        {getFieldDecorator('role', {
+        {getFieldDecorator('role_id', {
           rules: [{ required: true, message: '选择角色' }],
         })(
           <Select
@@ -108,7 +108,7 @@ class AddRowForm extends React.Component {
               option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             >
-            {this.props.roles.map((x)=>(<Option value={x} key={x}>{x}</Option>))}
+            {this.props.roles.map((x)=>(<Option value={x.id} key={x.id}>{x.name}</Option>))}
             </Select>
         )}
       </Form.Item>
@@ -125,11 +125,10 @@ class AddRowForm extends React.Component {
         )}
       </Form.Item>
       <Form.Item label="科室">
-        {getFieldDecorator('department_name', {
+        {getFieldDecorator('department_id', {
           rules: [{ required: true, message: '科室' }],
         })(
           <Select
-            name="department_name"
             showSearch
             placeholder="选择科室"
             optionFilterProp="children"
@@ -137,7 +136,7 @@ class AddRowForm extends React.Component {
               option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             >
-            {this.props.departmentClassification.map((x)=>(<Option value={x} key={x}>{x}</Option>))}
+            {this.props.departments.map((x)=>(<Option value={x.id} key={x.id}>{x.name}</Option>))}
             </Select>
         )}
       </Form.Item>

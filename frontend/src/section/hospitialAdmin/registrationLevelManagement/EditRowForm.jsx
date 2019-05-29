@@ -67,7 +67,7 @@ class EditRowForm extends React.Component {
           />,
         )}
       </Form.Item>
-        <Form.Item label="名称">
+      <Form.Item label="名称">
         {getFieldDecorator('name', {
           rules: [{ required: true, message: '输入名称' }],
           initialValue:data.name

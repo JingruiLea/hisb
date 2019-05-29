@@ -1,12 +1,16 @@
 package edu.neu.his.bean;
 
-public class SettlementCategory {
+public class DiseaseClassification {
     private int id;
     private String name;
 
-    public SettlementCategory(int id,String name) {
-        this.id = id;
+    public DiseaseClassification(String name) {
         this.name = name;
+    }
+
+    public DiseaseClassification(int id,String name) {
+        this.name = name;
+        this.id = id;
     }
 
     public int getId() {

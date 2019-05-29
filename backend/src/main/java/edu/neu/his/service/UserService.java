@@ -1,5 +1,6 @@
 package edu.neu.his.service;
 
+import edu.neu.his.bean.Role;
 import edu.neu.his.bean.User;
 import edu.neu.his.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,10 @@ public class UserService {
     }
 
     @Transactional
-    public List<User> findAll() {
+    public List<User> allUsers() {
         return userMapper.findAll();
     }
+
+    @Transactional
+    public List<Role> allRoles() {return userMapper.allRoles();}
 }

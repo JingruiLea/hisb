@@ -2,49 +2,36 @@
 package edu.neu.his.bean;
 
 public class NonDrugChargeItem {
-    private int id;
-    private String code;
-    private String format;
+    private String id;
     private String pinyin;
+    private String format;
     private String name;
     private float fee;
     private int expense_classification_id;
     private int department_id;
-    private String fee_name;
-    private String department;
 
-    public NonDrugChargeItem(String code, String format, String pinyin, String name, float fee, int expense_classification_id, int department_id){
-        this.setCode(code);
-        this.setDepartment_id(department_id);
-        this.setExpense_classification_id(expense_classification_id);
-        this.setFee(fee);
-        this.setFormat(format);
-        this.setName(name);
-        this.setPinyin(pinyin);
+    private String expense_classification_name;
+    private String department_name;
+
+    public NonDrugChargeItem(String id,String pinyin,String format,String name,float fee,int expense_classification_id,int department_id) {
+        this.id = id;
+        this.pinyin = pinyin;
+        this.format = format;
+        this.name = name;
+        this.fee = fee;
+        this.expense_classification_id = expense_classification_id;
+        this.department_id = department_id;
     }
 
-    public int getId() {
+    public NonDrugChargeItem() {}
+
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
     }
 
     public String getPinyin() {
@@ -53,6 +40,14 @@ public class NonDrugChargeItem {
 
     public void setPinyin(String pinyin) {
         this.pinyin = pinyin;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
     }
 
     public String getName() {
@@ -71,14 +66,6 @@ public class NonDrugChargeItem {
         this.fee = fee;
     }
 
-    public int getDepartment_id() {
-        return department_id;
-    }
-
-    public void setDepartment_id(int department_id) {
-        this.department_id = department_id;
-    }
-
     public int getExpense_classification_id() {
         return expense_classification_id;
     }
@@ -87,19 +74,27 @@ public class NonDrugChargeItem {
         this.expense_classification_id = expense_classification_id;
     }
 
-    public String getFee_name() {
-        return fee_name;
+    public int getDepartment_id() {
+        return department_id;
     }
 
-    public void setFee_name(String fee_name) {
-        this.fee_name = fee_name;
+    public void setDepartment_id(int department_id) {
+        this.department_id = department_id;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getExpense_classification_name() {
+        return expense_classification_name;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setExpense_classification_name(String expense_classification_name) {
+        this.expense_classification_name = expense_classification_name;
+    }
+
+    public String getDepartment_name() {
+        return department_name;
+    }
+
+    public void setDepartment_name(String department_name) {
+        this.department_name = department_name;
     }
 }

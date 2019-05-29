@@ -76,16 +76,32 @@ class DataTable extends React.Component {
     columns = [
         {
             title: '统一编号',
-            dataIndex: 'code',
-            ...this.getColumnSearchProps('code'),
+            dataIndex: 'id',
+            ...this.getColumnSearchProps('id'),
         },{
             title: '项目名称',
             dataIndex: 'name',
             ...this.getColumnSearchProps('name'),
         },{
+            title: '拼音',
+            dataIndex: 'pinyin',
+            ...this.getColumnSearchProps('pinyin'),
+        },{
+            title: '规格',
+            dataIndex: 'format',
+            ...this.getColumnSearchProps('format'),
+        },{
             title: '费用',
             dataIndex: 'fee',
             ...this.getColumnSearchProps('fee'),
+        },{
+            title: '费用类别',
+            dataIndex: 'expense_classification_name',
+            ...this.getColumnSearchProps('expense_classification_name'),
+        },{
+            title: '执行科室',
+            dataIndex: 'department_name',
+            ...this.getColumnSearchProps('department_name'),
         },
     ];
 

@@ -43,10 +43,10 @@ class DataTable extends React.Component {
                 size="small"
                 style={{ width: 90, marginRight: 8 }}
             >
-                Search
+                搜索
             </Button>
             <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-                Reset
+                重置
             </Button>
             </div>
         ),
@@ -76,8 +76,8 @@ class DataTable extends React.Component {
     columns = [
         {
             title: '科室编码',
-            dataIndex: 'code',
-            ...this.getColumnSearchProps('code'),
+            dataIndex: 'id',
+            ...this.getColumnSearchProps('id'),
         },
         {
             title: '科室名称',
@@ -85,17 +85,19 @@ class DataTable extends React.Component {
             ...this.getColumnSearchProps('name'),
         },
         {
+            title: '拼音',
+            dataIndex: 'pinyin',
+            ...this.getColumnSearchProps('pinyin'),
+        },
+        {
             title: '科室分类',
-            dataIndex: 'is_clinical',
-            render:(data)=>(<Tag color={data?"geekblue":"green"} >
-                {data?"临床":"医技"}
-            </Tag>),
-            sorter:(a,b)=>{return a.is_clinical-b.is_clinical}//return a.length() - b.length()}
+            dataIndex: 'type',
+            ...this.getColumnSearchProps('type'),
         },
         {
             title: '科室类别',
-            dataIndex: 'classification',
-            ...this.getColumnSearchProps('classification'),
+            dataIndex: 'classification_name',
+            ...this.getColumnSearchProps('classification_name'),
         }
     ];
 

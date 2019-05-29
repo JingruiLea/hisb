@@ -9,25 +9,6 @@ import Message from '../../../global/Message';
 import DataTable from './DataTable'
 const {Content} = Layout;
 
-/*
-const tableData = [];
-for (let i = 0; i < 10; i+=2) {
-  tableData.push({
-    key: i,
-    code:'IX'+(i+100000),
-    name:'心血管内科',
-    is_clinical:true,
-    classification:'内科'
-  })
-  tableData.push({
-    key: i+1,
-    code:'IX'+(i+100001),
-    name:'放射科',
-    is_clinical:false,
-    classification:'医学影像科'
-  })
-}
-*/
 
 class DepartmentManagement extends React.Component {
     state = {
@@ -59,7 +40,7 @@ class DepartmentManagement extends React.Component {
                 var tableData = data.data.department;
                 for(var d of tableData) {d.key = d.id;}
                 this.setState({
-                    tableData:data.data.department,
+                    tableData:tableData,
                     departmentClassification:data.data.department_classification,
                     loading:false
                 });

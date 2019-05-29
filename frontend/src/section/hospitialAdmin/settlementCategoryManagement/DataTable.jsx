@@ -43,7 +43,7 @@ class DataTable extends React.Component {
                 size="small"
                 style={{ width: 90, marginRight: 8 }}
             >
-                Search
+                搜索
             </Button>
             <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
                 重置
@@ -75,9 +75,9 @@ class DataTable extends React.Component {
 
     columns = [
         {
-            title: '#',
+            title: '编号',
             dataIndex: 'id',
-            ...this.getColumnSearchProps('id'),
+            sorter:(a,b)=>{return a.id-b.id}
         },{
             title: '名称',
             dataIndex: 'name',

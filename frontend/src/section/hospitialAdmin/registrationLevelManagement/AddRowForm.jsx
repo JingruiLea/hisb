@@ -54,6 +54,16 @@ class AddRowForm extends React.Component {
       },
     };
     return(<Form onSubmit={this.handleSubmit} {...formItemLayout}>
+      <Form.Item label="编号">
+        {getFieldDecorator('id', {
+          rules: [{ required: true, message: '输入编号' }],
+        })(
+          <Input
+            prefix={<Icon type="password" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder="编号不可重复"
+          />,
+        )}
+      </Form.Item>
       <Form.Item label="名称">
         {getFieldDecorator('name', {
           rules: [{ required: true, message: '输入名称' }],

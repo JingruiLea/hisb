@@ -38,8 +38,8 @@ public class RegistrationLevelController {
     @PostMapping("/delete")
     @ResponseBody
     public Map deleteRegistration_level(@RequestBody Map req){
-        List<Map> registration_levels = (List<Map>)req.get("data");
-        registration_levels.forEach(registration_level -> registrationLevelService.deleteRegistration_level((int)registration_level.get("id")));
+        List<Integer> registration_level_ids = (List<Integer>)req.get("data");
+        registration_level_ids.forEach(id -> registrationLevelService.deleteRegistration_level(id));
         return Response.Ok();
     }
 }

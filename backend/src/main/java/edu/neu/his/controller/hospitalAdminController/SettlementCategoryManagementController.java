@@ -11,7 +11,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/settlementCategoryManagement")
-
 public class SettlementCategoryManagementController {
     @Autowired
     SettlementCategoryService settlementCategoryService;
@@ -25,8 +24,8 @@ public class SettlementCategoryManagementController {
     @PostMapping("/delete")
     @ResponseBody
     public Map deleteSettlementCategory(@RequestBody Map req) {
-        List<Map> settlementCategories = (List<Map>) req.get("data");
-        settlementCategories.forEach(settlementCategory -> settlementCategoryService.deleteSettlementCategoryByName((String) settlementCategory.get("name")));
+        List<Integer> settlementCategoryIds = (List<Integer>) req.get("data");
+        settlementCategoryIds.forEach(id -> settlementCategoryService.deleteSettlementCategoryById(id));
         return Response.Ok();
     }
 
@@ -34,7 +33,8 @@ public class SettlementCategoryManagementController {
     @ResponseBody
     public Map addAllSettlementCategory(@RequestBody Map req) {
         String name = (String) req.get("name");
-        settlementCategoryService.addSettlementCategory(name);
+        int id = (int) req.get("id");
+        settlementCategoryService.addSettlementCategory(new SettlementCategory(id,name));
         return Response.Ok();
     }
 
@@ -43,9 +43,7 @@ public class SettlementCategoryManagementController {
     public Map updateAllSettlementCategory(@RequestBody Map req) {
         String name = (String) req.get("name");
         int id = (int)req.get("id");
-        SettlementCategory settlementCategory = new SettlementCategory();
-        settlementCategory.setId(id);
-        settlementCategory.setName(name);
+        SettlementCategory settlementCategory = new SettlementCategory(id,name);
         settlementCategoryService.update(settlementCategory);
         return Response.Ok();
     }

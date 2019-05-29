@@ -77,6 +77,24 @@ const API = {
             update:{ //修改非药品项目
                 method:'post',url:ServerDomain+'/nonDrugChargeItemManagement/update'
             },
+        },
+        //诊断目录管理
+        diagnoseDirectory: {
+            allClassification:{//获得全部的分类
+                method:'get',url:ServerDomain+'/diagnoseDirectoryManagement/allClassification'
+            },
+            searchAllByClassificationId:{//根据分类的id获取所有疾病
+                method:'post',url:ServerDomain+'/diagnoseDirectoryManagement/searchAllByClassificationId'
+            },
+            update:{//更新
+                method:'post',url:ServerDomain+'/diagnoseDirectoryManagement/update'
+            },
+            add:{//添加
+                method:'post',url:ServerDomain+'/diagnoseDirectoryManagement/add'
+            },
+            delete:{//删除
+                method:'post',url:ServerDomain+'/diagnoseDirectoryManagement/delete'
+            }
         }
     },
     //门诊挂号

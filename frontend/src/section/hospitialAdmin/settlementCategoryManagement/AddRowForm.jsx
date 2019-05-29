@@ -12,6 +12,7 @@ class AddRowForm extends React.Component {
     const form = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        values.id = parseInt(values.id);
         console.log('Received addRow values of form: ', values);
         this.props.newRow(values)
         this.props.exit();
@@ -32,6 +33,16 @@ class AddRowForm extends React.Component {
       },
     };
     return(<Form onSubmit={this.handleSubmit} {...formItemLayout}>
+      <Form.Item label="编号">
+        {getFieldDecorator('id', {
+          rules: [{ required: true, message: '输入编号' }],
+        })(
+          <Input
+            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder="编号不得重复"
+          />,
+        )}
+      </Form.Item>
        <Form.Item label="结算名称">
         {getFieldDecorator('name', {
           rules: [{ required: true, message: '输入结算名称' }],

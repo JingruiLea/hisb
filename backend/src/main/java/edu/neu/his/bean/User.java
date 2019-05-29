@@ -6,10 +6,12 @@ public class User {
     private String password;
     private String real_name;
     private int department_id;
-    private String department_name;
-    private String role;
+    private int role_id;
     private boolean participate_in_scheduling;
     private String title;
+
+    private String role_name;
+    private String department_name;
 
     public int getUid() {
         return uid;
@@ -59,12 +61,20 @@ public class User {
         this.department_name = department_name;
     }
 
-    public String getRole() {
-        return role;
+    public int getRole_id() {
+        return role_id;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRole_id(int role_id) {
+        this.role_id = role_id;
+    }
+
+    public String getRole_name() {
+        return role_name;
+    }
+
+    public void setRole_name(String role_name) {
+        this.role_name = role_name;
     }
 
     public boolean isParticipate_in_scheduling() {

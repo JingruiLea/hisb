@@ -14,13 +14,18 @@ public class SettlementCategoryService {
     SettlementCategoryMapper settlementCategoryMapper;
 
     @Transactional
-    public void addSettlementCategory(String name) {
-        settlementCategoryMapper.addSettlementCategory(name);
+    public void addSettlementCategory(SettlementCategory settlementCategory) {
+        settlementCategoryMapper.addSettlementCategory(settlementCategory);
     }
 
     @Transactional
     public void deleteSettlementCategoryByName(String name) {
         settlementCategoryMapper.deleteSettlementCategoryByName(name);
+    }
+
+    @Transactional
+    public void deleteSettlementCategoryById(int id) {
+        settlementCategoryMapper.deleteSettlementCategoryById(id);
     }
 
     @Transactional

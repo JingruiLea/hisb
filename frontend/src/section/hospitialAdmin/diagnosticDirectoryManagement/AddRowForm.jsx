@@ -17,7 +17,6 @@ class AddRowForm extends React.Component {
     const form = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        values.fee = parseFloat(values.fee)
         console.log('Received addRow values of form: ', values);
         this.props.newRow(values)
         this.props.exit();
@@ -32,9 +31,9 @@ class AddRowForm extends React.Component {
     });
   }
 
-  selectRole=(name)=>{
-    console.log('select role value', name);
-    if(Roles.isDoctor(name)) {
+  selectRole=(value)=>{
+    console.log('select role value', value);
+    if(Roles.isDoctor(value)) {
       this.setState({
         isDoctor:true,
         participate_in_scheduling:true
@@ -57,85 +56,64 @@ class AddRowForm extends React.Component {
     return(<Form onSubmit={this.handleSubmit} {...formItemLayout}>
        <Form.Item label="统一编号">
         {getFieldDecorator('id', {
-          rules: [{ required: true, message: '输入编号' }],
+          rules: [{ required: true, message: 'id' }],
         })(
           <Input
             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="编号不得重复"
+            placeholder="编号不能重复"
           />
         )}
       </Form.Item>
-      <Form.Item label="名称">
+      <Form.Item label="疾病名称">
         {getFieldDecorator('name', {
           rules: [{ required: true, message: '输入名称' }],
         })(
           <Input
             prefix={<Icon type="password" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="输入名称"
+            placeholder="名称不能重复"
           />
         )}
       </Form.Item>
-      <Form.Item label="拼音">
+      <Form.Item label="拼音助记符">
         {getFieldDecorator('pinyin', {
-          rules: [{ required: true, message: '输入拼音' }],
+          rules: [{ required: true, message: '输入助记符' }],
         })(
           <Input
             prefix={<Icon type="number" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="输入拼音"
+            placeholder="输入助记符"
           />
         )}
       </Form.Item>
-      <Form.Item label="规格">
-        {getFieldDecorator('format', {
-          rules: [{ required: true, message: '输入规格' }],
-        })(
+      <Form.Item label="自定义名称">
+        {getFieldDecorator('custom_name', {})(
           <Input
             prefix={<Icon type="number" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="输入规格"
+            placeholder="输入自定义名称"
           />
         )}
       </Form.Item>
-      <Form.Item label="费用">
-        {getFieldDecorator('fee', {
-          rules: [{ required: true, message: '输入费用' }],
-        })(
+      <Form.Item label="自定义">
+        {getFieldDecorator('custom_pinyin', {})(
           <Input
             prefix={<Icon type="number" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="输入费用"
-          />
+            placeholder="输入自定义拼音"
+          />,
         )}
       </Form.Item>
-      <Form.Item label="费用类型">
-        {getFieldDecorator('expense_classification_id', {
-          rules: [{ required: true, message: '选择费用类型' }],
+      <Form.Item label="疾病分类">
+        {getFieldDecorator('classification_id', {
+          rules: [{ required: true, message: '选择分类' }],
         })(
           <Select
             showSearch
-            placeholder="选择费用类型"
+            placeholder="选择分类"
             optionFilterProp="children"
             onSelect={this.selectRole.bind(this)}
             filterOption={(input, option) =>
               option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             >
-            {this.props.expense_classification.map((x)=>(<Option value={x.id} key={x.id}>{x.fee_name}</Option>))}
-            </Select>
-        )}
-      </Form.Item>
-      <Form.Item label="执行科室">
-        {getFieldDecorator('department_id', {
-          rules: [{ required: true, message: '选择执行科室' }],
-        })(
-          <Select
-            showSearch
-            placeholder="选择执行科室"
-            optionFilterProp="children"
-            onSelect={this.selectRole.bind(this)}
-            filterOption={(input, option) =>
-              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-            >
-            {this.props.department.map((x)=>(<Option value={x.id} key={x.id}>{x.name}</Option>))}
+            {this.props.diseaseClassification.map((x)=>(<Option value={x.id} key={x.id}>{x.name}</Option>))}
             </Select>
         )}
       </Form.Item>

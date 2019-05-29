@@ -8,29 +8,13 @@ import Message from '../../../global/Message';
 import DataTable from './DataTable'
 const {Content} = Layout;
 
-/*
-const tableData = [];
-for (let i = 0; i < 10; i+=2) {
-  tableData.push({
-    key:i,
-    uid: i,
-    username:'USER'+(i+100000),
-    password:"2132131"+i,
-    real_name:'菜徐坤',
-    role:'NBA形象大使',
-    department_name:"鬼畜区",
-    is_doctor:true,
-    participate_in_scheduling:true,
-    title:'最好的kunkun'
-  })
-}
-*/
-
 
 class NonDrugChargeItemManagement extends React.Component {
     state = {
         selectedRows:[],//选中项
-        data:[],//表格数据
+        non_drug_charge:[],//表格数据 非药品目录
+        expense_classification:[],//费用分类
+        department:[],//科室名称
         loading:true//加载状态
     };
 
@@ -54,10 +38,13 @@ class NonDrugChargeItemManagement extends React.Component {
             const data = res.data;
             //console.log('receive',data)
             if(data.code===Status.Ok) {
-                //for(var d of data) {d.key = d.uid;}
+                const tableData = data.data.non_drug_charge;
+                for(var d of tableData) {d.key = d.id;}
                 console.log(data.data)
                 this.setState({
-                    //data:data.data,
+                    non_drug_charge:tableData,
+                    department:data.data.department,
+                    expense_classification:data.data.expense_classification,
                     loading:false
                 });
             } else if(data.code===Status.PermissionDenied) {
@@ -151,6 +138,8 @@ class NonDrugChargeItemManagement extends React.Component {
             <ToolBar
                 disabled={this.state.loading}
                 selectedRows={this.state.selectedRows}
+                department={this.state.department}
+                expense_classification={this.state.expense_classification}
                 reloadData={this.reloadData.bind(this)}
                 updateRow={this.updateRow.bind(this)}
                 deleteRow={this.deleteRow.bind(this)}
@@ -163,7 +152,7 @@ class NonDrugChargeItemManagement extends React.Component {
                 <Typography.Paragraph>加载中...</Typography.Paragraph>
             </div>
             :<DataTable
-                data={this.state.data} 
+                data={this.state.non_drug_charge} 
                 rowSelection={this.state.rowSelection}
                 reloadData={this.reloadData.bind(this)}
                 setSelected={this.setSelected.bind(this)}

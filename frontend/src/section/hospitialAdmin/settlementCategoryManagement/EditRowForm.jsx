@@ -35,7 +35,7 @@ class EditRowForm extends React.Component {
           {getFieldDecorator('id', {
             initialValue:data.id
           })(
-            <Input disabled={true}/>
+            <Input disabled/>
           )}
         </Form.Item>
         <Form.Item label="结算名称">

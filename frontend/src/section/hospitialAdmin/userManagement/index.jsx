@@ -8,31 +8,13 @@ import Message from '../../../global/Message';
 import DataTable from './DataTable'
 const {Content} = Layout;
 
-/*
-const tableData = [];
-for (let i = 0; i < 10; i+=2) {
-  tableData.push({
-    key:i,
-    uid: i,
-    username:'USER'+(i+100000),
-    password:"2132131"+i,
-    real_name:'菜徐坤',
-    role:'NBA形象大使',
-    department_name:"鬼畜区",
-    is_doctor:true,
-    participate_in_scheduling:true,
-    title:'最好的kunkun'
-  })
-}
-*/
-
 
 class UserManagement extends React.Component {
     state = {
         selectedRows:[],//选中项
         users:[],//表格数据
-        departmentClassification:[],//科室分类数据
-        roles:[],//用户角色
+        departments:[],//科室分类数据
+        roles:[],//角色
         loading:true//加载状态
     };
 
@@ -60,8 +42,8 @@ class UserManagement extends React.Component {
                 for(var d of users) {d.key = d.uid;}
                 this.setState({
                     roles:data.data.roles,
-                    departmentClassification:data.data.departmentClassification,
-                    users:data.data.users,
+                    departments:data.data.departments,
+                    users:users,
                     loading:false
                 });
             } else if(data.code===Status.PermissionDenied) {
@@ -102,8 +84,8 @@ class UserManagement extends React.Component {
     newRow=(data)=>{
         const _this = this;
         axios({
-            method: API.bacisInfoManagement.user.update.method,
-            url: API.bacisInfoManagement.user.update.url,
+            method: API.bacisInfoManagement.user.add.method,
+            url: API.bacisInfoManagement.user.add.url,
             data: data,
             crossDomain: true
           }).then((res)=>{
@@ -150,13 +132,14 @@ class UserManagement extends React.Component {
     
 
     render() {
+
         return (
         <Content style={{ margin: '0 16px',paddingTop:5 }}>
             <ToolBar
                 disabled={this.state.loading}
                 selectedRows={this.state.selectedRows}
                 reloadData={this.reloadData.bind(this)}
-                departmentClassification={this.state.departmentClassification}
+                departments={this.state.departments}
                 roles={this.state.roles}
                 updateRow={this.updateRow.bind(this)}
                 deleteRow={this.deleteRow.bind(this)}

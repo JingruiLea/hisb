@@ -53,7 +53,7 @@ class ToolBar extends React.Component {
       cancelText: '取消',
       onOk() {
         const selectedRows = _this.props.selectedRows;
-        _this.props.deleteRow(selectedRows);
+        _this.props.deleteRow(selectedRows.map(x=>x.uid));
       },
       onCancel() {
         console.log('Cancel clicked');
@@ -136,7 +136,7 @@ class ToolBar extends React.Component {
             newRow={this.props.newRow.bind(this)} 
             exit={this.hideAddRowModal.bind(this)}
             roles={this.props.roles}
-            departmentClassification={this.props.departmentClassification} />
+            departments={this.props.departments} />
         </Modal>
 
         <Modal
@@ -152,7 +152,7 @@ class ToolBar extends React.Component {
             updateRow={this.props.updateRow.bind(this)}
             exit={this.hideEditModal.bind(this)}
             roles={this.props.roles}
-            departmentClassification={this.props.departmentClassification} />
+            departments={this.props.departments} />
         </Modal>
 
         <Modal

@@ -1,6 +1,7 @@
 
 package edu.neu.his.service;
 
+import edu.neu.his.bean.ExpenseClassification;
 import edu.neu.his.bean.NonDrugChargeItem;
 import edu.neu.his.mapper.NonDrugChargeItemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,10 @@ public class NonDrugChargeService {
     }
 
     @Transactional
-    public List<String> findAllExpenseClassificationNames() {return nonDrugChargeItemMapper.findAllExpenseClassificationNames();}
+    public List<ExpenseClassification> findAllExpenseClassificationNames() {return nonDrugChargeItemMapper.findAllExpenseClassificationNames();}
 
     @Transactional
-    public void deleteNonDrugCharge(int id) {
+    public void deleteNonDrugCharge(String id) {
         nonDrugChargeItemMapper.deleteNonDrugCharge(id);
     }
 
@@ -51,5 +52,10 @@ public class NonDrugChargeService {
             id = -1;
         }
         return id;
+    }
+
+    @Transactional
+    public boolean exist(NonDrugChargeItem nonDrugChargeItem) {
+        return nonDrugChargeItemMapper.checkIdExistNums(nonDrugChargeItem)==1;
     }
 }

@@ -75,29 +75,29 @@ class DataTable extends React.Component {
 
     columns = [
         {
-            title: '用户名',
-            dataIndex: 'username',
-            ...this.getColumnSearchProps('username'),
+            title: '编号',
+            dataIndex: 'id',
+            ...this.getColumnSearchProps('id'),
         },{
-            title: '真名',
-            dataIndex: 'real_name',
-            ...this.getColumnSearchProps('real_name'),
+            title: '名称',
+            dataIndex: 'name',
+            ...this.getColumnSearchProps('name'),
         },{
-            title: '用户角色',
-            dataIndex: 'role_name',
-            ...this.getColumnSearchProps('role_name'),
+            title: '分类',
+            dataIndex: 'classification_name',
+            ...this.getColumnSearchProps('classification_name'),
         },{
-            title: '科室',
-            dataIndex: 'department_name',
-            ...this.getColumnSearchProps('department_name'),
+            title: '拼音',
+            dataIndex: 'pinyin',
+            ...this.getColumnSearchProps('pinyin'),
         },{
-            title: '参与排班',
-            dataIndex: 'participate_in_scheduling',
-            render:(data)=> (data?<span>是</span>:<span>否</span>)
+            title: '自定义名称',
+            dataIndex: 'custom_name',
+            ...this.getColumnSearchProps('custom_name'),
         },{
-            title: '职称',
-            dataIndex: 'title',
-            ...this.getColumnSearchProps('title'),
+            title: '自定义助记符',
+            dataIndex: 'custom_pinyin',
+            ...this.getColumnSearchProps('pinyin'),
         }
     ];
 

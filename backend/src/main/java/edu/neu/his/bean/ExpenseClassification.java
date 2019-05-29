@@ -2,7 +2,7 @@ package edu.neu.his.bean;
 
 public class ExpenseClassification {
     private int id;
-    private String code;
+    private String pinyin;
     private String fee_name;
 
     public int getId() {
@@ -13,12 +13,12 @@ public class ExpenseClassification {
         this.id = id;
     }
 
-    public String getCode() {
-        return code;
+    public String getPinyin() {
+        return pinyin;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setPinyin(String pinyin) {
+        this.pinyin = pinyin;
     }
 
     public String getFee_name() {
