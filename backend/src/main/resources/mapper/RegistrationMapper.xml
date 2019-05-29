@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="edu.neu.his.mapper.RegistrationMapper" >
+  <resultMap id="BaseResultMap" type="edu.neu.his.bean.Registration" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="medical_record_id" property="medicalRecordId" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+    <result column="registration_date" property="registrationDate" jdbcType="VARCHAR" />
+    <result column="patient_id" property="patientId" jdbcType="VARCHAR" />
+    <result column="medical_category" property="medicalCategory" jdbcType="VARCHAR" />
+    <result column="medical_certificate_number" property="medicalCertificateNumber" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="outpatient_doctor_id" property="outpatientDoctorId" jdbcType="INTEGER" />
+    <result column="registration_category" property="registrationCategory" jdbcType="VARCHAR" />
+    <result column="registration_department" property="registrationDepartment" jdbcType="VARCHAR" />
+    <result column="settlement_category" property="settlementCategory" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="fee" property="fee" jdbcType="REAL" />
+    <result column="has_record_book" property="hasRecordBook" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from registration
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="edu.neu.his.bean.Registration" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into registration (medical_record_id, address, age, 
+      birthday, registration_date, patient_id, 
+      medical_category, medical_certificate_number, 
+      `name`, outpatient_doctor_id, registration_category, 
+      registration_department, settlement_category, 
+      `status`, fee, has_record_book
+      )
+    values (#{medicalRecordId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{birthday,jdbcType=VARCHAR}, #{registrationDate,jdbcType=VARCHAR}, #{patientId,jdbcType=VARCHAR}, 
+      #{medicalCategory,jdbcType=VARCHAR}, #{medicalCertificateNumber,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{outpatientDoctorId,jdbcType=INTEGER}, #{registrationCategory,jdbcType=VARCHAR}, 
+      #{registrationDepartment,jdbcType=VARCHAR}, #{settlementCategory,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{fee,jdbcType=REAL}, #{hasRecordBook,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="edu.neu.his.bean.Registration" >
+    update registration
+    set medical_record_id = #{medicalRecordId,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=VARCHAR},
+      registration_date = #{registrationDate,jdbcType=VARCHAR},
+      patient_id = #{patientId,jdbcType=VARCHAR},
+      medical_category = #{medicalCategory,jdbcType=VARCHAR},
+      medical_certificate_number = #{medicalCertificateNumber,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      outpatient_doctor_id = #{outpatientDoctorId,jdbcType=INTEGER},
+      registration_category = #{registrationCategory,jdbcType=VARCHAR},
+      registration_department = #{registrationDepartment,jdbcType=VARCHAR},
+      settlement_category = #{settlementCategory,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=VARCHAR},
+      fee = #{fee,jdbcType=REAL},
+      has_record_book = #{hasRecordBook,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, medical_record_id, address, age, birthday, registration_date, patient_id, 
+    medical_category, medical_certificate_number, `name`, outpatient_doctor_id, registration_category, 
+    registration_department, settlement_category, `status`, fee, has_record_book
+    from registration
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, medical_record_id, address, age, birthday, registration_date, patient_id, 
+    medical_category, medical_certificate_number, `name`, outpatient_doctor_id, registration_category, 
+    registration_department, settlement_category, `status`, fee, has_record_book
+    from registration
+  </select>
+</mapper>

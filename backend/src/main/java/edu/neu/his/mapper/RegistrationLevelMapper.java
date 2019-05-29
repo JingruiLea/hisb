@@ -23,4 +23,10 @@ public interface RegistrationLevelMapper {
 
     @Delete("DELETE FROM REGISTRATION_LEVEL WHERE id=#{id}")
     void delete(int id);
+
+    @Select("select * from REGISTRATION_LEVEL where id=#{id}")
+    Registration_level find(int id);
+
+    @Select("SElECT * From userinfo where ")
+    void doctorList(@Param("departmentId") int departmentId, @Param("registrationLevelId") int registrationLevelId);
 }

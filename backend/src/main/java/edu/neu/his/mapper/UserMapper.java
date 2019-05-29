@@ -43,4 +43,6 @@ public interface UserMapper {
     @Delete("DELETE from user_info where uid = #{uid}")
     void deleteUserInfo(@Param("uid") int uid);
 
+    @Select("select * from userinfo where title=${title} and department_id=${departmentId}")
+    List<User> selectDoctorList(int departmentId, String title);
 }

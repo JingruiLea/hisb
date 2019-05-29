@@ -1,6 +1,8 @@
 package edu.neu.his.service;
 
+import edu.neu.his.bean.Registration_level;
 import edu.neu.his.bean.User;
+import edu.neu.his.mapper.RegistrationLevelMapper;
 import edu.neu.his.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,9 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private RegistrationLevelMapper registrationLevelMapper;
 
     @Transactional
     public void addUser(User user) {
@@ -36,5 +41,14 @@ public class UserService {
     @Transactional
     public List<User> findAll() {
         return userMapper.findAll();
+    }
+
+
+    public List selectDoctorList(int departmentId, int registrationLevelId) {
+        Registration_level registration_level = registrationLevelMapper.find(departmentId);
+        if(registration_level.getName() == "专家号"){
+           return userMapper.selectDoctorList(departmentId, "主治医生");
+        }
+        return userMapper.selectDoctorList(departmentId, "");
     }
 }

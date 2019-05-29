@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/registration")
+@RequestMapping("/registrationLevel")
 public class RegistrationLevelController {
     @Autowired
     private RegistrationLevelService registrationLevelService;
