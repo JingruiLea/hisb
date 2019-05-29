@@ -5,8 +5,8 @@ const Roles = {
   PharmacyOperator:4,
   FinancialAdmin:5,
   HospitialAdmin:6,
-  isDoctor:(str)=>{
-    return str==="门诊医生";
+  isDoctor:(value)=>{
+    return value===5;
   }
 }
 

@@ -1,6 +1,6 @@
 package edu.neu.his.service;
 
-import edu.neu.his.bean.Registration_level;
+import edu.neu.his.bean.Role;
 import edu.neu.his.bean.User;
 import edu.neu.his.mapper.RegistrationLevelMapper;
 import edu.neu.his.mapper.UserMapper;
@@ -39,10 +39,11 @@ public class UserService {
     }
 
     @Transactional
-    public List<User> findAll() {
+    public List<User> allUsers() {
         return userMapper.findAll();
     }
 
+<<<<<<< HEAD
 
     public List selectDoctorList(int departmentId, int registrationLevelId) {
         Registration_level registration_level = registrationLevelMapper.find(departmentId);
@@ -51,4 +52,8 @@ public class UserService {
         }
         return userMapper.selectDoctorList(departmentId, "");
     }
+=======
+    @Transactional
+    public List<Role> allRoles() {return userMapper.allRoles();}
+>>>>>>> master
 }

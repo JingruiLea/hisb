@@ -1,6 +1,7 @@
 package edu.neu.his.service;
 
 import edu.neu.his.bean.Department;
+import edu.neu.his.bean.DepartmentClassification;
 import edu.neu.his.mapper.DepartmentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,10 +35,7 @@ public class DepartmentService {
     }
 
     @Transactional
-    public List<String> findAllNames() {return departmentMapper.findAllNames();}
-
-    @Transactional
-    public List<String> findAllClassification() {
+    public List<DepartmentClassification> findAllClassification() {
         return departmentMapper.findAllClassification();
     }
 
@@ -55,5 +53,10 @@ public class DepartmentService {
             id = -1;
         }
         return id;
+    }
+
+    @Transactional
+    public boolean exist(Department department) {
+        return departmentMapper.checkIdExists(department.getId())!=0;
     }
 }

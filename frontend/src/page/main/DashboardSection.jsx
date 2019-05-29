@@ -1,16 +1,29 @@
 import React from 'react';
 
-import DepartmentManagement from './section/departmentManagement'
-import UserManagement from './section/userManagement'
-import SettlementCategoryManagement from './section/settlementCategoryManagement'
-import DiagnosticDirectoryManagementSection from './section/diagnosticDirectoryManagement'
+//3 hospitalAdmin
+import DepartmentManagement from '../../section/hospitialAdmin/departmentManagement'
+import UserManagement from '../../section/hospitialAdmin/userManagement'
+import SettlementCategoryManagement from '../../section/hospitialAdmin/settlementCategoryManagement'
+import DiagnosticDirectoryManagementSection from '../../section/hospitialAdmin/diagnosticDirectoryManagement'
+import RegistrationLevelManagement from '../../section/hospitialAdmin/registrationLevelManagement'
+import NonDrugChargeItemManagement from '../../section/hospitialAdmin/nonDrugChargeItemManagement'
+
+//4 registeredTollCollector
+import OutpatientRegistration from '../../section/registeredTollCollector/outpatientRegistration'
+
+//5 outpatientDoctor
+import DiagnoseSection from '../../section/outpatientDoctor/diagnose'
+import PatentMedicinePrescription from '../../section/outpatientDoctor/patentMedicinePrescription'
+
+//6 pharmacyOperator
+
+//7 doctorOfTechnology
+
+//8 financialAdmin
+import OutpatientDispensingSection from '../../section/financialAdmin/outpatientDispensing'
+import OutpatientDepartmentsWorkloadStatisticSection from '../../section/financialAdmin/outpatientDepartmentsWorkloadStatistic'
 
 
-import DiagnoseSection from './section/diagnose'
-import OutpatientDispensingSection from './section/outpatientDispensing'
-import OutpatientDepartmentsWorkloadStatisticSection from './section/outpatientDepartmentsWorkloadStatistic'
-import PatentMedicinePrescription from './section/patentMedicinePrescription'
-import OutpatientRegistration from './section/outpatientRegistration'
 
 
 class DashboardSection extends React.Component {
@@ -18,14 +31,14 @@ class DashboardSection extends React.Component {
       const {sectionKey} = this.props;
       return (
         <div>
-          {sectionKey==="0"?<div><SettlementCategoryManagement/></div>:null}
+          {sectionKey==="0"?<DiagnosticDirectoryManagementSection/>:null}
 
           {sectionKey==="3-1"?<DepartmentManagement/>:null}
           {sectionKey==="3-2"?<UserManagement/>:null}
-          {sectionKey==="3-3"?<div>ToBeImplement</div>:null}
+          {sectionKey==="3-3"?<RegistrationLevelManagement/>:null}
           {sectionKey==="3-4"?<SettlementCategoryManagement/>:null}
           {sectionKey==="3-5"?<DiagnosticDirectoryManagementSection/>:null}
-          {sectionKey==="3-6"?<div>ToBeImplement</div>:null}
+          {sectionKey==="3-6"?<NonDrugChargeItemManagement/>:null}
           {sectionKey==="3-7"?<div>ToBeImplement</div>:null}
 
           {sectionKey==="4-1"?<OutpatientRegistration/>:null}
