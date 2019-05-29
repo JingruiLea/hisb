@@ -117,11 +117,6 @@ class ToolBar extends React.Component {
             添加
           </Button>
           &nbsp;
-          <Button type="dashed" 
-            disabled={importButtonDisabled}
-            onClick={this.showBatchImportModal.bind(this)}>
-            <Icon type="upload"/>导入
-          </Button>
         </div>
         
         <Modal

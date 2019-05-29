@@ -7,9 +7,11 @@ import SettlementCategoryManagement from '../../section/hospitialAdmin/settlemen
 import DiagnosticDirectoryManagementSection from '../../section/hospitialAdmin/diagnosticDirectoryManagement'
 import RegistrationLevelManagement from '../../section/hospitialAdmin/registrationLevelManagement'
 import NonDrugChargeItemManagement from '../../section/hospitialAdmin/nonDrugChargeItemManagement'
+import SchedulingManagement from '../../section/hospitialAdmin/schedulingManagement'
 
 //4 registeredTollCollector
 import OutpatientRegistration from '../../section/registeredTollCollector/outpatientRegistration'
+import OutpatientCharge from '../../section/registeredTollCollector/outpatientCharge'
 
 //5 outpatientDoctor
 import DiagnoseSection from '../../section/outpatientDoctor/diagnose'
@@ -31,7 +33,7 @@ class DashboardSection extends React.Component {
       const {sectionKey} = this.props;
       return (
         <div>
-          {sectionKey==="0"?<DiagnosticDirectoryManagementSection/>:null}
+          {sectionKey==="0"?<OutpatientCharge/>:null}
 
           {sectionKey==="3-1"?<DepartmentManagement/>:null}
           {sectionKey==="3-2"?<UserManagement/>:null}
@@ -39,10 +41,10 @@ class DashboardSection extends React.Component {
           {sectionKey==="3-4"?<SettlementCategoryManagement/>:null}
           {sectionKey==="3-5"?<DiagnosticDirectoryManagementSection/>:null}
           {sectionKey==="3-6"?<NonDrugChargeItemManagement/>:null}
-          {sectionKey==="3-7"?<div>ToBeImplement</div>:null}
+          {sectionKey==="3-7"?<SchedulingManagement/>:null}
 
           {sectionKey==="4-1"?<OutpatientRegistration/>:null}
-          {sectionKey==="4-2"?<div>ToBeImplement</div>:null}
+          {sectionKey==="4-2"?<OutpatientCharge/>:null}
           {sectionKey==="4-3"?<div>ToBeImplement</div>:null}
           {sectionKey==="4-4"?<div>ToBeImplement</div>:null}
           {sectionKey==="4-5"?<div>ToBeImplement</div>:null}
