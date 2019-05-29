@@ -3,12 +3,16 @@ package edu.neu.his.controller.hospitalAdminController;
 import edu.neu.his.bean.Department;
 import edu.neu.his.config.Response;
 import edu.neu.his.service.DepartmentService;
+import edu.neu.his.util.ExcelImportation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 
 //3.1 科室管理
@@ -68,6 +72,34 @@ public class DepartmentManageController {
             departmentService.deleteDepartment(id);
         }
         return Response.Ok();
+    }
+
+    @PostMapping("/import")
+    @ResponseBody
+    public Map batchImport(@RequestParam("file") MultipartFile file) {
+        String pathName = "/home/xuranus/Desktop/";//想要存储文件的地址
+        String pname = file.getOriginalFilename();//获取文件名（包括后缀）
+        pathName += pname;
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(pathName);
+            fos.write(file.getBytes()); // 写入文件
+            System.out.println("文件上传成功");
+            if(departmentService.importFromFile(pathName))
+                return Response.Ok();
+            else
+                return Response.Error("解析失败");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.Error("上传失败");
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return Response.Error("上传失败");
+            }
+        }
     }
 
     private Department req2Department(Map req) {

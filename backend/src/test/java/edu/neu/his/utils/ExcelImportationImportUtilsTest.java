@@ -95,8 +95,6 @@ public class ExcelImportationImportUtilsTest {
         ExcelImportUtils.importExcel(inputStream, Department.class, departmentMapper, "");
     }
 
-
-
     @Autowired
     DepartmentMapper departmentMapper;
 
