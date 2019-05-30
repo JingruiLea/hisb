@@ -45,7 +45,7 @@ public class DiagnoseDirectoryController {
     public Map updateNonDrugCharge(@RequestBody Map req){
         Disease disease = req2Disease(req);
         String rawId = (String)req.get("raw_id");
-        if(!disease.getId().equals(rawId) && checkIdExist(disease.getId())) {
+        if(!disease.getCode().equals(rawId) && checkIdExist(disease.getCode())) {
             return Response.Error("错误，编号重复。");
         } else {
             diagnoseDirectoryService.updateDisease(rawId,disease);
@@ -55,10 +55,10 @@ public class DiagnoseDirectoryController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Map insertDisease(@RequestBody Map req){
-        Disease disease = req2Disease(req);
-        if(checkIdExist(disease.getId())) {
-            return Response.Error("错误，编号重复。");
+    public Map insertDisease(@RequestBody Disease disease){
+        //Disease disease = req2Disease(req);
+        if(checkIdExist(disease.getCode())) {
+            return Response.Ok();
         } else {
             diagnoseDirectoryService.insertDisease(disease);
             return Response.Ok();
@@ -87,7 +87,7 @@ public class DiagnoseDirectoryController {
         String custom_pinyin = "";
         if(req.containsKey("custom_name")) custom_name = (String)req.get("custom_name");
         if(req.containsKey("custom_pinyin")) custom_pinyin = (String)req.get("custom_pinyin");
-        Disease disease = new Disease(id,name,classification_id,pinyin,custom_name,custom_pinyin);
+        Disease disease = null;
         return disease;
     }
 }

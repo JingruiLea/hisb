@@ -9,16 +9,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class ExcelImportation<T> {
@@ -30,7 +26,8 @@ public class ExcelImportation<T> {
     private InputStream inputStream;
     private Class<T> entityClass;
     private Importable<T> importable;
-    private boolean hasHeader = true;
+    private int skip;
+    private boolean append;
 
     public ExcelImportation(InputStream inputStream, Class<T> entityClass, Importable<T> importable){
         this.inputStream = inputStream;
@@ -68,7 +65,9 @@ public class ExcelImportation<T> {
 
     public void setIndex(String... fields){
         for (int i = 0; i < fields.length; i++) {
-            this.indexMap.put(fields[i], i);
+            if(fields[i] != null){
+                this.indexMap.put(fields[i], i);
+            }
         }
     }
 
@@ -76,7 +75,7 @@ public class ExcelImportation<T> {
         Workbook wb = null;
         try {
             wb = new XSSFWorkbook(inputStream);
-            insertEachRow(wb, hasHeader);
+            insertEachRow(wb);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,15 +94,17 @@ public class ExcelImportation<T> {
                         Function<String, ?> function = functionMap.get(key);
                         Object result = function.apply(originInput);
                         Class cls = field.getType();
-                        logger.debug("Constructed an Object : {}",result.toString());
                         if (!field.isAccessible())
                             field.setAccessible(true);
                         field.set(instance, result);
                     }else{
                         setFieldValue(instance, field, cell);
                     }
+                    logger.debug("Constructed an Field : {}, values {}", field.toString(), cell);
+
                 }
             }
+            logger.debug("Constructed an Object : {}",instance.toString());
         }
         return instance;
     }
@@ -157,13 +158,14 @@ public class ExcelImportation<T> {
         }
     }
 
-    private void insertEachRow(Workbook wb, boolean header) throws InstantiationException, IllegalAccessException {
+    private void insertEachRow(Workbook wb) throws InstantiationException, IllegalAccessException {
         Iterator<Sheet> sheetIterator = wb.sheetIterator();
         while (sheetIterator.hasNext()) {
             Sheet sheet = sheetIterator.next();
             int rowNums = sheet.getLastRowNum();
             int colNums = sheet.getPhysicalNumberOfRows();
-            for(int i = header? 1 : 0; i <= rowNums; i++) {
+            int initLine = skip;
+            for(int i = initLine; i <= rowNums; i++) {
                 Row row = sheet.getRow(i);
                 T instance = parseRow(row, entityClass,indexMap, preFunctionMap);
                 importable.insert(instance);
@@ -177,11 +179,8 @@ public class ExcelImportation<T> {
         return tClass;
     }
 
-    public boolean isHasHeader() {
-        return hasHeader;
-    }
 
-    public void setHasHeader(boolean hasHeader) {
-        this.hasHeader = hasHeader;
+    public void skipLine(int count) {
+        this.skip = count;
     }
 }

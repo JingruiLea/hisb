@@ -1,9 +1,6 @@
 package edu.neu.his.utils;
 
-import edu.neu.his.bean.Department;
-import edu.neu.his.bean.DiseaseClassification;
-import edu.neu.his.bean.NonDrugChargeItem;
-import edu.neu.his.bean.User;
+import edu.neu.his.bean.*;
 import edu.neu.his.mapper.DepartmentMapper;
 import edu.neu.his.mapper.DiseaseMapper;
 import edu.neu.his.mapper.NonDrugChargeItemMapper;
@@ -68,8 +65,19 @@ public class ExcelImportationImportUtilsTest {
     @Test
     public void diseaseClassificationImport(){
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("disease_classification.xlsx");
-        ExcelImportation excel = new ExcelImportation(inputStream, DiseaseClassification.class, nonDrugChargeItemMapper);
-        excel.setIndex(null, "id", "name", "format", "fee", "expense_classification_id", "department_id", "pinyin");
+        ExcelImportation excel = new ExcelImportation(inputStream, DiseaseClassification.class, diseaseMapper);
+        excel.skipLine(1);
+        excel.setIndex("id", null, "name", null, null);
+        //((Map<String, Function<String, ?>>)excel.getPreFunctionMap()).put("classification_id", departmentMapper::findClassificationIdByName);
+        excel.exec();
+    }
+
+    @Test
+    public void diseaseImport(){
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("disease.xlsx");
+        ExcelImportation excel = new ExcelImportation(inputStream, Disease.class, diseaseMapper);
+        excel.skipLine(2);
+        excel.setIndex("id", "pinyin", "name", "code", "classification_id");
         //((Map<String, Function<String, ?>>)excel.getPreFunctionMap()).put("classification_id", departmentMapper::findClassificationIdByName);
         excel.exec();
     }
