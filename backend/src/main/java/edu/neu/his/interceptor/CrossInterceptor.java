@@ -11,7 +11,6 @@ public class CrossInterceptor implements HandlerInterceptor {
         if (request.getHeader(HttpHeaders.ORIGIN) != null) {
             String origin = request.getHeader("Origin");
             response.addHeader("Access-Control-Allow-Origin", origin);
-
         } else {
             response.addHeader("Access-Control-Allow-Origin", "*");
         }
