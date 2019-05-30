@@ -46,7 +46,7 @@ public class UserService {
 
     public List selectDoctorList(int departmentId, int registrationLevelId) {
         Registration_level registration_level = registrationLevelMapper.find(departmentId);
-        if(registration_level.getName() == "专家号"){
+        if(registration_level.getName().equals("专家号")){
            return userMapper.selectDoctorList(departmentId, "主治医生");
         }
         return userMapper.selectDoctorList(departmentId, "");

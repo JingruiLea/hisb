@@ -154,7 +154,6 @@ class DepartmentManagement extends React.Component {
                 reloadData={this.reloadData.bind(this)}
                 setSelected={this.setSelected.bind(this)}
             />}
-            
         </Content>)
     }
 }

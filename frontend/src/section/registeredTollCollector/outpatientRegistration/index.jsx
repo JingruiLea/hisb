@@ -1,9 +1,13 @@
 import React from 'react';
-import {Card,Form,Layout,Row,Drawer, Table, Input, Typography, Button, Col} from 'antd';
+import {Card,Form,Layout, Spin, Input, Typography, Button, Col, message} from 'antd';
 import axios from 'axios';
 import RegistrationForm from './RegistrationForm';
 import DetailDrawer from './DetailDrawer';
-import HistoryCard from './HistoryCard'
+import HistoryCard from './HistoryCard';
+import API from '../../../global/ApiConfig';
+import Status from '../../../global/Status';
+import Message from '../../../global/Message';
+
 
 const {Content} = Layout;
 
@@ -22,20 +26,169 @@ const data = [
 
 class OutpatientRegistration extends React.Component {
 
+  state = {
+    loading:true,
+    defaultRegistrationLevel:{},
+    registrationLevel:[],
+    settlementCategory:[],
+    departments:[],
+    outPatientDoctors:[],
+    cost:0
+  }
+
   //退号
   withdrawNumber=(id)=>{
     
   }
 
-  render() {
-    return(<Content style={{ margin: '0 16px',paddingTop:5 }}>
-      <Card title="挂号">
-        <RegistrationForm/>
-      </Card>
-      <br/>
-      <HistoryCard data={data}/>
-    </Content>)
+  componentDidMount=()=>{
+    this.init();
   }
+
+  setPaymentMode=(payMode)=>{this.setState({payMode})}
+
+  //初始化 加载必须的数据
+  init=()=>{
+    const _this = this;
+    axios({
+        method: API.outpatientWorkstation.registration.init.method,
+        url: API.outpatientWorkstation.registration.init.url,
+        data: {data:data},
+        crossDomain: true
+      }).then((res)=>{
+        const code = res.data.code;
+        const data = res.data.data;
+        console.log('receive',data)
+        if(code===Status.Ok) {
+            _this.setState({
+              defaultRegistrationLevel:data.defaultRegistrationLevel,
+              registrationLevel:data.registrationLevel,
+              settlementCategory:data.settlementCategory,
+              departments:data.departments,
+              loading:false,
+            })
+        } else if(code===Status.PermissionDenied) {
+            Message.showAuthExpiredMessage();
+        } else {
+            Message.showConfirm('错误',res.data.msg)
+        }
+    }).catch((err)=>{
+        Message.showNetworkErrorMessage();
+    });
+  }
+
+
+  //同步医生列表
+  syncDoctorList=(data)=>{
+    const _this = this;
+    axios({
+        method: API.outpatientWorkstation.registration.syncDoctorList.method,
+        url: API.outpatientWorkstation.registration.syncDoctorList.url,
+        data: data,
+        crossDomain: true
+      }).then((res)=>{
+        const code = res.data.code;
+        const data = res.data.data;
+        console.log('receive',data)
+        if(code===Status.Ok) {
+            if(data.length===0) 
+              Message.openNotification("找不到排班医生","没有医生在此时间段，或没有匹配的科室，请重新选择")
+            _this.setState({
+              outPatientDoctors:data
+            })
+        } else if(code===Status.PermissionDenied) {
+            Message.showAuthExpiredMessage();
+        } else {
+            Message.showConfirm('错误',res.data.msg)
+        }
+      }).catch((err)=>{
+          Message.showNetworkErrorMessage();
+      });
+    }
+
+
+   calculateFee=(data)=>{
+      const _this = this;
+      axios({
+          method: API.outpatientWorkstation.registration.calculateFee.method,
+          url: API.outpatientWorkstation.registration.calculateFee.url,
+          data: data,
+          crossDomain: true
+        }).then((res)=>{
+          const code = res.data.code;
+          const data = res.data.data;
+          console.log('receive',data)
+          if(code===Status.Ok) {
+              _this.setState({
+                payMode:true,
+                cost:data.fee
+              })
+          } else if(code===Status.PermissionDenied) {
+              Message.showAuthExpiredMessage();
+          } else {
+              Message.showConfirm('错误',res.data.msg)
+          }
+      }).catch((err)=>{
+          Message.showNetworkErrorMessage();
+      });
+    }
+
+    submitRegistration=(data)=>{
+      const _this = this;
+      axios({
+          method: API.outpatientWorkstation.registration.confirmRegistration.method,
+          url: API.outpatientWorkstation.registration.confirmRegistration.url,
+          data: data,
+          crossDomain: true
+        }).then((res)=>{
+          const code = res.data.code;
+          const data = res.data.data;
+          console.log('receive',data)
+          if(code===Status.Ok) {
+              _this.setState({
+                payMode:true,
+                cost:data.fee
+              })
+          } else if(code===Status.PermissionDenied) {
+              Message.showAuthExpiredMessage();
+          } else {
+              Message.showConfirm('错误',res.data.msg)
+          }
+      }).catch((err)=>{
+          Message.showNetworkErrorMessage();
+      });
+    }
+
+
+    render() {
+      const state = this.state;
+      return(<Content style={{ margin: '0 16px',paddingTop:5 }}>
+        <Card title="挂号">
+          {state.loading?
+          <div style={{textAlign:'center',paddingTop:30}}>
+            <Spin/><br/>
+            <Typography.Paragraph>加载中...</Typography.Paragraph>
+          </div>
+          :<RegistrationForm
+            defaultRegistrationLevel={state.defaultRegistrationLevel}
+            registrationLevel={state.registrationLevel}
+            settlementCategory={state.settlementCategory}
+            departments={state.departments}
+            outPatientDoctors={state.outPatientDoctors}
+            cost={this.state.cost}
+            payMode={this.state.payMode}
+            syncDoctorList={this.syncDoctorList.bind(this)}
+            calculateFee={this.calculateFee.bind(this)}
+            calculateFee={this.calculateFee.bind(this)}
+            setPaymentMode={this.setPaymentMode.bind(this)}
+            submitRegistration={this.submitRegistration.bind(this)}
+          />}
+        </Card>
+        <br/>
+        <HistoryCard data={data}/>
+      </Content>)
+    }
+
 }
 
 export default OutpatientRegistration;
