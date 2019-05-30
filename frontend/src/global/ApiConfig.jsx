@@ -21,6 +21,9 @@ const API = {
             update:{//更新科室
                 method:'post',url:ServerDomain+'/departmentManage/update'
             },
+            import:{//批量导入
+                method:'post',url:ServerDomain+'/departmentManage/import'
+            }
         }, //用户管理
         user:{
             add:{ //添加用户
@@ -35,6 +38,9 @@ const API = {
             all:{ //获取全部用户
                 method:'get', url:ServerDomain+'/userManagement/all'
             },
+            import:{//批量导入
+                method:'post',url:ServerDomain+'/userManagement/import'
+            }
         }, //结算方式管理
         settlement: {
             all:{ //获取结算方式
@@ -62,7 +68,7 @@ const API = {
             },
             update:{ //修改挂号等级
                 method:'post',url:ServerDomain+'/registrationLevelManagement/update'
-            },
+            }
         },//非药品项目管理
         nonDrugItem: {
             all:{ //获得所有的非药品项目
@@ -77,6 +83,9 @@ const API = {
             update:{ //修改非药品项目
                 method:'post',url:ServerDomain+'/nonDrugChargeItemManagement/update'
             },
+            import:{//批量导入
+                method:'post',url:ServerDomain+'/nonDrugChargeItemManagement/import'
+            }
         },
         //诊断目录管理
         diagnoseDirectory: {
@@ -94,6 +103,9 @@ const API = {
             },
             delete:{//删除
                 method:'post',url:ServerDomain+'/diagnoseDirectoryManagement/delete'
+            },
+            import:{//批量导入
+                method:'post',url:ServerDomain+'/diagnoseDirectoryManagement/import'
             }
         }
     },

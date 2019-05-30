@@ -16,8 +16,9 @@ public class CrossInterceptor implements HandlerInterceptor {
         }
         response.addHeader("Access-Control-Allow-Credentials", "true");
         response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT, PATCH, HEAD");
-        response.addHeader("Access-Control-Allow-Headers", "Content-Type");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, x-requested-with");
         response.addHeader("Access-Control-Max-Age", "3600");
+
         return true;
     }
 }

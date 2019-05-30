@@ -8,36 +8,32 @@ const RadioGroup = Radio.Group;
 class RegistrationForm extends React.Component {
 
   state = {
-    defaultRegistrationLevel:{
+    //初始化加载
+    departments:[ //所有科室
+      {name:"骨科",id:1},
+      {name:"脑壳",id:2}
+    ],
+    defaultRegistrationLevel:{ //默认的挂号等级
       name:"普通号",id:2,price:10
     },
-    registrationLevel:[
+    registrationLevel:[ //所有挂号等级 
       {name:"专家号",id:1,price:20},
       {name:"普通号",id:2,price:10}
     ],
-    departments:[],
-    settlementCategory:[
+    settlementCategory:[ //所有支付方式
       {name:"现金",id:1},
       {name:"农行卡",id:2},
       {name:"支付宝",id:3}
     ],
-    outPatientDoctor:[{name:"wxx",id:10}],
+
+    outPatientDoctor:[{name:"lijinrui",id:10}], //自动同步
+
+
     registrationLevelId:2
-    
   }
 
   componentDidMount=()=>{
     //console.log(moment())
-  }
-
-  handleDepartmentInputChange = async (input) =>{
-    console.log('input',input)
-    await this.syncDepartmentsList()
-  }
-
-  syncDepartmentsList= async()=>{
-    //获取数据
-    await this.setState({departments:[{name:"骨科",id:1},{name:"脑壳",id:2}]})
   }
 
   selectDepartment = async(value)=>{
@@ -89,12 +85,10 @@ class RegistrationForm extends React.Component {
     const form = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Receivedvalues of form: ', values);
         const birthday = values.birthday.format('YYYY-MM-DD hh:mm:ss');
         const consultation_date = values.consultation_date.format('YYYY-MM-DD hh:mm:ss')
         values.birthday = birthday;
         values.consultation_date = consultation_date; 
-        values.department_id = this.state.departmentId;
         console.log(values)
       }
     });
@@ -236,12 +230,16 @@ class RegistrationForm extends React.Component {
             {getFieldDecorator('department_id', {
               rules: [{ required: true, message: '选择挂号科室' }],
             })(
-              <AutoComplete 
-                onSelect={this.selectDepartment.bind(this)} 
-                onSearch={this.handleDepartmentInputChange.bind(this)}
-                placeholder="选择挂号科室"
-                dataSource={this.state.departments.map(x=>x.name)}
-                />
+                <Select
+                  showSearch
+                  placeholder="选择挂号科室"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
+              >
+                {this.state.departments.map(x=>(<Option value={x.id} key={x.id}>{x.name}</Option>))}
+              </Select>
             )}
           </Form.Item>
         </Col>
@@ -261,7 +259,7 @@ class RegistrationForm extends React.Component {
         </Col>
         <Col span={6}>
           <Form.Item label="门诊医生" {...formItemLayout}>
-            {getFieldDecorator('outpatent_doector', {
+            {getFieldDecorator('outpatent_doctor_id', {
               rules: [{ required: true, message: '选择门诊医生' }],
             })(
               <Select disabled={this.state.outPatientDoctor.length===0}>
