@@ -10,7 +10,7 @@ public class CrossInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         if (request.getHeader(HttpHeaders.ORIGIN) != null) {
             String origin = request.getHeader("Origin");
-            response.setHeader("Access-Control-Allow-Origin", origin);
+            response.addHeader("Access-Control-Allow-Origin", origin);
         } else {
             response.addHeader("Access-Control-Allow-Origin", "*");
         }

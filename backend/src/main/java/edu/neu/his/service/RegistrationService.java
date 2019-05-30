@@ -12,7 +12,6 @@ public class RegistrationService {
     @Autowired
     private RegistrationMapper registrationMapper;
 
-
     public List<Registration> findAll(){
        return registrationMapper.selectAll();
     }

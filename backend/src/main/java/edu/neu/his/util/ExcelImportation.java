@@ -1,11 +1,17 @@
 package edu.neu.his.util;
 
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -16,6 +22,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class ExcelImportation<T> {
+
+    private Logger logger = LoggerFactory.getLogger(ExcelImportation.class);
 
     private Map<String,Integer> indexMap = new HashMap<>();
     private Map<String, Function<String, ?>> preFunctionMap = new HashMap<>();
@@ -68,20 +76,10 @@ public class ExcelImportation<T> {
         Workbook wb = null;
         try {
             wb = new XSSFWorkbook(inputStream);
+            insertEachRow(wb, hasHeader);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(wb == null){
-            return;
-        }
-        rowIterate(wb, hasHeader, row -> {
-            try {
-                T instance = parseRow(row, entityClass,indexMap, preFunctionMap);
-                importable.insert(instance);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
     }
 
     private <T> T parseRow(Row row, Class<T> entityClass,Map<String, Integer> indexMap, Map<String, Function<String, ?>> functionMap) throws IllegalAccessException, InstantiationException {
@@ -97,6 +95,7 @@ public class ExcelImportation<T> {
                         Function<String, ?> function = functionMap.get(key);
                         Object result = function.apply(originInput);
                         Class cls = field.getType();
+                        logger.debug("Constructed an Object : {}",result.toString());
                         if (!field.isAccessible())
                             field.setAccessible(true);
                         field.set(instance, result);
@@ -111,28 +110,54 @@ public class ExcelImportation<T> {
 
     private <T> void setFieldValue(T instance, Field field, Cell cell) throws IllegalAccessException {
         Class cls = field.getType();
+        boolean isStringType = false;
+        String strValue = null;
         if (!field.isAccessible())
             field.setAccessible(true);
-        switch (cls.getName()) {
-            case "int":
-                field.set(instance, (int) cell.getNumericCellValue());
-                break;
-            case "double":
-                field.set(instance, cell.getNumericCellValue());
-                break;
-            case "float":
-                field.set(instance, (float) cell.getNumericCellValue());
-                break;
-            case "boolean":
-                field.set(instance, cell.getBooleanCellValue());
-                break;
-            case "java.lang.String":
+        if(cell.getCellType() == CellType.STRING){
+            logger.warn("Here is a type cast!");
+            isStringType = true;
+            strValue = cell.getStringCellValue();
+        }
+        if(cls.isPrimitive()){
+            //cell.setCellType(CellType.STRING);
+            switch (cls.getName()) {
+                case "int":
+                    if (isStringType) {
+                        field.set(instance, Integer.parseInt(strValue));
+                    } else {
+                        field.set(instance, (int) cell.getNumericCellValue());
+                    }
+                    break;
+                case "double":
+                    if (isStringType) {
+                        field.set(instance, Double.parseDouble(strValue));
+                    } else {
+                        field.set(instance, (double) cell.getNumericCellValue());
+                    }
+                    break;
+                case "float":
+                    if (isStringType) {
+                        field.set(instance, Float.parseFloat(strValue));
+                    } else {
+                        field.set(instance, (float) cell.getNumericCellValue());
+                    }
+                    break;
+                case "boolean":
+                    field.set(instance, cell.getBooleanCellValue());
+                    break;
+            }
+        } else {
+            if(isStringType){
+                field.set(instance, strValue);
+            }else{
+                cell.setCellType(CellType.STRING);
                 field.set(instance, cell.getStringCellValue());
-                break;
+            }
         }
     }
 
-    private void rowIterate(Workbook wb, boolean header, Consumer<Row> consumer){
+    private void insertEachRow(Workbook wb, boolean header) throws InstantiationException, IllegalAccessException {
         Iterator<Sheet> sheetIterator = wb.sheetIterator();
         while (sheetIterator.hasNext()) {
             Sheet sheet = sheetIterator.next();
@@ -140,7 +165,8 @@ public class ExcelImportation<T> {
             int colNums = sheet.getPhysicalNumberOfRows();
             for(int i = header? 1 : 0; i <= rowNums; i++) {
                 Row row = sheet.getRow(i);
-                consumer.accept(row);
+                T instance = parseRow(row, entityClass,indexMap, preFunctionMap);
+                importable.insert(instance);
             }
         }
     }
