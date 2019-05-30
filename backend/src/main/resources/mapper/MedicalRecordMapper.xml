@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="edu.neu.his.mapper.MedicalRecordMapper" >
+  <resultMap id="BaseResultMap" type="edu.neu.his.bean.MedicalRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="chief_complaint" property="chiefComplaint" jdbcType="LONGVARCHAR" />
+    <result column="current_medical_history" property="currentMedicalHistory" jdbcType="LONGVARCHAR" />
+    <result column="current_treatment_situation" property="currentTreatmentSituation" jdbcType="LONGVARCHAR" />
+    <result column="past_history" property="pastHistory" jdbcType="LONGVARCHAR" />
+    <result column="allergy_history" property="allergyHistory" jdbcType="LONGVARCHAR" />
+    <result column="physical_examination" property="physicalExamination" jdbcType="LONGVARCHAR" />
+    <result column="western_initial_diagnosis" property="westernInitialDiagnosis" jdbcType="LONGVARCHAR" />
+    <result column="chinese_initial_diagnosis" property="chineseInitialDiagnosis" jdbcType="LONGVARCHAR" />
+    <result column="end_diagnosis" property="endDiagnosis" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from medical_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="edu.neu.his.bean.MedicalRecord" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into medical_record (create_time, `status`, chief_complaint, 
+      current_medical_history, current_treatment_situation, 
+      past_history, allergy_history, physical_examination, 
+      western_initial_diagnosis, chinese_initial_diagnosis, 
+      end_diagnosis)
+    values (#{createTime,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{chiefComplaint,jdbcType=LONGVARCHAR}, 
+      #{currentMedicalHistory,jdbcType=LONGVARCHAR}, #{currentTreatmentSituation,jdbcType=LONGVARCHAR}, 
+      #{pastHistory,jdbcType=LONGVARCHAR}, #{allergyHistory,jdbcType=LONGVARCHAR}, #{physicalExamination,jdbcType=LONGVARCHAR}, 
+      #{westernInitialDiagnosis,jdbcType=LONGVARCHAR}, #{chineseInitialDiagnosis,jdbcType=LONGVARCHAR}, 
+      #{endDiagnosis,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="edu.neu.his.bean.MedicalRecord" >
+    update medical_record
+    set create_time = #{createTime,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=VARCHAR},
+      chief_complaint = #{chiefComplaint,jdbcType=LONGVARCHAR},
+      current_medical_history = #{currentMedicalHistory,jdbcType=LONGVARCHAR},
+      current_treatment_situation = #{currentTreatmentSituation,jdbcType=LONGVARCHAR},
+      past_history = #{pastHistory,jdbcType=LONGVARCHAR},
+      allergy_history = #{allergyHistory,jdbcType=LONGVARCHAR},
+      physical_examination = #{physicalExamination,jdbcType=LONGVARCHAR},
+      western_initial_diagnosis = #{westernInitialDiagnosis,jdbcType=LONGVARCHAR},
+      chinese_initial_diagnosis = #{chineseInitialDiagnosis,jdbcType=LONGVARCHAR},
+      end_diagnosis = #{endDiagnosis,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, create_time, `status`, chief_complaint, current_medical_history, current_treatment_situation, 
+    past_history, allergy_history, physical_examination, western_initial_diagnosis, chinese_initial_diagnosis, 
+    end_diagnosis
+    from medical_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, create_time, `status`, chief_complaint, current_medical_history, current_treatment_situation, 
+    past_history, allergy_history, physical_examination, western_initial_diagnosis, chinese_initial_diagnosis, 
+    end_diagnosis
+    from medical_record
+  </select>
+</mapper>

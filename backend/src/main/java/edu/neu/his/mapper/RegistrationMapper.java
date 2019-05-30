@@ -7,11 +7,11 @@ import java.util.List;
 
 @Mapper
 public interface RegistrationMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Integer medicalRecordId);
 
     int insert(Registration record);
 
-    Registration selectByPrimaryKey(Integer id);
+    Registration selectByPrimaryKey(Integer medicalRecordId);
 
     List<Registration> selectAll();
 

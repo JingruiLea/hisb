@@ -3,8 +3,6 @@ package edu.neu.his.bean;
 import java.io.Serializable;
 
 public class Registration implements Serializable {
-    private Integer id;
-
     private Integer medicalRecordId;
 
     private String address;
@@ -13,39 +11,29 @@ public class Registration implements Serializable {
 
     private String birthday;
 
-    private String registrationDate;
+    private String consultationDate;
 
-    private String patientId;
+    private String idNumber;
 
-    private String medicalCategory;
+    private String medicialCertificateNumber;
 
-    private String medicalCertificateNumber;
+    private String medicialCategory;
 
-    private String name;
+    private String patientName;
 
     private Integer outpatientDoctorId;
 
+    private Integer registrationDepartmentId;
+
+    private Integer settlementCategoryId;
+
     private String registrationCategory;
-
-    private String registrationDepartment;
-
-    private String settlementCategory;
 
     private String status;
 
-    private Float fee;
-
-    private Integer hasRecordBook;
+    private Float cost;
 
     private static final long serialVersionUID = 1L;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getMedicalRecordId() {
         return medicalRecordId;
@@ -79,44 +67,44 @@ public class Registration implements Serializable {
         this.birthday = birthday == null ? null : birthday.trim();
     }
 
-    public String getRegistrationDate() {
-        return registrationDate;
+    public String getConsultationDate() {
+        return consultationDate;
     }
 
-    public void setRegistrationDate(String registrationDate) {
-        this.registrationDate = registrationDate == null ? null : registrationDate.trim();
+    public void setConsultationDate(String consultationDate) {
+        this.consultationDate = consultationDate == null ? null : consultationDate.trim();
     }
 
-    public String getPatientId() {
-        return patientId;
+    public String getIdNumber() {
+        return idNumber;
     }
 
-    public void setPatientId(String patientId) {
-        this.patientId = patientId == null ? null : patientId.trim();
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber == null ? null : idNumber.trim();
     }
 
-    public String getMedicalCategory() {
-        return medicalCategory;
+    public String getMedicialCertificateNumber() {
+        return medicialCertificateNumber;
     }
 
-    public void setMedicalCategory(String medicalCategory) {
-        this.medicalCategory = medicalCategory == null ? null : medicalCategory.trim();
+    public void setMedicialCertificateNumber(String medicialCertificateNumber) {
+        this.medicialCertificateNumber = medicialCertificateNumber == null ? null : medicialCertificateNumber.trim();
     }
 
-    public String getMedicalCertificateNumber() {
-        return medicalCertificateNumber;
+    public String getMedicialCategory() {
+        return medicialCategory;
     }
 
-    public void setMedicalCertificateNumber(String medicalCertificateNumber) {
-        this.medicalCertificateNumber = medicalCertificateNumber == null ? null : medicalCertificateNumber.trim();
+    public void setMedicialCategory(String medicialCategory) {
+        this.medicialCategory = medicialCategory == null ? null : medicialCategory.trim();
     }
 
-    public String getName() {
-        return name;
+    public String getPatientName() {
+        return patientName;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setPatientName(String patientName) {
+        this.patientName = patientName == null ? null : patientName.trim();
     }
 
     public Integer getOutpatientDoctorId() {
@@ -127,28 +115,28 @@ public class Registration implements Serializable {
         this.outpatientDoctorId = outpatientDoctorId;
     }
 
+    public Integer getRegistrationDepartmentId() {
+        return registrationDepartmentId;
+    }
+
+    public void setRegistrationDepartmentId(Integer registrationDepartmentId) {
+        this.registrationDepartmentId = registrationDepartmentId;
+    }
+
+    public Integer getSettlementCategoryId() {
+        return settlementCategoryId;
+    }
+
+    public void setSettlementCategoryId(Integer settlementCategoryId) {
+        this.settlementCategoryId = settlementCategoryId;
+    }
+
     public String getRegistrationCategory() {
         return registrationCategory;
     }
 
     public void setRegistrationCategory(String registrationCategory) {
         this.registrationCategory = registrationCategory == null ? null : registrationCategory.trim();
-    }
-
-    public String getRegistrationDepartment() {
-        return registrationDepartment;
-    }
-
-    public void setRegistrationDepartment(String registrationDepartment) {
-        this.registrationDepartment = registrationDepartment == null ? null : registrationDepartment.trim();
-    }
-
-    public String getSettlementCategory() {
-        return settlementCategory;
-    }
-
-    public void setSettlementCategory(String settlementCategory) {
-        this.settlementCategory = settlementCategory == null ? null : settlementCategory.trim();
     }
 
     public String getStatus() {
@@ -159,20 +147,12 @@ public class Registration implements Serializable {
         this.status = status == null ? null : status.trim();
     }
 
-    public Float getFee() {
-        return fee;
+    public Float getCost() {
+        return cost;
     }
 
-    public void setFee(Float fee) {
-        this.fee = fee;
-    }
-
-    public Integer getHasRecordBook() {
-        return hasRecordBook;
-    }
-
-    public void setHasRecordBook(Integer hasRecordBook) {
-        this.hasRecordBook = hasRecordBook;
+    public void setCost(Float cost) {
+        this.cost = cost;
     }
 
     @Override
@@ -181,23 +161,21 @@ public class Registration implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
         sb.append(", medicalRecordId=").append(medicalRecordId);
         sb.append(", address=").append(address);
         sb.append(", age=").append(age);
         sb.append(", birthday=").append(birthday);
-        sb.append(", registrationDate=").append(registrationDate);
-        sb.append(", patientId=").append(patientId);
-        sb.append(", medicalCategory=").append(medicalCategory);
-        sb.append(", medicalCertificateNumber=").append(medicalCertificateNumber);
-        sb.append(", name=").append(name);
+        sb.append(", consultationDate=").append(consultationDate);
+        sb.append(", idNumber=").append(idNumber);
+        sb.append(", medicialCertificateNumber=").append(medicialCertificateNumber);
+        sb.append(", medicialCategory=").append(medicialCategory);
+        sb.append(", patientName=").append(patientName);
         sb.append(", outpatientDoctorId=").append(outpatientDoctorId);
+        sb.append(", registrationDepartmentId=").append(registrationDepartmentId);
+        sb.append(", settlementCategoryId=").append(settlementCategoryId);
         sb.append(", registrationCategory=").append(registrationCategory);
-        sb.append(", registrationDepartment=").append(registrationDepartment);
-        sb.append(", settlementCategory=").append(settlementCategory);
         sb.append(", status=").append(status);
-        sb.append(", fee=").append(fee);
-        sb.append(", hasRecordBook=").append(hasRecordBook);
+        sb.append(", cost=").append(cost);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
