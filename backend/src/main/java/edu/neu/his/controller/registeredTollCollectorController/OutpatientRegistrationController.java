@@ -60,7 +60,7 @@ public class OutpatientRegistrationController {
         }
     }
 
-    @PostMapping("/calulateFee")
+    @PostMapping("/calculateFee")
     @ResponseBody
     public Map calulateFee(@RequestBody Map req){
         Map data = new HashMap();

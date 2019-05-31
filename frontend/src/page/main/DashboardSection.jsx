@@ -33,7 +33,7 @@ class DashboardSection extends React.Component {
       const {sectionKey} = this.props;
       return (
         <div>
-          {sectionKey==="0"?<OutpatientCharge/>:null}
+          {sectionKey==="0"?<OutpatientRegistration/>:null}
 
           {sectionKey==="3-1"?<DepartmentManagement/>:null}
           {sectionKey==="3-2"?<UserManagement/>:null}

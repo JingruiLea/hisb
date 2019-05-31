@@ -1,58 +1,55 @@
 package edu.neu.his.bean;
 
-import java.io.Serializable;
-
-public class Registration implements Serializable {
-    private Integer id;
-
-    private Integer medicalRecordId;
-
+public class Registration {
+    private int medical_record_id;
     private String address;
-
-    private Integer age;
-
+    private int age;
     private String birthday;
-
-    private String registrationDate;
-
-    private String patientId;
-
-    private String medicalCategory;
-
-    private String medicalCertificateNumber;
-
-    private String name;
-
-    private Integer outpatientDoctorId;
-
-    private String registrationCategory;
-
-    private String registrationDepartment;
-
-    private String settlementCategory;
-
+    private String consultation_date;
+    private String id_number;
+    private String medicial_certificate_number;
+    private String medicial_category;
+    private String patient_name;
+    private int outpatient_doctor_id;
+    private int registration_department_id;
+    private int settlement_category_id;
+    private String registration_category;
     private String status;
+    private float cost;
+    private String registraton_source;
+    private String gender;
+    private String medical_insurance_diagnosis;
 
-    private Float fee;
+    public Registration(){
 
-    private Integer hasRecordBook;
-
-    private static final long serialVersionUID = 1L;
-
-    public Integer getId() {
-        return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Registration(String address, int age, String birthday, String consultation_date, String medicial_category,
+                        String patient_name, int outpatient_doctor_id, int registration_department_id, int settlement_category_id,
+                        String registraton_source, String gender, String medical_insurance_diagnosis,String id_number,
+                        String medicial_certificate_number){
+        this.address = address;
+        this.age = age;
+        this.birthday = birthday;
+        this.consultation_date = consultation_date;
+        this.medical_insurance_diagnosis = medical_insurance_diagnosis;
+        this.medicial_certificate_number = medicial_certificate_number;
+        this.medicial_category = medicial_category;
+        this.patient_name = patient_name;
+        this.outpatient_doctor_id = outpatient_doctor_id;
+        this.registration_department_id = registration_department_id;
+        this.settlement_category_id = settlement_category_id;
+        this.registraton_source = registraton_source;
+        this.gender = gender;
+        this.id_number = id_number;
     }
 
-    public Integer getMedicalRecordId() {
-        return medicalRecordId;
+    public int getMedical_record_id() {
+        return medical_record_id;
     }
 
-    public void setMedicalRecordId(Integer medicalRecordId) {
-        this.medicalRecordId = medicalRecordId;
+    public void setMedical_record_id(int medical_record_id) {
+        this.medical_record_id = medical_record_id;
     }
 
     public String getAddress() {
@@ -60,14 +57,14 @@ public class Registration implements Serializable {
     }
 
     public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
+        this.address = address;
     }
 
-    public Integer getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
@@ -76,79 +73,79 @@ public class Registration implements Serializable {
     }
 
     public void setBirthday(String birthday) {
-        this.birthday = birthday == null ? null : birthday.trim();
+        this.birthday = birthday;
     }
 
-    public String getRegistrationDate() {
-        return registrationDate;
+    public String getConsultation_date() {
+        return consultation_date;
     }
 
-    public void setRegistrationDate(String registrationDate) {
-        this.registrationDate = registrationDate == null ? null : registrationDate.trim();
+    public void setConsultation_date(String consultation_date) {
+        this.consultation_date = consultation_date;
     }
 
-    public String getPatientId() {
-        return patientId;
+    public String getId_number() {
+        return id_number;
     }
 
-    public void setPatientId(String patientId) {
-        this.patientId = patientId == null ? null : patientId.trim();
+    public void setId_number(String id_number) {
+        this.id_number = id_number;
     }
 
-    public String getMedicalCategory() {
-        return medicalCategory;
+    public String getMedicial_certificate_number() {
+        return medicial_certificate_number;
     }
 
-    public void setMedicalCategory(String medicalCategory) {
-        this.medicalCategory = medicalCategory == null ? null : medicalCategory.trim();
+    public void setMedicial_certificate_number(String medicial_certificate_number) {
+        this.medicial_certificate_number = medicial_certificate_number;
     }
 
-    public String getMedicalCertificateNumber() {
-        return medicalCertificateNumber;
+    public String getMedicial_category() {
+        return medicial_category;
     }
 
-    public void setMedicalCertificateNumber(String medicalCertificateNumber) {
-        this.medicalCertificateNumber = medicalCertificateNumber == null ? null : medicalCertificateNumber.trim();
+    public void setMedicial_category(String medicial_category) {
+        this.medicial_category = medicial_category;
     }
 
-    public String getName() {
-        return name;
+    public String getPatient_name() {
+        return patient_name;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setPatient_name(String patient_name) {
+        this.patient_name = patient_name;
     }
 
-    public Integer getOutpatientDoctorId() {
-        return outpatientDoctorId;
+    public int getOutpatient_doctor_id() {
+        return outpatient_doctor_id;
     }
 
-    public void setOutpatientDoctorId(Integer outpatientDoctorId) {
-        this.outpatientDoctorId = outpatientDoctorId;
+    public void setOutpatient_doctor_id(int outpatient_doctor_id) {
+        this.outpatient_doctor_id = outpatient_doctor_id;
     }
 
-    public String getRegistrationCategory() {
-        return registrationCategory;
+    public int getRegistration_department_id() {
+        return registration_department_id;
     }
 
-    public void setRegistrationCategory(String registrationCategory) {
-        this.registrationCategory = registrationCategory == null ? null : registrationCategory.trim();
+    public void setRegistration_department_id(int registration_department_id) {
+        this.registration_department_id = registration_department_id;
     }
 
-    public String getRegistrationDepartment() {
-        return registrationDepartment;
+    public int getSettlement_category_id() {
+        return settlement_category_id;
     }
 
-    public void setRegistrationDepartment(String registrationDepartment) {
-        this.registrationDepartment = registrationDepartment == null ? null : registrationDepartment.trim();
+    public void setSettlement_category_id(int settlement_category_id) {
+        this.settlement_category_id = settlement_category_id;
     }
 
-    public String getSettlementCategory() {
-        return settlementCategory;
+    public String getRegistration_category() {
+        return registration_category;
     }
 
-    public void setSettlementCategory(String settlementCategory) {
-        this.settlementCategory = settlementCategory == null ? null : settlementCategory.trim();
+    public void setRegistration_category(String registration_category) {
+        this.registration_category = registration_category;
     }
 
     public String getStatus() {
@@ -156,50 +153,38 @@ public class Registration implements Serializable {
     }
 
     public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+        this.status = status;
     }
 
-    public Float getFee() {
-        return fee;
+    public float getCost() {
+        return cost;
     }
 
-    public void setFee(Float fee) {
-        this.fee = fee;
+    public void setCost(float cost) {
+        this.cost = cost;
     }
 
-    public Integer getHasRecordBook() {
-        return hasRecordBook;
+    public String getRegistraton_source() {
+        return registraton_source;
     }
 
-    public void setHasRecordBook(Integer hasRecordBook) {
-        this.hasRecordBook = hasRecordBook;
+    public void setRegistraton_source(String registraton_source) {
+        this.registraton_source = registraton_source;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", medicalRecordId=").append(medicalRecordId);
-        sb.append(", address=").append(address);
-        sb.append(", age=").append(age);
-        sb.append(", birthday=").append(birthday);
-        sb.append(", registrationDate=").append(registrationDate);
-        sb.append(", patientId=").append(patientId);
-        sb.append(", medicalCategory=").append(medicalCategory);
-        sb.append(", medicalCertificateNumber=").append(medicalCertificateNumber);
-        sb.append(", name=").append(name);
-        sb.append(", outpatientDoctorId=").append(outpatientDoctorId);
-        sb.append(", registrationCategory=").append(registrationCategory);
-        sb.append(", registrationDepartment=").append(registrationDepartment);
-        sb.append(", settlementCategory=").append(settlementCategory);
-        sb.append(", status=").append(status);
-        sb.append(", fee=").append(fee);
-        sb.append(", hasRecordBook=").append(hasRecordBook);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getMedical_insurance_diagnosis() {
+        return medical_insurance_diagnosis;
+    }
+
+    public void setMedical_insurance_diagnosis(String medical_insurance_diagnosis) {
+        this.medical_insurance_diagnosis = medical_insurance_diagnosis;
     }
 }
