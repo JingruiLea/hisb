@@ -1,51 +1,44 @@
 package edu.neu.his.bean;
 
-public class Registration {
-    private int medical_record_id;
+import java.io.Serializable;
+
+public class Registration implements Serializable {
+    private Integer medicalRecordId;
+
     private String address;
     private int age;
     private String birthday;
-    private String consultation_date;
-    private String id_number;
-    private String medicial_certificate_number;
-    private String medicial_category;
-    private String patient_name;
-    private int outpatient_doctor_id;
-    private int registration_department_id;
-    private int settlement_category_id;
-    private String registration_category;
+
+    private String consultationDate;
+
+    private String idNumber;
+
+    private String medicialCertificateNumber;
+
+    private String medicialCategory;
+
+    private String patientName;
+
+    private Integer outpatientDoctorId;
+
+    private Integer registrationDepartmentId;
+
+    private Integer settlementCategoryId;
+
+    private String registrationCategory;
+
     private String status;
     private float cost;
     private String registraton_source;
     private String gender;
     private String medical_insurance_diagnosis;
 
-    public Registration(){
+    private Float cost;
 
-    }
+    private static final long serialVersionUID = 1L;
 
-    public Registration(String address, int age, String birthday, String consultation_date, String medicial_category,
-                        String patient_name, int outpatient_doctor_id, int registration_department_id, int settlement_category_id,
-                        String registraton_source, String gender, String medical_insurance_diagnosis,String id_number,
-                        String medicial_certificate_number){
-        this.address = address;
-        this.age = age;
-        this.birthday = birthday;
-        this.consultation_date = consultation_date;
-        this.medical_insurance_diagnosis = medical_insurance_diagnosis;
-        this.medicial_certificate_number = medicial_certificate_number;
-        this.medicial_category = medicial_category;
-        this.patient_name = patient_name;
-        this.outpatient_doctor_id = outpatient_doctor_id;
-        this.registration_department_id = registration_department_id;
-        this.settlement_category_id = settlement_category_id;
-        this.registraton_source = registraton_source;
-        this.gender = gender;
-        this.id_number = id_number;
-    }
-
-    public int getMedical_record_id() {
-        return medical_record_id;
+    public Integer getMedicalRecordId() {
+        return medicalRecordId;
     }
 
     public void setMedical_record_id(int medical_record_id) {
@@ -76,44 +69,44 @@ public class Registration {
         this.birthday = birthday;
     }
 
-    public String getConsultation_date() {
-        return consultation_date;
+    public String getConsultationDate() {
+        return consultationDate;
     }
 
-    public void setConsultation_date(String consultation_date) {
-        this.consultation_date = consultation_date;
+    public void setConsultationDate(String consultationDate) {
+        this.consultationDate = consultationDate == null ? null : consultationDate.trim();
     }
 
-    public String getId_number() {
-        return id_number;
+    public String getIdNumber() {
+        return idNumber;
     }
 
-    public void setId_number(String id_number) {
-        this.id_number = id_number;
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber == null ? null : idNumber.trim();
     }
 
-    public String getMedicial_certificate_number() {
-        return medicial_certificate_number;
+    public String getMedicialCertificateNumber() {
+        return medicialCertificateNumber;
     }
 
-    public void setMedicial_certificate_number(String medicial_certificate_number) {
-        this.medicial_certificate_number = medicial_certificate_number;
+    public void setMedicialCertificateNumber(String medicialCertificateNumber) {
+        this.medicialCertificateNumber = medicialCertificateNumber == null ? null : medicialCertificateNumber.trim();
     }
 
-    public String getMedicial_category() {
-        return medicial_category;
+    public String getMedicialCategory() {
+        return medicialCategory;
     }
 
-    public void setMedicial_category(String medicial_category) {
-        this.medicial_category = medicial_category;
+    public void setMedicialCategory(String medicialCategory) {
+        this.medicialCategory = medicialCategory == null ? null : medicialCategory.trim();
     }
 
-    public String getPatient_name() {
-        return patient_name;
+    public String getPatientName() {
+        return patientName;
     }
 
-    public void setPatient_name(String patient_name) {
-        this.patient_name = patient_name;
+    public void setPatientName(String patientName) {
+        this.patientName = patientName == null ? null : patientName.trim();
     }
 
     public int getOutpatient_doctor_id() {
@@ -124,28 +117,28 @@ public class Registration {
         this.outpatient_doctor_id = outpatient_doctor_id;
     }
 
-    public int getRegistration_department_id() {
-        return registration_department_id;
+    public Integer getRegistrationDepartmentId() {
+        return registrationDepartmentId;
     }
 
-    public void setRegistration_department_id(int registration_department_id) {
-        this.registration_department_id = registration_department_id;
+    public void setRegistrationDepartmentId(Integer registrationDepartmentId) {
+        this.registrationDepartmentId = registrationDepartmentId;
     }
 
-    public int getSettlement_category_id() {
-        return settlement_category_id;
+    public Integer getSettlementCategoryId() {
+        return settlementCategoryId;
     }
 
-    public void setSettlement_category_id(int settlement_category_id) {
-        this.settlement_category_id = settlement_category_id;
+    public void setSettlementCategoryId(Integer settlementCategoryId) {
+        this.settlementCategoryId = settlementCategoryId;
     }
 
-    public String getRegistration_category() {
-        return registration_category;
+    public String getRegistrationCategory() {
+        return registrationCategory;
     }
 
-    public void setRegistration_category(String registration_category) {
-        this.registration_category = registration_category;
+    public void setRegistrationCategory(String registrationCategory) {
+        this.registrationCategory = registrationCategory == null ? null : registrationCategory.trim();
     }
 
     public String getStatus() {
@@ -168,23 +161,37 @@ public class Registration {
         return registraton_source;
     }
 
-    public void setRegistraton_source(String registraton_source) {
-        this.registraton_source = registraton_source;
+    public Float getCost() {
+        return cost;
     }
 
-    public String getGender() {
-        return gender;
+    public void setCost(Float cost) {
+        this.cost = cost;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getMedical_insurance_diagnosis() {
-        return medical_insurance_diagnosis;
-    }
-
-    public void setMedical_insurance_diagnosis(String medical_insurance_diagnosis) {
-        this.medical_insurance_diagnosis = medical_insurance_diagnosis;
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", medicalRecordId=").append(medicalRecordId);
+        sb.append(", address=").append(address);
+        sb.append(", age=").append(age);
+        sb.append(", birthday=").append(birthday);
+        sb.append(", consultationDate=").append(consultationDate);
+        sb.append(", idNumber=").append(idNumber);
+        sb.append(", medicialCertificateNumber=").append(medicialCertificateNumber);
+        sb.append(", medicialCategory=").append(medicialCategory);
+        sb.append(", patientName=").append(patientName);
+        sb.append(", outpatientDoctorId=").append(outpatientDoctorId);
+        sb.append(", registrationDepartmentId=").append(registrationDepartmentId);
+        sb.append(", settlementCategoryId=").append(settlementCategoryId);
+        sb.append(", registrationCategory=").append(registrationCategory);
+        sb.append(", status=").append(status);
+        sb.append(", cost=").append(cost);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
     }
 }

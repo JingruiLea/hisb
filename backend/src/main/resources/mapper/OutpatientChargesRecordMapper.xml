@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="edu.neu.his.mapper.OutpatientChargesRecordMapper" >
+  <resultMap id="BaseResultMap" type="edu.neu.his.bean.OutpatientChargesRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="medical_record_id" property="medicalRecordId" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="cost" property="cost" jdbcType="REAL" />
+    <result column="excute_department_id" property="excuteDepartmentId" jdbcType="INTEGER" />
+    <result column="toll_collector_id" property="tollCollectorId" jdbcType="INTEGER" />
+    <result column="creat_time" property="creatTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from outpatient_charges_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="edu.neu.his.bean.OutpatientChargesRecord" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into outpatient_charges_record (medical_record_id, item_id, `type`, 
+      `status`, quantity, cost, 
+      excute_department_id, toll_collector_id, creat_time
+      )
+    values (#{medicalRecordId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{cost,jdbcType=REAL}, 
+      #{excuteDepartmentId,jdbcType=INTEGER}, #{tollCollectorId,jdbcType=INTEGER}, #{creatTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="edu.neu.his.bean.OutpatientChargesRecord" >
+    update outpatient_charges_record
+    set medical_record_id = #{medicalRecordId,jdbcType=INTEGER},
+      item_id = #{itemId,jdbcType=INTEGER},
+      `type` = #{type,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      cost = #{cost,jdbcType=REAL},
+      excute_department_id = #{excuteDepartmentId,jdbcType=INTEGER},
+      toll_collector_id = #{tollCollectorId,jdbcType=INTEGER},
+      creat_time = #{creatTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, medical_record_id, item_id, `type`, `status`, quantity, cost, excute_department_id, 
+    toll_collector_id, creat_time
+    from outpatient_charges_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, medical_record_id, item_id, `type`, `status`, quantity, cost, excute_department_id, 
+    toll_collector_id, creat_time
+    from outpatient_charges_record
+  </select>
+</mapper>

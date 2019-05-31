@@ -1,0 +1,8 @@
+/test
+template.txt
+migrate.sql
+words.txt
+/frontend/node_modules
+/frontend/build
+/backend/.idea
+/auth/node_modules
