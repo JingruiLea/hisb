@@ -54,13 +54,23 @@ class AddRowForm extends React.Component {
       },
     };
     return(<Form onSubmit={this.handleSubmit} {...formItemLayout}>
-       <Form.Item label="统一编号">
+       <Form.Item label="编号">
         {getFieldDecorator('id', {
           rules: [{ required: true, message: 'id' }],
         })(
           <Input
             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="编号不能重复"
+          />
+        )}
+      </Form.Item>
+      <Form.Item label="国际编码">
+        {getFieldDecorator('code', {
+          rules: [{ required: true, message: 'id' }],
+        })(
+          <Input
+            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder="国际统一编码不能重复"
           />
         )}
       </Form.Item>

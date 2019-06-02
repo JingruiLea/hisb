@@ -259,7 +259,7 @@ class RegistrationForm extends React.Component {
           <Form.Item label="挂号级别" {...formItemLayout}>
             {getFieldDecorator('registration_level_id', {
               rules: [{ required: true, message: '选择挂号级别' }],
-              initialValue:this.props.defaultRegistrationLevel.id
+              initialValue:this.props.defaultRegistrationLevel===null?0:this.props.defaultRegistrationLevel.id
             })(
               <Select onChange={this.handleRegistrationLevelChange.bind(this)} disabled={this.props.payMode}>
                 {this.props.registrationLevel.map((x)=>
