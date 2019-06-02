@@ -14,8 +14,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.util.MultiValueMap;
 
-import static org.junit.Assert.*;
+import java.util.HashMap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -36,9 +37,12 @@ public class DepartmentMenageControllerTest {
     public void listAllDepartment() throws Exception {
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                get("/departmentManage/getAll")
+                post("/departmentManage/findByName")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"神经内科\"}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json("{}"))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }

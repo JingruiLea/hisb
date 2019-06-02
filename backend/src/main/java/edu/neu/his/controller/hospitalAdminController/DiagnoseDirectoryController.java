@@ -79,15 +79,22 @@ public class DiagnoseDirectoryController {
     }
 
     private Disease req2Disease(Map req) {
-        String id = (String) req.get("id");
+        Disease disease = new Disease();
+        String code = (String) req.get("code");
+        disease.setCode(code);
+        disease.setId((int) req.get("id"));
         String name = (String)req.get("name");
+        disease.setName(name);
         int classification_id = (int)req.get("classification_id");
+        disease.setClassification_id(classification_id);
         String pinyin = (String)req.get("pinyin");
+        disease.setPinyin(pinyin);
         String custom_name = "";
         String custom_pinyin = "";
         if(req.containsKey("custom_name")) custom_name = (String)req.get("custom_name");
         if(req.containsKey("custom_pinyin")) custom_pinyin = (String)req.get("custom_pinyin");
-        Disease disease = null;
+        disease.setCustom_name(custom_name);
+        disease.setCustom_pinyin(custom_pinyin);
         return disease;
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -68,7 +67,7 @@ public class DepartmentService {
     public boolean importFromFile(String pathName) {
         try {
             ExcelImportation excel = new ExcelImportation(new FileInputStream(pathName), Department.class, departmentMapper);
-            excel.setIndex("id", "classification_id", "pinyin", "name", "type");
+            excel.setColumnFields("id", "classification_id", "pinyin", "name", "type");
             Map<String, Function<String, ?>> preFunctionMap = excel.getPreFunctionMap();
             preFunctionMap.put("classification_id", departmentMapper::findClassificationIdByName);
             excel.exec();
