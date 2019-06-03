@@ -10,7 +10,7 @@ import java.util.List;
 @Component(value = "RegistrationLevelMapper")
 public interface RegistrationLevelMapper {
     @Select("SELECT * FROM registration_level WHERE name = #{name}")
-    List<RegistrationLevel> findByName(@Param("name") String name);
+    RegistrationLevel findByName(@Param("name") String name);
 
     @Insert("INSERT INTO registration_level (id, name, is_default, seq_num, fee) VALUES(#{id},#{name}, #{is_default}, #{seq_num}, #{fee})")
     void insert(RegistrationLevel registration_level);
@@ -32,4 +32,10 @@ public interface RegistrationLevelMapper {
 
     @Select("SElECT * From userinfo where ")
     void doctorList(@Param("departmentId") int departmentId, @Param("registrationLevelId") int registrationLevelId);
+
+    @Select("SELECT count(*) FROM registration_level WHERE id = #{id}")
+    int checkIdExists(@Param("id") int id);
+
+    @Select("SELECT count(*) FROM registration_level WHERE name = #{name}")
+    int checkNameExists(@Param("name") String name);
 }

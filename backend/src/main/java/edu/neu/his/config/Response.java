@@ -34,5 +34,11 @@ public class Response  {
         return res;
     }
 
+    public static Map Error(Object data) {
+        Map res = new HashMap();
+        res.put("code",500);
+        res.put("data",data);
+        return res;
+    }
 
 }
