@@ -1,7 +1,7 @@
 package edu.neu.his.controller.registeredTollCollectorController;
 
 import edu.neu.his.bean.Registration;
-import edu.neu.his.bean.Registration_level;
+import edu.neu.his.bean.RegistrationLevel;
 import edu.neu.his.bean.User;
 import edu.neu.his.config.RegistrationConfig;
 import edu.neu.his.config.Response;
@@ -65,7 +65,7 @@ public class OutpatientRegistrationController {
     public Map calulateFee(@RequestBody Map req){
         Map data = new HashMap();
         int registration_level_id = (int)req.get("registration_level_id");
-        Registration_level registration_level = registrationLevelService.findById(registration_level_id);
+        RegistrationLevel registration_level = registrationLevelService.findById(registration_level_id);
         float fee = registration_level.getFee();
         int has_record_book = (int)req.get("has_record_book");
         if(has_record_book==1)
@@ -81,7 +81,7 @@ public class OutpatientRegistrationController {
         Map data = new HashMap();
         Registration registration = req2Registration(req);
         int registration_level_id = (int)req.get("registration_level_id");
-        Registration_level registration_level = registrationLevelService.findById(registration_level_id);
+        RegistrationLevel registration_level = registrationLevelService.findById(registration_level_id);
         String registration_category = registration_level.getName();
         float fee = registration_level.getFee();
         int has_record_book = (int)req.get("has_record_book");

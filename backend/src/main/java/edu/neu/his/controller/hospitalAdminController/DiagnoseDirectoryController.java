@@ -45,7 +45,7 @@ public class DiagnoseDirectoryController {
     public Map updateNonDrugCharge(@RequestBody Map req){
         Disease disease = req2Disease(req);
         String rawId = (String)req.get("raw_id");
-        if(!disease.getId().equals(rawId) && checkIdExist(disease.getId())) {
+        if(!disease.getCode().equals(rawId) && checkIdExist(disease.getCode())) {
             return Response.Error("错误，编号重复。");
         } else {
             diagnoseDirectoryService.updateDisease(rawId,disease);
@@ -55,10 +55,10 @@ public class DiagnoseDirectoryController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Map insertDisease(@RequestBody Map req){
-        Disease disease = req2Disease(req);
-        if(checkIdExist(disease.getId())) {
-            return Response.Error("错误，编号重复。");
+    public Map insertDisease(@RequestBody Disease disease){
+        //Disease disease = req2Disease(req);
+        if(checkIdExist(disease.getCode())) {
+            return Response.Ok();
         } else {
             diagnoseDirectoryService.insertDisease(disease);
             return Response.Ok();
@@ -79,15 +79,22 @@ public class DiagnoseDirectoryController {
     }
 
     private Disease req2Disease(Map req) {
-        String id = (String) req.get("id");
+        Disease disease = new Disease();
+        String code = (String) req.get("code");
+        disease.setCode(code);
+        disease.setId((int) req.get("id"));
         String name = (String)req.get("name");
+        disease.setName(name);
         int classification_id = (int)req.get("classification_id");
+        disease.setClassification_id(classification_id);
         String pinyin = (String)req.get("pinyin");
+        disease.setPinyin(pinyin);
         String custom_name = "";
         String custom_pinyin = "";
         if(req.containsKey("custom_name")) custom_name = (String)req.get("custom_name");
         if(req.containsKey("custom_pinyin")) custom_pinyin = (String)req.get("custom_pinyin");
-        Disease disease = new Disease(id,name,classification_id,pinyin,custom_name,custom_pinyin);
+        disease.setCustom_name(custom_name);
+        disease.setCustom_pinyin(custom_pinyin);
         return disease;
     }
 }

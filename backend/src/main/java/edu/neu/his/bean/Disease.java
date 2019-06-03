@@ -1,26 +1,14 @@
 package edu.neu.his.bean;
 
 public class Disease {
-    private String id;
+    private int id;
+    private String code;
     private String name;
     private int classification_id;
     private String pinyin;
-    private String custom_name;
-    private String custom_pinyin;
 
-    private String classification_name;
-
-    public Disease(String id, String name, int classification_id, String pinyin, String custom_name, String custom_pinyin) {
-        this.name = name;
-        this.id = id;
-        this.classification_id = classification_id;
-        this.pinyin = pinyin;
-        this.custom_name = custom_name;
-        this.custom_pinyin = custom_pinyin;
-    }
-
-    public Disease(String id, String name, int classification_id, String classification_name, String pinyin, String custom_name, String custom_pinyin) {
-        this.id = id;
+    public Disease(String code, String name, int classification_id, String pinyin, String custom_name, String custom_pinyin, String classification_name) {
+        this.code = code;
         this.name = name;
         this.classification_id = classification_id;
         this.pinyin = pinyin;
@@ -29,13 +17,30 @@ public class Disease {
         this.classification_name = classification_name;
     }
 
-    public String  getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    private String custom_name;
+    private String custom_pinyin;
+
+    private String classification_name;
+
+    public Disease(){}
+
+
 
     public String getName() {
         return name;
