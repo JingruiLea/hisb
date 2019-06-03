@@ -1,0 +1,113 @@
+{
+  "DepartmentMCT": {
+    "update":
+    {
+      "id": 2,
+      "pinyin": "YK",
+      "name": "眼科",
+      "type": "门诊科室",
+      "classification_id":1
+    },
+    "delete":
+    {
+      "data":[2]
+    },
+  "import": {
+    "file":binery,
+  }
+  },
+  "diagnoseDirectoryManagement": {
+    "findByName":
+    {
+      "code": 200,
+      "data":[
+        {
+          "id": 1,
+          "name": "发烧"
+        }
+      ]
+    },
+    "add":
+    {
+      "username": "admin2",
+      "password": "2e23e23e",
+      "real_name": "XUranus",
+      "department_id": 1,
+      "role_id": 1,
+      "participate_in_scheduling": true,
+      "title": "主任",
+      "role_name": "医院管理员",
+      "department_name": "神经科"
+    },
+    "update":
+    {
+      "uid":2,
+      "username": "admin3",
+      "password": "2e23e23e",
+      "real_name": "XUranus",
+      "department_id": 1,
+      "role_id": 1,
+      "participate_in_scheduling": true,
+      "title": "主任",
+      "role_name": "医院管理员",
+      "department_name": "神经科"
+    },
+    "delete":
+    {
+      "data":[10000]
+    },
+  },
+  "registrationLevelManagement":{
+    "update":
+    {
+      "id": 2,
+      "name": "专家号",
+      "is_default": true,
+      "seq_num": 2,
+      "fee": 20
+    },
+    "add":
+    {
+      "id": 1,
+      "name": "普通号",
+      "is_default": true,
+      "seq_num": 2,
+      "fee": 10
+    },
+    "delete":
+    {
+      "data": [2]
+    }
+  },
+  "settlementCategoryManagement": {
+    "add":
+    {
+      "id": 10,
+      "name": "中国人民银行"
+    },
+    "update":
+    {
+      "id": 10,
+      "name": "中国农业银行"
+    }
+  },
+  "nonDrugChargeItemManagement":
+  {
+    "add":
+    {
+      "id": "1010",
+      "pinyin": "DQJ",
+      "format": "次",
+      "name": "小抢救",
+      "fee": 100.0,
+      "expense_classification_id": 20,
+      "department_id": 1,
+      "expense_classification_name": "门诊手术费",
+      "department_name": "神经科"
+    },
+    "delete":
+    {
+      "data":["1010"]
+    }
+  }
+}

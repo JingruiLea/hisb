@@ -28,7 +28,16 @@ public class DepartmentMenageControllerTest {
     protected MockMvc mockMvc;
 
     @Test
-    public void departmentFindByName() {
+    public void departmentFindByName() throws Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/departmentManage/findByName")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"心血管内科\"}")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
 
     }
 
@@ -44,17 +53,76 @@ public class DepartmentMenageControllerTest {
     }
 
     @Test
-    public void updateDepartment() {
+    public void updateDepartment() throws Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/departmentManage/update")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(" {\n" +
+                        "      \"id\": 2,\n" +
+                        "      \"pinyin\": \"YK\",\n" +
+                        "      \"name\": \"眼2科\",\n" +
+                        "      \"type\": \"门诊科室\",\n" +
+                        "      \"classification_id\":1\n" +
+                        "    }")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+
+
 
     }
 
     @Test
-    public void insertDepartment() {
+    public void insertDepartment() throws Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/departmentManage/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(" {\n" +
+                        "      \"id\": 128,\n" +
+                        "      \"pinyin\": \"NK\",\n" +
+                        "      \"name\": \"脑科\",\n" +
+                        "      \"type\": \"门诊科室\",\n" +
+                        "      \"classification_id\":2\n" +
+                        "    }")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
 
     }
 
     @Test
-    public void deleteDepartment() {
+    public void deleteDepartment() throws Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/departmentManage/delete")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(" {\n" +
+                        "      \"data\":[2]\n" +
+                        "    }")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+
+    }
+
+    @Test
+    public void batchImport() throws Exception{//?
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/departmentManage/import")
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .content(" {\n" +
+                        "      \"data\":[2]\n" +
+                        "    }")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
 
     }
 }
