@@ -1,6 +1,6 @@
 package edu.neu.his.service;
 
-import edu.neu.his.bean.Registration_level;
+import edu.neu.his.bean.RegistrationLevel;
 import edu.neu.his.mapper.RegistrationLevelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,22 +14,22 @@ public class RegistrationLevelService {
     private RegistrationLevelMapper registrationLevelMapper;
 
     @Transactional
-    public void updateDepartment(Registration_level registration_level) {
+    public void updateDepartment(RegistrationLevel registration_level) {
         registrationLevelMapper.update(registration_level);
     }
 
     @Transactional
-    public Registration_level findByName(String name) {
+    public RegistrationLevel findByName(String name) {
         return registrationLevelMapper.findByName(name);
     }
 
     @Transactional
-    public void insertRegistration_level(Registration_level registration_level) {
+    public void insertRegistration_level(RegistrationLevel registration_level) {
         registrationLevelMapper.insert(registration_level);
     }
 
     @Transactional
-    public List<Registration_level> findAll() {
+    public List<RegistrationLevel> findAll() {
         return registrationLevelMapper.findAll();
     }
 
@@ -39,7 +39,7 @@ public class RegistrationLevelService {
     }
 
     @Transactional
-    public Registration_level findById(int id) {
+    public RegistrationLevel findById(int id) {
         return  registrationLevelMapper.findById(id);
     }
 

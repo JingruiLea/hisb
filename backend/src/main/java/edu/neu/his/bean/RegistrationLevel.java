@@ -1,6 +1,6 @@
 package edu.neu.his.bean;
 
-public class Registration_level {
+public class RegistrationLevel {
     private int id;
     private String name;
     private boolean is_default;
