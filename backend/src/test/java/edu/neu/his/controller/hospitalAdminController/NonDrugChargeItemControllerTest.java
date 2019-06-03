@@ -42,7 +42,7 @@ public class NonDrugChargeItemControllerTest {
                 post("/nonDrugChargeItemManagement/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "      \"id\": \"1010\",\n" +
+                        "      \"id\": \"A1010.10.121\",\n" +
                         "      \"pinyin\": \"DQJ\",\n" +
                         "      \"format\": \"次\",\n" +
                         "      \"name\": \"小抢救\",\n" +

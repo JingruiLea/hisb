@@ -35,5 +35,92 @@ public class DiagnoseDirectoryControllerTest {
                 .andReturn();
     }
 
+    @Test
+    public void listAllDisease() throws Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/diagnoseDirectoryManagement/searchAllByClassificationId")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(" {\n" +
+                        "      \"classification_id\":1\n" +
+                        "    }")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void DiseaseFindByName() throws Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/diagnoseDirectoryManagement/findByName")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "      \"name\":\"阿米巴病带菌者\"\n" +
+                        "    }")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void insertDisease() throws Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/diagnoseDirectoryManagement/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "      \"id\":\"99999999\",\n" +
+                        "      \"name\":\"传染性单核细胞增多2\",\n" +
+                        "      \"code\": \"B0347238\",\n" +
+                        "      \"classification_id\":1,\n" +
+                        "      \"pinyin\":\"CRXDHXBZDZ\",\n" +
+                        "      \"custom_name\":\"传单\",\n" +
+                        "      \"custom_pinyin\":\"ChuanDan\"\n" +
+                        "    }")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void updateNonDrugCharge() throws Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/diagnoseDirectoryManagement/update")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "      \"raw_id\":\"ZZXY31\",\n" +
+                        "      \"id\":29395,\n" +
+                        "      \"name\":\"传染性单核细胞增多症\",\n" +
+                        "      \"classification_id\":472,\n" +
+                        "      \"pinyin\":\"CRXDHXBZDZ\",\n" +
+                        "      \"custom_name\":\"传单\",\n" +
+                        "      \"custom_pinyin\":\"ChuanDan\"\n" +
+                        "    }")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void deleteDisease() throws Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/diagnoseDirectoryManagement/delete")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "      \"data\":[\"29395\"]\n" +
+                        "    }")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
 
 }

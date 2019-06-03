@@ -109,5 +109,40 @@
     {
       "data":["1010"]
     }
+  },
+  "diagnoseDirectoryManagement":
+  {
+    "searchAllByClassificationId":
+    {
+      "classification_id":1
+    },
+    "findByName":
+    {
+      "name":"猩红热"
+    },
+    "add":
+    {
+      "id":"99999999",
+      "name":"传染性单核细胞增多2",
+      "code": "B0347238",
+      "classification_id":1,
+      "pinyin":"CRXDHXBZDZ",
+      "custom_name":"传单",
+      "custom_pinyin":"ChuanDan"
+    },
+    "update":
+    {
+      "raw_id":"ZZXY31",
+      "id":29395,
+      "name":"传染性单核细胞增多症",
+      "classification_id":472,
+      "pinyin":"CRXDHXBZDZ",
+      "custom_name":"传单",
+      "custom_pinyin":"ChuanDan"
+    },
+    "delete":
+    {
+      "data":["29395"]
+    }
   }
 }
