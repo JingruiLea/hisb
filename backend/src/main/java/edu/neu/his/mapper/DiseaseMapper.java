@@ -33,8 +33,6 @@ public interface DiseaseMapper {
     @Delete("DELETE FROM disease WHERE id=#{id}")
     void deleteDisease(String id);
 
-
-
     @Insert("INSERT INTO disease_classification(name) VALUES(#{name})")
     void insertDiseaseClassification(DiseaseClassification diseaseClassification);
 

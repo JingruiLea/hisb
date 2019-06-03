@@ -13,7 +13,32 @@ public class NonDrugChargeItem {
     private String expense_classification_name;
     private String department_name;
 
-    public NonDrugChargeItem(String id,String pinyin,String format,String name,float fee,int expense_classification_id,int department_id) {
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"id\":\"")
+                .append(id).append('\"');
+        sb.append(",\"pinyin\":\"")
+                .append(pinyin).append('\"');
+        sb.append(",\"format\":\"")
+                .append(format).append('\"');
+        sb.append(",\"name\":\"")
+                .append(name).append('\"');
+        sb.append(",\"fee\":")
+                .append(fee);
+        sb.append(",\"expense_classification_id\":")
+                .append(expense_classification_id);
+        sb.append(",\"department_id\":")
+                .append(department_id);
+        sb.append(",\"expense_classification_name\":\"")
+                .append(expense_classification_name).append('\"');
+        sb.append(",\"department_name\":\"")
+                .append(department_name).append('\"');
+        sb.append('}');
+        return sb.toString();
+    }
+
+    public NonDrugChargeItem(String id, String pinyin, String format, String name, float fee, int expense_classification_id, int department_id) {
         this.id = id;
         this.pinyin = pinyin;
         this.format = format;

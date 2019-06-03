@@ -64,7 +64,7 @@ public class UserManagementController {
     private User map2User(Map req) {
         System.out.println(req);
         User user = new User();
-        if (req.containsKey("id"))
+        if (req.containsKey("uid"))
             user.setUid((int)req.get("uid"));
         user.setUsername((String)req.get("username"));
         user.setPassword(Crypto.getSHA256String((String)req.get("password")));

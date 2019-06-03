@@ -2,6 +2,7 @@ package edu.neu.his.mapper;
 
 import edu.neu.his.bean.Department;
 import edu.neu.his.bean.DepartmentClassification;
+import edu.neu.his.util.Importable;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Mapper
 @Component(value = "DepartmentMapper")
-public interface DepartmentMapper {
+public interface DepartmentMapper extends Importable<Department> {
 
     @Select("SELECT department.id, pinyin, department.name, type,department_classification.name as classification_name, department_classification.id as classification_id " +
             "FROM department, department_classification " +

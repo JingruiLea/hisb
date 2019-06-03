@@ -3,6 +3,7 @@ package edu.neu.his.mapper;
 
 import edu.neu.his.bean.ExpenseClassification;
 import edu.neu.his.bean.NonDrugChargeItem;
+import edu.neu.his.util.Importable;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Mapper
 @Component(value = "NonDrugChargeItemMapper")
-public interface NonDrugChargeItemMapper {
+public interface NonDrugChargeItemMapper extends Importable<NonDrugChargeItem> {
     @Select("SELECT non_drug_charge_item.id, non_drug_charge_item.pinyin, format, non_drug_charge_item.pinyin, non_drug_charge_item.name, fee, " +
             "expense_classification_id, department_id, expense_classification.fee_name as expense_classification_name, department.name as department_name " +
             "FROM  non_drug_charge_item, department, expense_classification " +

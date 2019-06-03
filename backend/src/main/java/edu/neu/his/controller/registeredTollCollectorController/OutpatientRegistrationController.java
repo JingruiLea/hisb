@@ -1,4 +1,4 @@
-package edu.neu.his.controller;
+package edu.neu.his.controller.registeredTollCollectorController;
 
 import edu.neu.his.bean.Registration;
 import edu.neu.his.bean.Registration_level;
@@ -60,7 +60,7 @@ public class OutpatientRegistrationController {
         }
     }
 
-    @PostMapping("/calulateFee")
+    @PostMapping("/calculateFee")
     @ResponseBody
     public Map calulateFee(@RequestBody Map req){
         Map data = new HashMap();
@@ -154,5 +154,4 @@ public class OutpatientRegistrationController {
         return registration;
     }
 }
-
 

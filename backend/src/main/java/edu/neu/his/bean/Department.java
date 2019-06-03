@@ -25,6 +25,8 @@ public class Department {
         this.classification_id = classification_id;
     }
 
+    public Department(){}
+
     public int getId() {
         return id;
     }
@@ -67,5 +69,24 @@ public class Department {
 
     public void setClassification_name(String classification_name) {
         this.classification_name = classification_name;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"id\":")
+                .append(id);
+        sb.append(",\"pinyin\":\"")
+                .append(pinyin).append('\"');
+        sb.append(",\"name\":\"")
+                .append(name).append('\"');
+        sb.append(",\"type\":\"")
+                .append(type).append('\"');
+        sb.append(",\"classification_id\":")
+                .append(classification_id);
+        sb.append(",\"classification_name\":\"")
+                .append(classification_name).append('\"');
+        sb.append('}');
+        return sb.toString();
     }
 }

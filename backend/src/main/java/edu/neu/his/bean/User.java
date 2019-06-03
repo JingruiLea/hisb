@@ -92,4 +92,31 @@ public class User {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"uid\":")
+                .append(uid);
+        sb.append(",\"username\":\"")
+                .append(username).append('\"');
+        sb.append(",\"password\":\"")
+                .append(password).append('\"');
+        sb.append(",\"real_name\":\"")
+                .append(real_name).append('\"');
+        sb.append(",\"department_id\":")
+                .append(department_id);
+        sb.append(",\"role_id\":")
+                .append(role_id);
+        sb.append(",\"participate_in_scheduling\":")
+                .append(participate_in_scheduling);
+        sb.append(",\"title\":\"")
+                .append(title).append('\"');
+        sb.append(",\"role_name\":\"")
+                .append(role_name).append('\"');
+        sb.append(",\"department_name\":\"")
+                .append(department_name).append('\"');
+        sb.append('}');
+        return sb.toString();
+    }
 }

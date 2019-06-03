@@ -69,6 +69,11 @@ class ToolBar extends React.Component {
   //更新数据
   reloadData = ()=>{this.props.reloadData()}
 
+  handleUploadSuccess=()=>{
+    this.setState({batchImportModalDisplay:false});
+    this.props.reloadData();
+  }
+
   render() {
       const selectedRows = this.props.selectedRows;
       const editButtonDisbbled = selectedRows.length!==1 || this.props.disabled;
@@ -172,7 +177,9 @@ class ToolBar extends React.Component {
           onCancel={this.hideBatchImportModal.bind(this)}
           footer={null}
         >
-          <BatchImportUpload reloadData={this.props.reloadData.bind(this)} />
+          <BatchImportUpload 
+            reloadData={this.props.reloadData.bind(this)} 
+            handleUploadSuccess={this.handleUploadSuccess.bind(this)}/>
         </Modal>
       </div>)
   }

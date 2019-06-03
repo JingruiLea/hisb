@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="edu.neu.his.mapper.ExamMapper" >
+  <resultMap id="BaseResultMap" type="edu.neu.his.bean.Exam" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="medical_record_id" property="medicalRecordId" jdbcType="INTEGER" />
+    <result column="non_drug_item_id" property="nonDrugItemId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from exam
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="edu.neu.his.bean.Exam" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into exam (medical_record_id, non_drug_item_id, `type`
+      )
+    values (#{medicalRecordId,jdbcType=INTEGER}, #{nonDrugItemId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="edu.neu.his.bean.Exam" >
+    update exam
+    set medical_record_id = #{medicalRecordId,jdbcType=INTEGER},
+      non_drug_item_id = #{nonDrugItemId,jdbcType=INTEGER},
+      `type` = #{type,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, medical_record_id, non_drug_item_id, `type`
+    from exam
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, medical_record_id, non_drug_item_id, `type`
+    from exam
+  </select>
+</mapper>
