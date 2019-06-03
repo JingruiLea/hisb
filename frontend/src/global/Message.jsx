@@ -24,12 +24,12 @@ export default {
       content: '您的登录已过期，请重新登录',
       onOk() {
         return new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+          setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
         }).catch(() => window.location.href="/login");
       },
       onCancel() {
         return new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+          setTimeout(Math.random() > 0.5 ? resolve : reject, 100);
         }).catch(() => window.location.href="/login");
       },
     });

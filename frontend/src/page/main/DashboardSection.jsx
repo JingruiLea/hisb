@@ -20,7 +20,9 @@ import PatentMedicinePrescription from '../../section/outpatientDoctor/patentMed
 //6 pharmacyOperator
 import OutpatientDispensingSection from '../../section/pharmacyOperator/outpatientDispensing'
 import DrugCatalogueManagement from '../../section/pharmacyOperator/drugCatalogueManagement'
+
 //7 doctorOfTechnology
+import PersonalWorkloadStatistic from '../../section/doctorOfTechnology/personalWorkloadStatistic'
 
 //8 financialAdmin
 import ExpenseClassificationManagement from '../../section/financialAdmin/expenseClassificationManagement'
@@ -36,7 +38,7 @@ class DashboardSection extends React.Component {
       const {sectionKey} = this.props;
       return (
         <div>
-          {sectionKey==="0"?<DrugCatalogueManagement/>:null}
+          {sectionKey==="0"?<PersonalWorkloadStatistic/>:null}
 
           {sectionKey==="3-1"?<DepartmentManagement/>:null}
           {sectionKey==="3-2"?<UserManagement/>:null}
@@ -71,7 +73,7 @@ class DashboardSection extends React.Component {
 
           {sectionKey==="6-1"?<div>ToBeImplement</div>:null}
           {sectionKey==="6-2"?<div>ToBeImplement</div>:null}
-          {sectionKey==="6-3"?<div>ToBeImplement</div>:null}
+          {sectionKey==="6-3"?<PersonalWorkloadStatistic/>:null}
 
           {sectionKey==="7-1"?<OutpatientDispensingSection/>:null}
           {sectionKey==="7-2"?<div>ToBeImplement</div>:null}

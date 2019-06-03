@@ -1,12 +1,11 @@
-const server = 'http://localhost:8080'
-const apiServerPrefix = server
-const authServer = "http://localhost:8080";
+const server = 'http://localhost:8081'
+const apiServerPrefix = server+'/api'
 
 const API = {
-    login:{
-        method:'post',
-        url:authServer+'/login'
-    },
+    //登录
+    login:{method:'post',url:server+'/login'},
+    //同步个人信息
+    info:{ method:'post',url:apiServerPrefix+'/user/info'},
     //基本信息管理
     bacisInfoManagement:{
             //科室管理

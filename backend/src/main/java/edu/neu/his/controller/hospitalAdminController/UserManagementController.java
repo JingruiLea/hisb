@@ -67,7 +67,7 @@ public class UserManagementController {
         if (req.containsKey("uid"))
             user.setUid((int)req.get("uid"));
         user.setUsername((String)req.get("username"));
-        user.setPassword(Crypto.getSHA256String((String)req.get("password")));
+        user.setPassword(Crypto.md5((String)req.get("password")));
         user.setParticipate_in_scheduling((boolean)req.get("participate_in_scheduling"));
         user.setReal_name((String)req.get("real_name"));
         user.setTitle((String)req.get("title"));

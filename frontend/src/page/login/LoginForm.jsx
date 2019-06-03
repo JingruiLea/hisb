@@ -1,7 +1,8 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import axios from 'axios';
-import API from '../../global/ApiConfig'
+import API from '../../global/ApiConfig';
+import Status from '../../global/Status';
 
 class LoginForm extends React.Component {
 
@@ -14,14 +15,14 @@ class LoginForm extends React.Component {
       if (!err) {
         console.log('Received login values of form: ', values);
         axios({
-          method: 'post',
-          url: API.login,
+          method: API.login.method,
+          url: API.login.url,
           data: values,
           crossDomain: true
         }).then((res)=>{
           const data = res.data;
           console.log(data)
-          if(data.ok) {
+          if(data.code===Status.Ok) {
             window.location.href = "/main"
           } else {
             form.setState({errorMsg:data.msg})
