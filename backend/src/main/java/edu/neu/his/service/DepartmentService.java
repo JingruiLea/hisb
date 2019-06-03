@@ -56,7 +56,33 @@ public class DepartmentService {
     }
 
     @Transactional
-    public boolean exist(Department department) {
-        return departmentMapper.checkIdExists(department.getId())!=0;
+    public boolean canUpdate(Department department) {
+        int id_num = departmentMapper.checkIdExists(department.getId());
+        int name_num = departmentMapper.checkNameExists(department.getName());
+        if(id_num==0 || name_num>1 || id_num>1)
+            return false;
+        else if(name_num==1){
+            Department d = departmentMapper.findByName(department.getName());
+            if(d.getId() != department.getId())
+                return false;
+            else
+                return true;
+        }else
+            return true;
+    }
+
+    @Transactional
+    public boolean canInsert(Department department) {
+        int id_num = departmentMapper.checkIdExists(department.getId());
+        int name_num = departmentMapper.checkNameExists(department.getName());
+        if(id_num>=1 || name_num>=1)
+            return false;
+        else
+            return true;
+    }
+
+    @Transactional
+    public boolean existClassification(Department department) {
+        return departmentMapper.checkClassificationExists(department.getClassification_id())==1;
     }
 }
