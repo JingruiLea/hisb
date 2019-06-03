@@ -19,7 +19,7 @@ public class RegistrationLevelService {
     }
 
     @Transactional
-    public List<RegistrationLevel> findByName(String name) {
+    public RegistrationLevel findByName(String name) {
         return registrationLevelMapper.findByName(name);
     }
 
@@ -41,5 +41,36 @@ public class RegistrationLevelService {
     @Transactional
     public RegistrationLevel findById(int id) {
         return  registrationLevelMapper.findById(id);
+    }
+
+    @Transactional
+    public boolean canUpdate(RegistrationLevel registrationLevel) {
+        int id_num = registrationLevelMapper.checkIdExists(registrationLevel.getId());
+        int name_num = registrationLevelMapper.checkNameExists(registrationLevel.getName());
+        if(id_num==0 || name_num>1 || id_num>1)
+            return false;
+        else if(name_num==1){
+            RegistrationLevel d = registrationLevelMapper.findByName(registrationLevel.getName());
+            if(d.getId() != registrationLevel.getId())
+                return false;
+            else
+                return true;
+        }else
+            return true;
+    }
+
+    @Transactional
+    public boolean canInsert(RegistrationLevel registrationLevel) {
+        int id_num = registrationLevelMapper.checkIdExists(registrationLevel.getId());
+        int name_num = registrationLevelMapper.checkNameExists(registrationLevel.getName());
+        if(id_num>=1 || name_num>=1)
+            return false;
+        else
+            return true;
+    }
+
+    @Transactional
+    public int canDelete(int id) {
+        return registrationLevelMapper.checkIdExists(id);//0,不能删
     }
 }

@@ -112,13 +112,13 @@ public class DepartmentManageController {
     }
 
     private boolean canInsert(Department department){
-        if(departmentService.canInsert(department) || departmentService.existClassification(department))
+        if(departmentService.canInsert(department) && departmentService.existClassification(department))
             return true;
         else return false;
     }
 
     private boolean canUpdate(Department department){
-        if(departmentService.canUpdate(department) || departmentService.existClassification(department))
+        if(departmentService.canUpdate(department) && departmentService.existClassification(department))
             return true;
         else return false;
     }

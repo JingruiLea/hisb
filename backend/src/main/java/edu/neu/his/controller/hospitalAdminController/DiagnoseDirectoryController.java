@@ -58,7 +58,7 @@ public class DiagnoseDirectoryController {
     public Map insertDisease(@RequestBody Disease disease){
         //Disease disease = req2Disease(req);
         if(checkIdExist(disease.getCode())) {
-            return Response.Ok();
+            return Response.Error("错误，编号重复。");
         } else {
             diagnoseDirectoryService.insertDisease(disease);
             return Response.Ok();

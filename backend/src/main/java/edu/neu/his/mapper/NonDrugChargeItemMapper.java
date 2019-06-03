@@ -45,5 +45,8 @@ public interface NonDrugChargeItemMapper extends Importable<NonDrugChargeItem> {
 
     @Select("SELECT count(*) FROM non_drug_charge_item where id = #{id}")
     int checkIdExistNums(NonDrugChargeItem nonDrugChargeItem);
+
+    @Select("SELECT count(*) FROM non_drug_charge_item where id = #{id}")
+    int checkId(@Param("id") String id);
 }
  
