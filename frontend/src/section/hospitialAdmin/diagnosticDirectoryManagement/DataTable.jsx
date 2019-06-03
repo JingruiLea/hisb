@@ -79,6 +79,10 @@ class DataTable extends React.Component {
             dataIndex: 'id',
             ...this.getColumnSearchProps('id'),
         },{
+            title: '国际标准码',
+            dataIndex: 'code',
+            //...this.getColumnSearchProps('code'),
+        },{
             title: '名称',
             dataIndex: 'name',
             ...this.getColumnSearchProps('name'),
@@ -114,6 +118,7 @@ class DataTable extends React.Component {
     };
 
     render() {
+        
         return (
           <Table 
             columns={this.columns} 

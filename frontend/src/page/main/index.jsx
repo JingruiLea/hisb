@@ -143,7 +143,8 @@ class DashboardPage extends React.Component {
             >
               <Menu.Item key="8-1">费用科目管理</Menu.Item>
               <Menu.Item key="8-2">门诊日结核对</Menu.Item>
-              <Menu.Item key="8-3">工作量统计</Menu.Item>
+              <Menu.Item key="8-3">科室工作量统计</Menu.Item>
+              <Menu.Item key="8-4">个人工作量统计</Menu.Item>
             </SubMenu>
 
           </Menu>

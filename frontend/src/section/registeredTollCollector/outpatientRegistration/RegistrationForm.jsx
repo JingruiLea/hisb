@@ -1,6 +1,10 @@
 import React from 'react';
 import {Typography,Form,Input,Icon,Col, Select, Row,DatePicker,Radio,Button, AutoComplete} from 'antd'
 import moment from 'moment';
+import API from '../../../global/ApiConfig';
+import Status from '../../../global/Status';
+import Message from '../../../global/Message';
+import axios from 'axios'
 
 const { Option } = Select;
 const RadioGroup = Radio.Group;
@@ -9,7 +13,7 @@ class RegistrationForm extends React.Component {
 
   state = {
     //初始化加载
-    departments:[ //所有科室
+   /* departments:[ //所有科室
       {name:"骨科",id:1},
       {name:"脑壳",id:2}
     ],
@@ -25,11 +29,10 @@ class RegistrationForm extends React.Component {
       {name:"农行卡",id:2},
       {name:"支付宝",id:3}
     ],
+    */
 
-    outPatientDoctor:[{name:"lijinrui",id:10}], //自动同步
-
-
-    registrationLevelId:2
+    outPatientDoctor:[],//[{name:"lijinrui",id:10}], //自动同步
+    cost:0
   }
 
   componentDidMount=()=>{
@@ -38,13 +41,7 @@ class RegistrationForm extends React.Component {
 
   selectDepartment = async(value)=>{
     console.log('select',value)
-    var departmentId = 0;
-    for(var i=0;i<this.state.departments.length;i++)
-      if(this.state.departments[i].name===value) {
-        departmentId = this.state.departments[i].id;
-        break;
-    }
-    await this.setState({departmentId})
+    await this.setState({departmentId:value})
     this.syncDoctorList();
   }
 
@@ -54,19 +51,23 @@ class RegistrationForm extends React.Component {
     this.syncDoctorList()
   }
 
-  syncDoctorList=()=>{
+  //同步医生列表
+  syncDoctorList=async()=>{
     console.log(this.state.departmentId,this.state.registrationLevelId)
+    var registrationLevelId = 0;
+    if(this.props.defaultRegistrationLevel!==null) 
+      await this.setState({registrationLevelId:this.props.defaultRegistrationLevel.id})
     if(this.state.departmentId===undefined || this.state.registrationLevelId===undefined)
       return;
     const data={
-      departmentId:this.state.departmentId,
-      registrationLevelId:this.state.registrationLevelId
+      department_id:this.state.departmentId,
+      registration_level_id:this.state.registrationLevelId
     }
-    console.log('post',data)
+    console.log('post sync doctor',data)
+    this.props.syncDoctorList(data);
   }
 
   handleAgeChange = age=>{
-    
     const now = moment();
     const birthday = now.subtract(age,'years')
     console.log(birthday)
@@ -80,6 +81,7 @@ class RegistrationForm extends React.Component {
     this.props.form.setFieldsValue({age}) 
   }
 
+  //表单提交
   handleSubmit = e => {
     e.preventDefault();
     const form = this;
@@ -89,11 +91,18 @@ class RegistrationForm extends React.Component {
         const consultation_date = values.consultation_date.format('YYYY-MM-DD hh:mm:ss')
         values.birthday = birthday;
         values.consultation_date = consultation_date; 
-        console.log(values)
+        console.log('submit ',values)
+        //非支付状态 请求价格
+        if(!this.props.payMode)
+          this.props.calculateFee(values)
+        //支付状态确认 打印表单
+        else 
+          this.props.submitRegistration(values)
       }
     });
   };
 
+  cancelPaymentMode=()=>{this.props.setPaymentMode(false);}
 
   render() {
     //年龄列表
@@ -119,7 +128,7 @@ class RegistrationForm extends React.Component {
             })(
               <Input
                 prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)'}} />}
-                placeholder="姓名"
+                placeholder="姓名" disabled={this.props.payMode}
               />
             )}
           </Form.Item>
@@ -130,7 +139,7 @@ class RegistrationForm extends React.Component {
               rules: [{ required: true, message: '选择性别' }],
               initialValue:"male"
             })(
-              <Select>
+              <Select disabled={this.props.payMode}>
                 <Option value="male">男</Option>
                 <Option value="female">女</Option>
               </Select>
@@ -145,7 +154,7 @@ class RegistrationForm extends React.Component {
                 if(value>150 || value < 0) callback("不合理的年龄")
               }
             })(
-              <Select onChange={this.handleAgeChange.bind(this)}>
+              <Select onChange={this.handleAgeChange.bind(this)} disabled={this.props.payMode}>
                 {ageArr.map(i=>(<Option value={i} key={i}>{i}</Option>))}
               </Select>
             )}
@@ -156,7 +165,8 @@ class RegistrationForm extends React.Component {
             {getFieldDecorator('birthday', {
               rules: [{ required: true, message: '输入出生日期' }]
             })(
-              <DatePicker
+              <DatePicker 
+                disabled={this.props.payMode}
                 onChange={this.handleBirthdayChange.bind(this)}
                 placeholder="出生日期"       
               />,
@@ -172,7 +182,7 @@ class RegistrationForm extends React.Component {
               rules: [{ required: true, message: '选择医疗类别' }],
               initialValue:"default"
             })(
-              <Select>
+              <Select disabled={this.props.payMode}>
                 <Option value="default">就诊</Option>
               </Select>
             )}
@@ -188,7 +198,7 @@ class RegistrationForm extends React.Component {
                   getFieldDecorator('medical_certificate_number_type',{
                     initialValue:"id"
                   })(
-                    <Select style={{ width: 90 }}>
+                    <Select style={{ width: 90 }} disabled={this.props.payMode}>
                       <Option value={"id"}>身份证</Option>
                       <Option value={"insurance_card"}>医保卡</Option>
                     </Select>
@@ -205,7 +215,7 @@ class RegistrationForm extends React.Component {
               rules: [{ required: true, message: '选择挂号来源' }],
               initialValue:"local"
             })(
-              <Select>
+              <Select disabled={this.props.payMode}>
                 <Option value="local">窗口挂号</Option>
                 <Option value="net">网路挂号</Option>
               </Select>
@@ -217,7 +227,7 @@ class RegistrationForm extends React.Component {
             {getFieldDecorator('address', {})(
               <Input
                 prefix={<Icon type="address" style={{ color: 'rgba(0,0,0,.25)'}} />}
-                placeholder="家庭住址"
+                placeholder="家庭住址" disabled={this.props.payMode}
               />
             )}
           </Form.Item>
@@ -231,14 +241,16 @@ class RegistrationForm extends React.Component {
               rules: [{ required: true, message: '选择挂号科室' }],
             })(
                 <Select
+                  onChange={this.selectDepartment.bind(this)}
                   showSearch
                   placeholder="选择挂号科室"
                   optionFilterProp="children"
                   filterOption={(input, option) =>
                     option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                   }
+                  disabled={this.props.payMode}
               >
-                {this.state.departments.map(x=>(<Option value={x.id} key={x.id}>{x.name}</Option>))}
+                {this.props.departments.map(x=>(<Option value={x.id} key={x.id}>{x.name}</Option>))}
               </Select>
             )}
           </Form.Item>
@@ -247,10 +259,10 @@ class RegistrationForm extends React.Component {
           <Form.Item label="挂号级别" {...formItemLayout}>
             {getFieldDecorator('registration_level_id', {
               rules: [{ required: true, message: '选择挂号级别' }],
-              initialValue:this.state.defaultRegistrationLevel.id
+              initialValue:this.props.defaultRegistrationLevel===null?0:this.props.defaultRegistrationLevel.id
             })(
-              <Select onChange={this.handleRegistrationLevelChange.bind(this)}>
-                {this.state.registrationLevel.map((x)=>
+              <Select onChange={this.handleRegistrationLevelChange.bind(this)} disabled={this.props.payMode}>
+                {this.props.registrationLevel.map((x)=>
                   (<Option key={x.id} value={x.id}>{x.name}</Option>)
                 )}
               </Select>
@@ -262,9 +274,9 @@ class RegistrationForm extends React.Component {
             {getFieldDecorator('outpatent_doctor_id', {
               rules: [{ required: true, message: '选择门诊医生' }],
             })(
-              <Select disabled={this.state.outPatientDoctor.length===0}>
-                {this.state.outPatientDoctor.map((x)=>
-                  (<Option key={x.id} value={x.id}>{x.name}</Option>)
+              <Select disabled={this.props.outPatientDoctors.length===0} disabled={this.props.payMode}>
+                {this.props.outPatientDoctors.map((x)=>
+                  (<Option key={x.uid} value={x.uid}>{x.real_name}</Option>)
                 )}
               </Select>
             )}
@@ -275,8 +287,8 @@ class RegistrationForm extends React.Component {
             {getFieldDecorator('settlement_category_id', {
               rules: [{ required: true, message: '选择结算类别' }],
             })(
-              <Select>
-                {this.state.settlementCategory.map((x)=>
+              <Select disabled={this.props.payMode}>
+                {this.props.settlementCategory.map((x)=>
                   (<Option key={x.id} value={x.id}>{x.name}</Option>)
                 )}
               </Select>
@@ -291,7 +303,7 @@ class RegistrationForm extends React.Component {
             {getFieldDecorator('medical_insurance_diagnosis', {})(
               <Input
                 prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)'}} />}
-                placeholder="医保诊断"
+                placeholder="医保诊断" disabled={this.props.payMode}
               />
             )}
           </Form.Item>
@@ -306,6 +318,7 @@ class RegistrationForm extends React.Component {
               <DatePicker
                 placeholder="看诊日期"
                 showToday
+                disabled={this.props.payMode}
               />
             )}
           </Form.Item>
@@ -316,7 +329,7 @@ class RegistrationForm extends React.Component {
             {getFieldDecorator('has_record_book', {
               initialValue:0
             })(
-              <RadioGroup>
+              <RadioGroup disabled={this.props.payMode}>
               <Radio value={1}>要</Radio>
               <Radio value={0}>不要</Radio>
               </RadioGroup>
@@ -326,12 +339,35 @@ class RegistrationForm extends React.Component {
       </Row>
 
       <div>
-        <Button htmlType="submit" type="primary" style={{float:'right',marginTop:10,marginLeft:30}} size="large">挂号</Button>
+        <Button 
+          style={{float:'right',marginTop:25,marginLeft:30}} size="large"
+          hidden={!this.props.payMode}
+          onClick={this.cancelPaymentMode.bind(this)}>
+          取消
+        </Button>
+        <Button 
+          htmlType="submit" 
+          type="primary" 
+          hidden={this.props.payMode}
+          style={{float:'right',marginTop:25,marginLeft:30}} size="large">
+          挂号
+        </Button>
+        <Button 
+          htmlType="submit" 
+          type="danger" 
+          hidden={!this.props.payMode}
+          style={{float:'right',marginTop:25,marginLeft:30}} size="large">
+          付款
+        </Button>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {this.props.payMode?
+        <div>
         <Typography.Title style={{float:'right'}}>
-          ￥{300.00}元
+          {this.props.cost}元
         </Typography.Title>
         <span style={{float:'right',marginTop:20}}>应收：</span>
+        </div>
+        :null}
       </div>
 
     </Form>)

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Layout, Button,Input,Icon, Table, Divider, Tag,Spin,Typography} from 'antd';
-import Highlighter from 'react-highlight-words';
 import axios from 'axios';
 import ToolBar from './ToolBar';
 import API from '../../../global/ApiConfig';
@@ -9,13 +8,20 @@ import Message from '../../../global/Message';
 import DataTable from './DataTable'
 const {Content} = Layout;
 
-
-class DepartmentManagement extends React.Component {
+class RegistrationLevelManagement extends React.Component {
     state = {
         selectedRows:[],//选中项
-        tableData:[],//表格数据
-        departmentClassification:[],//分类数据
-        loading:true//加载状态
+        registrationLevels:[],//表格数据
+        loading:true,//加载状态
+        columns:[
+            {
+                title: '编号',
+                dataIndex: 'id'
+            },{
+                title: '名称',
+                dataIndex: 'name'
+            }
+        ]
     };
 
     //设置表格选中的数据
@@ -28,20 +34,19 @@ class DepartmentManagement extends React.Component {
     //上传数据后 重置数据
     reloadData = ()=>{
         const _this = this;
-        this.setState({loading:true})
+        this.setState({loading:true});
         axios({
-            method: API.bacisInfoManagement.department.all.method,
-            url: API.bacisInfoManagement.department.all.url,
+            method: API.bacisInfoManagement.registrationLevel.all.method,
+            url: API.bacisInfoManagement.registrationLevel.all.url,
             crossDomain: true
           }).then((res)=>{
             const data = res.data;
             //console.log('receive',data)
             if(data.code===Status.Ok) {
-                var tableData = data.data.department;
-                for(var d of tableData) {d.key = d.id;}
+                var registrationLevels = data.data;
+                for(var d of registrationLevels) {d.key = d.id;}
                 this.setState({
-                    tableData:tableData,
-                    departmentClassification:data.data.department_classification,
+                    registrationLevels:registrationLevels,
                     loading:false
                 });
             } else if(data.code===Status.PermissionDenied) {
@@ -57,8 +62,8 @@ class DepartmentManagement extends React.Component {
     updateRow=(data)=>{
         const _this = this;
         axios({
-            method: API.bacisInfoManagement.department.update.method,
-            url: API.bacisInfoManagement.department.update.url,
+            method: API.bacisInfoManagement.registrationLevel.update.method,
+            url: API.bacisInfoManagement.registrationLevel.update.url,
             data: data,
             crossDomain: true
           }).then((res)=>{
@@ -82,8 +87,8 @@ class DepartmentManagement extends React.Component {
     newRow=(data)=>{
         const _this = this;
         axios({
-            method: API.bacisInfoManagement.department.add.method,
-            url: API.bacisInfoManagement.department.add.url,
+            method: API.bacisInfoManagement.registrationLevel.add.method,
+            url: API.bacisInfoManagement.registrationLevel.add.url,
             data: data,
             crossDomain: true
           }).then((res)=>{
@@ -106,9 +111,9 @@ class DepartmentManagement extends React.Component {
     deleteRow=(data)=>{
         const _this = this;
         axios({
-            method: API.bacisInfoManagement.department.delete.method,
-            url: API.bacisInfoManagement.department.delete.url,
-            data: {data:data},
+            method: API.bacisInfoManagement.registrationLevel.delete.method,
+            url: API.bacisInfoManagement.registrationLevel.delete.url,
+            data: {data},
             crossDomain: true
           }).then((res)=>{
             const data = res.data;
@@ -136,8 +141,6 @@ class DepartmentManagement extends React.Component {
                 disabled={this.state.loading}
                 selectedRows={this.state.selectedRows}
                 reloadData={this.reloadData.bind(this)}
-                departmentClassification={this.state.departmentClassification}
-
                 updateRow={this.updateRow.bind(this)}
                 deleteRow={this.deleteRow.bind(this)}
                 newRow={this.newRow.bind(this)}
@@ -149,13 +152,15 @@ class DepartmentManagement extends React.Component {
                 <Typography.Paragraph>加载中...</Typography.Paragraph>
             </div>
             :<DataTable
-                data={this.state.tableData} 
+                columns={this.state.columns}
+                data={this.state.registrationLevels} 
                 rowSelection={this.state.rowSelection}
                 reloadData={this.reloadData.bind(this)}
                 setSelected={this.setSelected.bind(this)}
             />}
+            
         </Content>)
     }
 }
 
-export default DepartmentManagement;
+export default RegistrationLevelManagement;

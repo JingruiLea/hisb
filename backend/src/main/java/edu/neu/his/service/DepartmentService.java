@@ -4,12 +4,12 @@ import edu.neu.his.bean.Department;
 import edu.neu.his.bean.DepartmentClassification;
 import edu.neu.his.mapper.DepartmentMapper;
 import edu.neu.his.util.ExcelImportation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -86,15 +86,10 @@ public class DepartmentService {
             return true;
     }
 
-    @Transactional
-    public boolean existClassification(Department department) {
-        return departmentMapper.checkClassificationExists(department.getClassification_id())==1;
-    }
-
     public boolean importFromFile(String pathName) {
         try {
             ExcelImportation excel = new ExcelImportation(new FileInputStream(pathName), Department.class, departmentMapper);
-            excel.setIndex("id", "classification_id", "pinyin", "name", "type");
+            excel.setColumnFields("id", "classification_id", "pinyin", "name", "type");
             Map<String, Function<String, ?>> preFunctionMap = excel.getPreFunctionMap();
             preFunctionMap.put("classification_id", departmentMapper::findClassificationIdByName);
             excel.exec();
@@ -102,5 +97,10 @@ public class DepartmentService {
         } catch (Exception e)  {
             return false;
         }
+    }
+
+    @Transactional
+    public boolean existClassification(Department department) {
+        return departmentMapper.checkClassificationExists(department.getClassification_id())==1;
     }
 }

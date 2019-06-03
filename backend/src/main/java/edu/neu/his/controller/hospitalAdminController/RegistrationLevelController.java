@@ -1,6 +1,6 @@
 package edu.neu.his.controller.hospitalAdminController;
 
-import edu.neu.his.bean.Registration_level;
+import edu.neu.his.bean.RegistrationLevel;
 import edu.neu.his.config.Response;
 import edu.neu.his.service.RegistrationLevelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +23,14 @@ public class RegistrationLevelController {
 
     @PostMapping("/update")
     @ResponseBody
-    public Map updateRegistration_level(@RequestBody Registration_level registration_level){
+    public Map updateRegistration_level(@RequestBody RegistrationLevel registration_level){
         registrationLevelService.updateDepartment(registration_level);
         return Response.Ok();
     }
 
     @PostMapping("/add")
     @ResponseBody
-    public Map  insertRegistration_level(@RequestBody Registration_level registration_level){
+    public Map  insertRegistration_level(@RequestBody RegistrationLevel registration_level){
         registrationLevelService.insertRegistration_level(registration_level);
         return Response.Ok();
     }

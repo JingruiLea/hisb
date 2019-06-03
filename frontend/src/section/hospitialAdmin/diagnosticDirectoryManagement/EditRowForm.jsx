@@ -64,12 +64,23 @@ class EditRowForm extends React.Component {
           </Form.Item>
           <Form.Item label="统一编号">
             {getFieldDecorator('id', {
-              rules: [{ required: true, message: 'id' }],
-              initialValue:data.id
+              rules: [{ required: true, message: '国际统一编码' }],
+              initialValue:data.code
             })(
               <Input
                 prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                 placeholder="编号不能重复"
+              />
+            )}
+          </Form.Item>
+          <Form.Item label="国际编码">
+            {getFieldDecorator('code', {
+              rules: [{ required: true, message: '国际统一编码不能重复' }],
+              initialValue:data.code
+            })(
+              <Input
+                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                placeholder="国际统一编码不能重复"
               />
             )}
           </Form.Item>

@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 public class Crypto {
     public static String getSHA256String(String str){
         MessageDigest messageDigest;
-        String encodeStr = "ikunikunjinitaimei";
+        String encodeStr = "";
         try {
             messageDigest = MessageDigest.getInstance("SHA-256");
             messageDigest.update(str.getBytes("UTF-8"));

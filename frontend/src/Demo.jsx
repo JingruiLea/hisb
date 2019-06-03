@@ -13,10 +13,10 @@ class ComponentToPrint extends React.Component {
     data_of_onset:'2015-2-23',
     outpatient_service:'0000023',
     prescription_number:'234242',
-    chief_complaint:'白带异常',
-    present_illness_histroy:'白带异常',
-    past_history:'白带异常',
-    physical_examination:'白带异常',
+    chief_complaint:'',
+    present_illness_histroy:'',
+    past_history:'',
+    physical_examination:'',
     depuy_examination:'无',
     preliminary_diagnosis:'哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',
     handling_opinions:[
@@ -24,6 +24,7 @@ class ComponentToPrint extends React.Component {
       'hhhhhh'
     ]
   }
+
 
   render() {
     const state = this.state

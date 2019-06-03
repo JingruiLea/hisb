@@ -18,12 +18,15 @@ import DiagnoseSection from '../../section/outpatientDoctor/diagnose'
 import PatentMedicinePrescription from '../../section/outpatientDoctor/patentMedicinePrescription'
 
 //6 pharmacyOperator
-
+import OutpatientDispensingSection from '../../section/pharmacyOperator/outpatientDispensing'
+import DrugCatalogueManagement from '../../section/pharmacyOperator/drugCatalogueManagement'
 //7 doctorOfTechnology
 
 //8 financialAdmin
-import OutpatientDispensingSection from '../../section/financialAdmin/outpatientDispensing'
-import OutpatientDepartmentsWorkloadStatisticSection from '../../section/financialAdmin/outpatientDepartmentsWorkloadStatistic'
+import ExpenseClassificationManagement from '../../section/financialAdmin/expenseClassificationManagement'
+import OupatientDailyCheck from '../../section/financialAdmin/outpatientDailyCheck'
+import OutpatientDepartmentsWorkloadStatistic from '../../section/financialAdmin/outpatientDepartmentsWorkloadStatistic'
+import OutpatientPersonalWorkloadStatistic from '../../section/financialAdmin/outpatientPersonalWorkloadStatistic'
 
 
 
@@ -33,7 +36,7 @@ class DashboardSection extends React.Component {
       const {sectionKey} = this.props;
       return (
         <div>
-          {sectionKey==="0"?<OutpatientCharge/>:null}
+          {sectionKey==="0"?<DrugCatalogueManagement/>:null}
 
           {sectionKey==="3-1"?<DepartmentManagement/>:null}
           {sectionKey==="3-2"?<UserManagement/>:null}
@@ -70,13 +73,14 @@ class DashboardSection extends React.Component {
           {sectionKey==="6-2"?<div>ToBeImplement</div>:null}
           {sectionKey==="6-3"?<div>ToBeImplement</div>:null}
 
-          {sectionKey==="7-1"?<div>ToBeImplement</div>:null}
+          {sectionKey==="7-1"?<OutpatientDispensingSection/>:null}
           {sectionKey==="7-2"?<div>ToBeImplement</div>:null}
-          {sectionKey==="7-3"?<div>ToBeImplement</div>:null}
+          {sectionKey==="7-3"?<DrugCatalogueManagement/>:null}
 
-          {sectionKey==="8-1"?<OutpatientDispensingSection/>:null}
-          {sectionKey==="8-2"?<div>ToBeImplement</div>:null}
-          {sectionKey==="8-3"?<OutpatientDepartmentsWorkloadStatisticSection/>:null}
+          {sectionKey==="8-1"?<ExpenseClassificationManagement/>:null}
+          {sectionKey==="8-2"?<OupatientDailyCheck/>:null}
+          {sectionKey==="8-3"?<OutpatientDepartmentsWorkloadStatistic/>:null}
+          {sectionKey==="8-4"?<OutpatientPersonalWorkloadStatistic/>:null}
         </div>);
   }
 }

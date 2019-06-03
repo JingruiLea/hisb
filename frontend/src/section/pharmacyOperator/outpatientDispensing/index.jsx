@@ -1,32 +1,11 @@
 import React from 'react';
-import {Row,Col,Layout,Card,Typography,Pagination, Form, Table, Divider} from 'antd'
-import { Tree,Input } from 'antd';
+import {Row,Col,Layout,Card,Typography, Input, Table, Divider} from 'antd';
+import Sider from './sider';
+import { Descriptions } from 'antd';
 
 const {Content, Footer} = Layout;
 
-const siderColumn = [
-  {
-    title:'病历号',
-    key:'case_number',
-    dataIndex:'case_number'
-  },{
-    title:'姓名',
-    key:'name',
-    dataIndex:'name'
-  },{
-    title:'发票号',
-    key:'invoice_number',
-    dataIndex:'invoice_number'
-  },
-]
 
-const data1 = [
-  {
-    case_number:'0120000',
-    name:'刘金星',
-    invoice_number:'1988828903'
-  }
-]
 
 const mainColumn = [
   {
@@ -117,42 +96,38 @@ const data2=[{
   refund_amount:16.00,
   drug_delivery_status:'已发'
 }]
-/*
-class OutpatientDispensingForm extends React.Component {
-  
-}*/
+
 
 class OutpatientDispensingSection extends React.Component {
+
+  state = {
+    uid:1
+  }
 
   render() {
     return(
       <Content style={{ margin: '0 16px',paddingTop:5 }}>
         <Row>
           <Col span={6} style={{minWidth:'100px'}}>
-            <Card title="待退药列表" style={{overflow:'scroll',minWidth:'100px',height:'400px'}} >
-            
-            </Card>
-
-            <Card title="退药列表" style={{overflow:'scroll',minWidth:'100px',height:'400px'}} >
-              <Table columns={siderColumn} dataSource={data1}/>
-            </Card>
+            <Sider/>
           </Col>
 
           <Col span={18}>
-            <Card title="退药明细信息" style={{minHeight:'800px'}}>
-              <Typography.Title style={{textAlign:'center'}}>门诊退药</Typography.Title>
-              <Input addonBefore="病例号" disabled style={{width:'30%'}}/>
-              <Input addonBefore="患者姓名" disabled  style={{width:'30%'}}/>
-              <Input addonBefore="年龄" disabled  style={{width:'30%'}}/>
+            <Card title="用户处方明细" style={{minHeight:'800px'}}>
+  
+              <Descriptions bordered title="基本信息" border >
+                <Descriptions.Item label="病例号">{}</Descriptions.Item>
+                <Descriptions.Item label="患者姓名">Prepaid</Descriptions.Item>
+                <Descriptions.Item label="年龄">18:00:00</Descriptions.Item>
+                <Descriptions.Item label="就诊科室">$80.00</Descriptions.Item>
+                <Descriptions.Item label="处方状态">$20.00</Descriptions.Item>
+                <Descriptions.Item label="发票号码">$60.00</Descriptions.Item>
+                <Descriptions.Item label="发药日期">$60.00</Descriptions.Item>
+              </Descriptions>
 
-              <Input addonBefore="阶段类别" disabled  style={{width:'30%'}}/>
-              <Input addonBefore="就诊科室" disabled  style={{width:'30%'}}/>
-              <Input addonBefore="处方状态" disabled  style={{width:'30%'}}/>
-
-              <Input addonBefore="发药日期" disabled  style={{width:'45%'}}/>
-              <Input addonBefore="农合卡号" disabled  style={{width:'45%'}}/>
               <Divider/>
-              <Table columns={mainColumn} dataSource={data2}/>
+
+              <Table title={()=>(<span style={{fontSize:'20px'}}><b>处方信息</b></span>)} columns={mainColumn} dataSource={data2}/>
             </Card>
           </Col>
         </Row>

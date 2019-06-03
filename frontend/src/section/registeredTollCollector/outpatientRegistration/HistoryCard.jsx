@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card,Form,Layout,Row,Drawer, Table, Input, Typography, Button, Col} from 'antd';
+import {Card,Form,Layout,Row,Select, Table, Input, Typography, Button, Col} from 'antd';
 import DetailDrawer from './DetailDrawer';
 
 class HistoryCard extends React.Component {
@@ -49,6 +49,17 @@ class HistoryCard extends React.Component {
       title:"看诊科室",
       dataIndex:"department"
     },{
+      title:"数量",
+      render:()=>{
+        return (
+          <Select style={{width:100}}>
+            {
+              [1,2,3,4,5,6,7,8,9,10].map(x=>(<Select.Option value={x} key={x}>{x}</Select.Option>))
+            }
+          </Select>
+        )
+      }
+    },{
       title:"操作",
       render:(data)=>(<Button type="primary" onClick={()=>{this.showDrawer(data)}}>详情</Button>)
     }
@@ -79,3 +90,4 @@ class HistoryCard extends React.Component {
 }
 
 export default HistoryCard;
+
