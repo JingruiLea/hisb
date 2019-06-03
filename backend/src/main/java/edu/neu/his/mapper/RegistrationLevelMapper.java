@@ -23,4 +23,7 @@ public interface RegistrationLevelMapper {
 
     @Delete("DELETE FROM registration_level WHERE id=#{id}")
     void delete(int id);
+
+    @Select("SELECT * FROM registration_level WHERE id = #{id}")
+    Registration_level findById(@Param("id") int id);
 }

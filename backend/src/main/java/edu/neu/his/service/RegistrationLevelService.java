@@ -37,4 +37,9 @@ public class RegistrationLevelService {
     public void deleteRegistration_level(int id) {
         registrationLevelMapper.delete(id);
     }
+
+    @Transactional
+    public Registration_level findById(int id) {
+        return  registrationLevelMapper.findById(id);
+    }
 }
