@@ -65,9 +65,23 @@ public class NonDrugChargeItemController {
     @PostMapping("/delete")
     @ResponseBody
     public Map  deleteNonDrugCharge(@RequestBody Map req){
+        List<String> failed = new ArrayList<>();
         List<String> nonDrugChargeIds = (List<String>) req.get("data");
-        nonDrugChargeIds.forEach(id->nonDrugChargeService.deleteNonDrugCharge(id));
-        return Response.Ok();
+        nonDrugChargeIds.forEach(id-> {
+            if (canDelete(id))
+                nonDrugChargeService.deleteNonDrugCharge(id);
+            else
+                failed.add(id);
+        });
+        if(failed.isEmpty())
+            return Response.Ok();
+        else{
+            Map data = new HashMap();
+            data.put("success number",nonDrugChargeIds.size()-failed.size());
+            data.put("fail number",failed.size());
+            data.put("fail code",failed);
+            return Response.Error(data);
+        }
     }
 
     private boolean canUpdate(NonDrugChargeItem nonDrugChargeItem){
@@ -78,4 +92,7 @@ public class NonDrugChargeItemController {
         return !nonDrugChargeService.exist(nonDrugChargeItem);
     }
 
+    private boolean canDelete(String id){
+        return nonDrugChargeService.canDelete(id);
+    }
 }
