@@ -55,8 +55,8 @@ public class DiagnoseDirectoryController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Map insertDisease(@RequestBody Disease disease){
-        //Disease disease = req2Disease(req);
+    public Map insertDisease(@RequestBody Map req){
+        Disease disease = req2Disease(req);
         if(checkIdExist(disease.getCode())) {
             return Response.Error("错误，编号重复。");
         } else {
@@ -84,11 +84,11 @@ public class DiagnoseDirectoryController {
         int classification_id = (int)req.get("classification_id");
         String pinyin = (String)req.get("pinyin");
         String code = (String)req.get("code");
-        String custom_name = "";
-        String custom_pinyin = "";
+        String custom_name = (String)req.get("custom_name");
+        String custom_pinyin = (String)req.get("custom_pinyin");
         if(req.containsKey("custom_name")) custom_name = (String)req.get("custom_name");
         if(req.containsKey("custom_pinyin")) custom_pinyin = (String)req.get("custom_pinyin");
-        Disease disease = null;
+        Disease disease = new Disease();
         disease.setClassification_id(classification_id);
         disease.setId(id);
         disease.setCustom_name(custom_name);

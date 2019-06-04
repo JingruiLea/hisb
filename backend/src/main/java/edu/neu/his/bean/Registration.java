@@ -16,7 +16,7 @@ public class Registration {
     private String registration_category;
     private String status;
     private float cost;
-    private String registraton_source;
+    private String registration_source;
     private String gender;
     private String medical_insurance_diagnosis;
 
@@ -26,7 +26,7 @@ public class Registration {
 
     public Registration(String address, int age, String birthday, String consultation_date, String medicial_category,
                         String patient_name, int outpatient_doctor_id, int registration_department_id, int settlement_category_id,
-                        String registraton_source, String gender, String medical_insurance_diagnosis,String id_number,
+                        String registration_source, String gender, String medical_insurance_diagnosis,String id_number,
                         String medicial_certificate_number){
         this.address = address;
         this.age = age;
@@ -39,7 +39,7 @@ public class Registration {
         this.outpatient_doctor_id = outpatient_doctor_id;
         this.registration_department_id = registration_department_id;
         this.settlement_category_id = settlement_category_id;
-        this.registraton_source = registraton_source;
+        this.registration_source = registration_source;
         this.gender = gender;
         this.id_number = id_number;
     }
@@ -164,12 +164,12 @@ public class Registration {
         this.cost = cost;
     }
 
-    public String getRegistraton_source() {
-        return registraton_source;
+    public String getRegistration_source() {
+        return registration_source;
     }
 
-    public void setRegistraton_source(String registraton_source) {
-        this.registraton_source = registraton_source;
+    public void setRegistration_source(String registraton_source) {
+        this.registration_source = registration_source;
     }
 
     public String getGender() {

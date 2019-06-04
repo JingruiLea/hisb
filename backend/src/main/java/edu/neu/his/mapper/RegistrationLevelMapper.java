@@ -27,15 +27,15 @@ public interface RegistrationLevelMapper {
     @Select("SELECT * FROM registration_level WHERE id = #{id}")
     RegistrationLevel findById(@Param("id") int id);
 
-    @Select("select * from REGISTRATION_LEVEL where id=#{id}")
+    @Select("select * FROM registration_level WHERE id=#{id}")
     RegistrationLevel find(int id);
-
-    @Select("SElECT * From userinfo where ")
-    void doctorList(@Param("departmentId") int departmentId, @Param("registrationLevelId") int registrationLevelId);
 
     @Select("SELECT count(*) FROM registration_level WHERE id = #{id}")
     int checkIdExists(@Param("id") int id);
 
     @Select("SELECT count(*) FROM registration_level WHERE name = #{name}")
     int checkNameExists(@Param("name") String name);
+
+    @Select("SELECT * FROM registration_level WHERE is_default = true ORDER BY id")
+    List<RegistrationLevel> findDefault();
 }

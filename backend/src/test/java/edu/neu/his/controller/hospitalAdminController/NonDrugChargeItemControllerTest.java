@@ -42,10 +42,10 @@ public class NonDrugChargeItemControllerTest {
                 post("/nonDrugChargeItemManagement/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "      \"id\": \"A1010.10.121\",\n" +
-                        "      \"pinyin\": \"DQJ\",\n" +
+                        "      \"id\": \"A1010.10.122\",\n" +
+                        "      \"pinyin\": \"DQJ2\",\n" +
                         "      \"format\": \"次\",\n" +
-                        "      \"name\": \"小抢救\",\n" +
+                        "      \"name\": \"小抢救2\",\n" +
                         "      \"fee\": 100.0,\n" +
                         "      \"expense_classification_id\": 20,\n" +
                         "      \"department_id\": 1,\n" +

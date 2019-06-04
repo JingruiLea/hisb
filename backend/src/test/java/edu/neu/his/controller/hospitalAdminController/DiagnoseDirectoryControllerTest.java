@@ -72,7 +72,7 @@ public class DiagnoseDirectoryControllerTest {
                 post("/diagnoseDirectoryManagement/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "      \"id\":\"99999999\",\n" +
+                        "      \"id\":293942,\n" +
                         "      \"name\":\"传染性单核细胞增多2\",\n" +
                         "      \"code\": \"B0347238\",\n" +
                         "      \"classification_id\":1,\n" +

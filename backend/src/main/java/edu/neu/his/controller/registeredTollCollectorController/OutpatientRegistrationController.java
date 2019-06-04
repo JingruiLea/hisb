@@ -130,7 +130,7 @@ public class OutpatientRegistrationController {
         String consultation_date = (String)req.get("consultation_date");
         String medicial_category = (String)req.get("medical_category");
         String patient_name = (String)req.get("name");
-        int outpatient_doctor_id = (int)req.get("outpatent_doctor_id");
+        int outpatient_doctor_id = (int)req.get("outpatient_doctor_id");
         int registration_department_id = (int)req.get("department_id");
         int settlement_category_id = (int)req.get("settlement_category_id");
         String registraton_source = (String)req.get("registration_source");
@@ -139,7 +139,7 @@ public class OutpatientRegistrationController {
         String medical_certificate_number_type = (String)req.get("medical_certificate_number_type");
         String id_number,medicial_certificate_number;
         if(medical_certificate_number_type.equals("id")){
-            id_number = (String)req.get("id_number");
+            id_number = (String)req.get("medical_certificate_number");
             medicial_certificate_number = "";
         }
         else {

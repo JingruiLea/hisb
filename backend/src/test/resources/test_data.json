@@ -1,6 +1,10 @@
 {
-  "DepartmentMCT": {
-    "update":
+  "departmentManage": {
+    "findByName":
+    {
+      "name": "内科"
+    },
+    "add":
     {
       "id": 2,
       "pinyin": "YK",
@@ -8,25 +12,21 @@
       "type": "门诊科室",
       "classification_id":1
     },
+    "update":
+    {
+      "id": 2,
+      "pinyin": "YK",
+      "name": "眼科2",
+      "type": "门诊科室",
+      "classification_id":1
+    },
     "delete":
     {
       "data":[2]
-    },
-  "import": {
-    "file":binery,
-  }
+    }
   },
-  "diagnoseDirectoryManagement": {
-    "findByName":
-    {
-      "code": 200,
-      "data":[
-        {
-          "id": 1,
-          "name": "发烧"
-        }
-      ]
-    },
+
+  "userManagement": {
     "add":
     {
       "username": "admin2",
@@ -55,8 +55,9 @@
     "delete":
     {
       "data":[10000]
-    },
+    }
   },
+
   "registrationLevelManagement":{
     "update":
     {
@@ -79,6 +80,7 @@
       "data": [2]
     }
   },
+
   "settlementCategoryManagement": {
     "add":
     {
@@ -89,11 +91,28 @@
     {
       "id": 10,
       "name": "中国农业银行"
+    },
+    "delete":
+    {
+      "data": [10]
     }
   },
+
   "nonDrugChargeItemManagement":
   {
     "add":
+    {
+      "id": "A1010.10.122",
+      "pinyin": "DQJ",
+      "format": "次",
+      "name": "小抢救",
+      "fee": 100.0,
+      "expense_classification_id": 20,
+      "department_id": 1,
+      "expense_classification_name": "门诊手术费",
+      "department_name": "神经科"
+    },
+    "update":
     {
       "id": "1010",
       "pinyin": "DQJ",
@@ -110,6 +129,7 @@
       "data":["1010"]
     }
   },
+
   "diagnoseDirectoryManagement":
   {
     "searchAllByClassificationId":
@@ -122,7 +142,7 @@
     },
     "add":
     {
-      "id":"99999999",
+      "id":99999999,
       "name":"传染性单核细胞增多2",
       "code": "B0347238",
       "classification_id":1,
@@ -144,5 +164,52 @@
     {
       "data":["29395"]
     }
+  },
+  "outpatientRegistration":
+  {
+    "syncDoctorList":
+    {
+      "department_id":1,
+      "registration_level_id":2
+    },
+    "calculateFree":
+    {
+      "address": "undefined",
+      "age": 17,
+      "birthday": "2002-05-29 10:54:31",
+      "consultation_date": "2019-05-29 10:54:41",
+      "department_id": 2,
+      "gender": "female",
+      "has_record_book": 0 ,
+      "medical_category": "default",
+      "medical_certificate_number": "222222222222222222",
+      "medical_certificate_number_type": "id",
+      "medical_insurance_diagnosis": "哈哈哈哈",
+      "name": "李先生",
+      "outpatient_doctor_id": 10 ,
+      "registration_level_id": 2,
+      "registration_source": "local",
+      "settlement_category_id": 2
+    }
+//    "add1":
+//    {
+//      "address" : "沈阳市东北大学",
+//      "age" : 17,
+//      "birthday" : "1998.03.23",
+//      "consultation_date": "2019.10.2",
+//      "registration_department_id": "内分泌科",
+//      "gender": "男",
+//      "has_record_book": 1,
+//      "medical_category": "不知道什么意思",
+//      "medical_certificate_number": "371625223284621134",
+//      "medical_certificate_number_type": "id",
+//      "medical_insurance_diagnosis": "不知道什么意思",
+//      "name": "王蓓蕾",
+//      "outpatient_doctor_id"  : 3,
+//      "settlement_category_id": 2,
+//      "registration_source": "app挂号",
+//      "registration_level_id": 1
+//    }
+
   }
 }

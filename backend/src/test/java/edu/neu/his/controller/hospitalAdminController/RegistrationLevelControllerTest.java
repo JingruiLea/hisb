@@ -42,7 +42,7 @@ public class RegistrationLevelControllerTest {
                 post("/registrationLevelManagement/update")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "      \"id\": 1,\n" +
+                        "      \"id\": 4,\n" +
                         "      \"name\": \"专家号\",\n" +
                         "      \"is_default\": true,\n" +
                         "      \"seq_num\": 2,\n" +
@@ -82,7 +82,7 @@ public class RegistrationLevelControllerTest {
                 post("/registrationLevelManagement/delete")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "      \"data\": [2]\n" +
+                        "      \"data\": [1]\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())

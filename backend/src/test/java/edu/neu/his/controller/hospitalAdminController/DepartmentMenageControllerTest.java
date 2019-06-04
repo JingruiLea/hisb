@@ -28,13 +28,14 @@ public class DepartmentMenageControllerTest {
     @Autowired
     protected MockMvc mockMvc;
 
+
     @Test
     public void departmentFindByName() throws Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
                 post("/departmentManage/findByName")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"心血管内科\"}")
+                .content("{\"name\":\"内科\"}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -46,12 +47,9 @@ public class DepartmentMenageControllerTest {
     public void listAllDepartment() throws Exception {
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/departmentManage/findByName")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"神经内科\"}")
+                get("/departmentManage/getAll")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json("{}"))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
@@ -63,9 +61,9 @@ public class DepartmentMenageControllerTest {
                 post("/departmentManage/update")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"id\": 2,\n" +
+                        "      \"id\": 1,\n" +
                         "      \"pinyin\": \"YK\",\n" +
-                        "      \"name\": \"眼2科\",\n" +
+                        "      \"name\": \"眼科\",\n" +
                         "      \"type\": \"门诊科室\",\n" +
                         "      \"classification_id\":1\n" +
                         "    }")
@@ -73,9 +71,6 @@ public class DepartmentMenageControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
-
-
-
     }
 
     @Test
@@ -85,7 +80,7 @@ public class DepartmentMenageControllerTest {
                 post("/departmentManage/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"id\": 128,\n" +
+                        "      \"id\": 1,\n" +
                         "      \"pinyin\": \"NK\",\n" +
                         "      \"name\": \"脑科\",\n" +
                         "      \"type\": \"门诊科室\",\n" +
