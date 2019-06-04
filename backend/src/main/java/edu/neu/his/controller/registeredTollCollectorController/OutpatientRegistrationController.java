@@ -66,13 +66,16 @@ public class OutpatientRegistrationController {
         Map data = new HashMap();
         int registration_level_id = (int)req.get("registration_level_id");
         RegistrationLevel registration_level = registrationLevelService.findById(registration_level_id);
-        float fee = registration_level.getFee();
-        int has_record_book = (int)req.get("has_record_book");
-        if(has_record_book==1)
-            fee++;
+        if(registration_level!=null) {
+            float fee = registration_level.getFee();
+            int has_record_book = (int) req.get("has_record_book");
+            if (has_record_book == 1)
+                fee++;
 
-        data.put("fee",fee);
-        return  Response.Ok(data);
+            data.put("fee", fee);
+            return Response.Ok(data);
+        }else
+            return Response.Error("错误，挂号类别不存在");
     }
 
     @PostMapping("/confirm")

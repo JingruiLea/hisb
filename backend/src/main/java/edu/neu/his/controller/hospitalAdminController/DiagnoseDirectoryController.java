@@ -44,10 +44,12 @@ public class DiagnoseDirectoryController {
     @ResponseBody
     public Map updateDisease(@RequestBody Map req){
         Disease disease = req2Disease(req);
-        String rawId = (String)req.get("raw_id");
+        int rawId = (int)req.get("raw_id");
         int classification_id = (int)req.get("classification_id");
-        if(!disease.getCode().equals(rawId) && checkIdExist(disease.getCode())) {
-            return Response.Error("错误，编号重复。");
+        if(!checkIdExist(rawId)){
+            return Response.Error("错误，原ID不存在。");
+        }else if(disease.getId()!=rawId && checkIdExist(disease.getId())) {
+            return Response.Error("错误，ID重复。");
         }else if(!checkClassificationExist(classification_id)){
             return Response.Error("错误，疾病类别不存在。");
         }
@@ -59,14 +61,13 @@ public class DiagnoseDirectoryController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Map insertDisease(@RequestBody Disease disease){
-        //Disease disease = req2Disease(req);
-        if(checkIdExist(disease.getCode())) {
-            return Response.Error("错误，编号重复。");
-        }else if(!checkClassificationExist(disease.getClassification_id())){
+    public Map insertDisease(@RequestBody Map req){
+        Disease disease = req2Disease(req);
+        if(!checkClassificationExist(disease.getClassification_id())){
             return Response.Error("错误，疾病类别不存在。");
-        }
-        else {
+        }else if(checkIdExist(disease.getId())) {
+            return Response.Error("错误，ID重复。");
+        }else {
             diagnoseDirectoryService.insertDisease(disease);
             return Response.Ok();
         }
@@ -80,14 +81,14 @@ public class DiagnoseDirectoryController {
         return Response.Ok();
     }
 
-    private boolean checkIdExist(String id) {
-        //检测ID存在
-        return diagnoseDirectoryService.checkDiseaseExist(id);
+    private boolean checkClassificationExist(int classification_id) {
+        //检测类别存在
+        return diagnoseDirectoryService.checkClassificationExist(classification_id);
     }
 
-    private boolean checkClassificationExist(int classification_id) {
-        //检测ID存在
-        return diagnoseDirectoryService.checkClassificationExist(classification_id);
+    private boolean checkIdExist(int id) {
+        //检测Code存在
+        return diagnoseDirectoryService.checkIdExist(id);
     }
 
     private Disease req2Disease(Map req) {
