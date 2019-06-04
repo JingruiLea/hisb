@@ -30,9 +30,6 @@ public interface RegistrationLevelMapper {
     @Select("select * from REGISTRATION_LEVEL where id=#{id}")
     RegistrationLevel find(int id);
 
-    @Select("SElECT * From userinfo where ")
-    void doctorList(@Param("departmentId") int departmentId, @Param("registrationLevelId") int registrationLevelId);
-
     @Select("SELECT count(*) FROM registration_level WHERE id = #{id}")
     int checkIdExists(@Param("id") int id);
 

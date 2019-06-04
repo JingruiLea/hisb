@@ -14,6 +14,12 @@ public interface UserMapper {
     @Select("SELECT id FROM user where username = #{username}")
     int getUidByUserName(@Param("username") String username);
 
+    @Select("SELECT uid, username ,password, real_name, department_id, role_id, participate_in_scheduling, title," +
+            "department.name as department_name, role.name as role_name" +
+            "FROM user, user_info, department, role " +
+            "WHERE uid = #{uid} and user.id = user_info.uid and department.id = user_info.department_id and role.id = user_info.role_id")
+    User find(@Param("uid") int uid);
+
     @Select("SELECT username ,password, real_name, FROM user,user_info WHERE username = #{username} and user.id = user_info.uid")
     List<User> findByName(@Param("username") String username);
 
