@@ -46,8 +46,8 @@ public class DiagnoseDirectoryController {
         Disease disease = req2Disease(req);
         int rawId = (int)req.get("raw_id");
         int classification_id = (int)req.get("classification_id");
-        if(disease.getId()!=rawId && (checkCodeExist(disease.getCode()) || checkIdExist(disease.getId()))) {
-            return Response.Error("错误，编号或ID重复。");
+        if(disease.getId()!=rawId && checkIdExist(disease.getId())) {
+            return Response.Error("错误，ID重复。");
         }else if(!checkClassificationExist(classification_id)){
             return Response.Error("错误，疾病类别不存在。");
         }
@@ -61,9 +61,7 @@ public class DiagnoseDirectoryController {
     @ResponseBody
     public Map insertDisease(@RequestBody Map req){
         Disease disease = req2Disease(req);
-        if(checkCodeExist(disease.getCode())) {
-            return Response.Error("错误，编号重复。");
-        }else if(!checkClassificationExist(disease.getClassification_id())){
+        if(!checkClassificationExist(disease.getClassification_id())){
             return Response.Error("错误，疾病类别不存在。");
         }else if(checkIdExist(disease.getId())) {
             return Response.Error("错误，ID重复。");
