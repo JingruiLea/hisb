@@ -73,4 +73,13 @@ public class RegistrationLevelService {
     public int canDelete(int id) {
         return registrationLevelMapper.checkIdExists(id);//0,不能删
     }
+
+    @Transactional
+    public RegistrationLevel findDefault() {
+        List<RegistrationLevel> list = registrationLevelMapper.findDefault();
+        if(list!=null)
+            return  registrationLevelMapper.findDefault().get(0);
+        else
+            return null;
+    }
 }

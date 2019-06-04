@@ -38,4 +38,7 @@ public interface RegistrationLevelMapper {
 
     @Select("SELECT count(*) FROM registration_level WHERE name = #{name}")
     int checkNameExists(@Param("name") String name);
+
+    @Select("SELECT * FROM registration_level WHERE is_default = true ORDER BY id")
+    List<RegistrationLevel> findDefault();
 }

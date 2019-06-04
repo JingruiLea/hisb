@@ -42,12 +42,16 @@ public class DiagnoseDirectoryController {
 
     @PostMapping("/update")
     @ResponseBody
-    public Map updateNonDrugCharge(@RequestBody Map req){
+    public Map updateDisease(@RequestBody Map req){
         Disease disease = req2Disease(req);
         String rawId = (String)req.get("raw_id");
+        int classification_id = (int)req.get("classification_id");
         if(!disease.getCode().equals(rawId) && checkIdExist(disease.getCode())) {
             return Response.Error("错误，编号重复。");
-        } else {
+        }else if(!checkClassificationExist(classification_id)){
+            return Response.Error("错误，疾病类别不存在。");
+        }
+        else {
             diagnoseDirectoryService.updateDisease(rawId,disease);
             return Response.Ok();
         }
@@ -59,7 +63,10 @@ public class DiagnoseDirectoryController {
         //Disease disease = req2Disease(req);
         if(checkIdExist(disease.getCode())) {
             return Response.Error("错误，编号重复。");
-        } else {
+        }else if(!checkClassificationExist(disease.getClassification_id())){
+            return Response.Error("错误，疾病类别不存在。");
+        }
+        else {
             diagnoseDirectoryService.insertDisease(disease);
             return Response.Ok();
         }
@@ -76,6 +83,11 @@ public class DiagnoseDirectoryController {
     private boolean checkIdExist(String id) {
         //检测ID存在
         return diagnoseDirectoryService.checkDiseaseExist(id);
+    }
+
+    private boolean checkClassificationExist(int classification_id) {
+        //检测ID存在
+        return diagnoseDirectoryService.checkClassificationExist(classification_id);
     }
 
     private Disease req2Disease(Map req) {

@@ -50,6 +50,11 @@ public class DiagnoseDirectoryService {
     }
 
     @Transactional
+    public boolean checkClassificationExist(int classification_id) {
+        return diseaseMapper.checkClassificationExist(classification_id)==1;
+    }
+
+    @Transactional
     public List<DiseaseClassification> findAllDiseaseClassification() {
         return diseaseMapper.findAllDiseaseClassification();
     }
