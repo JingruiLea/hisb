@@ -38,7 +38,7 @@ public class OutpatientRegistrationController {
     public Map init(){
         Map data = new HashMap();
         data.put("departments", departmentService.findAll());
-        data.put("defaultRegistrationLevel",registrationLevelService.findByName("普通号"));
+        data.put("defaultRegistrationLevel",registrationLevelService.findDefault());
         data.put("registrationLevel",registrationLevelService.findAll());
         data.put("settlementCategory",settlementCategoryService.findAll());
         return Response.Ok(data);

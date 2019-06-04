@@ -26,9 +26,9 @@ public interface DiseaseMapper extends Importable<Disease> {
             "VALUES(#{name}, #{code}, #{id}, #{classification_id}, #{pinyin}, #{custom_name}, #{custom_pinyin})")
     void insertDisease(Disease disease);
 
-    @Update("UPDATE disease SET name = #{name}, id = #{id}, classification_id=#{classification_id}, pinyin=#{pinyin}," +
+    @Update("UPDATE disease SET code = #{code}, name = #{name}, id = #{id}, classification_id=#{classification_id}, pinyin=#{pinyin}," +
             "custom_name=#{custom_name}, custom_pinyin = #{custom_pinyin} WHERE id = #{raw_id}")
-    void update(@Param("raw_id") String rawId,@Param("id") String id,@Param("name") String name,@Param("classification_id") int classification_id,
+    void update(@Param("raw_id") int rawId,@Param("id") int id,@Param("code") String code,@Param("name") String name,@Param("classification_id") int classification_id,
                 @Param("pinyin") String pinyin,@Param("custom_name") String custom_name,@Param("custom_pinyin") String custom_pinyin);
 
     @Delete("DELETE FROM disease WHERE id=#{id}")
@@ -48,7 +48,13 @@ public interface DiseaseMapper extends Importable<Disease> {
     @Select("SELECT * FROM disease_classification")
     List<DiseaseClassification> findAllDiseaseClassification();
 
+    @Select("SELECT count(*) FROM disease WHERE code = #{code}")
+    int checkCodeExist(@Param("code") String code);
+
+    @Select("SELECT count(*) FROM disease_classification WHERE id = #{classification_id}")
+    int checkClassificationExist(@Param("classification_id") int classification_id);
+
     @Select("SELECT count(*) FROM disease WHERE id = #{id}")
-    int checkIdExist(@Param("id") String id);
+    int checkIdExist(@Param("id") int id);
 }
  

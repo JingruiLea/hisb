@@ -42,12 +42,16 @@ public class DiagnoseDirectoryController {
 
     @PostMapping("/update")
     @ResponseBody
-    public Map updateNonDrugCharge(@RequestBody Map req){
+    public Map updateDisease(@RequestBody Map req){
         Disease disease = req2Disease(req);
-        String rawId = (String)req.get("raw_id");
-        if(!disease.getCode().equals(rawId) && checkIdExist(disease.getCode())) {
-            return Response.Error("错误，编号重复。");
-        } else {
+        int rawId = (int)req.get("raw_id");
+        int classification_id = (int)req.get("classification_id");
+        if(disease.getId()!=rawId && (checkCodeExist(disease.getCode()) || checkIdExist(disease.getId()))) {
+            return Response.Error("错误，编号或ID重复。");
+        }else if(!checkClassificationExist(classification_id)){
+            return Response.Error("错误，疾病类别不存在。");
+        }
+        else {
             diagnoseDirectoryService.updateDisease(rawId,disease);
             return Response.Ok();
         }
@@ -57,9 +61,13 @@ public class DiagnoseDirectoryController {
     @ResponseBody
     public Map insertDisease(@RequestBody Map req){
         Disease disease = req2Disease(req);
-        if(checkIdExist(disease.getCode())) {
+        if(checkCodeExist(disease.getCode())) {
             return Response.Error("错误，编号重复。");
-        } else {
+        }else if(!checkClassificationExist(disease.getClassification_id())){
+            return Response.Error("错误，疾病类别不存在。");
+        }else if(checkIdExist(disease.getId())) {
+            return Response.Error("错误，ID重复。");
+        }else {
             diagnoseDirectoryService.insertDisease(disease);
             return Response.Ok();
         }
@@ -73,30 +81,38 @@ public class DiagnoseDirectoryController {
         return Response.Ok();
     }
 
-    private boolean checkIdExist(String id) {
-        //检测ID存在
-        return diagnoseDirectoryService.checkDiseaseExist(id);
+    private boolean checkCodeExist(String code) {
+        //检测Code存在
+        return diagnoseDirectoryService.checkCodeExist(code);
+    }
+
+    private boolean checkClassificationExist(int classification_id) {
+        //检测类别存在
+        return diagnoseDirectoryService.checkClassificationExist(classification_id);
+    }
+
+    private boolean checkIdExist(int id) {
+        //检测Code存在
+        return diagnoseDirectoryService.checkIdExist(id);
     }
 
     private Disease req2Disease(Map req) {
-        int id = (int) req.get("id");
+        Disease disease = new Disease();
+        String code = (String) req.get("code");
+        disease.setCode(code);
+        disease.setId((int) req.get("id"));
         String name = (String)req.get("name");
+        disease.setName(name);
         int classification_id = (int)req.get("classification_id");
+        disease.setClassification_id(classification_id);
         String pinyin = (String)req.get("pinyin");
-        String code = (String)req.get("code");
-        String custom_name = (String)req.get("custom_name");
-        String custom_pinyin = (String)req.get("custom_pinyin");
+        disease.setPinyin(pinyin);
+        String custom_name = "";
+        String custom_pinyin = "";
         if(req.containsKey("custom_name")) custom_name = (String)req.get("custom_name");
         if(req.containsKey("custom_pinyin")) custom_pinyin = (String)req.get("custom_pinyin");
-        Disease disease = new Disease();
-        disease.setClassification_id(classification_id);
-        disease.setId(id);
         disease.setCustom_name(custom_name);
         disease.setCustom_pinyin(custom_pinyin);
-        disease.setPinyin(pinyin);
-        disease.setCode(code);
-        disease.setName(name);
-
         return disease;
     }
 }
