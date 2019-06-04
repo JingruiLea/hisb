@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
-public class LoginController {
+public class UserInfoController {
     @Autowired
     private UserService userService;
 

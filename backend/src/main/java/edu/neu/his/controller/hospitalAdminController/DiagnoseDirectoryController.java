@@ -46,7 +46,9 @@ public class DiagnoseDirectoryController {
         Disease disease = req2Disease(req);
         int rawId = (int)req.get("raw_id");
         int classification_id = (int)req.get("classification_id");
-        if(disease.getId()!=rawId && checkIdExist(disease.getId())) {
+        if(!checkIdExist(rawId)){
+            return Response.Error("错误，原ID不存在。");
+        }else if(disease.getId()!=rawId && checkIdExist(disease.getId())) {
             return Response.Error("错误，ID重复。");
         }else if(!checkClassificationExist(classification_id)){
             return Response.Error("错误，疾病类别不存在。");
@@ -77,11 +79,6 @@ public class DiagnoseDirectoryController {
         List<String > disease_ids = (List<String>) req.get("data");
         disease_ids.forEach(id->diagnoseDirectoryService.deleteDisease(id));
         return Response.Ok();
-    }
-
-    private boolean checkCodeExist(String code) {
-        //检测Code存在
-        return diagnoseDirectoryService.checkCodeExist(code);
     }
 
     private boolean checkClassificationExist(int classification_id) {
