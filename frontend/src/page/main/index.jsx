@@ -3,6 +3,10 @@ import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 
 import DashboardSection from './DashboardSection'
 import DashboardHeader from '../../section/DashboardHeader'
+import axios from "axios";
+import API from '../../global/ApiConfig';
+import Status from '../../global/Status';
+import Message from '../../global/Message';
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -11,7 +15,16 @@ class DashboardPage extends React.Component {
   state = {
     collapsed: false,
     sectionKey:"0",
-    openKey:"sub3"
+    openKey:"sub3",
+    me:{
+      username:"XUranus",
+      real_name:"李井瑞",
+      department_id:1,
+      department_name:"Google操作系统部",
+      role_id:1,
+      role_name:"Google CEO",
+      title:"Fuchsia总设计师"
+    }
   };
 
   onCollapse = collapsed => {
@@ -31,6 +44,27 @@ class DashboardPage extends React.Component {
     this.setState({
       sectionKey:e.key,
     })
+  }
+
+  _componentDidMount() {
+    const _this = this;
+    axios({
+        method: API.me.myInfo.method,
+        url: API.me.myInfo.url,
+        crossDomain: true
+      }).then((res)=>{
+        const data = res.data;
+        console.log('receive',data)
+        if(data.code===Status.Ok) {
+            _this.setState({me:data.data})
+        } else if(data.code===Status.PermissionDenied) {
+            Message.showAuthExpiredMessage();
+        } else {
+            Message.showConfirm('错误',data.msg)
+        }
+    }).catch((err)=>{
+        Message.showNetworkErrorMessage();
+    });
   }
 
   render() {
@@ -151,8 +185,8 @@ class DashboardPage extends React.Component {
         </Sider>
 
         <Layout>
-          <DashboardHeader/>
-          <DashboardSection sectionKey={this.state.sectionKey}/>
+          <DashboardHeader me={this.state.me}/>
+          <DashboardSection me={this.state.me} sectionKey={this.state.sectionKey}/>
           <Footer style={{textAlign:'center'}}/>
         </Layout>
         

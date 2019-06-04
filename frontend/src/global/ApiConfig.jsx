@@ -4,8 +4,17 @@ const apiServerPrefix = server+'/api'
 const API = {
     //登录
     login:{method:'post',url:server+'/login'},
-    //同步个人信息
-    info:{ method:'post',url:apiServerPrefix+'/user/info'},
+    //退出
+    logout:{method:'post',url:server+'/logout'},
+    //个人中心
+    me:{
+        myInfo:{ //获取我的个人信息
+            method:'post',url:apiServerPrefix+'/user/info'
+        },
+        updateInfo:{//更新我的个人信息
+            method:'get',url:apiServerPrefix+'/user/updateInfo'
+        }   
+    },
     //基本信息管理
     bacisInfoManagement:{
             //科室管理
