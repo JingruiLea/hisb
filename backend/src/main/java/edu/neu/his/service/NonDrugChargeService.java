@@ -58,4 +58,9 @@ public class NonDrugChargeService {
     public boolean exist(NonDrugChargeItem nonDrugChargeItem) {
         return nonDrugChargeItemMapper.checkIdExistNums(nonDrugChargeItem)==1;
     }
+
+    @Transactional
+    public boolean canDelete(String id) {
+        return nonDrugChargeItemMapper.checkId(id)==1;
+    }
 }

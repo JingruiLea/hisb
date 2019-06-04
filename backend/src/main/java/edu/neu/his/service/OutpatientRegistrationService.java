@@ -34,6 +34,6 @@ public class OutpatientRegistrationService {
 
     @Transactional
     public void updateStatus(Registration registration){
-        outpatientRegistrationMapper.update(registration);
+       outpatientRegistrationMapper.update(registration);
     }
 }

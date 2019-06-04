@@ -42,12 +42,16 @@ public class DiagnoseDirectoryController {
 
     @PostMapping("/update")
     @ResponseBody
-    public Map updateNonDrugCharge(@RequestBody Map req){
+    public Map updateDisease(@RequestBody Map req){
         Disease disease = req2Disease(req);
         String rawId = (String)req.get("raw_id");
-        if(!disease.getId().equals(rawId) && checkIdExist(disease.getId())) {
+        int classification_id = (int)req.get("classification_id");
+        if(!disease.getCode().equals(rawId) && checkIdExist(disease.getCode())) {
             return Response.Error("错误，编号重复。");
-        } else {
+        }else if(!checkClassificationExist(classification_id)){
+            return Response.Error("错误，疾病类别不存在。");
+        }
+        else {
             diagnoseDirectoryService.updateDisease(rawId,disease);
             return Response.Ok();
         }
@@ -55,11 +59,14 @@ public class DiagnoseDirectoryController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Map insertDisease(@RequestBody Map req){
-        Disease disease = req2Disease(req);
-        if(checkIdExist(disease.getId())) {
+    public Map insertDisease(@RequestBody Disease disease){
+        //Disease disease = req2Disease(req);
+        if(checkIdExist(disease.getCode())) {
             return Response.Error("错误，编号重复。");
-        } else {
+        }else if(!checkClassificationExist(disease.getClassification_id())){
+            return Response.Error("错误，疾病类别不存在。");
+        }
+        else {
             diagnoseDirectoryService.insertDisease(disease);
             return Response.Ok();
         }
@@ -78,16 +85,28 @@ public class DiagnoseDirectoryController {
         return diagnoseDirectoryService.checkDiseaseExist(id);
     }
 
+    private boolean checkClassificationExist(int classification_id) {
+        //检测ID存在
+        return diagnoseDirectoryService.checkClassificationExist(classification_id);
+    }
+
     private Disease req2Disease(Map req) {
-        String id = (String) req.get("id");
+        Disease disease = new Disease();
+        String code = (String) req.get("code");
+        disease.setCode(code);
+        disease.setId((int) req.get("id"));
         String name = (String)req.get("name");
+        disease.setName(name);
         int classification_id = (int)req.get("classification_id");
+        disease.setClassification_id(classification_id);
         String pinyin = (String)req.get("pinyin");
+        disease.setPinyin(pinyin);
         String custom_name = "";
         String custom_pinyin = "";
         if(req.containsKey("custom_name")) custom_name = (String)req.get("custom_name");
         if(req.containsKey("custom_pinyin")) custom_pinyin = (String)req.get("custom_pinyin");
-        Disease disease = new Disease(id,name,classification_id,pinyin,custom_name,custom_pinyin);
+        disease.setCustom_name(custom_name);
+        disease.setCustom_pinyin(custom_pinyin);
         return disease;
     }
 }

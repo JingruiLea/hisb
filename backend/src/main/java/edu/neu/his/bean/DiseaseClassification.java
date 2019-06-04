@@ -8,6 +8,8 @@ public class DiseaseClassification {
         this.name = name;
     }
 
+    public DiseaseClassification(){}
+
     public DiseaseClassification(int id,String name) {
         this.name = name;
         this.id = id;

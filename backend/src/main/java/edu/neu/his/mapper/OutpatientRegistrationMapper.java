@@ -1,4 +1,3 @@
-
 package edu.neu.his.mapper;
 
 import edu.neu.his.bean.Registration;

@@ -16,7 +16,7 @@ public class DiagnoseDirectoryService {
 
     @Transactional
     public void updateDisease(String rawId,Disease disease) {
-        diseaseMapper.update(rawId,disease.getId(),disease.getName(),disease.getClassification_id(),disease.getPinyin(),disease.getCustom_name(),disease.getCustom_pinyin());
+        diseaseMapper.update(rawId, disease.getCode(),disease.getName(),disease.getClassification_id(),disease.getPinyin(),disease.getCustom_name(),disease.getCustom_pinyin());
     }
 
     @Transactional
@@ -47,6 +47,11 @@ public class DiagnoseDirectoryService {
     @Transactional
     public boolean checkDiseaseExist(String id) {
         return diseaseMapper.checkIdExist(id)==1;
+    }
+
+    @Transactional
+    public boolean checkClassificationExist(int classification_id) {
+        return diseaseMapper.checkClassificationExist(classification_id)==1;
     }
 
     @Transactional

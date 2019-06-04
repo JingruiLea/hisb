@@ -3,6 +3,7 @@ package edu.neu.his.mapper;
 
 import edu.neu.his.bean.Disease;
 import edu.neu.his.bean.DiseaseClassification;
+import edu.neu.his.util.Importable;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
@@ -10,8 +11,8 @@ import java.util.List;
 
 @Mapper
 @Component(value = "DiseaseMapper")
-public interface DiseaseMapper {
-    @Select("SELECT disease.id, disease.name, classification_id, disease_classification.name as classification_name, pinyin, custom_name, custom_pinyin " +
+public interface DiseaseMapper extends Importable<Disease> {
+    @Select("SELECT disease.id,disease.code, disease.name, classification_id, disease_classification.name as classification_name, pinyin, custom_name, custom_pinyin " +
             "FROM  disease, disease_classification " +
             "WHERE disease.classification_id = disease_classification.id and disease.name = #{name}")
     Disease findByName(@Param("name") String name);
@@ -21,8 +22,8 @@ public interface DiseaseMapper {
             "WHERE disease.classification_id = disease_classification.id and classification_id = #{classification_id}")
     List<Disease> findAll(@Param("classification_id") int classification_id);
 
-    @Insert("INSERT INTO disease(name, id, classification_id, pinyin, custom_name, custom_pinyin) " +
-            "VALUES(#{name}, #{id}, #{classification_id}, #{pinyin}, #{custom_name}, #{custom_pinyin})")
+    @Insert("INSERT INTO disease(name, code, id, classification_id, pinyin, custom_name, custom_pinyin) " +
+            "VALUES(#{name}, #{code}, #{id}, #{classification_id}, #{pinyin}, #{custom_name}, #{custom_pinyin})")
     void insertDisease(Disease disease);
 
     @Update("UPDATE disease SET name = #{name}, id = #{id}, classification_id=#{classification_id}, pinyin=#{pinyin}," +
@@ -33,8 +34,13 @@ public interface DiseaseMapper {
     @Delete("DELETE FROM disease WHERE id=#{id}")
     void deleteDisease(String id);
 
-    @Insert("INSERT INTO disease_classification(name) VALUES(#{name})")
+    @Insert("INSERT INTO disease_classification(id, name) VALUES(#{id}, #{name})")
     void insertDiseaseClassification(DiseaseClassification diseaseClassification);
+
+    @Override
+    default void insert(Disease instance){
+        this.insertDisease(instance);
+    }
 
     @Select("SELECT id FROM disease_classification where name = #{classification_name}")
     int findDiseaseClassificationIdByName(@Param("classification_name") String classification_name);
@@ -44,5 +50,8 @@ public interface DiseaseMapper {
 
     @Select("SELECT count(*) FROM disease WHERE id = #{id}")
     int checkIdExist(@Param("id") String id);
+
+    @Select("SELECT count(*) FROM disease_classification WHERE id = #{classification_id}")
+    int checkClassificationExist(@Param("classification_id") int classification_id);
 }
  

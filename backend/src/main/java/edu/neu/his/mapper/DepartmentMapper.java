@@ -39,4 +39,10 @@ public interface DepartmentMapper extends Importable<Department> {
 
     @Select("SELECT count(*) FROM department WHERE id = #{id}")
     int checkIdExists(@Param("id") int id);
+
+    @Select("SELECT count(*) FROM department WHERE name = #{name}")
+    int checkNameExists(@Param("name") String name);
+
+    @Select("SELECT count(*) FROM department_classification WHERE id = #{id}")
+    int checkClassificationExists(@Param("id") int id);
 }

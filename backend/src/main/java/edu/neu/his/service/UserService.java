@@ -1,6 +1,6 @@
 package edu.neu.his.service;
 
-import edu.neu.his.bean.Registration_level;
+import edu.neu.his.bean.RegistrationLevel;
 import edu.neu.his.bean.Role;
 import edu.neu.his.bean.User;
 import edu.neu.his.mapper.RegistrationLevelMapper;
@@ -45,7 +45,7 @@ public class UserService {
     }
 
     public List selectDoctorList(int departmentId, int registrationLevelId) {
-        Registration_level registration_level = registrationLevelMapper.find(departmentId);
+        RegistrationLevel registration_level = registrationLevelMapper.find(departmentId);
         if(registration_level.getName().equals("专家号")){
            return userMapper.selectDoctorList(departmentId, "主治医生");
         }
