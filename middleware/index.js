@@ -76,5 +76,12 @@ server.use('/api', apiProxy);
 
 //error api
 server.all('*',(req,res)=>{res.json({code:404,msg:'uknown api'}).end()})
+
+console.log('======== Node Auth Procy Server Running ========');
+console.log('DB_HOST: ',process.env.DB_HOST)
+console.log('DB_NAME: ',process.env.DB_NAME)
+console.log('RUNNING: ',process.env.PORT)
+console.log('MODE: ',process.env.MODE)
+console.log("================================================");
 server.listen(process.env.PORT)
 
