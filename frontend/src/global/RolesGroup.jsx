@@ -1,11 +1,11 @@
 const Roles = {
   HospitialAdmin:1,
   RegisteredTollCollector:2,
-  OutpatientDoctor:3,
-  DoctorOfTechnology:4,
-  PharmacyOperator:5,
-  FinancialAdmin:6,
-  
+  FinancialAdmin:3,
+  PharmacyOperator:4,
+  OutpatientDoctor:5,
+  DoctorOfTechnology:6,
+
   isDoctor:(value)=>{
     return value===5;
   }

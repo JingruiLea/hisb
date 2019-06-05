@@ -17,11 +17,11 @@ public interface OutpatientRegistrationMapper {
     List<User> findByDepartmentAndTitle(@Param("department_id") int department_id, @Param("title") String title);
 
     @Insert("INSERT INTO registration (address,age,birthday,consultation_date,medicial_category,patient_name," +
-            "outpatient_doctor_id,registration_department_id,settlement_category_id,registraton_source,gender," +
+            "outpatient_doctor_id,registration_department_id,settlement_category_id,registration_source,gender," +
             "medical_insurance_diagnosis,id_number,medicial_certificate_number, status, cost, registration_category)" +
             " VALUES(#{address},#{age}, #{birthday}, #{consultation_date}, #{medicial_category}, " +
             "#{patient_name}, #{outpatient_doctor_id}, #{registration_department_id}, #{settlement_category_id}, " +
-            "#{registraton_source}, #{gender}, #{medical_insurance_diagnosis}, #{id_number}, " +
+            "#{registration_source}, #{gender}, #{medical_insurance_diagnosis}, #{id_number}, " +
             "#{medicial_certificate_number}, #{status}, #{cost}, #{registration_category})")
     @Options(useGeneratedKeys = true, keyProperty = "medical_record_id")
     void insert(Registration registration);

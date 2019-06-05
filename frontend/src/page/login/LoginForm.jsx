@@ -18,7 +18,8 @@ class LoginForm extends React.Component {
           method: API.login.method,
           url: API.login.url,
           data: values,
-          crossDomain: true
+          crossDomain: true,
+          withCredentials:true
         }).then((res)=>{
           const data = res.data;
           console.log(data)

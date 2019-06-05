@@ -1,4 +1,5 @@
 import React from 'react';
+import Message from '../../global/Message';
 
 //3 hospitalAdmin
 import DepartmentManagement from '../../section/hospitialAdmin/departmentManagement'
@@ -35,21 +36,25 @@ import OutpatientPersonalWorkloadStatistic from '../../section/financialAdmin/ou
 
 class DashboardSection extends React.Component {
   render() {
+      const me = this.props.me;
+      if(!me) {
+        window.location.href="/login"
+      }
       const {sectionKey} = this.props;
       return (
         <div>
-          {sectionKey==="0"?<PersonalWorkloadStatistic/>:null}
+          {sectionKey==="0"?<PersonalWorkloadStatistic me={this.props.me}/>:null}
 
-          {sectionKey==="3-1"?<DepartmentManagement/>:null}
-          {sectionKey==="3-2"?<UserManagement/>:null}
-          {sectionKey==="3-3"?<RegistrationLevelManagement/>:null}
-          {sectionKey==="3-4"?<SettlementCategoryManagement/>:null}
-          {sectionKey==="3-5"?<DiagnosticDirectoryManagementSection/>:null}
-          {sectionKey==="3-6"?<NonDrugChargeItemManagement/>:null}
-          {sectionKey==="3-7"?<SchedulingManagement/>:null}
+          {sectionKey==="3-1"?<DepartmentManagement me={this.props.me}/>:null}
+          {sectionKey==="3-2"?<UserManagement me={this.props.me}/>:null}
+          {sectionKey==="3-3"?<RegistrationLevelManagement me={this.props.me}/>:null}
+          {sectionKey==="3-4"?<SettlementCategoryManagement me={this.props.me}/>:null}
+          {sectionKey==="3-5"?<DiagnosticDirectoryManagementSection me={this.props.me}/>:null}
+          {sectionKey==="3-6"?<NonDrugChargeItemManagement me={this.props.me}/>:null}
+          {sectionKey==="3-7"?<SchedulingManagement me={this.props.me}/>:null}
 
-          {sectionKey==="4-1"?<OutpatientRegistration/>:null}
-          {sectionKey==="4-2"?<OutpatientCharge/>:null}
+          {sectionKey==="4-1"?<OutpatientRegistration me={this.props.me}/>:null}
+          {sectionKey==="4-2"?<OutpatientCharge me={this.props.me}/>:null}
           {sectionKey==="4-3"?<div>ToBeImplement</div>:null}
           {sectionKey==="4-4"?<div>ToBeImplement</div>:null}
           {sectionKey==="4-5"?<div>ToBeImplement</div>:null}
@@ -73,16 +78,16 @@ class DashboardSection extends React.Component {
 
           {sectionKey==="6-1"?<div>ToBeImplement</div>:null}
           {sectionKey==="6-2"?<div>ToBeImplement</div>:null}
-          {sectionKey==="6-3"?<PersonalWorkloadStatistic/>:null}
+          {sectionKey==="6-3"?<PersonalWorkloadStatistic me={this.props.me}/>:null}
 
-          {sectionKey==="7-1"?<OutpatientDispensingSection/>:null}
+          {sectionKey==="7-1"?<OutpatientDispensingSection me={this.props.me}/>:null}
           {sectionKey==="7-2"?<div>ToBeImplement</div>:null}
-          {sectionKey==="7-3"?<DrugCatalogueManagement/>:null}
+          {sectionKey==="7-3"?<DrugCatalogueManagement me={this.props.me}/>:null}
 
-          {sectionKey==="8-1"?<ExpenseClassificationManagement/>:null}
-          {sectionKey==="8-2"?<OupatientDailyCheck/>:null}
-          {sectionKey==="8-3"?<OutpatientDepartmentsWorkloadStatistic/>:null}
-          {sectionKey==="8-4"?<OutpatientPersonalWorkloadStatistic/>:null}
+          {sectionKey==="8-1"?<ExpenseClassificationManagement me={this.props.me}/>:null}
+          {sectionKey==="8-2"?<OupatientDailyCheck me={this.props.me}/>:null}
+          {sectionKey==="8-3"?<OutpatientDepartmentsWorkloadStatistic me={this.props.me}/>:null}
+          {sectionKey==="8-4"?<OutpatientPersonalWorkloadStatistic me={this.props.me}/>:null}
         </div>);
   }
 }

@@ -33,7 +33,8 @@ class UserManagement extends React.Component {
             method: API.bacisInfoManagement.user.all.method,
             url: API.bacisInfoManagement.user.all.url,
             data: {},
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             //console.log('receive',data)
@@ -62,7 +63,8 @@ class UserManagement extends React.Component {
             method: API.bacisInfoManagement.user.update.method,
             url: API.bacisInfoManagement.user.update.url,
             data: data,
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)
@@ -87,7 +89,8 @@ class UserManagement extends React.Component {
             method: API.bacisInfoManagement.user.add.method,
             url: API.bacisInfoManagement.user.add.url,
             data: data,
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)
@@ -111,7 +114,8 @@ class UserManagement extends React.Component {
             method: API.bacisInfoManagement.user.delete.method,
             url: API.bacisInfoManagement.user.delete.url,
             data: {data},
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)

@@ -32,7 +32,8 @@ class DepartmentManagement extends React.Component {
         axios({
             method: API.bacisInfoManagement.department.all.method,
             url: API.bacisInfoManagement.department.all.url,
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             //console.log('receive',data)
@@ -60,7 +61,8 @@ class DepartmentManagement extends React.Component {
             method: API.bacisInfoManagement.department.update.method,
             url: API.bacisInfoManagement.department.update.url,
             data: data,
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)
@@ -85,7 +87,8 @@ class DepartmentManagement extends React.Component {
             method: API.bacisInfoManagement.department.add.method,
             url: API.bacisInfoManagement.department.add.url,
             data: data,
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)
@@ -109,7 +112,8 @@ class DepartmentManagement extends React.Component {
             method: API.bacisInfoManagement.department.delete.method,
             url: API.bacisInfoManagement.department.delete.url,
             data: {data:data},
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)

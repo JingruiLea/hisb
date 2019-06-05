@@ -41,7 +41,8 @@ class SettlementCategoryManagement extends React.Component {
             method: API.bacisInfoManagement.settlement.all.method,
             url: API.bacisInfoManagement.settlement.all.url,
             data: {},
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             //console.log('receive',data)
@@ -68,7 +69,8 @@ class SettlementCategoryManagement extends React.Component {
             method: API.bacisInfoManagement.settlement.update.method,
             url: API.bacisInfoManagement.settlement.update.url,
             data: data,
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)
@@ -93,7 +95,8 @@ class SettlementCategoryManagement extends React.Component {
             method: API.bacisInfoManagement.settlement.add.method,
             url: API.bacisInfoManagement.settlement.add.url,
             data: data,
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)
@@ -117,7 +120,8 @@ class SettlementCategoryManagement extends React.Component {
             method: API.bacisInfoManagement.settlement.delete.method,
             url: API.bacisInfoManagement.settlement.delete.url,
             data: {data},
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)

@@ -54,4 +54,9 @@ public class UserService {
 
     @Transactional
     public List<Role> allRoles() {return userMapper.allRoles();}
+
+    @Transactional
+    public User findByUid(int uid) {
+        return userMapper.find(uid);
+    }
 }

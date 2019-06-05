@@ -90,6 +90,7 @@ public class DepartmentService {
         try {
             ExcelImportation excel = new ExcelImportation(new FileInputStream(pathName), Department.class, departmentMapper);
             excel.setColumnFields("id", "classification_id", "pinyin", "name", "type");
+            excel.skipLine(1);
             Map<String, Function<String, ?>> preFunctionMap = excel.getPreFunctionMap();
             preFunctionMap.put("classification_id", departmentMapper::findClassificationIdByName);
             excel.exec();
