@@ -7,3 +7,4 @@ words.txt
 /backend/.idea
 /auth/node_modules
 *.bak
+*lock
