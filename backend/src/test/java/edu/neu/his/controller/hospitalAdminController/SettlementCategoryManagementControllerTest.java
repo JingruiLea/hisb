@@ -43,7 +43,7 @@ public class SettlementCategoryManagementControllerTest {
                 post("/settlementCategoryManagement/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "      \"id\": 10,\n" +
+                        "      \"id\": 11,\n" +
                         "      \"name\": \"中国人民银行\"\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))
@@ -60,8 +60,8 @@ public class SettlementCategoryManagementControllerTest {
                 post("/settlementCategoryManagement/update")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "      \"id\": 9,\n" +
-                        "      \"name\": \"中国农业银行\"\n" +
+                        "      \"id\": 3,\n" +
+                        "      \"name\": \"中国建设银行\"\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -72,12 +72,13 @@ public class SettlementCategoryManagementControllerTest {
 
     @Test
     public void deleteSettlementCategory() throws Exception{
+        int[] data = {1,2,3,4};
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
                 post("/settlementCategoryManagement/delete")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "      \"data\": [9]\n" +
+                        "      \"data\": [10,9]\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())

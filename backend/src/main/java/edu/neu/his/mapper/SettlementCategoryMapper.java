@@ -24,4 +24,13 @@ public interface SettlementCategoryMapper {
 
     @Update("UPDATE settlement_category set name = #{name} WHERE id = #{id}")
     void updateSettlementCategory(SettlementCategory settlementCategory);
+
+    @Select("SELECT count(*) FROM settlement_category WHERE id = #{id}")
+    int checkIdExists(@Param("id") int id);
+
+    @Select("SELECT count(*) FROM settlement_category WHERE name = #{name}")
+    int checkNameExists(@Param("name") String name);
+
+    @Select("SELECT * FROM settlement_category WHERE name = #{name}")
+    SettlementCategory findByName(@Param("name") String name);
 }

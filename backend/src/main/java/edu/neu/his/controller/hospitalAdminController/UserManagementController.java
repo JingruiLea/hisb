@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,28 +42,51 @@ public class UserManagementController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Map addNewUser(@RequestBody Map req) {
-        User user = map2User(req);
-        if (user==null)
-            return Response.Error("该科室 或 该用户角色不存在");
-        userService.addUser(user);
-        return Response.Ok();
+    public Map addNewUser(@RequestBody User user) {
+        if(canInsert(user)) {
+            userService.addUser(user);
+            return Response.Ok();
+        }else
+            return Response.Error("id或名称冲突");
+    }
+    private boolean canInsert(User user){
+        return userService.canInsert(user);
     }
 
     @PostMapping("/delete")
     @ResponseBody
     public Map deleteUser(@RequestBody Map req) {
+        List<Integer> failed = new ArrayList<>();
         List<Integer> user_ids = (List<Integer>)req.get("data");
-        user_ids.forEach(id -> userService.deleteUser(id));
-        return Response.Ok();
+        user_ids.forEach(id -> {
+            if(canDelete(id))
+                userService.deleteUser(id);
+            else
+                failed.add(id);
+        });
+        if(failed.isEmpty())
+            return Response.Ok();
+        else{
+            Map data = new HashMap();
+            data.put("success number",user_ids.size()-failed.size());
+            data.put("fail number",failed.size());
+            data.put("fail id",failed);
+            return Response.Error(data);
+        }
+    }
+    private boolean canDelete(int id){
+        return userService.canDelete(id)!=0;
     }
 
     @PostMapping("/update")
     @ResponseBody
     public Map updateUser(@RequestBody Map req) {
         User user = map2User(req);
-        userService.updateUser(user);
-        return Response.Ok();
+        if(canUpdate(user)) {
+            userService.updateUser(user);
+            return Response.Ok();
+        }else
+            return Response.Error("名称冲突 或 id不存在");
     }
 
     private User map2User(Map req) {
@@ -79,6 +103,10 @@ public class UserManagementController {
         user.setRole_id((int)req.get("role_id"));
         return user;
     }
+    private boolean canUpdate(User user){
+        return userService.canUpdate(user);
+    }
+
 
     @PostMapping("/import")
     @ResponseBody

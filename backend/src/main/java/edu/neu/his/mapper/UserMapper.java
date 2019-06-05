@@ -54,4 +54,10 @@ public interface UserMapper {
     
     @Select("SELECT * FROM role")
     List<Role> allRoles();
+
+    @Select("SELECT count(*) FROM user WHERE id = #{id}")
+    int checkIdExists(@Param("id") int id);
+
+    @Select("SELECT count(*) FROM user WHERE username = #{username}")
+    int checkNameExists(@Param("username") String username);
 }

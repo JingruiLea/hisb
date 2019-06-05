@@ -43,7 +43,7 @@ public class UserManagementControllerTest {
                 post("/userManagement/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"username\": \"admin4\",\n" +
+                        "      \"username\": \"admin5\",\n" +
                         "      \"password\": \"2e23e23e\",\n" +
                         "      \"real_name\": \"XUranus\",\n" +
                         "      \"department_id\": 1,\n" +
@@ -66,7 +66,7 @@ public class UserManagementControllerTest {
                 post("/userManagement/delete")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"data\":[10000]\n" +
+                        "      \"data\":[10001]\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -81,8 +81,8 @@ public class UserManagementControllerTest {
                 post("/userManagement/update")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"uid\":10000,\n" +
-                        "      \"username\": \"ad\",\n" +
+                        "      \"uid\":1,\n" +
+                        "      \"username\": \"yu\",\n" +
                         "      \"password\": \"123456\",\n" +
                         "      \"real_name\": \"X\",\n" +
                         "      \"department_id\": 1,\n" +
