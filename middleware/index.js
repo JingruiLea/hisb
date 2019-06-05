@@ -4,7 +4,10 @@ const express = require('express')
 const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
-const proxy = require('http-proxy-middleware');
+const cors = require('./cors')
+const auth = require('./auth')
+const apiProxy = require('./proxy')
+const inject = require('./uidInject')
 
 const DB = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -13,28 +16,9 @@ const DB = mysql.createConnection({
   database:process.env.DB_NAME
 })
 
-const proxyOptions = {
-  target: 'http://localhost:8080', // 目标主机
-  changeOrigin: true,               // 需要虚拟主机站点
-  ws:true,
-  pathRewrite: {
-    '^/api' : '/'
-  }
-};
-const apiProxy = proxy(proxyOptions);  //开启代理功能，并加载配置
-
-const Roles = {
-  HospitialAdmin:1,
-  RegisteredTollCollector:2,
-  OutpatientDoctor:3,
-  DoctorOfTechnology:4,
-  PharmacyOperator:5,
-  FinancialAdmin:6,
-}
-
-const hash=()=>{
-  const obj=crypto.createHash('sha256'); 
-  obj.update('jinitaimei');
+const hash=(pwd)=>{
+  const obj=crypto.createHash('md5'); 
+  obj.update(pwd);
   const str=obj.digest('hex');
   return str;
 }
@@ -46,81 +30,58 @@ server.use(cookieSession({
   maxAge:400*60*100
 }));
 
-server.use('/api',(req,res,next)=>{
-  if(req.session['uid']==null) 
-    res.json({code:403,msg:"登录已过期"}).end();
-  else next();
-});
-
-server.use('/api/hospitalAdmin/',(req,res,next)=>{
-  if(res.session['role']!=Roles.HospitialAdmin)
-    res.json({code:403}).end();
-  else next();
-});
-
-server.use('/api/registeredTollCollector/',(req,res,next)=>{
-  if(res.session['role']!=Roles.RegisteredTollCollector)
-    res.json({code:403}).end();
-  else next();
-});
-
-server.use('/api/outpatientDoctor/',(req,res,next)=>{
-  if(res.session['role']!=Roles.OutpatientDoctor)
-    res.json({code:403}).end();
-  else next();
-});
-
-server.use('/api/doctorOfTechnology/',(req,res,next)=>{
-  if(res.session['role']!=Roles.DoctorOfTechnology)
-    res.json({code:403}).end();
-  else next();
-});
-
-server.use('/api/pharmacyOperator/',(req,res,next)=>{
-  if(res.session['role']!=Roles.PharmacyOperator)
-    res.json({code:403}).end();
-  else next();
-});
-
-server.use('/api/financialAdmin/',(req,res,next)=>{
-  if(res.session['role']!=Roles.FinancialAdmin)
-    res.json({code:403}).end();
-  else next();
-});
-
-server.use('/api', apiProxy);//对地址为/api的请求全部转发
-
-
-
-
-
-
-
 server.use(bodyParser.json({limit: '50MB'}));
 server.use(bodyParser.urlencoded({limit: '50MB', extended: true}));
-server.all("*",function(req,res,next){
-  res.header("Access-Control-Allow-Origin","*");
-  res.header("Access-Control-Allow-Headers","content-type,x-requested-with"); 
-  res.header("Access-Control-Allow-Methods","DELETE,PUT,POST,GET,OPTIONS");
-  next();
-});
+//cors
+server.all('*',cors)
 
+//提交登录
 server.post('/login',(req,res)=>{
   const username = req.body.username;
   const password = req.body.password;
-  DB.query(`select password from user where username='${username}'`,(err,data)=>{
+  console.log('login',{username:username,password:password});
+  DB.query(`select * from user,user_info where username='${username}' and user.id=user_info.uid`,(err,data)=>{
     if(err) {
       console.log(err);
       res.json({code:500,msg:"服务器错误"}).end();
     } else {
-      if(data.length!=1 || hash(data[0])!=password)  
+      if(data.length!=1 || hash(password)!=data[0].password)  {
+        console.log(data)
+        console.log(hash(password))
+        //console.log(hash(data[0].password),password)
         res.json({code:403,msg:"用户名或者密码错误"}).end();
-      else {
+      } else {
         req.session['uid'] = data[0].id;
+        req.session['role_id'] = data[0].role_id;
+        console.log('login success,uid:',data[0].uid,'role_id:',data[0].role_id);
         res.json({code:200}).end();
       }
     }
   })
 });
 
-server.listen(8081)
+//退出
+server.post('/logout',(req,res)=>{
+  req.session['uid']=null;
+  req.session['role_id'] = null;
+  res.json({code:200}).end();
+});
+
+//AuthFilter
+server.all('*',auth)
+//uid inject
+server.all('*',inject)
+//reverse Proxy
+server.use('/api', apiProxy);
+
+//error api
+server.all('*',(req,res)=>{res.json({code:404,msg:'uknown api'}).end()})
+
+console.log('======== Node Auth Procy Server Running ========');
+console.log('DB_HOST: ',process.env.DB_HOST)
+console.log('DB_NAME: ',process.env.DB_NAME)
+console.log('RUNNING: ',process.env.PORT)
+console.log('MODE: ',process.env.MODE)
+console.log("================================================");
+server.listen(process.env.PORT)
+

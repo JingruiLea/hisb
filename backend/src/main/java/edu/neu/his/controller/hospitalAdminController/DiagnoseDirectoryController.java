@@ -47,9 +47,8 @@ public class DiagnoseDirectoryController {
         int rawId = (int)req.get("raw_id");
         int classification_id = (int)req.get("classification_id");
         if(!checkIdExist(rawId)){
-            return  Response.Error("错误，原ID不存在。");
-        }
-        if(disease.getId()!=rawId && checkIdExist(disease.getId())) {
+            return Response.Error("错误，原ID不存在。");
+        }else if(disease.getId()!=rawId && checkIdExist(disease.getId())) {
             return Response.Error("错误，ID重复。");
         }else if(!checkClassificationExist(classification_id)){
             return Response.Error("错误，疾病类别不存在。");

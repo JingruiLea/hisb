@@ -10,20 +10,21 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
-public class LoginController {
+public class UserInfoController {
     @Autowired
     private UserService userService;
 
     @PostMapping("/info")
     @ResponseBody
     public Map getUserInfo(@RequestBody Map req) {
+        //System.out.println(req);
         int uid = (int)req.get("_uid");
         User user = userService.findByUid(uid);
         if(user!=null) {
             user.setPassword(null);
             return Response.Ok(user);
         }else
-            return Response.Error("该用户不存在！");
+            return Response.Error("用户信息读取失败，请检查数据库约束！");
     }
 
 }
