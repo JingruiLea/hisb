@@ -3,7 +3,6 @@ package edu.neu.his.bean;
 public class BillRecord {
     private int id;
     private int medical_record_id;
-    private String created_date;
     private int expense_classification_id;
     private String type;//缴费退费
     private int print_status;
@@ -13,6 +12,7 @@ public class BillRecord {
     private float retail_fee;
     private int user_id;
     private String creat_time;
+    private String expense_classification;
 
     public BillRecord() {
     }
@@ -31,14 +31,6 @@ public class BillRecord {
 
     public void setMedical_record_id(int medical_record_id) {
         this.medical_record_id = medical_record_id;
-    }
-
-    public String getCreated_date() {
-        return created_date;
-    }
-
-    public void setCreated_date(String created_date) {
-        this.created_date = created_date;
     }
 
     public int getExpense_classification_id() {
@@ -111,5 +103,13 @@ public class BillRecord {
 
     public void setCreat_time(String creat_time) {
         this.creat_time = creat_time;
+    }
+
+    public String getExpense_classification() {
+        return expense_classification;
+    }
+
+    public void setExpense_classification(String expense_classification) {
+        this.expense_classification = expense_classification;
     }
 }

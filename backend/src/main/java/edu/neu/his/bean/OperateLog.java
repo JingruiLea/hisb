@@ -9,6 +9,15 @@ public class OperateLog {
     private float fee;
     private String create_time;
 
+    public OperateLog(int user_id, int operate_id, String type, int bill_record_id, float fee, String create_time){
+        this.user_id = user_id;
+        this.operate_id = operate_id;
+        this.type = type;
+        this.bill_record_id = bill_record_id;
+        this.fee = fee;
+        this.create_time = create_time;
+    }
+
     public int getId() {
         return id;
     }
