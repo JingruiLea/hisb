@@ -152,9 +152,10 @@
     },
     "update":
     {
-      "raw_id":"ZZXY31",
+      "raw_id":29395,
       "id":29395,
       "name":"传染性单核细胞增多症",
+      "code":"A1019",
       "classification_id":472,
       "pinyin":"CRXDHXBZDZ",
       "custom_name":"传单",
@@ -191,25 +192,6 @@
       "registration_source": "local",
       "settlement_category_id": 2
     }
-//    "add1":
-//    {
-//      "address" : "沈阳市东北大学",
-//      "age" : 17,
-//      "birthday" : "1998.03.23",
-//      "consultation_date": "2019.10.2",
-//      "registration_department_id": "内分泌科",
-//      "gender": "男",
-//      "has_record_book": 1,
-//      "medical_category": "不知道什么意思",
-//      "medical_certificate_number": "371625223284621134",
-//      "medical_certificate_number_type": "id",
-//      "medical_insurance_diagnosis": "不知道什么意思",
-//      "name": "王蓓蕾",
-//      "outpatient_doctor_id"  : 3,
-//      "settlement_category_id": 2,
-//      "registration_source": "app挂号",
-//      "registration_level_id": 1
-//    }
 
   }
 }

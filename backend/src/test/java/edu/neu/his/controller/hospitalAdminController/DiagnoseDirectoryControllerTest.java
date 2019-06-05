@@ -72,9 +72,9 @@ public class DiagnoseDirectoryControllerTest {
                 post("/diagnoseDirectoryManagement/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "      \"id\":293942,\n" +
+                        "      \"id\":9999999,\n" +
                         "      \"name\":\"传染性单核细胞增多2\",\n" +
-                        "      \"code\": \"B0347238\",\n" +
+                        "      \"code\": \"ZZXY30\",\n" +
                         "      \"classification_id\":1,\n" +
                         "      \"pinyin\":\"CRXDHXBZDZ\",\n" +
                         "      \"custom_name\":\"传单\",\n" +
@@ -87,16 +87,17 @@ public class DiagnoseDirectoryControllerTest {
     }
 
     @Test
-    public void updateNonDrugCharge() throws Exception{
+    public void updateDisease() throws Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
                 post("/diagnoseDirectoryManagement/update")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "      \"raw_id\":\"ZZXY31\",\n" +
-                        "      \"id\":29395,\n" +
+                        "      \"raw_id\":29396,\n" +
+                        "      \"id\":29396,\n" +
                         "      \"name\":\"传染性单核细胞增多症\",\n" +
-                        "      \"classification_id\":472,\n" +
+                        "      \"code\":\"A1019\",\n" +
+                        "      \"classification_id\":1,\n" +
                         "      \"pinyin\":\"CRXDHXBZDZ\",\n" +
                         "      \"custom_name\":\"传单\",\n" +
                         "      \"custom_pinyin\":\"ChuanDan\"\n" +
