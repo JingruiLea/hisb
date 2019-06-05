@@ -7,7 +7,7 @@ const crypto = require('crypto');
 const cors = require('./cors')
 const auth = require('./auth')
 const apiProxy = require('./proxy')
-
+const inject = require('./uidInject')
 
 const DB = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -32,7 +32,6 @@ server.use(cookieSession({
 
 server.use(bodyParser.json({limit: '50MB'}));
 server.use(bodyParser.urlencoded({limit: '50MB', extended: true}));
-
 //cors
 server.all('*',cors)
 
@@ -70,10 +69,12 @@ server.post('/logout',(req,res)=>{
 
 //AuthFilter
 server.all('*',auth)
-//Proxy
-server.use('/api', apiProxy);//对地址为/api的请求全部转发
+//uid inject
+server.all('*',inject)
+//reverse Proxy
+server.use('/api', apiProxy);
 
-server.all('*',(req,res)=>{res.json({code:404,msg:'known api'}).end()})
-
+//error api
+server.all('*',(req,res)=>{res.json({code:404,msg:'uknown api'}).end()})
 server.listen(process.env.PORT)
 

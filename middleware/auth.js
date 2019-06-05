@@ -38,17 +38,4 @@ auth.use('/',(req,res,next)=>{
     next();
 });
 
-//此处session存在 注入_uid
-auth.use('/',(req,res,next)=>{
-  req.body._uid = req.session['uid'];
-  console.log('injected:',req.body)
-  next();
-});
-
-//放行
-auth.use('/',(req,res,next)=>{
-  console.log('left auth ',req.url)
-  next()
-})
-
 module.exports = auth
