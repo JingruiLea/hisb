@@ -46,11 +46,12 @@ class DashboardPage extends React.Component {
     })
   }
 
-  _componentDidMount() {
+  componentDidMount() {
     const _this = this;
     axios({
         method: API.me.myInfo.method,
         url: API.me.myInfo.url,
+        withCredentials:true,
         crossDomain: true
       }).then((res)=>{
         const data = res.data;

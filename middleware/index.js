@@ -35,13 +35,6 @@ server.use(bodyParser.urlencoded({limit: '50MB', extended: true}));
 
 //cors
 server.all('*',cors)
-//Auth
-server.all('*',auth)
-//Proxy
-server.use('/api', apiProxy);//对地址为/api的请求全部转发
-
-
-/******************************* 最末层 不受proxy影响 *********************************** */
 
 //提交登录
 server.post('/login',(req,res)=>{
@@ -74,6 +67,13 @@ server.post('/logout',(req,res)=>{
   req.session['role_id'] = null;
   res.json({code:200}).end();
 });
+
+//AuthFilter
+server.all('*',auth)
+//Proxy
+server.use('/api', apiProxy);//对地址为/api的请求全部转发
+
+server.all('*',(req,res)=>{res.json({code:404,msg:'known api'}).end()})
 
 server.listen(process.env.PORT)
 

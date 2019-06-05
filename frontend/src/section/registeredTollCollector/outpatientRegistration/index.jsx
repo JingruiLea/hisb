@@ -54,7 +54,8 @@ class OutpatientRegistration extends React.Component {
         method: API.outpatientWorkstation.registration.init.method,
         url: API.outpatientWorkstation.registration.init.url,
         data: {data:data},
-        crossDomain: true
+        crossDomain: true,
+        withCredentials:true
       }).then((res)=>{
         const code = res.data.code;
         const data = res.data.data;
@@ -85,7 +86,8 @@ class OutpatientRegistration extends React.Component {
         method: API.outpatientWorkstation.registration.syncDoctorList.method,
         url: API.outpatientWorkstation.registration.syncDoctorList.url,
         data: data,
-        crossDomain: true
+        crossDomain: true,
+        withCredentials:true
       }).then((res)=>{
         const code = res.data.code;
         const data = res.data.data;
@@ -113,7 +115,8 @@ class OutpatientRegistration extends React.Component {
           method: API.outpatientWorkstation.registration.calculateFee.method,
           url: API.outpatientWorkstation.registration.calculateFee.url,
           data: data,
-          crossDomain: true
+          crossDomain: true,
+          withCredentials:true
         }).then((res)=>{
           const code = res.data.code;
           const data = res.data.data;
@@ -139,7 +142,8 @@ class OutpatientRegistration extends React.Component {
           method: API.outpatientWorkstation.registration.confirmRegistration.method,
           url: API.outpatientWorkstation.registration.confirmRegistration.url,
           data: data,
-          crossDomain: true
+          crossDomain: true,
+          withCredentials:true
         }).then((res)=>{
           const code = res.data.code;
           const data = res.data.data;

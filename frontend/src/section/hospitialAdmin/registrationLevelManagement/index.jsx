@@ -29,7 +29,8 @@ class RegistrationLevelManagement extends React.Component {
         axios({
             method: API.bacisInfoManagement.registrationLevel.all.method,
             url: API.bacisInfoManagement.registrationLevel.all.url,
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             //console.log('receive',data)
@@ -56,7 +57,8 @@ class RegistrationLevelManagement extends React.Component {
             method: API.bacisInfoManagement.registrationLevel.update.method,
             url: API.bacisInfoManagement.registrationLevel.update.url,
             data: data,
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)
@@ -81,7 +83,8 @@ class RegistrationLevelManagement extends React.Component {
             method: API.bacisInfoManagement.registrationLevel.add.method,
             url: API.bacisInfoManagement.registrationLevel.add.url,
             data: data,
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)
@@ -105,7 +108,8 @@ class RegistrationLevelManagement extends React.Component {
             method: API.bacisInfoManagement.registrationLevel.delete.method,
             url: API.bacisInfoManagement.registrationLevel.delete.url,
             data: {data},
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)
