@@ -6,7 +6,7 @@ const inject = express.Router();
 //此处session存在 注入_uid
 inject.use('/',(req,res,next)=>{
   //debug mode
-  uid = process.env.DEFAULT_INJECT_UID;
+  uid = parseInt(process.env.DEFAULT_INJECT_UID);
   if(process.env.MODE=="DEV") {
     uid = req.session['uid']
   }

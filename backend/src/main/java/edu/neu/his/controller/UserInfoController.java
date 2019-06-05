@@ -24,7 +24,7 @@ public class UserInfoController {
             user.setPassword(null);
             return Response.Ok(user);
         }else
-            return Response.Error("该用户不存在！");
+            return Response.Error("用户信息读取失败，请检查数据库约束！");
     }
 
 }
