@@ -139,7 +139,7 @@ class OutpatientRegistration extends React.Component {
       });
     }
 
-    submitRegistration=async(data)=>{
+    submitRegistration=async(values)=>{
       const _this = this;
       axios({
           method: API.outpatientWorkstation.registration.confirmRegistration.method,
@@ -155,6 +155,13 @@ class OutpatientRegistration extends React.Component {
               _this.setState({
                 cost:data.fee,
                 printVisible:true,
+                bill:{
+                  "medical_record_id" : 10000002, //病历号
+                  "name" : 'www', //操作员,
+                  "department_name" : "菜徐坤",
+                  "cost": 100,
+                  "create_time": "2019-6-4 14:10"
+                }
               })
           } else if(code===Status.PermissionDenied) {
               Message.showAuthExpiredMessage();
