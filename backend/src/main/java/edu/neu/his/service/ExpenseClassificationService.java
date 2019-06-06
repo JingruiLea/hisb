@@ -14,4 +14,9 @@ public class ExpenseClassificationService {
     public int findClassificationIdByName(String fee_name){
         return expenseClassificationMapper.findClassificationIdByName(fee_name);
     }
+
+    @Transactional
+    public String findClassificationById(int id){
+        return expenseClassificationMapper.findClassificationById(id);
+    }
 }

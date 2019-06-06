@@ -10,4 +10,7 @@ import org.springframework.stereotype.Component;
 public interface ExpenseClassificationMapper {
     @Select("SELECT id FROM expense_classification where fee_name = #{fee_name}")
     int findClassificationIdByName(@Param("fee_name") String fee_name);
+
+    @Select("SELECT fee_name FROM expense_classification where id = #{id}")
+    String findClassificationById(@Param("id") int id);
 }

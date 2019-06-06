@@ -1,6 +1,8 @@
 package edu.neu.his.controller.registeredTollCollectorController;
 
 import edu.neu.his.bean.*;
+import edu.neu.his.config.BillRecordStatus;
+import edu.neu.his.config.OperateStatus;
 import edu.neu.his.config.RegistrationConfig;
 import edu.neu.his.config.Response;
 import edu.neu.his.service.*;
@@ -105,19 +107,18 @@ public class OutpatientRegistrationController {
 
         //挂号记录
         int medical_record_number = outpatientRegistrationService.insertRegistration(registration);
-        data.put("medical_record_number", medical_record_number);
+        data.put("medical_record_number", medical_record_number);//病历号
 
         //票据记录
-        String billType = "缴费";
-        String expense_classification = "挂号费";
-        BillRecord billRecord = reqToBillRecord(req,medical_record_number,billType,expense_classification,fee);
+        String billType = BillRecordStatus.Charge;
+        BillRecord billRecord = reqToBillRecord(req,medical_record_number,billType,fee);
         if(billRecord==null)
             return Response.Error("错误，费用类型不存在");
         int bill_record_id = billRecordService.insertBillRecord(billRecord);
         data.put("bill",billRecord);
 
         //操作记录
-        String operateType = "挂号";
+        String operateType = OperateStatus.Register;
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String create_time = df.format(new Date());
         OperateLog operateLog = new OperateLog((int)req.get("_uid"),medical_record_number,operateType,bill_record_id,fee,create_time);
@@ -141,15 +142,14 @@ public class OutpatientRegistrationController {
             outpatientRegistrationService.updateStatus(registration);
 
             //票据冲正
-            String billType = "退费";
-            String expense_classification = "挂号费";
-            BillRecord billRecord = registrationToWithdrawBill(registration,billType,expense_classification,uid);
+            String billType = BillRecordStatus.Refund;
+            BillRecord billRecord = registrationToWithdrawBill(registration,billType,uid);
             if(billRecord==null)
                 return Response.Error("错误，费用类型不存在");
             int bill_record_id = billRecordService.insertBillRecord(billRecord);
 
             //操作冲正
-            String operateType = "退号";
+            String operateType = OperateStatus.Cancel;
             OperateLog operateLog = registrationToWithdrawOperateLog(registration,operateType,bill_record_id,uid);
             operateLogService.insertOperateLog(operateLog);
 
@@ -203,10 +203,7 @@ public class OutpatientRegistrationController {
         return registration;
     }
 
-    private BillRecord reqToBillRecord(Map req,int medical_record_number,String type,String expense_classification,float fee){
-        Integer expense_classification_id = expenseClassificationService.findClassificationIdByName(expense_classification);
-        if(expense_classification_id==null)
-            return null;
+    private BillRecord reqToBillRecord(Map req,int medical_record_number,String type,float fee){
         BillRecord billRecord = new BillRecord();
         billRecord.setTruely_pay((float)req.get("truely_pay"));
         billRecord.setShould_pay((float)req.get("should_pay"));
@@ -217,20 +214,14 @@ public class OutpatientRegistrationController {
         billRecord.setMedical_record_id(medical_record_number);
         billRecord.setType(type);
         billRecord.setCost(fee);
-        billRecord.setExpense_classification(expense_classification);
-        billRecord.setExpense_classification_id(expense_classification_id);
+
 
         return billRecord;
     }
 
-    private BillRecord registrationToWithdrawBill(Registration registration, String type,String expense_classification, int uid){
-        Integer expense_classification_id = expenseClassificationService.findClassificationIdByName(expense_classification);
-        if(expense_classification_id==null)
-            return null;
+    private BillRecord registrationToWithdrawBill(Registration registration, String type,int uid){
         BillRecord billRecord = new BillRecord();
         billRecord.setCost(0-registration.getCost());
-        billRecord.setExpense_classification(expense_classification);
-        billRecord.setExpense_classification_id(expense_classification_id);
         billRecord.setMedical_record_id(registration.getMedical_record_id());
         billRecord.setUser_id(uid);
         billRecord.setType(type);
