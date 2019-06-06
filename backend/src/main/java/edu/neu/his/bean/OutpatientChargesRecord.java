@@ -5,11 +5,15 @@ import java.io.Serializable;
 public class OutpatientChargesRecord implements Serializable {
     private Integer id;
 
-    private Integer medicalRecordId;
+    private Integer medical_record_id;
 
-    private Integer itemId;
+    private Integer bill_record_id;
+
+    private Integer item_id;
 
     private String type;
+
+    private Integer expense_classification_id;
 
     private String status;
 
@@ -17,11 +21,19 @@ public class OutpatientChargesRecord implements Serializable {
 
     private Float cost;
 
-    private Integer excuteDepartmentId;
+    private Integer excute_department_id;
 
-    private Integer tollCollectorId;
+    private String creat_time;
 
-    private String creatTime;
+    private String collect_time;
+
+    private String return_time;
+
+    private Integer create_user_id;
+
+    private Integer collect_user_id;
+
+    private Integer return_user_id;
 
     private static final long serialVersionUID = 1L;
 
@@ -33,20 +45,28 @@ public class OutpatientChargesRecord implements Serializable {
         this.id = id;
     }
 
-    public Integer getMedicalRecordId() {
-        return medicalRecordId;
+    public Integer getMedical_record_id() {
+        return medical_record_id;
     }
 
-    public void setMedicalRecordId(Integer medicalRecordId) {
-        this.medicalRecordId = medicalRecordId;
+    public void setMedical_record_id(Integer medical_record_id) {
+        this.medical_record_id = medical_record_id;
     }
 
-    public Integer getItemId() {
-        return itemId;
+    public Integer getBill_record_id() {
+        return bill_record_id;
     }
 
-    public void setItemId(Integer itemId) {
-        this.itemId = itemId;
+    public void setBill_record_id(Integer bill_record_id) {
+        this.bill_record_id = bill_record_id;
+    }
+
+    public Integer getItem_id() {
+        return item_id;
+    }
+
+    public void setItem_id(Integer item_id) {
+        this.item_id = item_id;
     }
 
     public String getType() {
@@ -55,6 +75,14 @@ public class OutpatientChargesRecord implements Serializable {
 
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
+    }
+
+    public Integer getExpense_classification_id() {
+        return expense_classification_id;
+    }
+
+    public void setExpense_classification_id(Integer expense_classification_id) {
+        this.expense_classification_id = expense_classification_id;
     }
 
     public String getStatus() {
@@ -81,28 +109,60 @@ public class OutpatientChargesRecord implements Serializable {
         this.cost = cost;
     }
 
-    public Integer getExcuteDepartmentId() {
-        return excuteDepartmentId;
+    public Integer getExcute_department_id() {
+        return excute_department_id;
     }
 
-    public void setExcuteDepartmentId(Integer excuteDepartmentId) {
-        this.excuteDepartmentId = excuteDepartmentId;
+    public void setExcute_department_id(Integer excute_department_id) {
+        this.excute_department_id = excute_department_id;
     }
 
-    public Integer getTollCollectorId() {
-        return tollCollectorId;
+    public String getCreat_time() {
+        return creat_time;
     }
 
-    public void setTollCollectorId(Integer tollCollectorId) {
-        this.tollCollectorId = tollCollectorId;
+    public void setCreat_time(String creat_time) {
+        this.creat_time = creat_time == null ? null : creat_time.trim();
     }
 
-    public String getCreatTime() {
-        return creatTime;
+    public String getCollect_time() {
+        return collect_time;
     }
 
-    public void setCreatTime(String creatTime) {
-        this.creatTime = creatTime == null ? null : creatTime.trim();
+    public void setCollect_time(String collect_time) {
+        this.collect_time = collect_time == null ? null : collect_time.trim();
+    }
+
+    public String getReturn_time() {
+        return return_time;
+    }
+
+    public void setReturn_time(String return_time) {
+        this.return_time = return_time == null ? null : return_time.trim();
+    }
+
+    public Integer getCreate_user_id() {
+        return create_user_id;
+    }
+
+    public void setCreate_user_id(Integer create_user_id) {
+        this.create_user_id = create_user_id;
+    }
+
+    public Integer getCollect_user_id() {
+        return collect_user_id;
+    }
+
+    public void setCollect_user_id(Integer collect_user_id) {
+        this.collect_user_id = collect_user_id;
+    }
+
+    public Integer getReturn_user_id() {
+        return return_user_id;
+    }
+
+    public void setReturn_user_id(Integer return_user_id) {
+        this.return_user_id = return_user_id;
     }
 
     @Override
@@ -112,15 +172,21 @@ public class OutpatientChargesRecord implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", medicalRecordId=").append(medicalRecordId);
-        sb.append(", itemId=").append(itemId);
+        sb.append(", medical_record_id=").append(medical_record_id);
+        sb.append(", bill_record_id=").append(bill_record_id);
+        sb.append(", item_id=").append(item_id);
         sb.append(", type=").append(type);
+        sb.append(", expense_classification_id=").append(expense_classification_id);
         sb.append(", status=").append(status);
         sb.append(", quantity=").append(quantity);
         sb.append(", cost=").append(cost);
-        sb.append(", excuteDepartmentId=").append(excuteDepartmentId);
-        sb.append(", tollCollectorId=").append(tollCollectorId);
-        sb.append(", creatTime=").append(creatTime);
+        sb.append(", excute_department_id=").append(excute_department_id);
+        sb.append(", creat_time=").append(creat_time);
+        sb.append(", collect_time=").append(collect_time);
+        sb.append(", return_time=").append(return_time);
+        sb.append(", create_user_id=").append(create_user_id);
+        sb.append(", collect_user_id=").append(collect_user_id);
+        sb.append(", return_user_id=").append(return_user_id);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

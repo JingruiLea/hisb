@@ -4,7 +4,6 @@ import edu.neu.his.bean.*;
 import edu.neu.his.mapper.DepartmentMapper;
 import edu.neu.his.mapper.DiseaseMapper;
 import edu.neu.his.mapper.NonDrugChargeItemMapper;
-import edu.neu.his.service.DrugService;
 import edu.neu.his.util.ExcelImportation;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -73,7 +72,7 @@ public class ExcelImportationImportUtilsTest {
         //((Map<String, Function<String, ?>>)excel.getPreFunctionMap()).put("classification_id", departmentMapper::findClassificationIdByName);
         excel.exec();
     }
-
+/*
     @Autowired
     DrugService drugService;
 
@@ -86,5 +85,5 @@ public class ExcelImportationImportUtilsTest {
         //((Map<String, Function<String, ?>>)excel.getPreFunctionMap()).put("classification_id", departmentMapper::findClassificationIdByName);
         excel.exec();
     }
-
+*/
 }
