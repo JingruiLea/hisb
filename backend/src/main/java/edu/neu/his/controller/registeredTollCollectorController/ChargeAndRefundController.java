@@ -36,7 +36,6 @@ public class ChargeAndRefundController {
         return Response.Ok(chargeAndRefundService.findByMedicalRecordId(medical_record_id));
     }
 
-
     @PostMapping("/collect")
     @ResponseBody
     public Map collect(@RequestBody Map req){
@@ -50,14 +49,10 @@ public class ChargeAndRefundController {
         String type = BillRecordStatus.Charge;
         int medical_record_id = (int)req.get("medical_record_id");
 
-        String str = (String)req.get("charges_id_list");
-        int beginIndex = str.indexOf('[') == 0 ? 1 : 0;
-        int endIndex = str.lastIndexOf(']') + 1 == str.length() ? str.lastIndexOf(']') : str.length();
-        str = str.substring(beginIndex, endIndex);
-        String[] id_list = str.split(",");
+        List id_list = (List)req.get("charges_id_list");
 
-        for(int i=0; i<id_list.length; i++){
-            int id = Integer.parseInt(id_list[i]);
+        for(int i=0; i<id_list.size(); i++){
+            Integer id = (Integer)id_list.get(i);
             OutpatientChargesRecord outpatientChargesRecord = chargeAndRefundService.findByMedicalRecordIdAndId(medical_record_id,id);
             if(outpatientChargesRecord==null){
                 IDsNotHave.add(id);
@@ -115,14 +110,10 @@ public class ChargeAndRefundController {
         String type = BillRecordStatus.Refund;
         int medical_record_id = (int)req.get("medical_record_id");
 
-        String str = (String)req.get("charges_id_list");
-        int beginIndex = str.indexOf('[') == 0 ? 1 : 0;
-        int endIndex = str.lastIndexOf(']') + 1 == str.length() ? str.lastIndexOf(']') : str.length();
-        str = str.substring(beginIndex, endIndex);
-        String[] id_list = str.split(",");
+        List id_list = (List)req.get("charges_id_list");
 
-        for(int i=0; i<id_list.length; i++){
-            int id = Integer.parseInt(id_list[i]);
+        for(int i=0; i<id_list.size(); i++){
+            Integer id = (Integer)id_list.get(i);
             OutpatientChargesRecord outpatientChargesRecord = chargeAndRefundService.findByMedicalRecordIdAndId(medical_record_id,id);
             if(outpatientChargesRecord==null){
                 IDsNotHave.add(id);

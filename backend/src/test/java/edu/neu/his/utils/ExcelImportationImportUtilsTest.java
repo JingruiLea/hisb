@@ -72,7 +72,7 @@ public class ExcelImportationImportUtilsTest {
         //((Map<String, Function<String, ?>>)excel.getPreFunctionMap()).put("classification_id", departmentMapper::findClassificationIdByName);
         excel.exec();
     }
-
+/*
     @Autowired
     DrugService drugService;
 
@@ -85,5 +85,5 @@ public class ExcelImportationImportUtilsTest {
         //((Map<String, Function<String, ?>>)excel.getPreFunctionMap()).put("classification_id", departmentMapper::findClassificationIdByName);
         excel.exec();
     }
-
+*/
 }
