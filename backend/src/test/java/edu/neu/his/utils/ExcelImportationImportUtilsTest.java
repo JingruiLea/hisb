@@ -4,7 +4,6 @@ import edu.neu.his.bean.*;
 import edu.neu.his.mapper.DepartmentMapper;
 import edu.neu.his.mapper.DiseaseMapper;
 import edu.neu.his.mapper.NonDrugChargeItemMapper;
-import edu.neu.his.service.DrugService;
 import edu.neu.his.util.ExcelImportation;
 import org.junit.Test;
 import org.junit.runner.RunWith;
