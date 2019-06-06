@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card,Form,Layout, Spin, Input, Typography, Button, Col, message} from 'antd';
+import {Card,Form,Layout, Spin, Input, Typography, Button, Col, message, Modal} from 'antd';
 import axios from 'axios';
 import RegistrationForm from './RegistrationForm';
 import DetailDrawer from './DetailDrawer';
@@ -7,7 +7,7 @@ import HistoryCard from './HistoryCard';
 import API from '../../../global/ApiConfig';
 import Status from '../../../global/Status';
 import Message from '../../../global/Message';
-
+import RegistrationBillPrint from './RegistrationBillPrint'
 
 const {Content} = Layout;
 
@@ -33,21 +33,24 @@ class OutpatientRegistration extends React.Component {
     settlementCategory:[],
     departments:[],
     outPatientDoctors:[],
-    cost:0
+    cost:0,
+    payMode:false,
+    printVisible:false,
+    bill:{}
   }
 
   //退号
-  withdrawNumber=(id)=>{
-    
-  }
+  withdrawNumber=(id)=>{}
 
-  componentDidMount=()=>{
-    this.init();
-  }
+  componentDidMount=()=>{this.init();}
 
   setPaymentMode=(payMode)=>{this.setState({payMode})}
 
-  //初始化 加载必须的数据
+  handlePrintCancel=()=>{this.setState({printVisible:false})}
+
+  handlePrintOk=()=>{this.setState({printVisible:true})}
+
+  //初始化面板信息 加载必须的数据
   init=()=>{
     const _this = this;
     axios({
@@ -109,7 +112,7 @@ class OutpatientRegistration extends React.Component {
     }
 
 
-   calculateFee=(data)=>{
+   calculateFee=async (data)=>{
       const _this = this;
       axios({
           method: API.outpatientWorkstation.registration.calculateFee.method,
@@ -136,7 +139,7 @@ class OutpatientRegistration extends React.Component {
       });
     }
 
-    submitRegistration=(data)=>{
+    submitRegistration=async(data)=>{
       const _this = this;
       axios({
           method: API.outpatientWorkstation.registration.confirmRegistration.method,
@@ -150,8 +153,8 @@ class OutpatientRegistration extends React.Component {
           console.log('receive',data)
           if(code===Status.Ok) {
               _this.setState({
-                payMode:true,
-                cost:data.fee
+                cost:data.fee,
+                printVisible:true,
               })
           } else if(code===Status.PermissionDenied) {
               Message.showAuthExpiredMessage();
@@ -190,6 +193,13 @@ class OutpatientRegistration extends React.Component {
         </Card>
         <br/>
         <HistoryCard data={data}/>
+        <Modal 
+          footer={null}
+          closable
+          onCancel={this.handlePrintCancel.bind(this)}
+          onOk={this.handlePrintOk.bind(this)}
+          visible={this.state.printVisible
+        }><RegistrationBillPrint bill={this.state.bill}/></Modal>
       </Content>)
     }
 

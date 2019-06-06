@@ -15,7 +15,7 @@ class DashboardPage extends React.Component {
   state = {
     collapsed: false,
     sectionKey:"0",
-    openKey:"sub3",
+    openKey:"sub4",
     me:{
       username:"XUranus",
       real_name:"李井瑞",

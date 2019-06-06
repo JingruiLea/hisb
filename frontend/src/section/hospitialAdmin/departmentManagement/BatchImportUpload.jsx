@@ -13,6 +13,7 @@ class BatchImportUpload extends React.Component {
   uploadProps = {
     name: 'file',
     action: API.bacisInfoManagement.department.import.url,
+    withCredentials:true
   };
 
   onChange(info) {

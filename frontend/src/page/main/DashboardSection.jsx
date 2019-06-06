@@ -32,8 +32,6 @@ import OutpatientDepartmentsWorkloadStatistic from '../../section/financialAdmin
 import OutpatientPersonalWorkloadStatistic from '../../section/financialAdmin/outpatientPersonalWorkloadStatistic'
 
 
-
-
 class DashboardSection extends React.Component {
   render() {
       const me = this.props.me;
@@ -43,7 +41,7 @@ class DashboardSection extends React.Component {
       const {sectionKey} = this.props;
       return (
         <div>
-          {sectionKey==="0"?<PersonalWorkloadStatistic me={this.props.me}/>:null}
+          {sectionKey==="0"?<OutpatientRegistration me={this.props.me}/>:null}
 
           {sectionKey==="3-1"?<DepartmentManagement me={this.props.me}/>:null}
           {sectionKey==="3-2"?<UserManagement me={this.props.me}/>:null}
