@@ -1,28 +1,12 @@
 import React from 'react';
-import {Card,Form,Layout, Spin, Input, Typography, Button, Col, message, Modal} from 'antd';
-import axios from 'axios';
+import {Card,Layout, Spin, Typography, Modal} from 'antd';
 import RegistrationForm from './RegistrationForm';
-import DetailDrawer from './DetailDrawer';
 import HistoryCard from './HistoryCard';
 import API from '../../../global/ApiConfig';
-import Status from '../../../global/Status';
 import Message from '../../../global/Message';
 import RegistrationBillPrint from './RegistrationBillPrint'
 
 const {Content} = Layout;
-
-const data = [
-  {
-    id:"099023",
-    name:"菜徐坤",
-    gender:"男",
-    time:"2018-03-31",
-    status:"已就诊",
-    cost:1000,
-    department:"神经科",
-    key:"1"
-  }
-]
 
 class OutpatientRegistration extends React.Component {
 
@@ -33,15 +17,14 @@ class OutpatientRegistration extends React.Component {
     settlementCategory:[],
     departments:[],
     outPatientDoctors:[],
+    history:[],
     cost:0,
     payMode:false,
     printVisible:false,
     bill:{}
   }
 
-  //退号
-  withdrawNumber=(id)=>{}
-
+  
   componentDidMount=()=>{this.init();}
 
   setPaymentMode=(payMode)=>{this.setState({payMode})}
@@ -50,165 +33,155 @@ class OutpatientRegistration extends React.Component {
 
   handlePrintOk=()=>{this.setState({printVisible:true})}
 
-  //初始化面板信息 加载必须的数据
-  init=()=>{
-    const _this = this;
-    axios({
-        method: API.outpatientWorkstation.registration.init.method,
-        url: API.outpatientWorkstation.registration.init.url,
-        data: {data:data},
-        crossDomain: true,
-        withCredentials:true
-      }).then((res)=>{
-        const code = res.data.code;
-        const data = res.data.data;
-        console.log('receive',data)
-        if(code===Status.Ok) {
-            _this.setState({
-              defaultRegistrationLevel:data.defaultRegistrationLevel,
-              registrationLevel:data.registrationLevel,
-              settlementCategory:data.settlementCategory,
-              departments:data.departments,
-              loading:false,
-            })
-        } else if(code===Status.PermissionDenied) {
-            Message.showAuthExpiredMessage();
-        } else {
-            Message.showConfirm('错误',res.data.msg)
-        }
-    }).catch((err)=>{
-        Message.showNetworkErrorMessage();
-    });
+  reset=()=>{this.setState({payMode:false})}
+
+  departmentsId2Name(id) {
+    for(var i=0;i<this.state.departments.length;i++)
+      if(this.state.departments[i].id===id)
+         return this.state.departments[i].name;
   }
 
+  registrationLevelId2Name(id) {
+    for(var i=0;i<this.state.registrationLevel.length;i++)
+      if(this.state.registrationLevel[i].id===id)
+         return this.state.registrationLevel[i].name;
+  }
+
+  outPatientDoctorId2Name(id) {
+    for(var i=0;i<this.state.outPatientDoctors.length;i++) {
+      console.log(this.state.outPatientDoctors[i].uid,id)
+      if(this.state.outPatientDoctors[i].uid==id)
+         return this.state.outPatientDoctors[i].real_name;
+    }
+  }
+
+  //初始化面板信息 加载必须的数据
+  init=()=>{
+    if(this.state.loading)//第一次加载
+      API.request(API.outpatientWorkstation.registration.init)
+      .ok((data)=>{
+        this.setState({
+          defaultRegistrationLevel:data.defaultRegistrationLevel,
+          registrationLevel:data.registrationLevel,
+          settlementCategory:data.settlementCategory,
+          departments:data.departments,
+          loading:false,
+        })
+      }).submit();
+    else {
+      //TODO:clear form...
+      this.setState({history:[]})
+    } 
+  }
 
   //同步医生列表
   syncDoctorList=(data)=>{
-    const _this = this;
-    axios({
-        method: API.outpatientWorkstation.registration.syncDoctorList.method,
-        url: API.outpatientWorkstation.registration.syncDoctorList.url,
-        data: data,
-        crossDomain: true,
-        withCredentials:true
-      }).then((res)=>{
-        const code = res.data.code;
-        const data = res.data.data;
-        console.log('receive',data)
-        if(code===Status.Ok) {
-            if(data.length===0) 
-              Message.openNotification("找不到排班医生","没有医生在此时间段，或没有匹配的科室，请重新选择")
-            _this.setState({
-              outPatientDoctors:data
-            })
-        } else if(code===Status.PermissionDenied) {
-            Message.showAuthExpiredMessage();
-        } else {
-            Message.showConfirm('错误',res.data.msg)
-        }
-      }).catch((err)=>{
-          Message.showNetworkErrorMessage();
-      });
-    }
+    API.request(API.outpatientWorkstation.registration.syncDoctorList,data)
+    .ok((data)=>{
+      if(data.length===0) 
+        Message.openNotification("找不到排班医生","没有医生在此时间段，或没有匹配的科室，请重新选择")
+      this.setState({
+        outPatientDoctors:data
+      })
+    }).submit();
+  }
 
+  calculateFee=async (data)=>{
+    API.request(API.outpatientWorkstation.registration.calculateFee,data)
+    .ok((data)=>{
+      this.setState({
+        payMode:true,
+        cost:data.fee
+      })
+    }).submit();
+  }
+  
+  submitRegistration=async(values)=>{
+    //API.request(API.outpatientWorkstation.registration.confirmRegistration,{data:values})
+    API.request({url:"http://www.mocky.io/v2/5cfb42df300000f6030a8afb",method:"post"},{data:values})
+    .ok((data=>{
+      var bill = values;
+      console.log('enter',values)///---------------------
+      bill.key = data.bill.medical_record_id;
+      bill.department_name = this.departmentsId2Name(values.department_id);
+      bill.registration_level_name = this.registrationLevelId2Name(values.registration_level_id);
+      bill.outpatient_doctor_name = this.outPatientDoctorId2Name(values.outpatient_doctor_id);
+      bill.medical_record_id = data.bill.medical_record_id; //病历号
+      bill.create_time = data.bill.create_time;
+      bill.cost = data.bill.cost;
+      bill.status = '缴费';
+      console.log('leave',values)//-----------------------
+      var newHistory = this.state.history;
+      newHistory.push(bill)
+      this.setState({
+        cost:data.fee,
+        printVisible:true,
+        bill:bill,
+        history:newHistory
+      })
+      this.reset();
+    })).submit();
+  }
 
-   calculateFee=async (data)=>{
-      const _this = this;
-      axios({
-          method: API.outpatientWorkstation.registration.calculateFee.method,
-          url: API.outpatientWorkstation.registration.calculateFee.url,
-          data: data,
-          crossDomain: true,
-          withCredentials:true
-        }).then((res)=>{
-          const code = res.data.code;
-          const data = res.data.data;
-          console.log('receive',data)
-          if(code===Status.Ok) {
-              _this.setState({
-                payMode:true,
-                cost:data.fee
-              })
-          } else if(code===Status.PermissionDenied) {
-              Message.showAuthExpiredMessage();
-          } else {
-              Message.showConfirm('错误',res.data.msg)
-          }
-      }).catch((err)=>{
-          Message.showNetworkErrorMessage();
-      });
-    }
+  //退号
+  withdrawNumber=(medical_record_id)=>{
+    API.request(API.outpatientWorkstation.registration.withdrawNumber,{medical_record_id})
+    .ok((data)=>{
+      Message.success('退号成功！')
+      this.init()
+    }).submit();
+  }
 
-    submitRegistration=async(values)=>{
-      const _this = this;
-      axios({
-          method: API.outpatientWorkstation.registration.confirmRegistration.method,
-          url: API.outpatientWorkstation.registration.confirmRegistration.url,
-          data: data,
-          crossDomain: true,
-          withCredentials:true
-        }).then((res)=>{
-          const code = res.data.code;
-          const data = res.data.data;
-          console.log('receive',data)
-          if(code===Status.Ok) {
-              _this.setState({
-                cost:data.fee,
-                printVisible:true,
-                bill:{
-                  "medical_record_id" : 10000002, //病历号
-                  "name" : 'www', //操作员,
-                  "department_name" : "菜徐坤",
-                  "cost": 100,
-                  "create_time": "2019-6-4 14:10"
-                }
-              })
-          } else if(code===Status.PermissionDenied) {
-              Message.showAuthExpiredMessage();
-          } else {
-              Message.showConfirm('错误',res.data.msg)
-          }
-      }).catch((err)=>{
-          Message.showNetworkErrorMessage();
-      });
-    }
+  //搜索历史记录
+  searchHistory=(id)=>{
+    API.request(API.outpatientWorkstation.registration.searchRegistration,{data:id})
+    .ok((data)=>{
+      this.setState({
+        history:data
+      })
+    }).submit();
+  }
 
+  render() {
+    const state = this.state;
+    return(<Content style={{ margin: '0 16px',paddingTop:5 }}>
+      <Card title="挂号">
+        {state.loading?
+        <div style={{textAlign:'center',paddingTop:30}}>
+          <Spin/><br/>
+          <Typography.Paragraph>加载中...</Typography.Paragraph>
+        </div>
+        :<RegistrationForm
+          defaultRegistrationLevel={state.defaultRegistrationLevel}
+          registrationLevel={state.registrationLevel}
+          settlementCategory={state.settlementCategory}
+          departments={state.departments}
+          outPatientDoctors={state.outPatientDoctors}
+          cost={this.state.cost}
+          payMode={this.state.payMode}
+          syncDoctorList={this.syncDoctorList.bind(this)}
+          calculateFee={this.calculateFee.bind(this)}
+          calculateFee={this.calculateFee.bind(this)}
+          setPaymentMode={this.setPaymentMode.bind(this)}
+          submitRegistration={this.submitRegistration.bind(this)}
+        />}
+      </Card><br/>
 
-    render() {
-      const state = this.state;
-      return(<Content style={{ margin: '0 16px',paddingTop:5 }}>
-        <Card title="挂号">
-          {state.loading?
-          <div style={{textAlign:'center',paddingTop:30}}>
-            <Spin/><br/>
-            <Typography.Paragraph>加载中...</Typography.Paragraph>
-          </div>
-          :<RegistrationForm
-            defaultRegistrationLevel={state.defaultRegistrationLevel}
-            registrationLevel={state.registrationLevel}
-            settlementCategory={state.settlementCategory}
-            departments={state.departments}
-            outPatientDoctors={state.outPatientDoctors}
-            cost={this.state.cost}
-            payMode={this.state.payMode}
-            syncDoctorList={this.syncDoctorList.bind(this)}
-            calculateFee={this.calculateFee.bind(this)}
-            calculateFee={this.calculateFee.bind(this)}
-            setPaymentMode={this.setPaymentMode.bind(this)}
-            submitRegistration={this.submitRegistration.bind(this)}
-          />}
-        </Card>
-        <br/>
-        <HistoryCard data={data}/>
-        <Modal 
-          footer={null}
-          closable
-          onCancel={this.handlePrintCancel.bind(this)}
-          onOk={this.handlePrintOk.bind(this)}
-          visible={this.state.printVisible
-        }><RegistrationBillPrint bill={this.state.bill}/></Modal>
-      </Content>)
-    }
+      <HistoryCard data={this.state.history} withdrawNumber={this.withdrawNumber.bind(this)}/>
+
+      <Modal 
+        title="打印单据" footer={null}  closable
+        style={{textAlign:'center'}}
+        width={400}
+        onCancel={this.handlePrintCancel.bind(this)}
+        onOk={this.handlePrintOk.bind(this)}
+        visible={this.state.printVisible
+      }>
+        <RegistrationBillPrint bill={this.state.bill}/>
+      </Modal>
+
+    </Content>)
+  }
 
 }
 

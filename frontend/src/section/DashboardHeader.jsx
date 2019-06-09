@@ -62,24 +62,10 @@ class DashboardHeader extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
-        axios({
-          method: API.me.updateInfo.method,
-          url: API.me.updateInfo.url,
-          data: values,
-          crossDomain: true
-        }).then((res)=>{
-          const data = res.data;
-          console.log('receive',data);
-          if(data.code===Status.Ok) {
-            this.showInfoUpdataSuccessConfirm();
-          } else if(data.code===Status.PermissionDenied) {
-              Message.showAuthExpiredMessage();
-          } else {
-              Message.showConfirm('错误',data.msg)
-          }}).catch((err)=>{
-              Message.showNetworkErrorMessage();
-          });
+        API.request(API.me.updateInfo,values)
+        .ok((data)=>{
+          this.showInfoUpdataSuccessConfirm();
+        }).submit();
       }
     });
   };

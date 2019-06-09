@@ -1,6 +1,6 @@
 import React from 'react';
 import {Upload,message} from 'antd';
-import { Typography, Button,Input,Modal,Breadcrumb,Form,Icon} from 'antd';
+import { Typography, Button} from 'antd';
 
 
 class BatchImportUpload extends React.Component {

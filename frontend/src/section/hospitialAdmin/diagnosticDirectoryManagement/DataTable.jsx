@@ -2,9 +2,6 @@ import React from 'react';
 import { Layout, Button,Input,Icon, Table,Tag} from 'antd';
 import Highlighter from 'react-highlight-words';
 
-const {Content} = Layout;
-
-
 class DataTable extends React.Component {
     state = {
         searchText: '',

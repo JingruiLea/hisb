@@ -1,11 +1,6 @@
 import React from 'react';
-import {Typography,Form,Input,Icon,Col, Select, Row,DatePicker,Radio,Button, AutoComplete} from 'antd'
+import {Form,Input,Icon,Col, Select, Row,DatePicker,Radio,Button} from 'antd'
 import moment from 'moment';
-import API from '../../../global/ApiConfig';
-import Status from '../../../global/Status';
-import Message from '../../../global/Message';
-import axios from 'axios'
-
 const { Option } = Select;
 const RadioGroup = Radio.Group;
 
@@ -30,9 +25,6 @@ class RegistrationForm extends React.Component {
       {name:"支付宝",id:3}
     ],
     */
-
-    outPatientDoctor:[],//[{name:"lijinrui",id:10}], //自动同步
-    cost:0
   }
 
   componentDidMount=()=>{
@@ -82,7 +74,7 @@ class RegistrationForm extends React.Component {
   }
 
   //表单提交
-  handleSubmit = e => {
+  handleSubmit =async e => {
     e.preventDefault();
     const _this = this;
     const form = this.props.form;
@@ -102,13 +94,16 @@ class RegistrationForm extends React.Component {
         else {
           values.should_pay =  this.props.cost;
           values.truely_pay = parseFloat(values.truely_pay)
-          this.props.submitRegistration(values)
+          await this.props.submitRegistration(values)
+          this.clearForm();
         }
       }
     });
   };
 
   cancelPaymentMode=()=>{this.props.setPaymentMode(false);}
+
+  clearForm=()=>{this.props.form.resetFields();}
 
   render() {
     //年龄列表
@@ -278,7 +273,7 @@ class RegistrationForm extends React.Component {
         </Col>
         <Col span={6}>
           <Form.Item label="门诊医生" {...formItemLayout}>
-            {getFieldDecorator('outpatent_doctor_id', {
+            {getFieldDecorator('outpatient_doctor_id', {
               rules: [{ required: true, message: '选择门诊医生' }],
             })(
               <Select disabled={this.props.outPatientDoctors.length===0} disabled={this.props.payMode}>

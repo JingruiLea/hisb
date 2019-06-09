@@ -1,14 +1,11 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 
 import DashboardSection from './DashboardSection'
 import DashboardHeader from '../../section/DashboardHeader'
-import axios from "axios";
 import API from '../../global/ApiConfig';
-import Status from '../../global/Status';
-import Message from '../../global/Message';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
 class DashboardPage extends React.Component {
@@ -47,25 +44,10 @@ class DashboardPage extends React.Component {
   }
 
   componentDidMount() {
-    const _this = this;
-    axios({
-        method: API.me.myInfo.method,
-        url: API.me.myInfo.url,
-        withCredentials:true,
-        crossDomain: true
-      }).then((res)=>{
-        const data = res.data;
-        console.log('receive',data)
-        if(data.code===Status.Ok) {
-            _this.setState({me:data.data})
-        } else if(data.code===Status.PermissionDenied) {
-            Message.showAuthExpiredMessage();
-        } else {
-            Message.showConfirm('错误',data.msg)
-        }
-    }).catch((err)=>{
-        Message.showNetworkErrorMessage();
-    });
+    API.request(API.me.myInfo,{})
+    .ok((data)=>{
+      this.setState({me:data})
+    }).submit();
   }
 
   render() {

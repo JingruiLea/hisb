@@ -179,7 +179,7 @@ public class OutpatientRegistrationController {
         String consultation_date = (String)req.get("consultation_date");
         String medicial_category = (String)req.get("medical_category");
         String patient_name = (String)req.get("name");
-        int outpatient_doctor_id = (int)req.get("outpatent_doctor_id");
+        int outpatient_doctor_id = (int)req.get("outpatient_doctor_id");
         int registration_department_id = (int)req.get("department_id");
         int settlement_category_id = (int)req.get("settlement_category_id");
         String registraton_source = (String)req.get("registration_source");
@@ -205,10 +205,10 @@ public class OutpatientRegistrationController {
 
     private BillRecord reqToBillRecord(Map req,int medical_record_number,String type,float fee){
         BillRecord billRecord = new BillRecord();
-        billRecord.setTruely_pay((float)req.get("truely_pay"));
-        billRecord.setShould_pay((float)req.get("should_pay"));
-        billRecord.setRetail_fee((float)req.get("retail_fee"));
-        billRecord.setUser_id((int)req.get("_uid"));
+        billRecord.setTruely_pay((Float) req.get("truely_pay"));
+        billRecord.setShould_pay((Float) req.get("should_pay"));
+        billRecord.setRetail_fee((Float) req.get("retail_fee"));
+        billRecord.setUser_id((Integer) req.get("_uid"));
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         billRecord.setCreat_time(df.format(new Date()));
         billRecord.setMedical_record_id(medical_record_number);

@@ -1,3 +1,4 @@
+import Request from "./Request";
 const server = 'http://localhost:8081'
 const apiServerPrefix = server+'/api'
 
@@ -119,59 +120,85 @@ const API = {
             }
         }
     },
-    //门诊挂号
+    //门诊缴费挂号工作站
     outpatientWorkstation:{
+        //门诊挂号
         registration:{
             //初始化面板信息
             init:{
                 method:'get',
                 url:apiServerPrefix+"/outpatientRegistration/init"
-            },
-            //同步医生信息
+            },//同步医生信息
             syncDoctorList:{
                 method:'post',
                 url:apiServerPrefix+'/outpatientRegistration/syncDoctorList'
-            },
-            //计算费用
+            },//计算费用
             calculateFee:{
                 method:'post',
                 url:apiServerPrefix+'/outpatientRegistration/calculateFee'
-            },
+            },//确认挂号
             confirmRegistration:{
                 method:'post',
                 url:apiServerPrefix+'/outpatientRegistration/confirm'
+            },//退号
+            withdrawNumber:{
+                method:'post',
+                url:apiServerPrefix+'/outpatientRegistration/withdrawNumber'
+            },//搜索用户挂号信息
+            searchRegistration:{
+                method:'post',
+                url:apiServerPrefix+'/outpatientRegistration/registrationByRecordId'
             }
         },
-        
-    }
+        //门诊收费
+        charge:{
+            //通过病历号, 获取收费项目列表（待缴费）,
+            getChargeItems:{
+                method:'post',
+                url:'http://www.mocky.io/v2/5cfcbc143200006500ccd404'//apiServerPrefix+'/outpatientRegistration/info'
+            },
+            //根据病例号，获得挂号信息
+            getRegistrationInfo:{
+                method:'post',
+                url:'http://www.mocky.io/v2/5cfcbea13200007800ccd406'//apiServerPrefix+'/outpatientRegistration/registrationByRecordId'
+            },
+            //交费
+            charge:{
+                method:'post',
+                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a',//apiServerPrefix+'/outpatientRegistration/collect'
+            },
+            //通过病历号, 获取收费项目列表（已缴费）,
+            getChargedItems:{
+                method:'post',
+                url:'http://www.mocky.io/v2/5cfcbc143200006500ccd404',//apiServerPrefix+'/outpatientRegistration/historyInfo'
+            }
+        },
+        //门诊日结
+        dailyCollect:{
+            //初始化面板
+            getHistoryList:{
+                method:'get',
+                url:'http://www.mocky.io/v2/5cfcc22d3200006500ccd412',////apiServerPrefix+'/dailyCollect/list'
+            },
+            //日结详细信息
+            dailyCollectDetail:{
+                method:'post',
+                url:apiServerPrefix+'/dailyCollect/detail'
+            },
+            //日结请求
+            dailyCollectRequest:{
+                method:'post',
+                url:apiServerPrefix+'/dailyCollect/collect'
+            }
+        },
+    },
 
+
+    //请求
+    request:(api,reqData={})=>{
+        return new Request(api,reqData);
+    }
 }
 
 export default API;
 
-
-/*
-POST /user/login
-REQ username:string, password:string remember:bool
-RES errMsg:str code:int
-
-POST /user/info
-REQ EMPTY
-RES errMsg:str code:int data:json
-
-POST /user/updateInfo
-REQ data:json
-RES errMsg:str code:int data:json
-
-POST /user/resetPwd
-REQ password:string
-RES errMsg:str code:int data:json
-
-
-
-POST /admin/listOffices
-REQ 
-RES  errMsg:str code:int data:json
-
-
-*/
