@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/registrationDailyCollect")
+@RequestMapping("/dailyCollect")
 public class RegistrationDailyCollectController {
     @Autowired
     private UserService userService;
@@ -45,7 +45,7 @@ public class RegistrationDailyCollectController {
         List<DailyDetail> dailyDetailList = dailyCollectService.findDailyDetailByCollectId(daily_collect_id);
         List<BillRecord> billRecordList = new ArrayList<>();
 
-        if(dailyDetailList==null)
+        if(dailyDetailList.size()==0)
             return Response.Error("错误，该日结ID不存在");
 
         dailyDetailList.forEach(dailyDetail -> {
@@ -66,7 +66,7 @@ public class RegistrationDailyCollectController {
             return Response.Error("错误，开始时间不小于结束时间或结束时间大于当前时间");
 
         List<BillRecord> billRecordList = billRecordService.findByUserIdAndTime(uid,start_time,end_time);
-        if(billRecordList==null)
+        if(billRecordList.size()==0)
             return Response.Error("不存在符合条件的票据记录");
 
         //添加日结记录

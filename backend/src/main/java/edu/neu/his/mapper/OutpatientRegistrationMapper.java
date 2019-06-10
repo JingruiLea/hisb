@@ -31,4 +31,17 @@ public interface OutpatientRegistrationMapper {
 
     @Update("UPDATE registration SET status = #{status} WHERE medical_record_id = #{medical_record_id}")
     void update(Registration registration);
+
+    @Select("SELECT * FROM registration WHERE medical_certificate_number = #{medical_certificate_number}")
+    List<Registration> findRegistrationByMedicalCertificateNumber(@Param("medical_certificate_number") String medical_certificate_number);
+
+    @Select("SELECT * FROM registration WHERE id_number = #{id_number}")
+    List<Registration> findRegistrationByIdNumber(@Param("id_number") String id_number);
+
+    @Select("SELECT * FROM registration WHERE medical_certificate_number = #{medical_certificate_number} and status = #{status}")
+    List<Registration> findRegistrationByMedicalCertificateNumberAndStatus(@Param("medical_certificate_number") String medical_certificate_number,
+                                                                           @Param("status") String status);
+
+    @Select("SELECT * FROM registration WHERE id_number = #{id_number} and status = #{status}")
+    List<Registration> findRegistrationByIdNumberAndStatus(@Param("id_number") String id_number, @Param("status") String status);
 }
