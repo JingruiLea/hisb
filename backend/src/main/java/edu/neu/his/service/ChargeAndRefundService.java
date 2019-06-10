@@ -28,6 +28,11 @@ public class ChargeAndRefundService {
     }
 
     @Transactional
+    public List<OutpatientChargesRecord> findByMedicalRecordIdAndTime(int medical_record_id, String start_time, String end_time){
+        return  chargeAndRefundMapper.findByMedicalRecordIdAndTime(medical_record_id, start_time, end_time);
+    }
+
+    @Transactional
     public int update (OutpatientChargesRecord outpatientChargesRecord){
         return outpatientChargesRecordMapper.updateByPrimaryKey(outpatientChargesRecord);
     }

@@ -1,14 +1,15 @@
 package edu.neu.his.controller.registeredTollCollectorController;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.neu.his.bean.*;
-import edu.neu.his.config.BillRecordStatus;
-import edu.neu.his.config.OperateStatus;
-import edu.neu.his.config.RegistrationConfig;
-import edu.neu.his.config.Response;
+import edu.neu.his.config.*;
 import edu.neu.his.service.*;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -57,7 +58,7 @@ public class OutpatientRegistrationController {
     public Map syncDoctorList(@RequestBody Map req){
         int department_id = (int)req.get("department_id");
         int registration_level_id = (int)req.get("registration_level_id");
-        String title = hash2Title(registration_level_id);
+        String title = RegistrationConfig.hashToTitle(registration_level_id);
         if(title==null)
             return Response.Error("错误 挂号等级不存在");
         else {
@@ -88,9 +89,23 @@ public class OutpatientRegistrationController {
 
     @PostMapping("/confirm")
     @ResponseBody
-    public Map confirm(@RequestBody Map req){
+    public Map confirm(@RequestBody Map req) throws IOException {
         Map data = new HashMap();
-        Registration registration = req2Registration(req);
+        int uid = Auth.uid(req);
+        ObjectMapper registrationMapper = new ObjectMapper();
+        registrationMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        String json = JSONObject.fromObject(req).toString();
+        Registration registration = registrationMapper.readValue(json, Registration.class);
+        String medical_certificate_number_type = (String)req.get("medical_certificate_number_type");
+        if(medical_certificate_number_type.equals("id")){
+            registration.setId_number((String)req.get("medical_certificate_number"));
+            registration.setMedical_certificate_number("");
+        }
+        if(registration.getAddress()==null)
+            registration.setAddress("");
+        if(registration.getRegistraton_source()==null)
+            registration.setRegistraton_source((String)req.get("registration_source"));
+
         int registration_level_id = (int)req.get("registration_level_id");
         RegistrationLevel registration_level = registrationLevelService.findById(registration_level_id);
         if(registration_level==null)
@@ -105,23 +120,34 @@ public class OutpatientRegistrationController {
         registration.setRegistration_category(registration_category);
         registration.setStatus(RegistrationConfig.registrationAvailable);
 
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String create_time = df.format(new Date());
+
         //挂号记录
         int medical_record_number = outpatientRegistrationService.insertRegistration(registration);
         data.put("medical_record_number", medical_record_number);//病历号
 
         //票据记录
-        String billType = BillRecordStatus.Charge;
-        BillRecord billRecord = reqToBillRecord(req,medical_record_number,billType,fee);
+        ObjectMapper billMapper = new ObjectMapper();
+        billMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        String bill_json = JSONObject.fromObject(req).toString();
+        BillRecord billRecord = registrationMapper.readValue(bill_json, BillRecord.class);
+
         if(billRecord==null)
-            return Response.Error("错误，费用类型不存在");
+            return Response.Error("错误，票据记录创建失败");
+
+        billRecord.setType(BillRecordStatus.Charge);
+        billRecord.setCost(fee);
+        billRecord.setMedical_record_id(medical_record_number);
+        billRecord.setCreat_time(create_time);
+        billRecord.setUser_id(uid);
+
         int bill_record_id = billRecordService.insertBillRecord(billRecord);
         data.put("bill",billRecord);
 
         //操作记录
         String operateType = OperateStatus.Register;
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String create_time = df.format(new Date());
-        OperateLog operateLog = new OperateLog((int)req.get("_uid"),medical_record_number,operateType,bill_record_id,fee,create_time);
+        OperateLog operateLog = new OperateLog(uid,medical_record_number,operateType,bill_record_id,fee,create_time);
         operateLogService.insertOperateLog(operateLog);
 
         return  Response.Ok(data);
@@ -131,7 +157,7 @@ public class OutpatientRegistrationController {
     @ResponseBody
     public Map withdrawNumber(@RequestBody Map req){
         int medical_record_id = (int)req.get("medical_record_id");
-        int uid = (int)req.get("_uid");
+        int uid = Auth.uid(req);
 
         Registration registration = outpatientRegistrationService.findRegistrationById(medical_record_id);
         if(registration==null){
@@ -159,66 +185,6 @@ public class OutpatientRegistrationController {
         }
     }
 
-    private String hash2Title(int registration_level_id){
-        RegistrationConfig.initTitleMap();
-        String title = null;
-        if(RegistrationConfig.titleMap.containsKey(registration_level_id))
-            title = RegistrationConfig.titleMap.get(registration_level_id);
-        return title;
-    }
-
-    private Registration req2Registration(Map req){
-        String address;
-        if(!req.containsKey("address"))
-            address = "";
-        else
-            address = (String)req.get("address");
-
-        int age = (int)req.get("age");
-        String birthday =(String)req.get("birthday");
-        String consultation_date = (String)req.get("consultation_date");
-        String medicial_category = (String)req.get("medical_category");
-        String patient_name = (String)req.get("name");
-        int outpatient_doctor_id = (int)req.get("outpatient_doctor_id");
-        int registration_department_id = (int)req.get("department_id");
-        int settlement_category_id = (int)req.get("settlement_category_id");
-        String registraton_source = (String)req.get("registration_source");
-        String gender = (String)req.get("gender");
-        String medical_insurance_diagnosis = (String)req.get("medical_insurance_diagnosis");
-        String medical_certificate_number_type = (String)req.get("medical_certificate_number_type");
-        String id_number,medicial_certificate_number;
-        if(medical_certificate_number_type.equals("id")){
-            id_number = (String)req.get("medical_certificate_number");
-            medicial_certificate_number = "";
-        }
-        else {
-            medicial_certificate_number = (String)req.get("medical_certificate_number");
-            id_number = "";
-        }
-
-        Registration registration = new Registration(address,age,birthday,consultation_date,medicial_category,patient_name,
-                outpatient_doctor_id,registration_department_id,settlement_category_id,registraton_source,gender,
-                medical_insurance_diagnosis,id_number,medicial_certificate_number);
-
-        return registration;
-    }
-
-    private BillRecord reqToBillRecord(Map req,int medical_record_number,String type,float fee){
-        BillRecord billRecord = new BillRecord();
-        billRecord.setTruely_pay((float)req.get("truely_pay"));
-        billRecord.setShould_pay((float)req.get("should_pay"));
-        billRecord.setRetail_fee((float)req.get("retail_fee"));
-        billRecord.setUser_id((int)req.get("_uid"));
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        billRecord.setCreat_time(df.format(new Date()));
-        billRecord.setMedical_record_id(medical_record_number);
-        billRecord.setType(type);
-        billRecord.setCost(fee);
-
-
-        return billRecord;
-    }
-
     private BillRecord registrationToWithdrawBill(Registration registration, String type,int uid){
         BillRecord billRecord = new BillRecord();
         billRecord.setCost(0-registration.getCost());
@@ -242,4 +208,3 @@ public class OutpatientRegistrationController {
         return operateLog;
     }
 }
-

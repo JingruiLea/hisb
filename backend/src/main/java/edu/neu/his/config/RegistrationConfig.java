@@ -11,4 +11,12 @@ public class RegistrationConfig {
         titleMap.put(1,"专家");
         titleMap.put(2,"主任");
     }
+
+    public static String hashToTitle(int registration_level_id){
+        RegistrationConfig.initTitleMap();
+        String title = null;
+        if(RegistrationConfig.titleMap.containsKey(registration_level_id))
+            title = RegistrationConfig.titleMap.get(registration_level_id);
+        return title;
+    }
 }
