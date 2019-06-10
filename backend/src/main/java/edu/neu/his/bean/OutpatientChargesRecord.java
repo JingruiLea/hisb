@@ -11,7 +11,7 @@ public class OutpatientChargesRecord implements Serializable {
 
     private Integer item_id;
 
-    private String type;
+    private Integer type;
 
     private Integer expense_classification_id;
 
@@ -69,12 +69,12 @@ public class OutpatientChargesRecord implements Serializable {
         this.item_id = item_id;
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Integer getExpense_classification_id() {

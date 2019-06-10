@@ -6,7 +6,7 @@
     <result column="medical_record_id" property="medical_record_id" jdbcType="INTEGER" />
     <result column="bill_record_id" property="bill_record_id" jdbcType="INTEGER" />
     <result column="item_id" property="item_id" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
     <result column="expense_classification_id" property="expense_classification_id" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="quantity" property="quantity" jdbcType="INTEGER" />
@@ -34,7 +34,7 @@
       return_time, create_user_id, collect_user_id, 
       return_user_id)
     values (#{medical_record_id,jdbcType=INTEGER}, #{bill_record_id,jdbcType=INTEGER}, 
-      #{item_id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{expense_classification_id,jdbcType=INTEGER}, 
+      #{item_id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{expense_classification_id,jdbcType=INTEGER}, 
       #{status,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, #{cost,jdbcType=REAL}, 
       #{excute_department_id,jdbcType=INTEGER}, #{creat_time,jdbcType=VARCHAR}, #{collect_time,jdbcType=VARCHAR}, 
       #{return_time,jdbcType=VARCHAR}, #{create_user_id,jdbcType=INTEGER}, #{collect_user_id,jdbcType=INTEGER}, 
@@ -45,7 +45,7 @@
     set medical_record_id = #{medical_record_id,jdbcType=INTEGER},
       bill_record_id = #{bill_record_id,jdbcType=INTEGER},
       item_id = #{item_id,jdbcType=INTEGER},
-      `type` = #{type,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=INTEGER},
       expense_classification_id = #{expense_classification_id,jdbcType=INTEGER},
       `status` = #{status,jdbcType=VARCHAR},
       quantity = #{quantity,jdbcType=INTEGER},

@@ -7,8 +7,8 @@ public class Registration {
     private String birthday;
     private String consultation_date;
     private String id_number;
-    private String medicial_certificate_number;
-    private String medicial_category;
+    private String medical_certificate_number;
+    private String medical_category;
     private String patient_name;
     private int outpatient_doctor_id;
     private int registration_department_id;
@@ -22,26 +22,6 @@ public class Registration {
 
     public Registration(){
 
-    }
-
-    public Registration(String address, int age, String birthday, String consultation_date, String medicial_category,
-                        String patient_name, int outpatient_doctor_id, int registration_department_id, int settlement_category_id,
-                        String registration_source, String gender, String medical_insurance_diagnosis,String id_number,
-                        String medicial_certificate_number){
-        this.address = address;
-        this.age = age;
-        this.birthday = birthday;
-        this.consultation_date = consultation_date;
-        this.medical_insurance_diagnosis = medical_insurance_diagnosis;
-        this.medicial_certificate_number = medicial_certificate_number;
-        this.medicial_category = medicial_category;
-        this.patient_name = patient_name;
-        this.outpatient_doctor_id = outpatient_doctor_id;
-        this.registration_department_id = registration_department_id;
-        this.settlement_category_id = settlement_category_id;
-        this.registration_source = registration_source;
-        this.gender = gender;
-        this.id_number = id_number;
     }
 
     public int getMedical_record_id() {
@@ -92,20 +72,20 @@ public class Registration {
         this.id_number = id_number;
     }
 
-    public String getMedicial_certificate_number() {
-        return medicial_certificate_number;
+    public String getMedical_certificate_number() {
+        return medical_certificate_number;
     }
 
-    public void setMedicial_certificate_number(String medicial_certificate_number) {
-        this.medicial_certificate_number = medicial_certificate_number;
+    public void setMedical_certificate_number(String medical_certificate_number) {
+        this.medical_certificate_number = medical_certificate_number;
     }
 
-    public String getMedicial_category() {
-        return medicial_category;
+    public String getMedical_category() {
+        return medical_category;
     }
 
-    public void setMedicial_category(String medicial_category) {
-        this.medicial_category = medicial_category;
+    public void setMedical_category(String medicial_category) {
+        this.medical_category = medicial_category;
     }
 
     public String getPatient_name() {

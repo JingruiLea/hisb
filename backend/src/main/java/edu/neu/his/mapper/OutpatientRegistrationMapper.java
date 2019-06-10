@@ -16,13 +16,13 @@ public interface OutpatientRegistrationMapper {
             "and user_info.department_id = #{department_id} and user_info.title = #{title}")
     List<User> findByDepartmentAndTitle(@Param("department_id") int department_id, @Param("title") String title);
 
-    @Insert("INSERT INTO registration (address,age,birthday,consultation_date,medicial_category,patient_name," +
+    @Insert("INSERT INTO registration (address,age,birthday,consultation_date,medical_category,patient_name," +
             "outpatient_doctor_id,registration_department_id,settlement_category_id,registration_source,gender," +
-            "medical_insurance_diagnosis,id_number,medicial_certificate_number, status, cost, registration_category)" +
-            " VALUES(#{address},#{age}, #{birthday}, #{consultation_date}, #{medicial_category}, " +
+            "medical_insurance_diagnosis,id_number,medical_certificate_number, status, cost, registration_category)" +
+            " VALUES(#{address},#{age}, #{birthday}, #{consultation_date}, #{medical_category}, " +
             "#{patient_name}, #{outpatient_doctor_id}, #{registration_department_id}, #{settlement_category_id}, " +
             "#{registration_source}, #{gender}, #{medical_insurance_diagnosis}, #{id_number}, " +
-            "#{medicial_certificate_number}, #{status}, #{cost}, #{registration_category})")
+            "#{medical_certificate_number}, #{status}, #{cost}, #{registration_category})")
     @Options(useGeneratedKeys = true, keyProperty = "medical_record_id")
     void insert(Registration registration);
 
