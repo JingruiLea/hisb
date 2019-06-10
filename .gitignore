@@ -6,3 +6,5 @@ words.txt
 /frontend/build
 /backend/.idea
 /auth/node_modules
+*.bak
+*lock

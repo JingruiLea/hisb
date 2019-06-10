@@ -31,7 +31,8 @@ class DiagnosticDirectoryManagementSection extends React.Component {
         axios({
             method: API.bacisInfoManagement.diagnoseDirectory.allClassification.method,
             url: API.bacisInfoManagement.diagnoseDirectory.allClassification.url,
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             //console.log('receive',data)
@@ -70,6 +71,7 @@ class DiagnosticDirectoryManagementSection extends React.Component {
             url: API.bacisInfoManagement.diagnoseDirectory.searchAllByClassificationId.url,
             data:{classification_id:this.state.selectClassificationID},
             crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             //console.log('receive',data)
@@ -98,7 +100,8 @@ class DiagnosticDirectoryManagementSection extends React.Component {
             method: API.bacisInfoManagement.diagnoseDirectory.update.method,
             url: API.bacisInfoManagement.diagnoseDirectory.update.url,
             data: data,
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)
@@ -123,7 +126,8 @@ class DiagnosticDirectoryManagementSection extends React.Component {
             method: API.bacisInfoManagement.diagnoseDirectory.add.method,
             url: API.bacisInfoManagement.diagnoseDirectory.add.url,
             data: data,
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)
@@ -147,7 +151,8 @@ class DiagnosticDirectoryManagementSection extends React.Component {
             method: API.bacisInfoManagement.diagnoseDirectory.delete.method,
             url: API.bacisInfoManagement.diagnoseDirectory.delete.url,
             data: {data},
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)

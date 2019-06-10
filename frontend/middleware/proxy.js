@@ -1,0 +1,26 @@
+const proxy = require('http-proxy-middleware');
+
+var restream = (proxyReq, req, res, options)=>{
+  //除非是文件上传 其余都要重新设置json
+  if (!req.url.endsWith('import') && !req.url.endsWith('upload') && req.body) {
+      let bodyData = JSON.stringify(req.body);
+      // incase if content-type is application/x-www-form-urlencoded -> we need to change to application/json
+      proxyReq.setHeader('Content-Type','application/json');
+      proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+      // stream the content
+      proxyReq.write(bodyData);
+  }
+}
+
+const proxyOptions = {
+  target: process.env.API_SERVER, // 目标主机
+  changeOrigin: true,               // 需要虚拟主机站点
+  ws:true,
+  pathRewrite: {
+    '^/api' : '/'
+  },
+  onProxyReq:restream,
+};
+const apiProxy = proxy(proxyOptions);  //开启代理功能，并加载配置
+
+module.exports=apiProxy

@@ -33,7 +33,8 @@ class NonDrugChargeItemManagement extends React.Component {
             method: API.bacisInfoManagement.nonDrugItem.all.method,
             url: API.bacisInfoManagement.nonDrugItem.all.url,
             data: {},
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             //console.log('receive',data)
@@ -63,7 +64,8 @@ class NonDrugChargeItemManagement extends React.Component {
             method: API.bacisInfoManagement.nonDrugItem.update.method,
             url: API.bacisInfoManagement.nonDrugItem.update.url,
             data: data,
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)
@@ -88,7 +90,8 @@ class NonDrugChargeItemManagement extends React.Component {
             method: API.bacisInfoManagement.nonDrugItem.add.method,
             url: API.bacisInfoManagement.nonDrugItem.add.url,
             data: data,
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)
@@ -112,7 +115,8 @@ class NonDrugChargeItemManagement extends React.Component {
             method: API.bacisInfoManagement.nonDrugItem.delete.method,
             url: API.bacisInfoManagement.nonDrugItem.delete.url,
             data: {data},
-            crossDomain: true
+            crossDomain: true,
+            withCredentials:true
           }).then((res)=>{
             const data = res.data;
             console.log('receive',data)

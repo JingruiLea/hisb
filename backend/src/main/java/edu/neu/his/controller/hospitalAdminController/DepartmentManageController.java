@@ -26,6 +26,7 @@ public class DepartmentManageController {
     @PostMapping("/findByName")
     @ResponseBody
     public Map departmentFindByName(@RequestBody Map req){
+        //System.out.println(req);
         String name = (String)req.get("name");
         return Response.Ok(departmentService.findDepartmentByName(name));
     }
