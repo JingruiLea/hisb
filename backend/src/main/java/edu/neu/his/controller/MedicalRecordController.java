@@ -33,4 +33,5 @@ public class MedicalRecordController {
         return Response.Ok(medicalRecordService.findHistory(type,medical_certificate_number));
     }
 
+
 }

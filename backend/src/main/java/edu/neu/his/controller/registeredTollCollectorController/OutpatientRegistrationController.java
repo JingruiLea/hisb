@@ -120,8 +120,7 @@ public class OutpatientRegistrationController {
         registration.setRegistration_category(registration_category);
         registration.setStatus(RegistrationConfig.registrationAvailable);
 
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String create_time = df.format(new Date());
+        String create_time = Time.createTime();
 
         //挂号记录
         int medical_record_number = outpatientRegistrationService.insertRegistration(registration);
@@ -191,15 +190,13 @@ public class OutpatientRegistrationController {
         billRecord.setMedical_record_id(registration.getMedical_record_id());
         billRecord.setUser_id(uid);
         billRecord.setType(type);
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        billRecord.setCreat_time(df.format(new Date()));
+        billRecord.setCreat_time(Time.createTime());
 
         return billRecord;
     }
 
     private OperateLog registrationToWithdrawOperateLog(Registration registration, String type,int bill_record_id, int uid){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String create_time = df.format(new Date());
+        String create_time = Time.createTime();
         int medical_record_number = registration.getMedical_record_id();
         float fee = 0 - registration.getCost();
 
