@@ -71,7 +71,7 @@ public class OutpatientRegistrationControllerTest {
                         "      \"medical_insurance_diagnosis\": \"哈哈哈哈\",\n" +
                         "      \"name\": \"李先生\",\n" +
                         "      \"outpatient_doctor_id\": 10 ,\n" +
-                        "      \"registration_level_id\": 3,\n" +
+                        "      \"registration_level_id\": 1,\n" +
                         "      \"registration_source\": \"local\",\n" +
                         "      \"settlement_category_id\": 2\n" +
                         "    }")
@@ -92,7 +92,7 @@ public class OutpatientRegistrationControllerTest {
                         "      \"age\" : 17,\n" +
                         "      \"birthday\" : \"1998.03.23\",\n" +
                         "      \"consultation_date\": \"2019.10.2\",\n" +
-                        "      \"department_id\": 2,\n" +
+                        "      \"department_id\": 3,\n" +
                         "      \"gender\": \"男\",\n" +
                         "      \"has_record_book\": 1,\n" +
                         "      \"medical_category\": \"不知道什么意思\",\n" +
@@ -103,7 +103,26 @@ public class OutpatientRegistrationControllerTest {
                         "      \"outpatient_doctor_id\"  : 3,\n" +
                         "      \"settlement_category_id\": 2,\n" +
                         "      \"registration_source\": \"app挂号\",\n" +
-                        "      \"registration_level_id\": 1\n" +
+                        "      \"registration_level_id\": 1,\n" +
+                        "      \"should_pay\" : 28.24,\n" +
+                        "      \"truely_pay\" : 100.00,\n" +
+                        "      \"retail_fee\" : 71.76\n" +
+                        "    }")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
+    public void withdrawNumber() throws Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/outpatientRegistration/withdrawNumber")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "      \"medical_record_id\" : 1,\n" +
+                        "      \"_uid\": 10002\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())

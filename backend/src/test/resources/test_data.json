@@ -175,22 +175,30 @@
     },
     "calculateFree":
     {
-      "address": "undefined",
-      "age": 17,
-      "birthday": "2002-05-29 10:54:31",
-      "consultation_date": "2019-05-29 10:54:41",
-      "department_id": 2,
-      "gender": "female",
-      "has_record_book": 0 ,
-      "medical_category": "default",
-      "medical_certificate_number": "222222222222222222",
+      "address" : "沈阳市东北大学",
+      "age" : 17,
+      "birthday" : "1998.03.23",
+      "consultation_date": "2019.10.2",
+      "department_id": 3,
+      "gender": "男",
+      "has_record_book": 1,
+      "medical_category": "不知道什么意思",
+      "medical_certificate_number": "371625223284621134",
       "medical_certificate_number_type": "id",
-      "medical_insurance_diagnosis": "哈哈哈哈",
-      "name": "李先生",
-      "outpatient_doctor_id": 10 ,
-      "registration_level_id": 2,
-      "registration_source": "local",
-      "settlement_category_id": 2
+      "medical_insurance_diagnosis": "不知道什么意思",
+      "name": "王蓓蕾",
+      "outpatient_doctor_id"  : 3,
+      "settlement_category_id": 2,
+      "registration_source": "app挂号",
+      "registration_level_id": 1,
+      "should_pay" : 28.24,
+      "truely_pay" : 100,
+      "retail_fee" : 71.76
+    },
+    "withdrawNumber":
+    {
+      "medical_record_id" : 10000002,
+      "_uid": 10002
     }
 
   }

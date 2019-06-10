@@ -35,7 +35,7 @@ public class DepartmentMenageControllerTest {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
                 post("/departmentManage/findByName")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"内科\"}")
+                .content("{\"name\":\"眼科\"}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -63,7 +63,7 @@ public class DepartmentMenageControllerTest {
                 .content(" {\n" +
                         "      \"id\": 1,\n" +
                         "      \"pinyin\": \"YK\",\n" +
-                        "      \"name\": \"眼科\",\n" +
+                        "      \"name\": \"眼科1\",\n" +
                         "      \"type\": \"门诊科室\",\n" +
                         "      \"classification_id\":1\n" +
                         "    }")
