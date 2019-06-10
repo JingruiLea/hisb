@@ -17,4 +17,9 @@ public class BillRecordService {
         return billRecord.getId();
     }
 
+    @Transactional
+    public BillRecord findById(int id) {
+        return billRecordMapper.find(id);
+    }
+
 }

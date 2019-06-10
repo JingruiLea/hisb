@@ -10,6 +10,7 @@ import edu.neu.his.config.*;
 import edu.neu.his.service.BillRecordService;
 import edu.neu.his.service.ChargeAndRefundService;
 import edu.neu.his.service.OperateLogService;
+import edu.neu.his.service.OutpatientRegistrationService;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,9 @@ public class ChargeAndRefundController {
 
     @Autowired
     private OperateLogService operateLogService;
+
+    @Autowired
+    private OutpatientRegistrationService outpatientRegistrationService;
 
     @GetMapping("/info")
     @ResponseBody
@@ -187,5 +191,14 @@ public class ChargeAndRefundController {
         }
     }
 
-
+    @GetMapping("/registrationByRecordId")
+    @ResponseBody
+    public Map registrationByRecordId(@RequestBody Map req){
+        int medical_record_id = (int)req.get("medical_record_id");
+        Registration registration = outpatientRegistrationService.findRegistrationById(medical_record_id);
+        if(registration==null)
+            return Response.Error("错误，该挂号信息不存在");
+        else
+            return Response.Ok(registration);
+    }
 }

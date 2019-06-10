@@ -144,12 +144,12 @@ public class Registration {
         this.cost = cost;
     }
 
-    public String getRegistraton_source() {
+    public String getRegistration_source() {
         return registration_source;
     }
 
-    public void setRegistraton_source(String registraton_source) {
-        this.registration_source = registraton_source;
+    public void setRegistration_source(String registration_source) {
+        this.registration_source = registration_source;
     }
 
     public String getGender() {
