@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
-@RequestMapping("/TollCollector")
+@RequestMapping("/outpatientCharge")
 public class ChargeAndRefundController {
     @Autowired
     private ChargeAndRefundService chargeAndRefundService;
@@ -34,14 +34,13 @@ public class ChargeAndRefundController {
     @Autowired
     private OutpatientRegistrationService outpatientRegistrationService;
 
-    @GetMapping("/info")
+    @GetMapping("/getChargeItems")
     @ResponseBody
-    public Map info(@RequestBody Map req){
-        int medical_record_id = (int)req.get("medical_record_id");
-        return Response.Ok(chargeAndRefundService.findByMedicalRecordId(medical_record_id));
+    public Map info(int medical_record_id){
+        return Response.Ok(chargeAndRefundService.findByMedicalRecordIdAndStatus(medical_record_id,OutpatientChargesRecordStatus.ToCharge));
     }
 
-    @GetMapping("/historyInfo")
+    @GetMapping("/getHistoryChargeItems")
     @ResponseBody
     public Map historyInfo(@RequestBody Map req){
         int medical_record_id = (int)req.get("medical_record_id");
@@ -55,7 +54,7 @@ public class ChargeAndRefundController {
         return Response.Ok(chargeAndRefundService.findByMedicalRecordIdAndTime(medical_record_id,start_time,end_time));
     }
 
-    @PostMapping("/collect")
+    @PostMapping("/charge")
     @ResponseBody
     public Map collect(@RequestBody Map req) throws IOException {
         OperateStatus.initOperateMap();
@@ -125,7 +124,7 @@ public class ChargeAndRefundController {
         }
     }
 
-    @PostMapping("/return")
+    @PostMapping("/withdraw")
     @ResponseBody
     public Map refund(@RequestBody Map req){
         OperateStatus.initOperateMap();
@@ -193,8 +192,7 @@ public class ChargeAndRefundController {
 
     @GetMapping("/registrationByRecordId")
     @ResponseBody
-    public Map registrationByRecordId(@RequestBody Map req){
-        int medical_record_id = (int)req.get("medical_record_id");
+    public Map registrationByRecordId(int medical_record_id){
         Registration registration = outpatientRegistrationService.findRegistrationById(medical_record_id);
         if(registration==null)
             return Response.Error("错误，该挂号信息不存在");

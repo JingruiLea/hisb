@@ -1,12 +1,14 @@
 package edu.neu.his.service;
 
 import edu.neu.his.bean.OutpatientChargesRecord;
+import edu.neu.his.config.OutpatientChargesRecordStatus;
 import edu.neu.his.mapper.ChargeAndRefundMapper;
 import edu.neu.his.mapper.OutpatientChargesRecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,8 +20,14 @@ public class ChargeAndRefundService {
     private OutpatientChargesRecordMapper outpatientChargesRecordMapper;
 
     @Transactional
-    public List<OutpatientChargesRecord> findByMedicalRecordId(int medical_record_id){
-        return  chargeAndRefundMapper.findByMedicalRecordId(medical_record_id);
+    public List<OutpatientChargesRecord> findByMedicalRecordIdAndStatus(int medical_record_id,String status){
+        List<OutpatientChargesRecord> list = chargeAndRefundMapper.findByMedicalRecordId(medical_record_id);
+        List<OutpatientChargesRecord> records = new ArrayList<>();
+        list.forEach(outpatientChargesRecord -> {
+            if(outpatientChargesRecord.getStatus().equals(status))
+                records.add(outpatientChargesRecord);
+        });
+        return records;
     }
 
     @Transactional
