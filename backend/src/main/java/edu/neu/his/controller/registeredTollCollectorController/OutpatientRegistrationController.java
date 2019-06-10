@@ -103,8 +103,8 @@ public class OutpatientRegistrationController {
         }
         if(registration.getAddress()==null)
             registration.setAddress("");
-        if(registration.getRegistraton_source()==null)
-            registration.setRegistraton_source((String)req.get("registration_source"));
+        if(registration.getRegistration_source()==null)
+            registration.setRegistration_source((String)req.get("registration_source"));
 
         int registration_level_id = (int)req.get("registration_level_id");
         RegistrationLevel registration_level = registrationLevelService.findById(registration_level_id);
