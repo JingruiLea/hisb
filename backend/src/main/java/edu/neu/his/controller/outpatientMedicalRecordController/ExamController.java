@@ -54,11 +54,7 @@ public class ExamController {
     @PostMapping("/create")
     public Map create(@RequestBody Map req){
         Exam exam;
-        try {
-            exam = Utils.fromMap(req, Exam.class);
-        } catch (IOException e) {
-            return Response.error("无法读取请求.");
-        }
+        exam = Utils.fromMap(req, Exam.class);
         List<Integer> nonDrugIdList = (List<Integer>) req.get("non_drug_id_list");
         exam.setCreate_time(Utils.getSystemTime());
         exam.setStatus(Common.ZANCUN);
@@ -132,8 +128,6 @@ public class ExamController {
             record.setReturn_user_id(0);
             outpatientChargesRecordMapper.insert(record);
         });
-
-
         return Response.ok();
     }
 

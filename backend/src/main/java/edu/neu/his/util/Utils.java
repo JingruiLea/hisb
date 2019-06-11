@@ -31,19 +31,25 @@ public class Utils {
         return df.format(new Date());
     }
 
-    public static <T> T fromMap(Map map, Class<T> tClass) throws IOException {
+    public static <T> T fromMap(Map map, Class<T> tClass){
         if(map.get("_uid")!=null){
             map.put("user_id", map.get("_uid"));
         }
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         String json = JSONObject.fromObject(map).toString();
-        T billRecord = objectMapper.readValue(json, tClass);
+        T billRecord = null;
+        try {
+            billRecord = objectMapper.readValue(json, tClass);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return billRecord;
     }
 
+
     @Autowired
-    private static UserMapper userMapper;
+    private UserMapper userMapper;
 
     public static User getSystemUser(Map req){
         return initUtils.userMapper.find((int)req.get("_uid"));
