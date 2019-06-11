@@ -12,6 +12,7 @@ import SchedulingManagement from '../../section/hospitialAdmin/schedulingManagem
 //4 registeredTollCollector
 import OutpatientRegistration from '../../section/registeredTollCollector/outpatientRegistration'
 import OutpatientCharge from '../../section/registeredTollCollector/outpatientCharge'
+import DailyCollectSection from '../../section/registeredTollCollector/dailyCollect'
 
 //5 outpatientDoctor
 import DiagnoseSection from '../../section/outpatientDoctor/diagnose'
@@ -40,7 +41,7 @@ class DashboardSection extends React.Component {
       const {sectionKey} = this.props;
       return (
         <div>
-          {sectionKey==="0"?<OutpatientCharge me={this.props.me}/>:null}
+          {sectionKey==="0"?<DrugCatalogueManagement me={this.props.me}/>:null}
 
           {sectionKey==="3-1"?<DepartmentManagement me={this.props.me}/>:null}
           {sectionKey==="3-2"?<UserManagement me={this.props.me}/>:null}

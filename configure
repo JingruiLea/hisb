@@ -1,0 +1,37 @@
+#!/usr/bin/node
+require('dotenv').config()
+const fs = require('fs')
+
+console.warn('loading configuration...')
+console.info(process.env)
+const env = process.env;
+
+fs.writeFile('./middleware/.env',
+`DB_HOST=${env.DB_HOST}
+DB_USER=${env.DB_USER}
+DB_PASS=${env.DB_PASS}
+DB_NAME=${env.DB_NAME}
+DB_PORT=${env.DB_PORT}
+API_SERVER=${env.API_SERVER_PROXY+'://'+env.API_SERVER_DOMAIN+':'+env.API_SERVER_PORT}
+PORT=${env.MIDDLEWARE_PORT}
+MODE=${env.MODE}
+DEFAULT_INJECT_UID=${env.DEFAULT_INJECT_UID}`
+,(err)=>{
+  if(err)
+    console.error(err)
+  else 
+    console.warn('generating middleware configuration...OK.')
+})
+
+fs.writeFile('./frontend/src/global/Config.jsx',
+`export default {
+  server:'${env.MIDDLEWARE_PROXY+'://'+env.MIDDLEWARE_DOMAIN+':'+env.MIDDLEWARE_PORT}'
+}`
+  ,(err)=>{
+    if(err)
+    console.err(err)
+  else 
+    console.warn('generating antd configuration...OK.')
+});
+
+console.info('All success.')

@@ -24,7 +24,7 @@ class Request {
 
   internalError = (internalError)=>{this.onInternalError = internalError;return this;}
 
-  networkError = (networkError)=>{this.onNetworkError = networkError;return this;}
+  networkError = (networkError)=>{this.onNetworkError = networkError;console.log('network Err',networkError);return this;}
 
   submit=()=>{
     const _this = this;
@@ -53,7 +53,7 @@ class Request {
       }
     }).catch((err)=>{
       //网络错误
-      _this.onNetworkError()
+      _this.onNetworkError(err)
     });  
   }
 

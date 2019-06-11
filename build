@@ -1,0 +1,4 @@
+#!/usr/bin/sh
+echo 'ready to build HIS frontend ...'
+cd frontend && yarn build
+echo 'OK!'

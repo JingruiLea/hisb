@@ -1,6 +1,9 @@
 import Request from "./Request";
-const server = 'http://localhost:8081'
+import Config  from './Config'
+
+const server = Config.server;
 const apiServerPrefix = server+'/api'
+
 
 const API = {
     //登录
@@ -139,7 +142,7 @@ const API = {
             },//确认挂号
             confirmRegistration:{
                 method:'post',
-                url:apiServerPrefix+'/outpatientRegistration/confirm'
+                url:apiServerPrefix+'/outpatientRegistration/confirm'//"http://www.mocky.io/v2/5cfb42df300000f6030a8afb"
             },//退号
             withdrawNumber:{
                 method:'post',
@@ -147,30 +150,35 @@ const API = {
             },//搜索用户挂号信息
             searchRegistration:{
                 method:'post',
-                url:apiServerPrefix+'/outpatientRegistration/registrationByRecordId'
+                url:'http://www.mocky.io/v2/5cfcbea13200007800ccd406'//apiServerPrefix+'/outpatientCharge/registrationByRecordId'
             }
         },
         //门诊收费
-        charge:{
+        outpatientCharge:{
             //通过病历号, 获取收费项目列表（待缴费）,
             getChargeItems:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfcbc143200006500ccd404'//apiServerPrefix+'/outpatientRegistration/info'
+                url:'http://www.mocky.io/v2/5cfe6431320000660045f07a',//apiServerPrefix+'/outpatientCharge/getChargeItems'
             },
-            //根据病例号，获得挂号信息
+            //根据病例号，获得挂号信息(同上)
             getRegistrationInfo:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfcbea13200007800ccd406'//apiServerPrefix+'/outpatientRegistration/registrationByRecordId'
+                url:'http://www.mocky.io/v2/5cfcbea13200007800ccd406'//apiServerPrefix+'/outpatientCharge/registrationByRecordId'
             },
             //交费
             charge:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a',//apiServerPrefix+'/outpatientRegistration/collect'
+                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a',//apiServerPrefix+'/outpatientCharge/charge'
+            },
+            //退费
+            withdraw:{
+                method:'post',
+                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a',//apiServerPrefix+'/outpatientCharge/withdraw'
             },
             //通过病历号, 获取收费项目列表（已缴费）,
             getChargedItems:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfcbc143200006500ccd404',//apiServerPrefix+'/outpatientRegistration/historyInfo'
+                url:'http://www.mocky.io/v2/5cfe6431320000660045f07a',//apiServerPrefix+'/outpatientCharge/getHistoryChargeItems'
             }
         },
         //门诊日结
@@ -178,17 +186,17 @@ const API = {
             //初始化面板
             getHistoryList:{
                 method:'get',
-                url:'http://www.mocky.io/v2/5cfcc22d3200006500ccd412',////apiServerPrefix+'/dailyCollect/list'
+                url:'http://www.mocky.io/v2/5cfe7ce9320000660045f137',////apiServerPrefix+'/dailyCollect/list'
             },
             //日结详细信息
             dailyCollectDetail:{
                 method:'post',
-                url:apiServerPrefix+'/dailyCollect/detail'
+                url:'http://www.mocky.io/v2/5cfe5bfc3200004f0045f047',//apiServerPrefix+'/dailyCollect/detail'
             },
             //日结请求
             dailyCollectRequest:{
                 method:'post',
-                url:apiServerPrefix+'/dailyCollect/collect'
+                url:'http://www.mocky.io/v2/5cfe5c3c320000660045f04b',//apiServerPrefix+'/dailyCollect/collect'
             }
         },
     },

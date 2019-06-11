@@ -97,8 +97,7 @@ class OutpatientRegistration extends React.Component {
   }
   
   submitRegistration=async(values)=>{
-    //API.request(API.outpatientWorkstation.registration.confirmRegistration,{data:values})
-    API.request({url:"http://www.mocky.io/v2/5cfb42df300000f6030a8afb",method:"post"},{data:values})
+    API.request(API.outpatientWorkstation.registration.confirmRegistration,{data:values})
     .ok((data=>{
       var bill = values;
       console.log('enter',values)///---------------------
@@ -127,8 +126,8 @@ class OutpatientRegistration extends React.Component {
   withdrawNumber=(medical_record_id)=>{
     API.request(API.outpatientWorkstation.registration.withdrawNumber,{medical_record_id})
     .ok((data)=>{
-      Message.success('退号成功！')
-      this.init()
+      Message.success('退号成功！');
+      this.init();
     }).submit();
   }
 
@@ -167,7 +166,10 @@ class OutpatientRegistration extends React.Component {
         />}
       </Card><br/>
 
-      <HistoryCard data={this.state.history} withdrawNumber={this.withdrawNumber.bind(this)}/>
+      <HistoryCard 
+        data={this.state.history} 
+        searchHistory={this.searchHistory.bind(this)}
+        withdrawNumber={this.withdrawNumber.bind(this)}/>
 
       <Modal 
         title="打印单据" footer={null}  closable
