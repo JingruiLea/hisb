@@ -1,12 +1,9 @@
 package edu.neu.his.controller.registeredTollCollectorController;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.neu.his.bean.*;
 import edu.neu.his.config.*;
 import edu.neu.his.service.*;
-import edu.neu.his.util.Time;
-import net.sf.json.JSONObject;
+import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,11 +88,9 @@ public class OutpatientRegistrationController {
     public Map confirm(@RequestBody Map req) throws IOException {
         Map data = new HashMap();
         int uid = Auth.uid(req);
-        ObjectMapper registrationMapper = new ObjectMapper();
-        registrationMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        String json = JSONObject.fromObject(req).toString();
-        Registration registration = registrationMapper.readValue(json, Registration.class);
+        Registration registration = Utils.fromMap(req,Registration.class);
         String medical_certificate_number_type = (String)req.get("medical_certificate_number_type");
+
         if(medical_certificate_number_type.equals("id")){
             registration.setId_number((String)req.get("medical_certificate_number"));
             registration.setMedical_certificate_number("");
@@ -119,17 +114,14 @@ public class OutpatientRegistrationController {
         registration.setRegistration_category(registration_category);
         registration.setStatus(RegistrationConfig.registrationAvailable);
 
-        String create_time = Time.createTime();
+        String create_time = Utils.getSystemTime();
 
         //挂号记录
         int medical_record_number = outpatientRegistrationService.insertRegistration(registration);
         data.put("medical_record_number", medical_record_number);//病历号
 
         //票据记录
-        ObjectMapper billMapper = new ObjectMapper();
-        billMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        String bill_json = JSONObject.fromObject(req).toString();
-        BillRecord billRecord = billMapper.readValue(bill_json, BillRecord.class);
+        BillRecord billRecord = Utils.fromMap(req,BillRecord.class);
 
         if(billRecord==null)
             return Response.Error("错误，票据记录创建失败");
@@ -189,13 +181,13 @@ public class OutpatientRegistrationController {
         billRecord.setMedical_record_id(registration.getMedical_record_id());
         billRecord.setUser_id(uid);
         billRecord.setType(type);
-        billRecord.setCreat_time(Time.createTime());
+        billRecord.setCreat_time(Utils.getSystemTime());
 
         return billRecord;
     }
 
     private OperateLog registrationToWithdrawOperateLog(Registration registration, String type,int bill_record_id, int uid){
-        String create_time = Time.createTime();
+        String create_time = Utils.getSystemTime();
         int medical_record_number = registration.getMedical_record_id();
         float fee = 0 - registration.getCost();
 

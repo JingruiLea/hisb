@@ -22,7 +22,7 @@ public class Utils {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         String json = JSONObject.fromObject(map).toString();
-        T billRecord = objectMapper.readValue(json, tClass);
-        return billRecord;
+        T object = objectMapper.readValue(json, tClass);
+        return object;
     }
 }

@@ -15,8 +15,6 @@ public class MedicalRecordTemplate implements Serializable {
 
     private String create_time;
 
-    private String status;
-
     private String chief_complaint;
 
     private String current_medical_history;
@@ -83,14 +81,6 @@ public class MedicalRecordTemplate implements Serializable {
 
     public void setCreate_time(String create_time) {
         this.create_time = create_time == null ? null : create_time.trim();
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
     }
 
     public String getChief_complaint() {
@@ -177,7 +167,6 @@ public class MedicalRecordTemplate implements Serializable {
         sb.append(", user_id=").append(user_id);
         sb.append(", department_id=").append(department_id);
         sb.append(", create_time=").append(create_time);
-        sb.append(", status=").append(status);
         sb.append(", chief_complaint=").append(chief_complaint);
         sb.append(", current_medical_history=").append(current_medical_history);
         sb.append(", current_treatment_situation=").append(current_treatment_situation);

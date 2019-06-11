@@ -28,4 +28,29 @@ public class MedicalRecordTemplateService {
     public List<MedicalRecordTemplate> SelectAll(){
         return medicalRecordTemplateMapper.selectAll();
     }
+
+    @Transactional
+    public MedicalRecordTemplate SelectById(int id){
+        return medicalRecordTemplateMapper.selectByPrimaryKey(id);
+    }
+
+    @Transactional
+    public List<MedicalRecordTemplate> SelectByName(String name){
+        return medicalRecordTemplateMapper.selectByName(name);
+    }
+
+    @Transactional
+    public int insert(MedicalRecordTemplate medicalRecordTemplate){
+        return medicalRecordTemplateMapper.insert(medicalRecordTemplate);
+    }
+
+    @Transactional
+    public int update(MedicalRecordTemplate medicalRecordTemplate){
+        return medicalRecordTemplateMapper.updateByPrimaryKey(medicalRecordTemplate);
+    }
+
+    @Transactional
+    public int delete(int id){
+        return medicalRecordTemplateMapper.deleteByPrimaryKey(id);
+    }
 }

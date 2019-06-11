@@ -77,7 +77,7 @@ public class RegistrationLevelService {
     @Transactional
     public RegistrationLevel findDefault() {
         List<RegistrationLevel> list = registrationLevelMapper.findDefault();
-        if(list!=null)
+        if(list.size()!=0)
             return  registrationLevelMapper.findDefault().get(0);
         else
             return registrationLevelMapper.findAll().get(0);

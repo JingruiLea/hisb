@@ -1,7 +1,5 @@
 package edu.neu.his.controller.registeredTollCollectorController;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.neu.his.bean.BillRecord;
 import edu.neu.his.bean.OperateLog;
 import edu.neu.his.bean.OutpatientChargesRecord;
@@ -11,8 +9,7 @@ import edu.neu.his.service.BillRecordService;
 import edu.neu.his.service.ChargeAndRefundService;
 import edu.neu.his.service.OperateLogService;
 import edu.neu.his.service.OutpatientRegistrationService;
-import edu.neu.his.util.Time;
-import net.sf.json.JSONObject;
+import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,7 +43,7 @@ public class ChargeAndRefundController {
         int medical_record_id = (int)req.get("medical_record_id");
         String start_time = (String)req.get("start_time");
         String end_time = (String)req.get("end_time");
-        String create_time = Time.createTime();
+        String create_time = Utils.getSystemTime();
         if(start_time.compareTo(end_time)>=0 || end_time.compareTo(create_time)>0)
             return Response.Error("错误，开始时间不小于结束时间或结束时间大于当前时间");
 
@@ -88,15 +85,12 @@ public class ChargeAndRefundController {
             return Response.Error(data);
         }else {
             //生成票据
-            ObjectMapper billRecordMapper = new ObjectMapper();
-            billRecordMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            String json = JSONObject.fromObject(req).toString();
-            BillRecord billRecord = billRecordMapper.readValue(json, BillRecord.class);
+            BillRecord billRecord = Utils.fromMap(req,BillRecord.class);
             billRecord.setType(type);
             billRecord.setCost(cost);
             billRecord.setMedical_record_id(medical_record_id);
             billRecord.setUser_id(uid);
-            billRecord.setCreat_time(Time.createTime());
+            billRecord.setCreat_time(Utils.getSystemTime());
 
             int bill_record_id = billRecordService.insertBillRecord(billRecord);
 
@@ -104,7 +98,8 @@ public class ChargeAndRefundController {
             recordsToCharge.forEach(outpatientChargesRecord -> {
                 outpatientChargesRecord.setStatus(OutpatientChargesRecordStatus.Charged);
                 outpatientChargesRecord.setBill_record_id(bill_record_id);
-                outpatientChargesRecord.setCollect_time(Time.createTime());
+                outpatientChargesRecord.setCollect_time(Utils.getSystemTime());
+                outpatientChargesRecord.setCollect_user_id(uid);
                 chargeAndRefundService.update(outpatientChargesRecord);
 
                 //对每条收费记录生成对应的操作记录
@@ -115,7 +110,7 @@ public class ChargeAndRefundController {
                     int expenseClassificationId = outpatientChargesRecord.getExpense_classification_id();
                     operateType = OperateStatus.operateMap.get(expenseClassificationId);
                 }
-                String create_time = Time.createTime();
+                String create_time = Utils.getSystemTime();
                 OperateLog operateLog = new OperateLog(uid,medical_record_id,operateType,bill_record_id,outpatientChargesRecord.getCost(),create_time);
                 operateLogService.insertOperateLog(operateLog);
             });
@@ -164,14 +159,15 @@ public class ChargeAndRefundController {
             billRecord.setType(type);
             billRecord.setMedical_record_id(medical_record_id);
             billRecord.setUser_id(uid);
-            billRecord.setCreat_time(Time.createTime());
+            billRecord.setCreat_time(Utils.getSystemTime());
             int bill_record_id = billRecordService.insertBillRecord(billRecord);
 
             //修改收费记录
             recordsToRefund.forEach(outpatientChargesRecord -> {
                 outpatientChargesRecord.setStatus(OutpatientChargesRecordStatus.Refunded);
                 outpatientChargesRecord.setBill_record_id(bill_record_id);
-                outpatientChargesRecord.setCollect_time(Time.createTime());
+                outpatientChargesRecord.setReturn_time(Utils.getSystemTime());
+                outpatientChargesRecord.setReturn_user_id(uid);
                 chargeAndRefundService.update(outpatientChargesRecord);
 
                 //对每条收费记录生成对应的操作记录
@@ -182,7 +178,7 @@ public class ChargeAndRefundController {
                     int expenseClassificationId = outpatientChargesRecord.getExpense_classification_id();
                     operateType = OperateStatus.operateMap.get(expenseClassificationId);
                 }
-                String create_time = Time.createTime();
+                String create_time = Utils.getSystemTime();
                 OperateLog operateLog = new OperateLog(uid,medical_record_id,operateType,bill_record_id,0-outpatientChargesRecord.getCost(),create_time);
                 operateLogService.insertOperateLog(operateLog);
             });

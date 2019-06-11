@@ -8,12 +8,11 @@ import edu.neu.his.config.Response;
 import edu.neu.his.service.BillRecordService;
 import edu.neu.his.service.DailyCollectService;
 import edu.neu.his.service.UserService;
+import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -31,10 +30,9 @@ public class RegistrationDailyCollectController {
 
     @GetMapping("/list")
     @ResponseBody
-    public Map list(@RequestBody Map req){
-        int uid = Auth.uid(req);
-        if(userService.findByUid(uid)!=null)
-            return Response.Ok(dailyCollectService.findDailyCollectByUid(uid));
+    public Map list(int _uid){
+        if(userService.findByUid(_uid)!=null)
+            return Response.Ok(dailyCollectService.findDailyCollectByUid(_uid));
         else
             return Response.Error("错误，该用户ID不存在");
     }
@@ -61,8 +59,7 @@ public class RegistrationDailyCollectController {
         String start_time = (String)req.get("start_time");
         String end_time = (String)req.get("end_time");
 
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if(start_time.compareTo(end_time)>=0 || end_time.compareTo(df.format(new Date()))>0)
+        if(start_time.compareTo(end_time)>=0 || end_time.compareTo(Utils.getSystemTime())>0)
             return Response.Error("错误，开始时间不小于结束时间或结束时间大于当前时间");
 
         List<BillRecord> billRecordList = billRecordService.findByUserIdAndTime(uid,start_time,end_time);

@@ -1,4 +1,4 @@
-package edu.neu.his.controller;
+package edu.neu.his.controller.outpatientMedicalRecordController;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,9 +6,8 @@ import edu.neu.his.bean.MedicalRecord;
 import edu.neu.his.config.MedicalRecordStatus;
 import edu.neu.his.config.RegistrationConfig;
 import edu.neu.his.config.Response;
-import edu.neu.his.util.Time;
 import edu.neu.his.service.MedicalRecordService;
-import net.sf.json.JSONObject;
+import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 ;
@@ -57,15 +56,12 @@ public class MedicalRecordController {
     public Map updateMedicalRecord(@RequestBody Map req) throws IOException {
         int medical_record_id = (int)req.get("medical_record_id");
         if(medicalRecordService.findMedicalRecordById(medical_record_id)!=null){
-            ObjectMapper medicalRecordMapper = new ObjectMapper();
-            medicalRecordMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            String medicalRecord_json = JSONObject.fromObject(req).toString();
-            MedicalRecord medicalRecord = medicalRecordMapper.readValue(medicalRecord_json, MedicalRecord.class);
+            MedicalRecord medicalRecord = Utils.fromMap(req,MedicalRecord.class);
             medicalRecord.setStatus(MedicalRecordStatus.Committed);
             medicalRecordService.updateMedicalRecord(medicalRecord);
             return Response.Ok();
         }else {
-            return Response.Error("错误，该病历已存在");
+            return Response.Error("错误，该病历不存在");
         }
     }
 
@@ -79,7 +75,7 @@ public class MedicalRecordController {
         medicalRecord.setPast_history("");
         medicalRecord.setWestern_initial_diagnosis("");
         medicalRecord.setPhysical_examination("");
-        medicalRecord.setCreate_time(Time.createTime());
+        medicalRecord.setCreate_time(Utils.getSystemTime());
         return medicalRecord;
     }
 }
