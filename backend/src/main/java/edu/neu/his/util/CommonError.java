@@ -1,4 +1,5 @@
 package edu.neu.his.util;
 
-public class Error {
+public class CommonError {
+    public static final int STATUS_ERROR = -1;
 }

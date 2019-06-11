@@ -1,6 +1,7 @@
 package edu.neu.his.service;
 
 import edu.neu.his.bean.Registration;
+import edu.neu.his.mapper.MedicalRecordMapper;
 import edu.neu.his.mapper.OutpatientRegistrationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,9 @@ import java.util.List;
 public class MedicalRecordService {
     @Autowired
     private OutpatientRegistrationMapper outpatientRegistrationMapper;
+
+    @Autowired
+    private MedicalRecordMapper medicalRecordMapper;
 
     @Transactional
     public List<Registration> findHistory(String type, String number){
@@ -28,4 +32,10 @@ public class MedicalRecordService {
         else
             return outpatientRegistrationMapper.findRegistrationByMedicalCertificateNumberAndStatus(number, status);
     }
+
+    @Transactional
+    public String getStatusById(Integer id){
+        return medicalRecordMapper.selectByPrimaryKey(id).getStatus();
+    }
+
 }
