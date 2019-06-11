@@ -21,12 +21,12 @@ public class MedicalRecordTemplateController {
         int type = (int)req.get("type");
         if(type == MedicalRecordStatus.SelectByUserId){
             int uid = Auth.uid(req);
-            return Response.Ok(medicalRecordTemplateService.SelectByUserId(uid));
+            return Response.ok(medicalRecordTemplateService.SelectByUserId(uid));
         }else if(type == MedicalRecordStatus.SelectByDepartmentId){
             int department_id = (int)req.get("department_id");
-            return Response.Ok(medicalRecordTemplateService.SelectByDepartmentId(department_id));
+            return Response.ok(medicalRecordTemplateService.SelectByDepartmentId(department_id));
         }else
-            return Response.Ok(medicalRecordTemplateService.SelectAll());
+            return Response.ok(medicalRecordTemplateService.SelectAll());
     }
 
 }

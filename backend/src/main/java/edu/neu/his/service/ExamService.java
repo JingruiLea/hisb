@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Array;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ExamService {
     @Autowired
@@ -38,4 +43,21 @@ public class ExamService {
     public int insert(Exam exam){
         return examMapper.insert(exam);
     }
+
+    @Transactional
+    public List<Integer> getNonDrugItemIdListById(Integer id){
+        List<ExamItem> itemList = examItemMapper.selectByExamId(id);
+        return itemList.stream().map(ExamItem::getNon_drug_item_id).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Exam selectById(Integer id){
+        return examMapper.selectByPrimaryKey(id);
+    }
+
+    @Transactional
+    public int updateByPrimaryKey(Exam record){
+        return examMapper.updateByPrimaryKey(record);
+    }
+
 }

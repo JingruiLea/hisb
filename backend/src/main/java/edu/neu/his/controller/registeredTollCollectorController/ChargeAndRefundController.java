@@ -37,7 +37,7 @@ public class ChargeAndRefundController {
     @GetMapping("/getChargeItems")
     @ResponseBody
     public Map info(int medical_record_id){
-        return Response.Ok(chargeAndRefundService.findByMedicalRecordIdAndStatus(medical_record_id,OutpatientChargesRecordStatus.ToCharge));
+        return Response.ok(chargeAndRefundService.findByMedicalRecordIdAndStatus(medical_record_id,OutpatientChargesRecordStatus.ToCharge));
     }
 
     @GetMapping("/getHistoryChargeItems")
@@ -48,9 +48,9 @@ public class ChargeAndRefundController {
         String end_time = (String)req.get("end_time");
         String create_time = Time.createTime();
         if(start_time.compareTo(end_time)>=0 || end_time.compareTo(create_time)>0)
-            return Response.Error("错误，开始时间不小于结束时间或结束时间大于当前时间");
+            return Response.error("错误，开始时间不小于结束时间或结束时间大于当前时间");
 
-        return Response.Ok(chargeAndRefundService.findByMedicalRecordIdAndTime(medical_record_id,start_time,end_time));
+        return Response.ok(chargeAndRefundService.findByMedicalRecordIdAndTime(medical_record_id,start_time,end_time));
     }
 
     @PostMapping("/charge")
@@ -85,7 +85,7 @@ public class ChargeAndRefundController {
         if(!IDsHaveCharged.isEmpty() || !IDsNotHave.isEmpty()){
             data.put("ids_not_have",IDsNotHave);
             data.put("ids_have_charged_or_refunded",IDsHaveCharged);
-            return Response.Error(data);
+            return Response.error(data);
         }else {
             //生成票据
             ObjectMapper billRecordMapper = new ObjectMapper();
@@ -120,7 +120,7 @@ public class ChargeAndRefundController {
                 operateLogService.insertOperateLog(operateLog);
             });
 
-            return Response.Ok();
+            return Response.ok();
         }
     }
 
@@ -156,7 +156,7 @@ public class ChargeAndRefundController {
         if(!IDsNotCharged.isEmpty() || !IDsNotHave.isEmpty()){
             data.put("ids_not_have",IDsNotHave);
             data.put("ids_not_charged_or_have_refunded",IDsNotCharged);
-            return Response.Error(data);
+            return Response.error(data);
         }else {
             //生成票据
             BillRecord billRecord = new BillRecord();
@@ -187,7 +187,7 @@ public class ChargeAndRefundController {
                 operateLogService.insertOperateLog(operateLog);
             });
 
-            return Response.Ok();
+            return Response.ok();
         }
     }
 
@@ -196,8 +196,8 @@ public class ChargeAndRefundController {
     public Map registrationByRecordId(int medical_record_id){
         Registration registration = outpatientRegistrationService.findRegistrationById(medical_record_id);
         if(registration==null)
-            return Response.Error("错误，该挂号信息不存在");
+            return Response.error("错误，该挂号信息不存在");
         else
-            return Response.Ok(registration);
+            return Response.ok(registration);
     }
 }

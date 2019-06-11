@@ -26,7 +26,7 @@ public class MedicalRecordController {
     public Map registrationInfo(@RequestBody Map req){
         String type = (String)req.get("type");
         String medical_certificate_number = (String)req.get("medical_certificate_number");
-        return Response.Ok(medicalRecordService.find(type,medical_certificate_number, RegistrationConfig.registrationAvailable));
+        return Response.ok(medicalRecordService.find(type,medical_certificate_number, RegistrationConfig.registrationAvailable));
     }
 
     @GetMapping("/recordHistory")
@@ -34,14 +34,14 @@ public class MedicalRecordController {
     public Map recordHistory(@RequestBody Map req){
         String type = (String)req.get("type");
         String medical_certificate_number = (String)req.get("medical_certificate_number");
-        return Response.Ok(medicalRecordService.findHistory(type,medical_certificate_number));
+        return Response.ok(medicalRecordService.findHistory(type,medical_certificate_number));
     }
 
     @PostMapping("/createMedicalRecord")
     @ResponseBody
     public Map createMedicalRecord(int medical_record_id){
         if(medicalRecordService.findMedicalRecordById(medical_record_id)!=null)
-            return Response.Error("错误，该病历已存在");
+            return Response.error("错误，该病历已存在");
 
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setId(medical_record_id);
@@ -49,7 +49,7 @@ public class MedicalRecordController {
         medicalRecord = init(medicalRecord);
 
         medicalRecordService.insertMedicalRecord(medicalRecord);
-        return Response.Ok(medicalRecord);
+        return Response.ok(medicalRecord);
     }
 
     @PostMapping("/updateMedicalRecord")
@@ -63,9 +63,9 @@ public class MedicalRecordController {
             MedicalRecord medicalRecord = medicalRecordMapper.readValue(medicalRecord_json, MedicalRecord.class);
             medicalRecord.setStatus(MedicalRecordStatus.Committed);
             medicalRecordService.updateMedicalRecord(medicalRecord);
-            return Response.Ok();
+            return Response.ok();
         }else {
-            return Response.Error("错误，该病历已存在");
+            return Response.error("错误，该病历已存在");
         }
     }
 

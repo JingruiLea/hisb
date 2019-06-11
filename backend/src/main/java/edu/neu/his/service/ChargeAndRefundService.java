@@ -44,4 +44,9 @@ public class ChargeAndRefundService {
     public int update (OutpatientChargesRecord outpatientChargesRecord){
         return outpatientChargesRecordMapper.updateByPrimaryKey(outpatientChargesRecord);
     }
+
+    @Transactional
+    public int insert(OutpatientChargesRecord record){
+        return outpatientChargesRecordMapper.insert(record);
+    }
 }

@@ -6,4 +6,13 @@ public class Common {
     public static final int CHUZHI_TYPE = 2;
     public static final String YITIJIAO = "已提交";
     public static final String ZANCUN = "暂存";
+    public static final String WEIDENGJI = "未登记";
+    public static final String YIDENGJI = "已登记";
+    public static final String YIWANCHENG = "已完成";
+    public static final String YIQUXIAO = "已取消";
+    public static final String WEIJIAOFEI = "未缴费";
+    public static final String YIJIAOFEI = "已缴费";
+    public static final String YITUIFEI = "已退费";
+    public static final int RECORD_TYPE_CHUFANG = 0;
+    public static final int RECORD_TYPE_JIANCHA = 1;
 }

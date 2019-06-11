@@ -49,7 +49,7 @@ public class OutpatientRegistrationController {
         data.put("defaultRegistrationLevel",registrationLevelService.findDefault());
         data.put("registrationLevel",registrationLevelService.findAll());
         data.put("settlementCategory",settlementCategoryService.findAll());
-        return Response.Ok(data);
+        return Response.ok(data);
     }
 
     @PostMapping("/syncDoctorList")
@@ -59,12 +59,12 @@ public class OutpatientRegistrationController {
         int registration_level_id = (int)req.get("registration_level_id");
         String title = RegistrationConfig.hashToTitle(registration_level_id);
         if(title==null)
-            return Response.Error("错误 挂号等级不存在");
+            return Response.error("错误 挂号等级不存在");
         else {
             List<User> users = outpatientRegistrationService.findByDepartmentAndRegistrationLevel(department_id,title);
             for(int i=0; i<users.size(); i++)
                 users.get(i).setPassword(null);
-            return Response.Ok(users);
+            return Response.ok(users);
         }
     }
 
@@ -81,9 +81,9 @@ public class OutpatientRegistrationController {
                 fee++;
 
             data.put("fee", fee);
-            return Response.Ok(data);
+            return Response.ok(data);
         }else
-            return Response.Error("错误，挂号类别不存在");
+            return Response.error("错误，挂号类别不存在");
     }
 
     @PostMapping("/confirm")
@@ -108,7 +108,7 @@ public class OutpatientRegistrationController {
         int registration_level_id = (int)req.get("registration_level_id");
         RegistrationLevel registration_level = registrationLevelService.findById(registration_level_id);
         if(registration_level==null)
-            return Response.Error("错误，挂号类别不存在");
+            return Response.error("错误，挂号类别不存在");
 
         String registration_category = registration_level.getName();
         float fee = registration_level.getFee();
@@ -132,7 +132,7 @@ public class OutpatientRegistrationController {
         BillRecord billRecord = billMapper.readValue(bill_json, BillRecord.class);
 
         if(billRecord==null)
-            return Response.Error("错误，票据记录创建失败");
+            return Response.error("错误，票据记录创建失败");
 
         billRecord.setType(BillRecordStatus.Charge);
         billRecord.setCost(fee);
@@ -148,7 +148,7 @@ public class OutpatientRegistrationController {
         OperateLog operateLog = new OperateLog(uid,medical_record_number,operateType,bill_record_id,fee,create_time);
         operateLogService.insertOperateLog(operateLog);
 
-        return  Response.Ok(data);
+        return  Response.ok(data);
     }
 
     @PostMapping("/withdrawNumber")
@@ -159,7 +159,7 @@ public class OutpatientRegistrationController {
 
         Registration registration = outpatientRegistrationService.findRegistrationById(medical_record_id);
         if(registration==null){
-            return Response.Error("该病历号不存在");
+            return Response.error("该病历号不存在");
         }else if(registration.getStatus().equals(RegistrationConfig.registrationAvailable)) {
             //退号
             registration.setStatus(RegistrationConfig.registrationCanceled);
@@ -169,7 +169,7 @@ public class OutpatientRegistrationController {
             String billType = BillRecordStatus.Refund;
             BillRecord billRecord = registrationToWithdrawBill(registration,billType,uid);
             if(billRecord==null)
-                return Response.Error("错误，费用类型不存在");
+                return Response.error("错误，费用类型不存在");
             int bill_record_id = billRecordService.insertBillRecord(billRecord);
 
             //操作冲正
@@ -177,9 +177,9 @@ public class OutpatientRegistrationController {
             OperateLog operateLog = registrationToWithdrawOperateLog(registration,operateType,bill_record_id,uid);
             operateLogService.insertOperateLog(operateLog);
 
-            return Response.Ok();
+            return Response.ok();
         }else {
-            return Response.Error("不可退号");
+            return Response.error("不可退号");
         }
     }
 
