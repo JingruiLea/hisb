@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -46,8 +45,7 @@ public class ChargeAndRefundController {
         int medical_record_id = (int)req.get("medical_record_id");
         String start_time = (String)req.get("start_time");
         String end_time = (String)req.get("end_time");
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String create_time = df.format(new Date());
+        String create_time = Time.createTime();
         if(start_time.compareTo(end_time)>=0 || end_time.compareTo(create_time)>0)
             return Response.Error("错误，开始时间不小于结束时间或结束时间大于当前时间");
 
@@ -97,6 +95,7 @@ public class ChargeAndRefundController {
             billRecord.setCost(cost);
             billRecord.setMedical_record_id(medical_record_id);
             billRecord.setUser_id(uid);
+            billRecord.setCreat_time(Time.createTime());
 
             int bill_record_id = billRecordService.insertBillRecord(billRecord);
 
@@ -114,8 +113,7 @@ public class ChargeAndRefundController {
                     int expenseClassificationId = outpatientChargesRecord.getExpense_classification_id();
                     operateType = OperateStatus.operateMap.get(expenseClassificationId);
                 }
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String create_time = df.format(new Date());
+                String create_time = Time.createTime();
                 OperateLog operateLog = new OperateLog(uid,medical_record_id,operateType,bill_record_id,outpatientChargesRecord.getCost(),create_time);
                 operateLogService.insertOperateLog(operateLog);
             });
@@ -164,6 +162,7 @@ public class ChargeAndRefundController {
             billRecord.setType(type);
             billRecord.setMedical_record_id(medical_record_id);
             billRecord.setUser_id(uid);
+            billRecord.setCreat_time(Time.createTime());
             int bill_record_id = billRecordService.insertBillRecord(billRecord);
 
             //修改收费记录
@@ -180,8 +179,7 @@ public class ChargeAndRefundController {
                     int expenseClassificationId = outpatientChargesRecord.getExpense_classification_id();
                     operateType = OperateStatus.operateMap.get(expenseClassificationId);
                 }
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String create_time = df.format(new Date());
+                String create_time = Time.createTime();
                 OperateLog operateLog = new OperateLog(uid,medical_record_id,operateType,bill_record_id,0-outpatientChargesRecord.getCost(),create_time);
                 operateLogService.insertOperateLog(operateLog);
             });

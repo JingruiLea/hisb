@@ -9,15 +9,10 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
+
 import org.apache.ibatis.type.JdbcType;
 
 public interface MedicalRecordMapper {
-    @Delete({
-        "delete from medical_record",
-        "where id = #{id,jdbcType=INTEGER}"
-    })
-    int deleteByPrimaryKey(Integer id);
-
     @Insert({
         "insert into medical_record (create_time, `status`, ",
         "chief_complaint, current_medical_history, ",
@@ -67,7 +62,7 @@ public interface MedicalRecordMapper {
         "from medical_record"
     })
     @Results({
-        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER),
         @Result(column="create_time", property="create_time", jdbcType=JdbcType.VARCHAR),
         @Result(column="status", property="status", jdbcType=JdbcType.VARCHAR),
         @Result(column="chief_complaint", property="chief_complaint", jdbcType=JdbcType.LONGVARCHAR),
