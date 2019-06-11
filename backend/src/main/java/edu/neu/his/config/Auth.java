@@ -7,7 +7,7 @@ public class Auth {
         if(req.containsKey("_uid")){
             return (int)req.get("_uid");
         }else {
-            System.out.println("Error:uid can't be found, check middleware config plz.");
+            System.out.println("CommonError:uid can't be found, check middleware config plz.");
             System.exit(1);
             return  -1;
         }

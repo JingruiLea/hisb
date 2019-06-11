@@ -48,4 +48,8 @@ public class MedicalRecordService {
     public int updateMedicalRecord(MedicalRecord medicalRecord){
         return medicalRecordMapper.updateByPrimaryKey(medicalRecord);
     }
+    public String getStatusById(Integer id){
+        return medicalRecordMapper.selectByPrimaryKey(id).getStatus();
+    }
+
 }

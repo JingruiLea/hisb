@@ -9,8 +9,8 @@ public class OperateStatus {
     public static HashMap<Integer, String> operateMap = new HashMap<>();
 
     public static void initOperateMap(){
-        operateMap.put(3,"检验");
-        operateMap.put(7,"检查");
-        operateMap.put(16,"处置");
+        operateMap.put(3, "检验");
+        operateMap.put(7, "检查");
+        operateMap.put(16, "处置");
     }
 }
