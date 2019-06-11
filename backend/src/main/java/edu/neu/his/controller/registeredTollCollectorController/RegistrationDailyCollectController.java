@@ -34,7 +34,7 @@ public class RegistrationDailyCollectController {
         if(userService.findByUid(_uid)!=null)
             return Response.Ok(dailyCollectService.findDailyCollectByUid(_uid));
         else
-            return Response.Error("错误，该用户ID不存在");
+            return Response.error("错误，该用户ID不存在");
     }
 
     @GetMapping("/detail")
@@ -44,12 +44,12 @@ public class RegistrationDailyCollectController {
         List<BillRecord> billRecordList = new ArrayList<>();
 
         if(dailyDetailList.size()==0)
-            return Response.Error("错误，该日结ID不存在");
+            return Response.error("错误，该日结ID不存在");
 
         dailyDetailList.forEach(dailyDetail -> {
             billRecordList.add(billRecordService.findById(dailyDetail.getBill_record_id()));
         });
-        return Response.Ok(billRecordList);
+        return Response.ok(billRecordList);
     }
 
     @PostMapping("/collect")
@@ -64,7 +64,7 @@ public class RegistrationDailyCollectController {
 
         List<BillRecord> billRecordList = billRecordService.findByUserIdAndTime(uid,start_time,end_time);
         if(billRecordList.size()==0)
-            return Response.Error("不存在符合条件的票据记录");
+            return Response.error("不存在符合条件的票据记录");
 
         //添加日结记录
         DailyCollect dailyCollect = new DailyCollect();
@@ -81,6 +81,6 @@ public class RegistrationDailyCollectController {
             dailyCollectService.insertDailyDetail(dailyDetail);
         });
 
-        return Response.Ok(dailyCollectService.findDailyCollectById(daily_collect_id));
+        return Response.ok(dailyCollectService.findDailyCollectById(daily_collect_id));
     }
 }

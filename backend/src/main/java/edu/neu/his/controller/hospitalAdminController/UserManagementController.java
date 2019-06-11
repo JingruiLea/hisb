@@ -1,6 +1,5 @@
 package edu.neu.his.controller.hospitalAdminController;
 
-import edu.neu.his.bean.Department;
 import edu.neu.his.bean.User;
 import edu.neu.his.config.Response;
 import edu.neu.his.service.DepartmentService;
@@ -36,7 +35,7 @@ public class UserManagementController {
         data.put("departments",departmentService.findAll());
         data.put("roles", userService.allRoles());
         data.put("users",users);
-        return Response.Ok(data);
+        return Response.ok(data);
     }
 
     @PostMapping("/add")
@@ -44,9 +43,9 @@ public class UserManagementController {
     public Map addNewUser(@RequestBody Map req) {
         User user = map2User(req);
         if (user==null)
-            return Response.Error("该科室 或 该用户角色不存在");
+            return Response.error("该科室 或 该用户角色不存在");
         userService.addUser(user);
-        return Response.Ok();
+        return Response.ok();
     }
 
     @PostMapping("/delete")
@@ -54,7 +53,7 @@ public class UserManagementController {
     public Map deleteUser(@RequestBody Map req) {
         List<Integer> user_ids = (List<Integer>)req.get("data");
         user_ids.forEach(id -> userService.deleteUser(id));
-        return Response.Ok();
+        return Response.ok();
     }
 
     @PostMapping("/update")
@@ -62,7 +61,7 @@ public class UserManagementController {
     public Map updateUser(@RequestBody Map req) {
         User user = map2User(req);
         userService.updateUser(user);
-        return Response.Ok();
+        return Response.ok();
     }
 
     private User map2User(Map req) {
@@ -92,18 +91,18 @@ public class UserManagementController {
             fos.write(file.getBytes()); // 写入文件
             System.out.println("文件上传成功");
             if(departmentService.importFromFile(pathName))
-                return Response.Ok();
+                return Response.ok();
             else
-                return Response.Error("解析失败");
+                return Response.error("解析失败");
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.Error("上传失败");
+            return Response.error("上传失败");
         } finally {
             try {
                 fos.close();
             } catch (IOException e) {
                 e.printStackTrace();
-                return Response.Error("上传失败");
+                return Response.error("上传失败");
             }
         }
     }

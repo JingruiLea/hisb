@@ -14,6 +14,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 
+import org.apache.ibatis.type.JdbcType;
+
 @Mapper
 @Component(value = "MedicalRecordMapper")
 public interface MedicalRecordMapper {

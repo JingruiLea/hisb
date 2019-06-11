@@ -22,9 +22,9 @@ public class UserInfoController {
         User user = userService.findByUid(uid);
         if(user!=null) {
             user.setPassword(null);
-            return Response.Ok(user);
+            return Response.ok(user);
         }else
-            return Response.Error("用户信息读取失败，请检查数据库约束！");
+            return Response.error("用户信息读取失败，请检查数据库约束！");
     }
 
 }
