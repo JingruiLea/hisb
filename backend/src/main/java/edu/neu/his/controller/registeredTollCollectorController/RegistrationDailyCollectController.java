@@ -32,7 +32,7 @@ public class RegistrationDailyCollectController {
     @ResponseBody
     public Map list(int _uid){
         if(userService.findByUid(_uid)!=null)
-            return Response.Ok(dailyCollectService.findDailyCollectByUid(_uid));
+            return Response.ok(dailyCollectService.findDailyCollectByUid(_uid));
         else
             return Response.error("错误，该用户ID不存在");
     }
@@ -60,7 +60,7 @@ public class RegistrationDailyCollectController {
         String end_time = (String)req.get("end_time");
 
         if(start_time.compareTo(end_time)>=0 || end_time.compareTo(Utils.getSystemTime())>0)
-            return Response.Error("错误，开始时间不小于结束时间或结束时间大于当前时间");
+            return Response.error("错误，开始时间不小于结束时间或结束时间大于当前时间");
 
         List<BillRecord> billRecordList = billRecordService.findByUserIdAndTime(uid,start_time,end_time);
         if(billRecordList.size()==0)

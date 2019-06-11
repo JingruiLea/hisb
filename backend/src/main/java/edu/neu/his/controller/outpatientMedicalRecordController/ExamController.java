@@ -5,7 +5,7 @@ import edu.neu.his.bean.ExamItem;
 import edu.neu.his.bean.NonDrugChargeItem;
 import edu.neu.his.bean.OutpatientChargesRecord;
 import edu.neu.his.config.Response;
-import edu.neu.his.mapper.OutpatientChargesRecordMapper;
+import edu.neu.his.mapper.auto.OutpatientChargesRecordMapper;
 import edu.neu.his.service.ExamItemService;
 import edu.neu.his.service.ExamService;
 import edu.neu.his.service.NonDrugChargeService;

@@ -28,18 +28,18 @@ public class MedicalRecordTemplateController {
         int type = (int)req.get("type");
         if(type == MedicalRecordStatus.SelectByUserId){
             int uid = Auth.uid(req);
-            return Response.Ok(medicalRecordTemplateService.SelectByUserId(uid));
+            return Response.ok(medicalRecordTemplateService.SelectByUserId(uid));
         }else if(type == MedicalRecordStatus.SelectByDepartmentId){
             int department_id = (int)req.get("department_id");
-            return Response.Ok(medicalRecordTemplateService.SelectByDepartmentId(department_id));
+            return Response.ok(medicalRecordTemplateService.SelectByDepartmentId(department_id));
         }else
-            return Response.Ok(medicalRecordTemplateService.SelectAll());
+            return Response.ok(medicalRecordTemplateService.SelectAll());
     }
 
     @GetMapping("/detail")
     @ResponseBody
     public Map detail(int id){
-        return Response.Ok(medicalRecordTemplateService.SelectById(id));
+        return Response.ok(medicalRecordTemplateService.SelectById(id));
     }
 
     @PostMapping("/create")
@@ -73,7 +73,7 @@ public class MedicalRecordTemplateController {
         int uid = Auth.uid(req);
 
         if(medicalRecordTemplateService.SelectById(id)==null)
-            return Response.Error("错误，该病历模板不存在");
+            return Response.error("错误，该病历模板不存在");
 
         MedicalRecordTemplate medicalRecordTemplate = Utils.fromMap(req,MedicalRecordTemplate.class);
         medicalRecordTemplateService.update(medicalRecordTemplate);
@@ -89,7 +89,7 @@ public class MedicalRecordTemplateController {
         int uid = Auth.uid(req);
         MedicalRecordTemplate medicalRecordTemplate = medicalRecordTemplateService.SelectById(id);
         if(medicalRecordTemplate==null)
-            return Response.Error("错误，该病历模板不存在");
+            return Response.error("错误，该病历模板不存在");
 
         medicalRecordTemplateService.delete(id);
 
@@ -112,10 +112,10 @@ public class MedicalRecordTemplateController {
 
     private Map returnList(int type, int uid, int department_id){
         if(type == MedicalRecordStatus.SelectByUserId){
-            return Response.Ok(medicalRecordTemplateService.SelectByUserId(uid));
+            return Response.ok(medicalRecordTemplateService.SelectByUserId(uid));
         }else if(type == MedicalRecordStatus.SelectByDepartmentId){
-            return Response.Ok(medicalRecordTemplateService.SelectByDepartmentId(department_id));
+            return Response.ok(medicalRecordTemplateService.SelectByDepartmentId(department_id));
         }else
-            return Response.Ok(medicalRecordTemplateService.SelectAll());
+            return Response.ok(medicalRecordTemplateService.SelectAll());
     }
 }

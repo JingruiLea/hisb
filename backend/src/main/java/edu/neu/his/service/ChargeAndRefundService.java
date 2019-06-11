@@ -3,7 +3,7 @@ package edu.neu.his.service;
 import edu.neu.his.bean.OutpatientChargesRecord;
 import edu.neu.his.config.OutpatientChargesRecordStatus;
 import edu.neu.his.mapper.ChargeAndRefundMapper;
-import edu.neu.his.mapper.OutpatientChargesRecordMapper;
+import edu.neu.his.mapper.auto.OutpatientChargesRecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

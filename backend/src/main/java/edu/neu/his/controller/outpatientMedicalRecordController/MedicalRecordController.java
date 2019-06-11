@@ -60,7 +60,7 @@ public class MedicalRecordController {
             medicalRecordService.updateMedicalRecord(medicalRecord);
             return Response.ok();
         }else {
-            return Response.Error("错误，该病历不存在");
+            return Response.error("错误，该病历不存在");
         }
     }
 
