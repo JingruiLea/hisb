@@ -5,13 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.neu.his.bean.*;
 import edu.neu.his.config.*;
 import edu.neu.his.service.*;
+import edu.neu.his.util.Time;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,7 +129,7 @@ public class OutpatientRegistrationController {
         ObjectMapper billMapper = new ObjectMapper();
         billMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         String bill_json = JSONObject.fromObject(req).toString();
-        BillRecord billRecord = registrationMapper.readValue(bill_json, BillRecord.class);
+        BillRecord billRecord = billMapper.readValue(bill_json, BillRecord.class);
 
         if(billRecord==null)
             return Response.Error("错误，票据记录创建失败");
