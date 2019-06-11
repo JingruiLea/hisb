@@ -179,73 +179,8 @@ public class OutpatientRegistrationController {
 
             return Response.ok();
         }else {
-<<<<<<< HEAD
-            return Response.Error("不可退号");
-        }
-    }
-
-    private String hash2Title(int registration_level_id){
-        RegistrationConfig.initTitleMap();
-        String title = null;
-        if(RegistrationConfig.titleMap.containsKey(registration_level_id))
-            title = RegistrationConfig.titleMap.get(registration_level_id);
-        return title;
-    }
-
-    private Registration req2Registration(Map req){
-        String address;
-        if(!req.containsKey("address"))
-            address = "";
-        else
-            address = (String)req.get("address");
-
-        int age = (int)req.get("age");
-        String birthday =(String)req.get("birthday");
-        String consultation_date = (String)req.get("consultation_date");
-        String medicial_category = (String)req.get("medical_category");
-        String patient_name = (String)req.get("name");
-        int outpatient_doctor_id = (int)req.get("outpatient_doctor_id");
-        int registration_department_id = (int)req.get("department_id");
-        int settlement_category_id = (int)req.get("settlement_category_id");
-        String registraton_source = (String)req.get("registration_source");
-        String gender = (String)req.get("gender");
-        String medical_insurance_diagnosis = (String)req.get("medical_insurance_diagnosis");
-        String medical_certificate_number_type = (String)req.get("medical_certificate_number_type");
-        String id_number,medicial_certificate_number;
-        if(medical_certificate_number_type.equals("id")){
-            id_number = (String)req.get("medical_certificate_number");
-            medicial_certificate_number = "";
-        }
-        else {
-            medicial_certificate_number = (String)req.get("medical_certificate_number");
-            id_number = "";
-        }
-
-        Registration registration = new Registration(address,age,birthday,consultation_date,medicial_category,patient_name,
-                outpatient_doctor_id,registration_department_id,settlement_category_id,registraton_source,gender,
-                medical_insurance_diagnosis,id_number,medicial_certificate_number);
-
-        return registration;
-    }
-
-    private BillRecord reqToBillRecord(Map req,int medical_record_number,String type,float fee){
-        BillRecord billRecord = new BillRecord();
-        billRecord.setTruely_pay((Float) req.get("truely_pay"));
-        billRecord.setShould_pay((Float) req.get("should_pay"));
-        billRecord.setRetail_fee((Float) req.get("retail_fee"));
-        billRecord.setUser_id((Integer) req.get("_uid"));
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        billRecord.setCreat_time(df.format(new Date()));
-        billRecord.setMedical_record_id(medical_record_number);
-        billRecord.setType(type);
-        billRecord.setCost(fee);
-
-
-        return billRecord;
-=======
             return Response.error("不可退号");
         }
->>>>>>> ljr
     }
 
     private BillRecord registrationToWithdrawBill(Registration registration, String type,int uid){
