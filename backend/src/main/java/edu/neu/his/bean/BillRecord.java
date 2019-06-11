@@ -87,12 +87,12 @@ public class BillRecord {
         this.user_id = user_id;
     }
 
-    public String getCreat_time() {
+    public String getCreate_time() {
         return create_time;
     }
 
-    public void setCreat_time(String creat_time) {
-        this.create_time = creat_time;
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
     }
 
 }

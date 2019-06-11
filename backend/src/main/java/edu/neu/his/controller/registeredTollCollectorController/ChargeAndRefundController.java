@@ -90,7 +90,7 @@ public class ChargeAndRefundController {
             billRecord.setCost(cost);
             billRecord.setMedical_record_id(medical_record_id);
             billRecord.setUser_id(uid);
-            billRecord.setCreat_time(Utils.getSystemTime());
+            billRecord.setCreate_time(Utils.getSystemTime());
 
             int bill_record_id = billRecordService.insertBillRecord(billRecord);
 
@@ -159,7 +159,7 @@ public class ChargeAndRefundController {
             billRecord.setType(type);
             billRecord.setMedical_record_id(medical_record_id);
             billRecord.setUser_id(uid);
-            billRecord.setCreat_time(Utils.getSystemTime());
+            billRecord.setCreate_time(Utils.getSystemTime());
             int bill_record_id = billRecordService.insertBillRecord(billRecord);
 
             //修改收费记录

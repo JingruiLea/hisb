@@ -129,7 +129,7 @@ public class OutpatientRegistrationController {
         billRecord.setType(BillRecordStatus.Charge);
         billRecord.setCost(fee);
         billRecord.setMedical_record_id(medical_record_number);
-        billRecord.setCreat_time(create_time);
+        billRecord.setCreate_time(create_time);
         billRecord.setUser_id(uid);
 
         int bill_record_id = billRecordService.insertBillRecord(billRecord);
@@ -181,7 +181,7 @@ public class OutpatientRegistrationController {
         billRecord.setMedical_record_id(registration.getMedical_record_id());
         billRecord.setUser_id(uid);
         billRecord.setType(type);
-        billRecord.setCreat_time(Utils.getSystemTime());
+        billRecord.setCreate_time(Utils.getSystemTime());
 
         return billRecord;
     }
