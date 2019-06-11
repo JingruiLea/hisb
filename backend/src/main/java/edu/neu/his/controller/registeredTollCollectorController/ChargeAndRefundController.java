@@ -11,6 +11,7 @@ import edu.neu.his.service.BillRecordService;
 import edu.neu.his.service.ChargeAndRefundService;
 import edu.neu.his.service.OperateLogService;
 import edu.neu.his.service.OutpatientRegistrationService;
+import edu.neu.his.util.Time;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -103,6 +104,7 @@ public class ChargeAndRefundController {
             recordsToCharge.forEach(outpatientChargesRecord -> {
                 outpatientChargesRecord.setStatus(OutpatientChargesRecordStatus.Charged);
                 outpatientChargesRecord.setBill_record_id(bill_record_id);
+                outpatientChargesRecord.setCollect_time(Time.createTime());
                 chargeAndRefundService.update(outpatientChargesRecord);
 
                 //对每条收费记录生成对应的操作记录
@@ -169,6 +171,7 @@ public class ChargeAndRefundController {
             recordsToRefund.forEach(outpatientChargesRecord -> {
                 outpatientChargesRecord.setStatus(OutpatientChargesRecordStatus.Refunded);
                 outpatientChargesRecord.setBill_record_id(bill_record_id);
+                outpatientChargesRecord.setCollect_time(Time.createTime());
                 chargeAndRefundService.update(outpatientChargesRecord);
 
                 //对每条收费记录生成对应的操作记录

@@ -2,6 +2,10 @@ package edu.neu.his.mapper;
 
 import edu.neu.his.bean.MedicalRecord;
 import java.util.List;
+
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.type.JdbcType;
+import org.springframework.stereotype.Component;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Result;
@@ -12,7 +16,15 @@ import org.apache.ibatis.annotations.Update;
 
 import org.apache.ibatis.type.JdbcType;
 
+@Mapper
+@Component(value = "MedicalRecordMapper")
 public interface MedicalRecordMapper {
+    @Delete({
+        "delete from medical_record",
+        "where id = #{id,jdbcType=INTEGER}"
+    })
+    int deleteByPrimaryKey(Integer id);
+
     @Insert({
         "insert into medical_record (create_time, `status`, ",
         "chief_complaint, current_medical_history, ",
@@ -62,7 +74,7 @@ public interface MedicalRecordMapper {
         "from medical_record"
     })
     @Results({
-        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER),
+        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="create_time", property="create_time", jdbcType=JdbcType.VARCHAR),
         @Result(column="status", property="status", jdbcType=JdbcType.VARCHAR),
         @Result(column="chief_complaint", property="chief_complaint", jdbcType=JdbcType.LONGVARCHAR),

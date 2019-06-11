@@ -1,5 +1,6 @@
 package edu.neu.his.service;
 
+import edu.neu.his.bean.MedicalRecord;
 import edu.neu.his.bean.Registration;
 import edu.neu.his.mapper.MedicalRecordMapper;
 import edu.neu.his.mapper.OutpatientRegistrationMapper;
@@ -34,6 +35,19 @@ public class MedicalRecordService {
     }
 
     @Transactional
+    public MedicalRecord findMedicalRecordById(int medical_record_id){
+        return medicalRecordMapper.selectByPrimaryKey(medical_record_id);
+    }
+
+    @Transactional
+    public int insertMedicalRecord(MedicalRecord medicalRecord){
+        return medicalRecordMapper.insert(medicalRecord);
+    }
+
+    @Transactional
+    public int updateMedicalRecord(MedicalRecord medicalRecord){
+        return medicalRecordMapper.updateByPrimaryKey(medicalRecord);
+    }
     public String getStatusById(Integer id){
         return medicalRecordMapper.selectByPrimaryKey(id).getStatus();
     }

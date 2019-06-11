@@ -27,6 +27,7 @@
                         connectionURL="${spring.datasource.url}"
                         userId="${spring.datasource.username}"
                         password="${spring.datasource.password}">
+            <property name="useInformationSchema" value="true"/>
         </jdbcConnection>
 
         <!-- 类型转换 -->

@@ -10,7 +10,7 @@ public class BillRecord {
     private float truely_pay;
     private float retail_fee;
     private int user_id;
-    private String creat_time;
+    private String create_time;
 
     public BillRecord() {
     }
@@ -88,25 +88,11 @@ public class BillRecord {
     }
 
     public String getCreat_time() {
-        return creat_time;
+        return create_time;
     }
 
     public void setCreat_time(String creat_time) {
-        this.creat_time = creat_time;
+        this.create_time = creat_time;
     }
-/*
-    public static BillRecord reqToBillRecord(Map req, String type, float fee){
-        BillRecord billRecord = new BillRecord();
-        billRecord.setTruely_pay((float)req.get("truely_pay"));
-        billRecord.setShould_pay((float)req.get("should_pay"));
-        billRecord.setRetail_fee((float)req.get("retail_fee"));
-        billRecord.setUser_id((int)req.get("_uid"));
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        billRecord.setCreat_time(df.format(new Date()));
-        billRecord.setType(type);
-        billRecord.setCost(fee);
 
-        return billRecord;
-    }
- */
 }

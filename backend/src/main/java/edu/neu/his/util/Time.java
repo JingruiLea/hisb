@@ -1,4 +1,4 @@
-package edu.neu.his.config;
+package edu.neu.his.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
