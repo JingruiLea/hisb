@@ -117,6 +117,17 @@ class DashboardHeader extends React.Component {
     const form = this.props.form;
     return (
     <Header style={{ background: '#fff', padding: 0 }} >
+
+
+
+
+      <div style={{float:'left',paddingLeft:10}}>
+        <h1>Version 6.11.1</h1>
+      </div>
+
+
+
+
       <div style={{float:'left',paddingLeft:10}}>
         <h1>{me.real_name}</h1>
       </div>

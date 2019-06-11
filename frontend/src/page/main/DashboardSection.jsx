@@ -53,10 +53,7 @@ class DashboardSection extends React.Component {
 
           {sectionKey==="4-1"?<OutpatientRegistration me={this.props.me}/>:null}
           {sectionKey==="4-2"?<OutpatientCharge me={this.props.me}/>:null}
-          {sectionKey==="4-3"?<div>ToBeImplement</div>:null}
-          {sectionKey==="4-4"?<div>ToBeImplement</div>:null}
-          {sectionKey==="4-5"?<div>ToBeImplement</div>:null}
-          {sectionKey==="4-6"?<div>ToBeImplement</div>:null}
+          {sectionKey==="4-3"?<DailyCollectSection/>:null}
 
           {sectionKey==="5-1"?<DiagnoseSection/>:null}
           {sectionKey==="5-2"?<div>ToBeImplement</div>:null}

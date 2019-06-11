@@ -87,12 +87,9 @@ class DashboardPage extends React.Component {
                 </span>
               }
             >
-              <Menu.Item key="4-1">现场挂号</Menu.Item>
-              <Menu.Item key="4-2">收费</Menu.Item>
-              <Menu.Item key="4-3">退号</Menu.Item>
-              <Menu.Item key="4-4">退费</Menu.Item>
-              <Menu.Item key="4-5">患者费用查询</Menu.Item>
-              <Menu.Item key="4-6">收费员日结</Menu.Item>
+              <Menu.Item key="4-1">挂号/退号</Menu.Item>
+              <Menu.Item key="4-2">收费/退费</Menu.Item>
+              <Menu.Item key="4-3">收费员日结</Menu.Item>
             </SubMenu>
 
             <SubMenu
