@@ -80,6 +80,6 @@ public class RegistrationLevelService {
         if(list!=null)
             return  registrationLevelMapper.findDefault().get(0);
         else
-            return null;
+            return registrationLevelMapper.findAll().get(0);
     }
 }

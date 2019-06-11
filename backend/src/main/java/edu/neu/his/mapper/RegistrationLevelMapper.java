@@ -18,7 +18,7 @@ public interface RegistrationLevelMapper {
     @Update("UPDATE registration_level SET name = #{name}, is_default = #{is_default}, seq_num = #{seq_num}, fee = #{fee} WHERE id = #{id}")
     void update(RegistrationLevel registration_level);
 
-    @Select("SELECT * FROM registration_level")
+    @Select("SELECT * FROM registration_level ORDER BY id")
     List<RegistrationLevel> findAll();
 
     @Delete("DELETE FROM registration_level WHERE id=#{id}")

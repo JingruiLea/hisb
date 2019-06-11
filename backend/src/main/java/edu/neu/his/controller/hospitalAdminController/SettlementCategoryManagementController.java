@@ -18,7 +18,7 @@ public class SettlementCategoryManagementController {
     @GetMapping("/all")
     @ResponseBody
     public Map getAllSettlementCategory() {
-        return Response.Ok(settlementCategoryService.findAll());
+        return Response.ok(settlementCategoryService.findAll());
     }
 
     @PostMapping("/delete")
@@ -26,7 +26,7 @@ public class SettlementCategoryManagementController {
     public Map deleteSettlementCategory(@RequestBody Map req) {
         List<Integer> settlementCategoryIds = (List<Integer>) req.get("data");
         settlementCategoryIds.forEach(id -> settlementCategoryService.deleteSettlementCategoryById(id));
-        return Response.Ok();
+        return Response.ok();
     }
 
     @PostMapping("/add")
@@ -35,7 +35,7 @@ public class SettlementCategoryManagementController {
         String name = (String) req.get("name");
         int id = (int) req.get("id");
         settlementCategoryService.addSettlementCategory(new SettlementCategory(id,name));
-        return Response.Ok();
+        return Response.ok();
     }
 
     @PostMapping("/update")
@@ -45,7 +45,7 @@ public class SettlementCategoryManagementController {
         int id = (int)req.get("id");
         SettlementCategory settlementCategory = new SettlementCategory(id,name);
         settlementCategoryService.update(settlementCategory);
-        return Response.Ok();
+        return Response.ok();
     }
 
 }

@@ -21,7 +21,7 @@ public class DiagnoseDirectoryController {
     @GetMapping("/allClassification")
     @ResponseBody
     public Map allDiseaseClassification(){
-        return Response.Ok(diagnoseDirectoryService.findAllDiseaseClassification());
+        return Response.ok(diagnoseDirectoryService.findAllDiseaseClassification());
     }
 
     @PostMapping("/searchAllByClassificationId")
@@ -30,14 +30,14 @@ public class DiagnoseDirectoryController {
         int classification_id = (int)req.get("classification_id");
         Map data = new HashMap();
         data.put("diseases",diagnoseDirectoryService.findAll(classification_id));
-        return Response.Ok(data);
+        return Response.ok(data);
     }
 
     @PostMapping("/findByName")
     @ResponseBody
     public Map DiseaseFindByName(@RequestBody Map req){
         String name = (String)req.get("name");
-        return Response.Ok(diagnoseDirectoryService.findDiseaseByName(name));
+        return Response.ok(diagnoseDirectoryService.findDiseaseByName(name));
     }
 
     @PostMapping("/update")
@@ -47,15 +47,15 @@ public class DiagnoseDirectoryController {
         int rawId = (int)req.get("raw_id");
         int classification_id = (int)req.get("classification_id");
         if(!checkIdExist(rawId)){
-            return Response.Error("错误，原ID不存在。");
+            return Response.error("错误，原ID不存在。");
         }else if(disease.getId()!=rawId && checkIdExist(disease.getId())) {
-            return Response.Error("错误，ID重复。");
+            return Response.error("错误，ID重复。");
         }else if(!checkClassificationExist(classification_id)){
-            return Response.Error("错误，疾病类别不存在。");
+            return Response.error("错误，疾病类别不存在。");
         }
         else {
             diagnoseDirectoryService.updateDisease(rawId,disease);
-            return Response.Ok();
+            return Response.ok();
         }
     }
 
@@ -64,12 +64,12 @@ public class DiagnoseDirectoryController {
     public Map insertDisease(@RequestBody Map req){
         Disease disease = req2Disease(req);
         if(!checkClassificationExist(disease.getClassification_id())){
-            return Response.Error("错误，疾病类别不存在。");
+            return Response.error("错误，疾病类别不存在。");
         }else if(checkIdExist(disease.getId())) {
-            return Response.Error("错误，ID重复。");
+            return Response.error("错误，ID重复。");
         }else {
             diagnoseDirectoryService.insertDisease(disease);
-            return Response.Ok();
+            return Response.ok();
         }
     }
 
@@ -78,7 +78,7 @@ public class DiagnoseDirectoryController {
     public Map  deleteDisease(@RequestBody Map req){
         List<String > disease_ids = (List<String>) req.get("data");
         disease_ids.forEach(id->diagnoseDirectoryService.deleteDisease(id));
-        return Response.Ok();
+        return Response.ok();
     }
 
     private boolean checkClassificationExist(int classification_id) {

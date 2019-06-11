@@ -3,7 +3,6 @@ package edu.neu.his.controller.hospitalAdminController;
 import edu.neu.his.bean.Department;
 import edu.neu.his.config.Response;
 import edu.neu.his.service.DepartmentService;
-import edu.neu.his.util.ExcelImportation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +11,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 
 //3.1 科室管理
@@ -28,7 +26,7 @@ public class DepartmentManageController {
     public Map departmentFindByName(@RequestBody Map req){
         //System.out.println(req);
         String name = (String)req.get("name");
-        return Response.Ok(departmentService.findDepartmentByName(name));
+        return Response.ok(departmentService.findDepartmentByName(name));
     }
 
     @GetMapping("/getAll")
@@ -37,7 +35,7 @@ public class DepartmentManageController {
         Map data = new HashMap();
         data.put("department_classification",departmentService.findAllClassification());
         data.put("department",departmentService.findAll());
-        return Response.Ok(data);
+        return Response.ok(data);
     }
 
     @PostMapping("/update")
@@ -46,9 +44,9 @@ public class DepartmentManageController {
         Department department = req2Department(req);
         if(canUpdate(department)) {
             departmentService.updateDepartment(department);
-            return Response.Ok();
+            return Response.ok();
         }else{
-            return Response.Error("编号冲突 或 该类别不存在!");
+            return Response.error("编号冲突 或 该类别不存在!");
         }
     }
 
@@ -58,9 +56,9 @@ public class DepartmentManageController {
         Department department = req2Department(req);
         if(canInsert(department)) {
             departmentService.insertDepartment(department);
-            return Response.Ok();
+            return Response.ok();
         }else{
-            return Response.Error("编号冲突 或 该类别不存在!");
+            return Response.error("编号冲突 或 该类别不存在!");
         }
     }
 
@@ -72,7 +70,7 @@ public class DepartmentManageController {
             int id = (int)departments_id.get(i);
             departmentService.deleteDepartment(id);
         }
-        return Response.Ok();
+        return Response.ok();
     }
 
     @PostMapping("/import")
@@ -87,18 +85,18 @@ public class DepartmentManageController {
             fos.write(file.getBytes()); // 写入文件
             System.out.println("文件上传成功");
             if(departmentService.importFromFile(pathName))
-                return Response.Ok();
+                return Response.ok();
             else
-                return Response.Error("解析失败");
+                return Response.error("解析失败");
         } catch (Exception e) {
             e.printStackTrace();
-            return Response.Error("上传失败");
+            return Response.error("上传失败");
         } finally {
             try {
                 fos.close();
             } catch (IOException e) {
                 e.printStackTrace();
-                return Response.Error("上传失败");
+                return Response.error("上传失败");
             }
         }
     }

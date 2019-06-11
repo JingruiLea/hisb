@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Mapper
 @Component(value = "OperateLogMapper")
 public interface OperateLogMapper {
-    @Insert("INSERT INTO operate_log(user_id, operate_id, type , bill_record_id, fee, creat_time) " +
-            "VALUES(#{user_id}, #{operate_id}, #{type}, #{bill_record_id}, #{fee}, #{creat_time})")
+    @Insert("INSERT INTO operate_log(user_id, operate_id, type , bill_record_id, fee, create_time) " +
+            "VALUES(#{user_id}, #{operate_id}, #{type}, #{bill_record_id}, #{fee}, #{create_time})")
     void insert(OperateLog operateLog);
 }

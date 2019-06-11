@@ -20,7 +20,7 @@ public class RegistrationLevelController {
     @GetMapping("/all")
     @ResponseBody
     public Map listAllRegistration_level(){
-        return Response.Ok(registrationLevelService.findAll());
+        return Response.ok(registrationLevelService.findAll());
     }
 
     @PostMapping("/update")
@@ -28,9 +28,9 @@ public class RegistrationLevelController {
     public Map updateRegistration_level(@RequestBody RegistrationLevel registration_level){
         if(canUpdate(registration_level)) {
             registrationLevelService.updateDepartment(registration_level);
-            return Response.Ok();
+            return Response.ok();
         }else
-            return Response.Error("名称冲突");
+            return Response.error("名称冲突");
     }
 
     @PostMapping("/add")
@@ -38,9 +38,9 @@ public class RegistrationLevelController {
     public Map  insertRegistration_level(@RequestBody RegistrationLevel registration_level){
         if(canInsert(registration_level)) {
             registrationLevelService.insertRegistration_level(registration_level);
-            return Response.Ok();
+            return Response.ok();
         }else
-            return Response.Error("id或名称冲突");
+            return Response.error("id或名称冲突");
     }
 
     @PostMapping("/delete")
@@ -55,13 +55,13 @@ public class RegistrationLevelController {
                 failed.add(id);
         });
         if(failed.isEmpty())
-            return Response.Ok();
+            return Response.ok();
         else{
             Map data = new HashMap();
             data.put("success number",registration_level_ids.size()-failed.size());
             data.put("fail number",failed.size());
             data.put("fail id",failed);
-            return Response.Error(data);
+            return Response.error(data);
         }
     }
 

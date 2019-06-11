@@ -15,6 +15,9 @@ public class NonDrugChargeService {
     @Autowired
     private NonDrugChargeItemMapper nonDrugChargeItemMapper;
 
+    @Autowired
+    private edu.neu.his.mapper.auto.NonDrugChargeItemMapper autoNonDrugChargeItemMapper;
+
     @Transactional
     public void updateNonDrugCharge(NonDrugChargeItem nonDrugCharge) {
         nonDrugChargeItemMapper.update(nonDrugCharge);
@@ -39,7 +42,7 @@ public class NonDrugChargeService {
     public List<ExpenseClassification> findAllExpenseClassificationNames() {return nonDrugChargeItemMapper.findAllExpenseClassificationNames();}
 
     @Transactional
-    public void deleteNonDrugCharge(String id) {
+    public void deleteNonDrugCharge(int id) {
         nonDrugChargeItemMapper.deleteNonDrugCharge(id);
     }
 
@@ -60,7 +63,12 @@ public class NonDrugChargeService {
     }
 
     @Transactional
-    public boolean canDelete(String id) {
+    public boolean canDelete(int id) {
         return nonDrugChargeItemMapper.checkId(id)==1;
+    }
+
+    @Transactional
+    public NonDrugChargeItem selectById(int id){
+        return autoNonDrugChargeItemMapper.selectByPrimaryKey(id);
     }
 }

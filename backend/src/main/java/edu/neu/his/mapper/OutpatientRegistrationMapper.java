@@ -16,13 +16,13 @@ public interface OutpatientRegistrationMapper {
             "and user_info.department_id = #{department_id} and user_info.title = #{title}")
     List<User> findByDepartmentAndTitle(@Param("department_id") int department_id, @Param("title") String title);
 
-    @Insert("INSERT INTO registration (address,age,birthday,consultation_date,medicial_category,patient_name," +
+    @Insert("INSERT INTO registration (address,age,birthday,consultation_date,medical_category,patient_name," +
             "outpatient_doctor_id,registration_department_id,settlement_category_id,registration_source,gender," +
-            "medical_insurance_diagnosis,id_number,medicial_certificate_number, status, cost, registration_category)" +
-            " VALUES(#{address},#{age}, #{birthday}, #{consultation_date}, #{medicial_category}, " +
+            "medical_insurance_diagnosis,id_number,medical_certificate_number, status, cost, registration_category)" +
+            " VALUES(#{address},#{age}, #{birthday}, #{consultation_date}, #{medical_category}, " +
             "#{patient_name}, #{outpatient_doctor_id}, #{registration_department_id}, #{settlement_category_id}, " +
             "#{registration_source}, #{gender}, #{medical_insurance_diagnosis}, #{id_number}, " +
-            "#{medicial_certificate_number}, #{status}, #{cost}, #{registration_category})")
+            "#{medical_certificate_number}, #{status}, #{cost}, #{registration_category})")
     @Options(useGeneratedKeys = true, keyProperty = "medical_record_id")
     void insert(Registration registration);
 
@@ -31,4 +31,17 @@ public interface OutpatientRegistrationMapper {
 
     @Update("UPDATE registration SET status = #{status} WHERE medical_record_id = #{medical_record_id}")
     void update(Registration registration);
+
+    @Select("SELECT * FROM registration WHERE medical_certificate_number = #{medical_certificate_number}")
+    List<Registration> findRegistrationByMedicalCertificateNumber(@Param("medical_certificate_number") String medical_certificate_number);
+
+    @Select("SELECT * FROM registration WHERE id_number = #{id_number}")
+    List<Registration> findRegistrationByIdNumber(@Param("id_number") String id_number);
+
+    @Select("SELECT * FROM registration WHERE medical_certificate_number = #{medical_certificate_number} and status = #{status}")
+    List<Registration> findRegistrationByMedicalCertificateNumberAndStatus(@Param("medical_certificate_number") String medical_certificate_number,
+                                                                           @Param("status") String status);
+
+    @Select("SELECT * FROM registration WHERE id_number = #{id_number} and status = #{status}")
+    List<Registration> findRegistrationByIdNumberAndStatus(@Param("id_number") String id_number, @Param("status") String status);
 }

@@ -10,7 +10,7 @@ public class BillRecord {
     private float truely_pay;
     private float retail_fee;
     private int user_id;
-    private String creat_time;
+    private String create_time;
 
     public BillRecord() {
     }
@@ -88,10 +88,11 @@ public class BillRecord {
     }
 
     public String getCreat_time() {
-        return creat_time;
+        return create_time;
     }
 
     public void setCreat_time(String creat_time) {
-        this.creat_time = creat_time;
+        this.create_time = creat_time;
     }
+
 }

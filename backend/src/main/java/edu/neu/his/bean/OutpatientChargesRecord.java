@@ -11,7 +11,7 @@ public class OutpatientChargesRecord implements Serializable {
 
     private Integer item_id;
 
-    private String type;
+    private Integer type;
 
     private Integer expense_classification_id;
 
@@ -21,9 +21,9 @@ public class OutpatientChargesRecord implements Serializable {
 
     private Float cost;
 
-    private Integer excute_department_id;
+    private Integer execute_department_id;
 
-    private String creat_time;
+    private String create_time;
 
     private String collect_time;
 
@@ -69,12 +69,12 @@ public class OutpatientChargesRecord implements Serializable {
         this.item_id = item_id;
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Integer getExpense_classification_id() {
@@ -109,20 +109,20 @@ public class OutpatientChargesRecord implements Serializable {
         this.cost = cost;
     }
 
-    public Integer getExcute_department_id() {
-        return excute_department_id;
+    public Integer getExecute_department_id() {
+        return execute_department_id;
     }
 
-    public void setExcute_department_id(Integer excute_department_id) {
-        this.excute_department_id = excute_department_id;
+    public void setExecute_department_id(Integer execute_department_id) {
+        this.execute_department_id = execute_department_id;
     }
 
-    public String getCreat_time() {
-        return creat_time;
+    public String getCreate_time() {
+        return create_time;
     }
 
-    public void setCreat_time(String creat_time) {
-        this.creat_time = creat_time == null ? null : creat_time.trim();
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time == null ? null : create_time.trim();
     }
 
     public String getCollect_time() {
@@ -180,8 +180,8 @@ public class OutpatientChargesRecord implements Serializable {
         sb.append(", status=").append(status);
         sb.append(", quantity=").append(quantity);
         sb.append(", cost=").append(cost);
-        sb.append(", excute_department_id=").append(excute_department_id);
-        sb.append(", creat_time=").append(creat_time);
+        sb.append(", execute_department_id=").append(execute_department_id);
+        sb.append(", create_time=").append(create_time);
         sb.append(", collect_time=").append(collect_time);
         sb.append(", return_time=").append(return_time);
         sb.append(", create_user_id=").append(create_user_id);

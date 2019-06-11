@@ -27,7 +27,7 @@ public class NonDrugChargeItemController {
     @ResponseBody
     public Map NonDrugChargeFindByName(@RequestBody Map req){
         String name = (String)req.get("name");
-        return Response.Ok(nonDrugChargeService.findNonDrugChargeByName(name));
+        return Response.ok(nonDrugChargeService.findNonDrugChargeByName(name));
     }
 
     @GetMapping("/all")
@@ -37,7 +37,7 @@ public class NonDrugChargeItemController {
         data.put("expense_classification",nonDrugChargeService.findAllExpenseClassificationNames());
         data.put("non_drug_charge",nonDrugChargeService.findAll());
         data.put("department",departmentService.findAll());
-        return Response.Ok(data);
+        return Response.ok(data);
     }
 
     @PostMapping("/update")
@@ -45,9 +45,9 @@ public class NonDrugChargeItemController {
     public Map updateNonDrugCharge(@RequestBody NonDrugChargeItem nonDrugChargeItem) {
         if (canUpdate(nonDrugChargeItem)) {
             nonDrugChargeService.updateNonDrugCharge(nonDrugChargeItem);
-            return Response.Ok();
+            return Response.ok();
         } else {
-            return Response.Error("编号冲突 或 该所属费用科目/执行科室不存在!");
+            return Response.error("编号冲突 或 该所属费用科目/执行科室不存在!");
         }
     }
 
@@ -56,17 +56,17 @@ public class NonDrugChargeItemController {
     public Map insertNonDrugCharge(@RequestBody NonDrugChargeItem nonDrugChargeItem){
         if (canInsert(nonDrugChargeItem)) {
             nonDrugChargeService.insertNonDrugCharge(nonDrugChargeItem);
-            return Response.Ok();
+            return Response.ok();
         } else {
-            return Response.Error("编号冲突 或 该所属费用科目/执行科室不存在!");
+            return Response.error("编号冲突 或 该所属费用科目/执行科室不存在!");
         }
     }
 
     @PostMapping("/delete")
     @ResponseBody
     public Map  deleteNonDrugCharge(@RequestBody Map req){
-        List<String> failed = new ArrayList<>();
-        List<String> nonDrugChargeIds = (List<String>) req.get("data");
+        List<Integer> failed = new ArrayList<>();
+        List<Integer> nonDrugChargeIds = (List<Integer>) req.get("data");
         nonDrugChargeIds.forEach(id-> {
             if (canDelete(id))
                 nonDrugChargeService.deleteNonDrugCharge(id);
@@ -74,13 +74,13 @@ public class NonDrugChargeItemController {
                 failed.add(id);
         });
         if(failed.isEmpty())
-            return Response.Ok();
+            return Response.ok();
         else{
             Map data = new HashMap();
             data.put("success number",nonDrugChargeIds.size()-failed.size());
             data.put("fail number",failed.size());
             data.put("fail code",failed);
-            return Response.Error(data);
+            return Response.error(data);
         }
     }
 
@@ -92,7 +92,7 @@ public class NonDrugChargeItemController {
         return !nonDrugChargeService.exist(nonDrugChargeItem);
     }
 
-    private boolean canDelete(String id){
+    private boolean canDelete(int id){
         return nonDrugChargeService.canDelete(id);
     }
 }
