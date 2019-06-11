@@ -81,6 +81,11 @@ public class DiagnoseDirectoryController {
         return Response.ok();
     }
 
+    private boolean checkCodeExist(String code) {
+        //检测Code存在
+        return diagnoseDirectoryService.checkCodeExist(code);
+    }
+
     private boolean checkClassificationExist(int classification_id) {
         //检测类别存在
         return diagnoseDirectoryService.checkClassificationExist(classification_id);

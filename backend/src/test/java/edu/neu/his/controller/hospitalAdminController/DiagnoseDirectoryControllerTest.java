@@ -14,40 +14,21 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.util.MultiValueMap;
-
-import java.util.HashMap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class DepartmentMenageControllerTest {
-
-    private Logger logger = LoggerFactory.getLogger(DepartmentMenageControllerTest.class);
+public class DiagnoseDirectoryControllerTest {
+    private Logger logger = LoggerFactory.getLogger(DiagnoseDirectoryControllerTest.class);
 
     @Autowired
     protected MockMvc mockMvc;
 
-
     @Test
-    public void departmentFindByName() throws Exception{
+    public void getAllSettlementCategory() throws Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/departmentManage/findByName")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"眼科\"}")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
-
-    }
-
-    @Test
-    public void listAllDepartment() throws Exception {
-        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                get("/departmentManage/getAll")
+                get("/diagnoseDirectoryManagement/allClassification")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -55,16 +36,12 @@ public class DepartmentMenageControllerTest {
     }
 
     @Test
-    public void updateDepartment() throws Exception{
+    public void listAllDisease() throws Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/departmentManage/update")
+                post("/diagnoseDirectoryManagement/searchAllByClassificationId")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"id\": 1,\n" +
-                        "      \"pinyin\": \"YK\",\n" +
-                        "      \"name\": \"眼科1\",\n" +
-                        "      \"type\": \"门诊科室\",\n" +
                         "      \"classification_id\":1\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))
@@ -74,54 +51,77 @@ public class DepartmentMenageControllerTest {
     }
 
     @Test
-    public void insertDepartment() throws Exception{
+    public void DiseaseFindByName() throws Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/departmentManage/add")
+                post("/diagnoseDirectoryManagement/findByName")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(" {\n" +
-                        "      \"id\": 1,\n" +
-                        "      \"pinyin\": \"NK\",\n" +
-                        "      \"name\": \"脑科\",\n" +
-                        "      \"type\": \"门诊科室\",\n" +
-                        "      \"classification_id\":2\n" +
+                .content("{\n" +
+                        "      \"name\":\"阿米巴病带菌者\"\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
-
     }
 
     @Test
-    public void deleteDepartment() throws Exception{
+    public void insertDisease() throws Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/departmentManage/delete")
+                post("/diagnoseDirectoryManagement/add")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(" {\n" +
-                        "      \"data\":[2]\n" +
+                .content("{\n" +
+                        "      \"id\":9999999,\n" +
+                        "      \"name\":\"传染性单核细胞增多2\",\n" +
+                        "      \"code\": \"ZZXY30\",\n" +
+                        "      \"classification_id\":1,\n" +
+                        "      \"pinyin\":\"CRXDHXBZDZ\",\n" +
+                        "      \"custom_name\":\"传单\",\n" +
+                        "      \"custom_pinyin\":\"ChuanDan\"\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
-
     }
 
     @Test
-    public void batchImport() throws Exception{//?
+    public void updateDisease() throws Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/departmentManage/import")
-                .contentType(MediaType.MULTIPART_FORM_DATA)
-                .content(" {\n" +
-                        "      \"data\":[2]\n" +
+                post("/diagnoseDirectoryManagement/update")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "      \"raw_id\":29396,\n" +
+                        "      \"id\":29396,\n" +
+                        "      \"name\":\"传染性单核细胞增多症\",\n" +
+                        "      \"code\":\"A1019\",\n" +
+                        "      \"classification_id\":1,\n" +
+                        "      \"pinyin\":\"CRXDHXBZDZ\",\n" +
+                        "      \"custom_name\":\"传单\",\n" +
+                        "      \"custom_pinyin\":\"ChuanDan\"\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
-
     }
+
+    @Test
+    public void deleteDisease() throws Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/diagnoseDirectoryManagement/delete")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "      \"data\":[\"29395\"]\n" +
+                        "    }")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+
 }

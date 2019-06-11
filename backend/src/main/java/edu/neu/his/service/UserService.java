@@ -59,4 +59,29 @@ public class UserService {
     public User findByUid(int uid) {
         return userMapper.find(uid);
     }
+
+    @Transactional
+    public boolean canInsert(User user) {
+        int id_num = userMapper.checkIdExists(user.getUid());
+        int name_num = userMapper.checkNameExists(user.getUsername());
+        if(id_num>=1|| name_num>=1)
+            return false;
+        else
+            return true;
+    }
+
+    @Transactional
+    public boolean canUpdate(User user) {
+        int id_num = userMapper.checkIdExists(user.getUid());
+        int name_num = userMapper.checkNameExists(user.getUsername());
+        if(id_num==0 || name_num>1 || id_num>1)
+            return false;
+        else
+            return true;
+    }
+
+    @Transactional
+    public int canDelete(int id) {
+        return userMapper.checkIdExists(id);//0,不能删
+    }
 }

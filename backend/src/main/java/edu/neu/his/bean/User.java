@@ -9,7 +9,6 @@ public class User {
     private int role_id;
     private boolean participate_in_scheduling;
     private String title;
-
     private String role_name;
     private String department_name;
 

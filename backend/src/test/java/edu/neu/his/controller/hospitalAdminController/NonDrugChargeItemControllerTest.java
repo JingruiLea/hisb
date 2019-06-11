@@ -14,40 +14,21 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.util.MultiValueMap;
-
-import java.util.HashMap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class DepartmentMenageControllerTest {
-
-    private Logger logger = LoggerFactory.getLogger(DepartmentMenageControllerTest.class);
+public class NonDrugChargeItemControllerTest {
+    private Logger logger = LoggerFactory.getLogger(NonDrugChargeItemControllerTest.class);
 
     @Autowired
     protected MockMvc mockMvc;
 
-
     @Test
-    public void departmentFindByName() throws Exception{
+    public void getAllSettlementCategory() throws Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/departmentManage/findByName")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"眼科\"}")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
-
-    }
-
-    @Test
-    public void listAllDepartment() throws Exception {
-        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                get("/departmentManage/getAll")
+                get("/nonDrugChargeItemManagement/all")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -55,36 +36,21 @@ public class DepartmentMenageControllerTest {
     }
 
     @Test
-    public void updateDepartment() throws Exception{
+    public void insertNonDrugCharge() throws Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/departmentManage/update")
+                post("/nonDrugChargeItemManagement/add")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(" {\n" +
-                        "      \"id\": 1,\n" +
-                        "      \"pinyin\": \"YK\",\n" +
-                        "      \"name\": \"眼科1\",\n" +
-                        "      \"type\": \"门诊科室\",\n" +
-                        "      \"classification_id\":1\n" +
-                        "    }")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
-    }
-
-    @Test
-    public void insertDepartment() throws Exception{
-        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/departmentManage/add")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(" {\n" +
-                        "      \"id\": 1,\n" +
-                        "      \"pinyin\": \"NK\",\n" +
-                        "      \"name\": \"脑科\",\n" +
-                        "      \"type\": \"门诊科室\",\n" +
-                        "      \"classification_id\":2\n" +
+                .content("{\n" +
+                        "      \"id\": \"A1010.10.122\",\n" +
+                        "      \"pinyin\": \"DQJ2\",\n" +
+                        "      \"format\": \"次\",\n" +
+                        "      \"name\": \"小抢救2\",\n" +
+                        "      \"fee\": 100.0,\n" +
+                        "      \"expense_classification_id\": 20,\n" +
+                        "      \"department_id\": 1,\n" +
+                        "      \"expense_classification_name\": \"门诊手术费\",\n" +
+                        "      \"department_name\": \"神经科\"\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -94,13 +60,21 @@ public class DepartmentMenageControllerTest {
     }
 
     @Test
-    public void deleteDepartment() throws Exception{
+    public void updateNonDrugCharge() throws Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/departmentManage/delete")
+                post("/nonDrugChargeItemManagement/update")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(" {\n" +
-                        "      \"data\":[2]\n" +
+                .content("{\n" +
+                        "      \"id\": \"101\",\n" +
+                        "      \"pinyin\": \"DQJ2\",\n" +
+                        "      \"format\": \"次\",\n" +
+                        "      \"name\": \"小抢救2\",\n" +
+                        "      \"fee\": 100.0,\n" +
+                        "      \"expense_classification_id\": 20,\n" +
+                        "      \"department_id\": 1,\n" +
+                        "      \"expense_classification_name\": \"门诊手术费\",\n" +
+                        "      \"department_name\": \"神经科\"\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -110,13 +84,13 @@ public class DepartmentMenageControllerTest {
     }
 
     @Test
-    public void batchImport() throws Exception{//?
+    public void deleteNonDrugCharge() throws Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/departmentManage/import")
-                .contentType(MediaType.MULTIPART_FORM_DATA)
-                .content(" {\n" +
-                        "      \"data\":[2]\n" +
+                post("/nonDrugChargeItemManagement/delete")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "      \"data\":[\"1\"]\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -124,4 +98,6 @@ public class DepartmentMenageControllerTest {
                 .andReturn();
 
     }
+
+
 }

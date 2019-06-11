@@ -27,7 +27,7 @@ public interface RegistrationLevelMapper {
     @Select("SELECT * FROM registration_level WHERE id = #{id}")
     RegistrationLevel findById(@Param("id") int id);
 
-    @Select("select * from REGISTRATION_LEVEL where id=#{id}")
+    @Select("select * FROM registration_level WHERE id=#{id}")
     RegistrationLevel find(int id);
 
     @Select("SELECT count(*) FROM registration_level WHERE id = #{id}")
