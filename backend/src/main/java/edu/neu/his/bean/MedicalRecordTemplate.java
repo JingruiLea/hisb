@@ -15,6 +15,8 @@ public class MedicalRecordTemplate implements Serializable {
 
     private String create_time;
 
+    private String status;
+
     private String chief_complaint;
 
     private String current_medical_history;
@@ -26,12 +28,6 @@ public class MedicalRecordTemplate implements Serializable {
     private String allergy_history;
 
     private String physical_examination;
-
-    private String western_initial_diagnosis;
-
-    private String chinese_initial_diagnosis;
-
-    private String end_diagnosis;
 
     private static final long serialVersionUID = 1L;
 
@@ -83,6 +79,14 @@ public class MedicalRecordTemplate implements Serializable {
         this.create_time = create_time == null ? null : create_time.trim();
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
+    }
+
     public String getChief_complaint() {
         return chief_complaint;
     }
@@ -131,30 +135,6 @@ public class MedicalRecordTemplate implements Serializable {
         this.physical_examination = physical_examination == null ? null : physical_examination.trim();
     }
 
-    public String getWestern_initial_diagnosis() {
-        return western_initial_diagnosis;
-    }
-
-    public void setWestern_initial_diagnosis(String western_initial_diagnosis) {
-        this.western_initial_diagnosis = western_initial_diagnosis == null ? null : western_initial_diagnosis.trim();
-    }
-
-    public String getChinese_initial_diagnosis() {
-        return chinese_initial_diagnosis;
-    }
-
-    public void setChinese_initial_diagnosis(String chinese_initial_diagnosis) {
-        this.chinese_initial_diagnosis = chinese_initial_diagnosis == null ? null : chinese_initial_diagnosis.trim();
-    }
-
-    public String getEnd_diagnosis() {
-        return end_diagnosis;
-    }
-
-    public void setEnd_diagnosis(String end_diagnosis) {
-        this.end_diagnosis = end_diagnosis == null ? null : end_diagnosis.trim();
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -167,15 +147,13 @@ public class MedicalRecordTemplate implements Serializable {
         sb.append(", user_id=").append(user_id);
         sb.append(", department_id=").append(department_id);
         sb.append(", create_time=").append(create_time);
+        sb.append(", status=").append(status);
         sb.append(", chief_complaint=").append(chief_complaint);
         sb.append(", current_medical_history=").append(current_medical_history);
         sb.append(", current_treatment_situation=").append(current_treatment_situation);
         sb.append(", past_history=").append(past_history);
         sb.append(", allergy_history=").append(allergy_history);
         sb.append(", physical_examination=").append(physical_examination);
-        sb.append(", western_initial_diagnosis=").append(western_initial_diagnosis);
-        sb.append(", chinese_initial_diagnosis=").append(chinese_initial_diagnosis);
-        sb.append(", end_diagnosis=").append(end_diagnosis);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

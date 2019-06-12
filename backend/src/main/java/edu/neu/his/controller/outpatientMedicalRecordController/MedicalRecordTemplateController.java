@@ -108,12 +108,9 @@ public class MedicalRecordTemplateController {
     private MedicalRecordTemplate init(MedicalRecordTemplate medicalRecordTemplate){
         medicalRecordTemplate.setAllergy_history("");
         medicalRecordTemplate.setChief_complaint("");
-        medicalRecordTemplate.setChinese_initial_diagnosis("");
         medicalRecordTemplate.setCurrent_medical_history("");
         medicalRecordTemplate.setCurrent_treatment_situation("");
-        medicalRecordTemplate.setEnd_diagnosis("");
         medicalRecordTemplate.setPast_history("");
-        medicalRecordTemplate.setWestern_initial_diagnosis("");
         medicalRecordTemplate.setPhysical_examination("");
         medicalRecordTemplate.setCreate_time(Utils.getSystemTime());
         return medicalRecordTemplate;
