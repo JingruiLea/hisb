@@ -35,13 +35,14 @@ public class MedicalRecordController {
         return Response.ok(medicalRecordService.findHistory(type,medical_certificate_number));
     }
 
-    @PostMapping("/createMedicalRecord")
+    @PostMapping("/getMedicalRecord")
     @ResponseBody
     public Map createMedicalRecord(int medical_record_id){
-        if(medicalRecordService.findMedicalRecordById(medical_record_id)!=null)
-            return Response.error("错误，该病历已存在");
+        MedicalRecord medicalRecord = medicalRecordService.findMedicalRecordById(medical_record_id);
+        if(medicalRecord!=null)
+            return Response.ok(medicalRecord);
 
-        MedicalRecord medicalRecord = new MedicalRecord();
+        medicalRecord = new MedicalRecord();
         medicalRecord.setId(medical_record_id);
         medicalRecord.setStatus(MedicalRecordStatus.TemporaryStorage);
         medicalRecord = init(medicalRecord);

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -33,7 +35,7 @@ public class MedicalRecordTemplateController {
             int department_id = (int)req.get("department_id");
             return Response.ok(medicalRecordTemplateService.SelectByDepartmentId(department_id));
         }else
-            return Response.ok(medicalRecordTemplateService.SelectAll());
+            return Response.ok(medicalRecordTemplateService.SelectByType(MedicalRecordStatus.SelectAll));
     }
 
     @GetMapping("/detail")
@@ -62,15 +64,15 @@ public class MedicalRecordTemplateController {
 
         medicalRecordTemplateService.insert(medicalRecordTemplate);
 
-        return returnList(type,uid,department_id);
+        return Response.ok(medicalRecordTemplateService.SelectByUser(uid,department_id));
     }
 
     @PostMapping("/update")
     @ResponseBody
-    public Map update(@RequestBody Map req) throws IOException {
+    public Map update(@RequestBody Map req) {
         int id = (int)req.get("id");
-        int type = (int)req.get("type");
         int uid = Auth.uid(req);
+        int department_id = userService.findByUid(uid).getDepartment_id();
 
         if(medicalRecordTemplateService.SelectById(id)==null)
             return Response.error("错误，该病历模板不存在");
@@ -78,22 +80,22 @@ public class MedicalRecordTemplateController {
         MedicalRecordTemplate medicalRecordTemplate = Utils.fromMap(req,MedicalRecordTemplate.class);
         medicalRecordTemplateService.update(medicalRecordTemplate);
 
-        return returnList(type,uid,medicalRecordTemplate.getDepartment_id());
+        return Response.ok(medicalRecordTemplateService.SelectByUser(uid,department_id));
     }
 
     @PostMapping("/delete")
     @ResponseBody
     public Map delete(@RequestBody Map req){
-        int id = (int)req.get("id");
-        int type = (int)req.get("type");
         int uid = Auth.uid(req);
-        MedicalRecordTemplate medicalRecordTemplate = medicalRecordTemplateService.SelectById(id);
-        if(medicalRecordTemplate==null)
-            return Response.error("错误，该病历模板不存在");
+        int department_id = userService.findByUid(uid).getDepartment_id();
+        List id_list = (List)req.get("idArr");
+        id_list.forEach(id->{
+            MedicalRecordTemplate medicalRecordTemplate = medicalRecordTemplateService.SelectById((int)id);
+            if(medicalRecordTemplate!=null)
+                medicalRecordTemplateService.delete((int)id);
+        });
 
-        medicalRecordTemplateService.delete(id);
-
-        return returnList(type,uid,medicalRecordTemplate.getDepartment_id());
+        return Response.ok(medicalRecordTemplateService.SelectByUser(uid,department_id));
     }
 
     private MedicalRecordTemplate init(MedicalRecordTemplate medicalRecordTemplate){
@@ -110,12 +112,4 @@ public class MedicalRecordTemplateController {
         return medicalRecordTemplate;
     }
 
-    private Map returnList(int type, int uid, int department_id){
-        if(type == MedicalRecordStatus.SelectByUserId){
-            return Response.ok(medicalRecordTemplateService.SelectByUserId(uid));
-        }else if(type == MedicalRecordStatus.SelectByDepartmentId){
-            return Response.ok(medicalRecordTemplateService.SelectByDepartmentId(department_id));
-        }else
-            return Response.ok(medicalRecordTemplateService.SelectAll());
-    }
 }

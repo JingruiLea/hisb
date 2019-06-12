@@ -5,4 +5,5 @@ public class MedicalRecordStatus {
     public static String TemporaryStorage = "暂存";
     public static int SelectByUserId = 0;
     public static int SelectByDepartmentId = 1;
+    public static int SelectAll = 2;
 }

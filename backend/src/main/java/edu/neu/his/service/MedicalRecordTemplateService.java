@@ -53,4 +53,19 @@ public class MedicalRecordTemplateService {
     public int delete(int id){
         return medicalRecordTemplateMapper.deleteByPrimaryKey(id);
     }
+
+    @Transactional
+    public List<MedicalRecordTemplate> SelectByUser(int uid, int department_id){
+        List<MedicalRecordTemplate> list = medicalRecordTemplateMapper.selectByDepartmentId(department_id);
+        List<MedicalRecordTemplate> listByUserId = medicalRecordTemplateMapper.selectByUserId(uid);
+        List<MedicalRecordTemplate> listByType = medicalRecordTemplateMapper.selectByType(MedicalRecordStatus.SelectAll);
+        list.addAll(listByUserId);
+        list.addAll(listByType);
+        return list;
+    }
+
+    @Transactional
+    public List<MedicalRecordTemplate> SelectByType(int type){
+        return medicalRecordTemplateMapper.selectByType(type);
+    }
 }
