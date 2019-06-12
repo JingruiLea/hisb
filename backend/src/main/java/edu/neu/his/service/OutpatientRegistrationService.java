@@ -36,4 +36,9 @@ public class OutpatientRegistrationService {
     public void updateStatus(Registration registration){
        outpatientRegistrationMapper.update(registration);
     }
+
+    @Transactional
+    public List<Registration> findByDoctor(int id){
+        return outpatientRegistrationMapper.findRegistrationByDoctor(id);
+    }
 }

@@ -1,25 +1,54 @@
 package edu.neu.his.controller.outpatientMedicalRecordController;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.neu.his.bean.MedicalRecord;
+import edu.neu.his.bean.Registration;
+import edu.neu.his.config.Auth;
 import edu.neu.his.config.MedicalRecordStatus;
 import edu.neu.his.config.RegistrationConfig;
 import edu.neu.his.config.Response;
 import edu.neu.his.service.MedicalRecordService;
+import edu.neu.his.service.OutpatientRegistrationService;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/outpatientDoctor")
+@RequestMapping("/medicalRecord")
 public class MedicalRecordController {
     @Autowired
     private MedicalRecordService medicalRecordService;
 
-    @GetMapping("/registrationInfo")
+    @Autowired
+    private OutpatientRegistrationService outpatientRegistrationService;
+
+    @PostMapping("/getPatientList")
+    @ResponseBody
+    public Map getPatientList(@RequestBody Map req){
+        Map data = new HashMap();
+        int uid = Auth.uid(req);
+        List<Registration> list = outpatientRegistrationService.findByDoctor(uid);
+        List<Registration> waitList = new ArrayList<>();
+        List<Registration> pendList = new ArrayList<>();
+        list.forEach(registration -> {
+            int medical_record_id = registration.getMedical_record_id();
+            MedicalRecord medicalRecord = medicalRecordService.findMedicalRecordById(medical_record_id);
+            if(medicalRecord==null)
+                waitList.add(registration);
+            else if(medicalRecord.getStatus().equals(MedicalRecordStatus.TemporaryStorage))
+                pendList.add(registration);
+        });
+
+        data.put("waiting",waitList);
+        data.put("pending",pendList);
+        return Response.ok(data);
+    }
+
+    @PostMapping("/registrationInfo")
     @ResponseBody
     public Map registrationInfo(@RequestBody Map req){
         String type = (String)req.get("type");
@@ -27,7 +56,7 @@ public class MedicalRecordController {
         return Response.ok(medicalRecordService.find(type,medical_certificate_number, RegistrationConfig.registrationAvailable));
     }
 
-    @GetMapping("/recordHistory")
+    @PostMapping("/recordHistory")
     @ResponseBody
     public Map recordHistory(@RequestBody Map req){
         String type = (String)req.get("type");

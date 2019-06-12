@@ -35,6 +35,9 @@ public interface OutpatientRegistrationMapper {
     @Select("SELECT * FROM registration WHERE medical_certificate_number = #{medical_certificate_number}")
     List<Registration> findRegistrationByMedicalCertificateNumber(@Param("medical_certificate_number") String medical_certificate_number);
 
+    @Select("SELECT * FROM registration WHERE outpatient_doctor_id = #{outpatient_doctor_id}")
+    List<Registration> findRegistrationByDoctor(@Param("outpatient_doctor_id") int outpatient_doctor_id);
+
     @Select("SELECT * FROM registration WHERE id_number = #{id_number}")
     List<Registration> findRegistrationByIdNumber(@Param("id_number") String id_number);
 
