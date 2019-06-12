@@ -52,7 +52,7 @@
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 
-        <table tableName="common_diagnosis"
+        <table tableName="prescription_item"
                enableCountByExample="true"
                enableUpdateByExample="true"
                enableDeleteByExample="true"

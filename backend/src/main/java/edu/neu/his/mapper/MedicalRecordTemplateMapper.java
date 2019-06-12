@@ -175,7 +175,7 @@ public interface MedicalRecordTemplateMapper {
             "physical_examination, western_initial_diagnosis, chinese_initial_diagnosis, ",
             "end_diagnosis",
             "from medical_record_template",
-            "where type = #{type,jdbcType=INTEGER}"
+            "where `name` = #{name,jdbcType=VARCHAR}"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
@@ -203,7 +203,7 @@ public interface MedicalRecordTemplateMapper {
             "physical_examination, western_initial_diagnosis, chinese_initial_diagnosis, ",
             "end_diagnosis",
             "from medical_record_template",
-            "where `name` = #{name,jdbcType=VARCHAR}"
+            "where type = #{type,jdbcType=INTEGER}"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),

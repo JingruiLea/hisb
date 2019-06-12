@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("outpatientDoctor/medicalRecordTemplate")
+@RequestMapping("/medicalRecordTemplate")
 public class MedicalRecordTemplateController {
     @Autowired
     private MedicalRecordTemplateService medicalRecordTemplateService;
@@ -34,10 +34,10 @@ public class MedicalRecordTemplateController {
         int type = (int)req.get("type");
         if(type == MedicalRecordStatus.SelectByUserId){
             int uid = Auth.uid(req);
-            return Response.ok(medicalRecordTemplateService.SelectByUserId(uid));
+            return Response.ok(medicalRecordTemplateService.selectByUserId(uid));
         }else if(type == MedicalRecordStatus.SelectByDepartmentId){
             int department_id = (int)req.get("department_id");
-            return Response.ok(medicalRecordTemplateService.SelectByDepartmentId(department_id));
+            return Response.ok(medicalRecordTemplateService.selectByDepartmentId(department_id));
         }else
             return Response.ok(medicalRecordTemplateService.SelectByType(MedicalRecordStatus.SelectAll));
     }
@@ -45,7 +45,7 @@ public class MedicalRecordTemplateController {
     @PostMapping("/detail")
     @ResponseBody
     public Map detail(int id){
-        return Response.ok(medicalRecordTemplateService.SelectById(id));
+        return Response.ok(medicalRecordTemplateService.selectById(id));
     }
 
     @PostMapping("/create")
@@ -54,7 +54,7 @@ public class MedicalRecordTemplateController {
         MedicalRecordTemplate medicalRecordTemplate = new MedicalRecordTemplate();
         int type = (int)req.get("type");
         String name = (String)req.get("name");
-        while (medicalRecordTemplateService.SelectByName(name).size()!=0){
+        while (medicalRecordTemplateService.selectByName(name).size()!=0){
             name = name + "(1)";
         }
         int uid = Auth.uid(req);
@@ -71,7 +71,7 @@ public class MedicalRecordTemplateController {
         registration.setId_number(RegistrationConfig.registrationFinished);
         outpatientRegistrationService.updateStatus(registration);
 
-        return Response.ok(medicalRecordTemplateService.SelectByUser(uid,department_id));
+        return Response.ok(medicalRecordTemplateService.selectByUser(uid,department_id));
     }
 
     @PostMapping("/update")
@@ -81,13 +81,13 @@ public class MedicalRecordTemplateController {
         int uid = Auth.uid(req);
         int department_id = userService.findByUid(uid).getDepartment_id();
 
-        if(medicalRecordTemplateService.SelectById(id)==null)
+        if(medicalRecordTemplateService.selectById(id)==null)
             return Response.error("错误，该病历模板不存在");
 
         MedicalRecordTemplate medicalRecordTemplate = Utils.fromMap(req,MedicalRecordTemplate.class);
         medicalRecordTemplateService.update(medicalRecordTemplate);
 
-        return Response.ok(medicalRecordTemplateService.SelectByUser(uid,department_id));
+        return Response.ok(medicalRecordTemplateService.selectByUser(uid,department_id));
     }
 
     @PostMapping("/delete")
@@ -97,12 +97,12 @@ public class MedicalRecordTemplateController {
         int department_id = userService.findByUid(uid).getDepartment_id();
         List id_list = (List)req.get("idArr");
         id_list.forEach(id->{
-            MedicalRecordTemplate medicalRecordTemplate = medicalRecordTemplateService.SelectById((int)id);
+            MedicalRecordTemplate medicalRecordTemplate = medicalRecordTemplateService.selectById((int)id);
             if(medicalRecordTemplate!=null)
                 medicalRecordTemplateService.delete((int)id);
         });
 
-        return Response.ok(medicalRecordTemplateService.SelectByUser(uid,department_id));
+        return Response.ok(medicalRecordTemplateService.selectByUser(uid,department_id));
     }
 
     private MedicalRecordTemplate init(MedicalRecordTemplate medicalRecordTemplate){
