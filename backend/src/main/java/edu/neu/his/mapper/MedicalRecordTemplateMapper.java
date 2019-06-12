@@ -142,7 +142,7 @@ public interface MedicalRecordTemplateMapper {
 
     @Select({
             "select",
-            "id, `name`, `type`, user_id, department_id, create_time, `chief_complaint, ",
+            "id, `name`, `type`, user_id, department_id, create_time, chief_complaint, ",
             "current_medical_history, current_treatment_situation, past_history, allergy_history, ",
             "physical_examination, western_initial_diagnosis, chinese_initial_diagnosis, ",
             "end_diagnosis",
@@ -170,7 +170,7 @@ public interface MedicalRecordTemplateMapper {
 
     @Select({
             "select",
-            "id, `name`, `type`, user_id, department_id, create_time, `chief_complaint, ",
+            "id, `name`, `type`, user_id, department_id, create_time, chief_complaint, ",
             "current_medical_history, current_treatment_situation, past_history, allergy_history, ",
             "physical_examination, western_initial_diagnosis, chinese_initial_diagnosis, ",
             "end_diagnosis",
@@ -198,7 +198,7 @@ public interface MedicalRecordTemplateMapper {
 
     @Select({
             "select",
-            "id, `name`, `type`, user_id, department_id, create_time, `chief_complaint, ",
+            "id, `name`, `type`, user_id, department_id, create_time, chief_complaint, ",
             "current_medical_history, current_treatment_situation, past_history, allergy_history, ",
             "physical_examination, western_initial_diagnosis, chinese_initial_diagnosis, ",
             "end_diagnosis",

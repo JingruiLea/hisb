@@ -19,8 +19,8 @@ public class PrescriptionService {
     private PrescriptionItemMapper prescriptionItemMapper;
 
     @Transactional
-    public List<PrescriptionItem> findByPrescriptionAndStatus(int prescription_id, String status){
-        return prescriptionItemMapper.selectByPrescriptionAndStatus(prescription_id, status);
+    public List<PrescriptionItem> findByPrescriptionAndStatus(int prescription_id, String prescriptionStatus, String recordStatus){
+        return prescriptionItemMapper.selectByPrescriptionAndStatus(prescription_id, prescriptionStatus, recordStatus);
     }
 
     @Transactional

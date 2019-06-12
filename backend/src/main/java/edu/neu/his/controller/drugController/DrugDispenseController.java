@@ -2,6 +2,7 @@ package edu.neu.his.controller.drugController;
 
 import edu.neu.his.bean.Prescription;
 import edu.neu.his.bean.PrescriptionItem;
+import edu.neu.his.config.OutpatientChargesRecordStatus;
 import edu.neu.his.config.PrescriptionStatus;
 import edu.neu.his.config.Response;
 import edu.neu.his.service.PrescriptionService;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +30,8 @@ public class DrugDispenseController {
         List<Prescription> prescriptionList = prescriptionService.findByMedicalRecordId(medical_record_id);
         prescriptionList.forEach(prescription -> {
             int prescription_id = prescription.getId();
-            List<PrescriptionItem> list = prescriptionService.findByPrescriptionAndStatus(prescription_id, PrescriptionStatus.PrescriptionItemCharged);
+            List<PrescriptionItem> list = prescriptionService.findByPrescriptionAndStatus(prescription_id,
+                    PrescriptionStatus.PrescriptionItemToTake, OutpatientChargesRecordStatus.Charged);
             Map prescriptionMap = Utils.objectToMap(prescription);
             prescriptionMap.put("drug_item",list);
             result.add(prescriptionMap);
