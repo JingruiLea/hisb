@@ -54,6 +54,7 @@ public class Utils {
         return billRecord;
     }
 
+
     public static Map<String, Object> objectToMap(Object obj){
         if(obj == null)
             return null;

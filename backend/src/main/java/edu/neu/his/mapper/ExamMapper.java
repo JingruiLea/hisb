@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
+import org.springframework.stereotype.Component;
 
 @Mapper
+@Component(value = "ExamMapper")
 public interface ExamMapper {
     @Delete({
         "delete from exam",

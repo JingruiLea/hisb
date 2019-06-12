@@ -6,10 +6,12 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.type.JdbcType;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Mapper
+@Component(value = "PrescriptionMapper")
 public interface PrescriptionMapper {
     @Select({
             "select",

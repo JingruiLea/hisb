@@ -2,10 +2,12 @@ package edu.neu.his.mapper;
 
 import edu.neu.his.bean.PrescriptionItem;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Mapper
+@Component(value = "PrescriptionItemMapper")
 public interface PrescriptionItemMapper {
     @Select("SELECT prescription_item.id, amount, prescription_id, drug_id, prescription_item.status, note, drug.name as drug_item" +
             "FROM  prescription_item, drug, outpatient_charges_record " +
