@@ -4,6 +4,7 @@ import edu.neu.his.bean.MedicalRecord;
 import edu.neu.his.bean.Registration;
 import edu.neu.his.mapper.MedicalRecordMapper;
 import edu.neu.his.mapper.OutpatientRegistrationMapper;
+import edu.neu.his.util.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,15 @@ public class MedicalRecordService {
             return outpatientRegistrationMapper.findRegistrationByIdNumber(number);
         else
             return outpatientRegistrationMapper.findRegistrationByMedicalCertificateNumber(number);
+    }
+
+    @Transactional
+    public boolean medicalRecordHasSubmit(int id){
+        String medicalRecordStatus = this.getStatusById(id);
+        if(!medicalRecordStatus.equals(Common.YITIJIAO)){
+            return false;
+        }
+        return true;
     }
 
     @Transactional

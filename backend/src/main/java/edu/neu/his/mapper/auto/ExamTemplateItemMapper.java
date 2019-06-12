@@ -2,15 +2,11 @@ package edu.neu.his.mapper.auto;
 
 import edu.neu.his.bean.ExamTemplateItem;
 import java.util.List;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectKey;
-import org.apache.ibatis.annotations.Update;
+
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
+@Mapper
 public interface ExamTemplateItemMapper {
     @Delete({
         "delete from exam_template_item",
@@ -57,4 +53,32 @@ public interface ExamTemplateItemMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(ExamTemplateItem record);
+
+    @Select({
+            "select",
+            "id, exam_template_id, non_drug_item_id",
+            "from exam_template_item",
+            "where exam_template_id = #{templateId}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="exam_template_id", property="exam_template_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="non_drug_item_id", property="non_drug_item_id", jdbcType=JdbcType.INTEGER)
+    })
+    List<ExamTemplateItem> selectByTemplateId(int templateId);
+
+    @Select({
+            "select",
+            "id, exam_template_id, non_drug_item_id, `status`",
+            "from exam_item",
+            "where non_drug_item_id = #{nonDrugId, jdbcType=INTEGER}",
+            "and exam_template_id = #{examId, jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="exam_template_id", property="exam_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="non_drug_item_id", property="non_drug_item_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="status", property="status", jdbcType=JdbcType.VARCHAR)
+    })
+    ExamTemplateItem selectOneByDetail(Integer nonDrugId, int examId);
 }

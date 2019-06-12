@@ -51,9 +51,12 @@ public class ExamController {
     @Autowired
     OutpatientChargesRecordMapper outpatientChargesRecordMapper;
 
-    @PostMapping("/create")
+    @PostMapping("/getOrCreate")
     public Map create(@RequestBody Map req){
-        Exam exam;
+        Exam exam = examService.selectByMedicalRecordIdAndType((int)req.get("medical_record_id"), (int)req.get("type"));
+        if(exam != null){
+            return Response.ok(exam);
+        }
         exam = Utils.fromMap(req, Exam.class);
         List<Integer> nonDrugIdList = (List<Integer>) req.get("non_drug_id_list");
         exam.setCreate_time(Utils.getSystemTime());
@@ -71,11 +74,11 @@ public class ExamController {
         });
         Map<String, Object> res = new HashMap();
         res.put("id", examId);
-        res.put("non_drug_item_id", resultList);
+        res.put("non_drug_item_id", examService.getNonDrugItemIdListById(exam.getId()));
         return Response.ok(res);
     }
 
-    @PostMapping("/addOne")
+    @PostMapping("/add")
     public Map addOne(@RequestBody Map map) throws IOException {
         int examId = (int)map.get("exam_id");
         Exam exam = examService.selectById(examId);
@@ -85,9 +88,14 @@ public class ExamController {
         if(!exam.getStatus().equals(Common.ZANCUN)){
             return Response.error("该检查/检验/处置单状态错误!");
         }
-        ExamItem examItem = Utils.fromMap(map, ExamItem.class);
-        examItem.setStatus(Common.WEIDENGJI);
-        examItemService.insert(examItem);
+        List<Integer> nonDrugIds = (List<Integer>) map.get("non_drug_id");
+        nonDrugIds.forEach(id->{
+            ExamItem examItem = new ExamItem();
+            examItem.setStatus(Common.WEIDENGJI);
+            examItem.setNon_drug_item_id(id);
+            examItem.setExam_id(examId);
+            examItemService.insert(examItem);
+        });
         Map<String, Object> res = new HashMap();
         res.put("non_drug_item_id", examService.getNonDrugItemIdListById(exam.getId()));
         return Response.ok(res);
@@ -131,10 +139,9 @@ public class ExamController {
         return Response.ok();
     }
 
-    @PostMapping("/delOne")
+    @PostMapping("/delete")
     public Map delOne(@RequestBody Map map) {
         int examId = (int)map.get("exam_id");
-        int nonDrugId = (int)map.get("non_drug_id");
         Exam exam = examService.selectById(examId);
         if(exam == null){
             return Response.error("找不到该检查/检验/处置单!");
@@ -142,11 +149,12 @@ public class ExamController {
         if(!exam.getStatus().equals(Common.ZANCUN)){
             return Response.error("该检查/检验/处置单状态错误!");
         }
-        ExamItem examItem = examItemService.selectByDetial(nonDrugId, examId);
-        if(examItem == null){
-            return Response.error("没有该检查!");
-        }
-        examItemService.deleteById(examItem.getId());
+
+        List<Integer> nonDrugIds = (List<Integer>) map.get("non_drug_id");
+        nonDrugIds.forEach(nonDrugId->{
+            ExamItem examItem = examItemService.selectByDetail(nonDrugId, examId);
+            examItemService.deleteById(examItem.getId());
+        });
         Map<String, Object> res = new HashMap();
         res.put("non_drug_item_id", examService.getNonDrugItemIdListById(exam.getId()));
         return Response.ok(res);
