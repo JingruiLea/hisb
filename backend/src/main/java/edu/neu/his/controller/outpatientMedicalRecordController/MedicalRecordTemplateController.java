@@ -1,17 +1,18 @@
 package edu.neu.his.controller.outpatientMedicalRecordController;
 
 import edu.neu.his.bean.MedicalRecordTemplate;
+import edu.neu.his.bean.Registration;
 import edu.neu.his.config.Auth;
 import edu.neu.his.config.MedicalRecordStatus;
+import edu.neu.his.config.RegistrationConfig;
 import edu.neu.his.config.Response;
 import edu.neu.his.service.MedicalRecordTemplateService;
+import edu.neu.his.service.OutpatientRegistrationService;
 import edu.neu.his.service.UserService;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,10 @@ public class MedicalRecordTemplateController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/list")
+    @Autowired
+    private OutpatientRegistrationService outpatientRegistrationService;
+
+    @PostMapping("/list")
     @ResponseBody
     public Map list(@RequestBody Map req){
         int type = (int)req.get("type");
@@ -38,7 +42,7 @@ public class MedicalRecordTemplateController {
             return Response.ok(medicalRecordTemplateService.SelectByType(MedicalRecordStatus.SelectAll));
     }
 
-    @GetMapping("/detail")
+    @PostMapping("/detail")
     @ResponseBody
     public Map detail(int id){
         return Response.ok(medicalRecordTemplateService.SelectById(id));
@@ -62,7 +66,10 @@ public class MedicalRecordTemplateController {
         medicalRecordTemplate.setDepartment_id(department_id);
         medicalRecordTemplate = init(medicalRecordTemplate);
 
-        medicalRecordTemplateService.insert(medicalRecordTemplate);
+        int medical_record_id = medicalRecordTemplateService.insert(medicalRecordTemplate);
+        Registration registration = outpatientRegistrationService.findRegistrationById(medical_record_id);
+        registration.setId_number(RegistrationConfig.registrationFinished);
+        outpatientRegistrationService.updateStatus(registration);
 
         return Response.ok(medicalRecordTemplateService.SelectByUser(uid,department_id));
     }

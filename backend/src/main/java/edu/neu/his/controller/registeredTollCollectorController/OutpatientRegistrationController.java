@@ -85,7 +85,7 @@ public class OutpatientRegistrationController {
 
     @PostMapping("/confirm")
     @ResponseBody
-    public Map confirm(@RequestBody Map req) throws IOException {
+    public Map confirm(@RequestBody Map req) {
         Map data = new HashMap();
         int uid = Auth.uid(req);
         Registration registration = Utils.fromMap(req,Registration.class);
