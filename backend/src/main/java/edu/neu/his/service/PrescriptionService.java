@@ -1,10 +1,9 @@
 package edu.neu.his.service;
 
-import edu.neu.his.bean.MedicalRecord;
-import edu.neu.his.bean.Prescription;
-import edu.neu.his.bean.PrescriptionItem;
-import edu.neu.his.mapper.auto.PrescriptionItemMapper;
-import edu.neu.his.mapper.auto.PrescriptionMapper;
+import edu.neu.his.bean.*;
+import edu.neu.his.config.Response;
+import edu.neu.his.mapper.RegistrationLevelMapper;
+import edu.neu.his.mapper.auto.*;
 import edu.neu.his.util.Common;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +26,16 @@ public class PrescriptionService {
 
     @Autowired
     PrescriptionItemMapper itemMapper;
+
+    @Autowired
+    DrugMapper drugMapper;
+
+    @Autowired
+    DrugService drugService;
+
+    @Autowired
+    OutpatientChargesRecordMapper outpatientChargesRecordMapper;
+
 
     @Transactional
     public void create(int user_id, int type, int medical_record_id, List<Map> drugIds){
@@ -92,7 +101,36 @@ public class PrescriptionService {
         return res;
     }
 
-    //@Transactional
+    @Transactional
+    public void submit(User user, int id){
+        Prescription prescription = prescriptionMapper.selectByPrimaryKey(id);
+        prescription.setStatus(Common.YITIJIAO);
+        prescriptionMapper.updateByPrimaryKey(prescription);
+        List<PrescriptionItem> drugList = itemMapper.selectByPrescriptionId(id);
+        drugList.forEach(item->{
+            Drug drug = drugMapper.selectByPrimaryKey(item.getId());
+            OutpatientChargesRecord record = new OutpatientChargesRecord();
+            record.setCreate_time(Utils.getSystemTime());
+            record.setMedical_record_id(prescription.getMedical_record_id());
+            record.setBill_record_id(0);
+            record.setItem_id(item.getId());
+            record.setType(Common.RECORD_TYPE_JIANCHA);
+            record.setExpense_classification_id(drugService.getExpenseClassificationId(drug));
+            record.setStatus(Common.WEIJIAOFEI);
+            record.setQuantity(item.getAmount());
+            record.setCost(item.getAmount() * drug.getPrice());
+            record.setCollect_time("");
+            record.setExecute_department_id(user.getDepartment_id());
+            record.setCreate_time(Utils.getSystemTime());
+            record.setCollect_time("");
+            record.setReturn_time("");
+            record.setCreate_user_id(user.getUid());
+            record.setCollect_user_id(0);
+            record.setReturn_user_id(0);
+            outpatientChargesRecordMapper.insert(record);
+        });
+    }
+
 
 
 }

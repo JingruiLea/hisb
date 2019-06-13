@@ -9,6 +9,8 @@ public class PrescriptionTemplate implements Serializable {
 
     private String create_time;
 
+    private Integer type;
+
     private Integer user_id;
 
     private Integer department_id;
@@ -39,6 +41,14 @@ public class PrescriptionTemplate implements Serializable {
         this.create_time = create_time == null ? null : create_time.trim();
     }
 
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     public Integer getUser_id() {
         return user_id;
     }
@@ -64,6 +74,7 @@ public class PrescriptionTemplate implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", template_name=").append(template_name);
         sb.append(", create_time=").append(create_time);
+        sb.append(", type=").append(type);
         sb.append(", user_id=").append(user_id);
         sb.append(", department_id=").append(department_id);
         sb.append(", serialVersionUID=").append(serialVersionUID);
