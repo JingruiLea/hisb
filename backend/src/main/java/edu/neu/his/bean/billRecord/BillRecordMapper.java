@@ -1,6 +1,5 @@
 package edu.neu.his.bean.billRecord;
 
-import edu.neu.his.bean.billRecord.BillRecord;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
