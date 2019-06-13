@@ -31,7 +31,7 @@ public class ExamService {
     }
 
     @Transactional
-    public boolean checkMedicalRecordStatus(Exam exam){
+    public boolean medicalRecordHasSubmit(Exam exam){
         String medicalRecordStatus = medicalRecordService.getStatusById(exam.getMedical_record_id());
         if(!medicalRecordStatus.equals(Common.YITIJIAO)){
             return false;
@@ -58,6 +58,16 @@ public class ExamService {
     @Transactional
     public int updateByPrimaryKey(Exam record){
         return examMapper.updateByPrimaryKey(record);
+    }
+
+    public Exam selectByMedicalRecordIdAndType(int medicalRecordId, int type){
+        List<Exam> list = examMapper.selectAll();
+        for(Exam exam:list){
+            if(exam.getMedical_record_id() == medicalRecordId && exam.getType()==type){
+                return exam;
+            }
+        }
+        return null;
     }
 
 }

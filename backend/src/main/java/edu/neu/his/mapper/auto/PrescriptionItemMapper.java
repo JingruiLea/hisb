@@ -66,4 +66,37 @@ public interface PrescriptionItemMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(PrescriptionItem record);
+
+    @Select({
+            "select",
+            "id, amount, prescription_id, drug_id, `status`, note",
+            "from prescription_item",
+            "where prescription_id = #{prescriptionId,jdbcType=INTEGER}",
+            "and drug_id = #{drugId}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="amount", property="amount", jdbcType=JdbcType.INTEGER),
+            @Result(column="prescription_id", property="prescription_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="drug_id", property="drug_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="status", property="status", jdbcType=JdbcType.VARCHAR),
+            @Result(column="note", property="note", jdbcType=JdbcType.LONGVARCHAR)
+    })
+    PrescriptionItem selectByDetail(int prescriptionId, int drugId);
+
+    @Select({
+            "select",
+            "id, amount, prescription_id, drug_id, `status`, note",
+            "from prescription_item",
+            "where prescription_id = #{prescriptionId,jdbcType=INTEGER}",
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="amount", property="amount", jdbcType=JdbcType.INTEGER),
+            @Result(column="prescription_id", property="prescription_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="drug_id", property="drug_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="status", property="status", jdbcType=JdbcType.VARCHAR),
+            @Result(column="note", property="note", jdbcType=JdbcType.LONGVARCHAR)
+    })
+    List<PrescriptionItem> selectByPrescriptionId(int prescriptionId);
 }

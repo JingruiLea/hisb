@@ -1,33 +1,43 @@
 package edu.neu.his.bean;
 
-public class BillRecord {
-    private int id;
-    private int medical_record_id;
-    private String type;//缴费退费
-    private int print_status;
-    private float cost;
-    private float should_pay;
-    private float truely_pay;
-    private float retail_fee;
-    private int user_id;
+import java.io.Serializable;
+
+public class BillRecord implements Serializable {
+    private Integer id;
+
+    private Integer medical_record_id;
+
+    private String type;
+
+    private Integer print_status;
+
+    private Float cost;
+
+    private Float should_pay;
+
+    private Float truely_pay;
+
+    private Float retail_fee;
+
+    private Integer user_id;
+
     private String create_time;
 
-    public BillRecord() {
-    }
+    private static final long serialVersionUID = 1L;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getMedical_record_id() {
+    public Integer getMedical_record_id() {
         return medical_record_id;
     }
 
-    public void setMedical_record_id(int medical_record_id) {
+    public void setMedical_record_id(Integer medical_record_id) {
         this.medical_record_id = medical_record_id;
     }
 
@@ -36,54 +46,54 @@ public class BillRecord {
     }
 
     public void setType(String type) {
-        this.type = type;
+        this.type = type == null ? null : type.trim();
     }
 
-    public int getPrint_status() {
+    public Integer getPrint_status() {
         return print_status;
     }
 
-    public void setPrint_status(int print_status) {
+    public void setPrint_status(Integer print_status) {
         this.print_status = print_status;
     }
 
-    public float getCost() {
+    public Float getCost() {
         return cost;
     }
 
-    public void setCost(float cost) {
+    public void setCost(Float cost) {
         this.cost = cost;
     }
 
-    public float getShould_pay() {
+    public Float getShould_pay() {
         return should_pay;
     }
 
-    public void setShould_pay(float should_pay) {
+    public void setShould_pay(Float should_pay) {
         this.should_pay = should_pay;
     }
 
-    public float getTruely_pay() {
+    public Float getTruely_pay() {
         return truely_pay;
     }
 
-    public void setTruely_pay(float truely_pay) {
+    public void setTruely_pay(Float truely_pay) {
         this.truely_pay = truely_pay;
     }
 
-    public float getRetail_fee() {
+    public Float getRetail_fee() {
         return retail_fee;
     }
 
-    public void setRetail_fee(float retail_fee) {
+    public void setRetail_fee(Float retail_fee) {
         this.retail_fee = retail_fee;
     }
 
-    public int getUser_id() {
+    public Integer getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Integer user_id) {
         this.user_id = user_id;
     }
 
@@ -92,7 +102,27 @@ public class BillRecord {
     }
 
     public void setCreate_time(String create_time) {
-        this.create_time = create_time;
+        this.create_time = create_time == null ? null : create_time.trim();
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", medical_record_id=").append(medical_record_id);
+        sb.append(", type=").append(type);
+        sb.append(", print_status=").append(print_status);
+        sb.append(", cost=").append(cost);
+        sb.append(", should_pay=").append(should_pay);
+        sb.append(", truely_pay=").append(truely_pay);
+        sb.append(", retail_fee=").append(retail_fee);
+        sb.append(", user_id=").append(user_id);
+        sb.append(", create_time=").append(create_time);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
 }

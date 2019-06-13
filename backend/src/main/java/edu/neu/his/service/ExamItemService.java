@@ -21,7 +21,7 @@ public class ExamItemService {
     }
 
     @Transactional
-    public ExamItem selectByDetial(Integer nonDrugId, Integer examId){
+    public ExamItem selectByDetail(Integer nonDrugId, Integer examId){
         return examItemMapper.selectOneByDetail(nonDrugId, examId);
     }
 }

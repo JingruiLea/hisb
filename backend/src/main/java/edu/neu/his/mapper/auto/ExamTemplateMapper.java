@@ -14,6 +14,13 @@ public interface ExamTemplateMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+
+    @Delete({
+        "delete from exam_template_item",
+        "where exam_template_id = #{id,jdbcType=INTEGER}"
+    })
+    int deleteItemByPrimaryKey(Integer id);
+
     @Insert({
         "insert into exam_template (template_name, user_id, ",
         "department_id, `type`, ",

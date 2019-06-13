@@ -19,6 +19,6 @@ public interface BillRecordMapper {
     @Select("SELECT * from bill_record where id = #{id}")
     BillRecord find(@Param("id") int id);
 
-    @Select("SELECT * from bill_record where user_id = #{user_id} and create_time > #{start_time} and create_time < #{end_time}")
+    @Select("SELECT * from bill_record where user_id = #{user_id} and create_time > #{start_time} and creat_time < #{end_time}")
     List<BillRecord> findByUserIdAndTime(@Param("user_id") int user_id, @Param("start_time") String start_time, @Param("end_time") String end_time);
 }
