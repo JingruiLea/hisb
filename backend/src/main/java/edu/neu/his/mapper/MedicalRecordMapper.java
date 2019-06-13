@@ -26,18 +26,14 @@ public interface MedicalRecordMapper {
     int deleteByPrimaryKey(Integer id);
 
     @Insert({
-        "insert into medical_record (create_time, `status`, ",
+        "insert into medical_record (id, create_time, `status`, ",
         "chief_complaint, current_medical_history, ",
         "current_treatment_situation, past_history, ",
-        "allergy_history, physical_examination, ",
-        "western_initial_diagnosis, chinese_initial_diagnosis, ",
-        "end_diagnosis)",
-        "values (#{create_time,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, ",
+        "allergy_history, physical_examination)",
+        "values (#{id,jdbcType=INTEGER}, #{create_time,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, ",
         "#{chief_complaint,jdbcType=LONGVARCHAR}, #{current_medical_history,jdbcType=LONGVARCHAR}, ",
         "#{current_treatment_situation,jdbcType=LONGVARCHAR}, #{past_history,jdbcType=LONGVARCHAR}, ",
-        "#{allergy_history,jdbcType=LONGVARCHAR}, #{physical_examination,jdbcType=LONGVARCHAR}, ",
-        "#{western_initial_diagnosis,jdbcType=LONGVARCHAR}, #{chinese_initial_diagnosis,jdbcType=LONGVARCHAR}, ",
-        "#{end_diagnosis,jdbcType=LONGVARCHAR})"
+        "#{allergy_history,jdbcType=LONGVARCHAR}, #{physical_examination,jdbcType=LONGVARCHAR})"
     })
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(MedicalRecord record);
@@ -45,8 +41,7 @@ public interface MedicalRecordMapper {
     @Select({
         "select",
         "id, create_time, `status`, chief_complaint, current_medical_history, current_treatment_situation, ",
-        "past_history, allergy_history, physical_examination, western_initial_diagnosis, ",
-        "chinese_initial_diagnosis, end_diagnosis",
+        "past_history, allergy_history, physical_examination",
         "from medical_record",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -59,18 +54,14 @@ public interface MedicalRecordMapper {
         @Result(column="current_treatment_situation", property="current_treatment_situation", jdbcType=JdbcType.LONGVARCHAR),
         @Result(column="past_history", property="past_history", jdbcType=JdbcType.LONGVARCHAR),
         @Result(column="allergy_history", property="allergy_history", jdbcType=JdbcType.LONGVARCHAR),
-        @Result(column="physical_examination", property="physical_examination", jdbcType=JdbcType.LONGVARCHAR),
-        @Result(column="western_initial_diagnosis", property="western_initial_diagnosis", jdbcType=JdbcType.LONGVARCHAR),
-        @Result(column="chinese_initial_diagnosis", property="chinese_initial_diagnosis", jdbcType=JdbcType.LONGVARCHAR),
-        @Result(column="end_diagnosis", property="end_diagnosis", jdbcType=JdbcType.LONGVARCHAR)
+        @Result(column="physical_examination", property="physical_examination", jdbcType=JdbcType.LONGVARCHAR)
     })
     MedicalRecord selectByPrimaryKey(Integer id);
 
     @Select({
         "select",
         "id, create_time, `status`, chief_complaint, current_medical_history, current_treatment_situation, ",
-        "past_history, allergy_history, physical_examination, western_initial_diagnosis, ",
-        "chinese_initial_diagnosis, end_diagnosis",
+        "past_history, allergy_history, physical_examination",
         "from medical_record"
     })
     @Results({
@@ -82,10 +73,7 @@ public interface MedicalRecordMapper {
         @Result(column="current_treatment_situation", property="current_treatment_situation", jdbcType=JdbcType.LONGVARCHAR),
         @Result(column="past_history", property="past_history", jdbcType=JdbcType.LONGVARCHAR),
         @Result(column="allergy_history", property="allergy_history", jdbcType=JdbcType.LONGVARCHAR),
-        @Result(column="physical_examination", property="physical_examination", jdbcType=JdbcType.LONGVARCHAR),
-        @Result(column="western_initial_diagnosis", property="western_initial_diagnosis", jdbcType=JdbcType.LONGVARCHAR),
-        @Result(column="chinese_initial_diagnosis", property="chinese_initial_diagnosis", jdbcType=JdbcType.LONGVARCHAR),
-        @Result(column="end_diagnosis", property="end_diagnosis", jdbcType=JdbcType.LONGVARCHAR)
+        @Result(column="physical_examination", property="physical_examination", jdbcType=JdbcType.LONGVARCHAR)
     })
     List<MedicalRecord> selectAll();
 
@@ -98,10 +86,7 @@ public interface MedicalRecordMapper {
           "current_treatment_situation = #{current_treatment_situation,jdbcType=LONGVARCHAR},",
           "past_history = #{past_history,jdbcType=LONGVARCHAR},",
           "allergy_history = #{allergy_history,jdbcType=LONGVARCHAR},",
-          "physical_examination = #{physical_examination,jdbcType=LONGVARCHAR},",
-          "western_initial_diagnosis = #{western_initial_diagnosis,jdbcType=LONGVARCHAR},",
-          "chinese_initial_diagnosis = #{chinese_initial_diagnosis,jdbcType=LONGVARCHAR},",
-          "end_diagnosis = #{end_diagnosis,jdbcType=LONGVARCHAR}",
+          "physical_examination = #{physical_examination,jdbcType=LONGVARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(MedicalRecord record);

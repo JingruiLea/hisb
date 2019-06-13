@@ -128,6 +128,7 @@ public class ChargeAndRefundController {
         Map data = new HashMap();
         List<Integer> IDsNotHave = new ArrayList<>();
         List<Integer> IDsNotCharged = new ArrayList<>();
+        List<Integer> IDsNotReturn = new ArrayList<>();
         List<OutpatientChargesRecord> recordsToRefund = new ArrayList<>();
         float cost = 0;
         String type = BillRecordStatus.Refund;
@@ -142,15 +143,19 @@ public class ChargeAndRefundController {
                 IDsNotHave.add(id);
             }else if(!outpatientChargesRecord.getStatus().equals(OutpatientChargesRecordStatus.Charged)){
                 IDsNotCharged.add(id);
-            }else {
+            }else if(!chargeAndRefundService.itemHasReturn(outpatientChargesRecord)){
+                IDsNotReturn.add(id);
+            }
+            else {
                 recordsToRefund.add(outpatientChargesRecord);
                 cost -= outpatientChargesRecord.getCost();
             }
         }
 
-        if(!IDsNotCharged.isEmpty() || !IDsNotHave.isEmpty()){
+        if(!IDsNotCharged.isEmpty() || !IDsNotHave.isEmpty() || !IDsNotReturn.isEmpty()){
             data.put("ids_not_have",IDsNotHave);
             data.put("ids_not_charged_or_have_refunded",IDsNotCharged);
+            data.put("ids_not_cancelled",IDsNotReturn);
             return Response.error(data);
         }else {
             //生成票据

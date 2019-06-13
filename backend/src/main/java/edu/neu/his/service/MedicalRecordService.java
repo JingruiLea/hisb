@@ -2,6 +2,7 @@ package edu.neu.his.service;
 
 import edu.neu.his.bean.MedicalRecord;
 import edu.neu.his.bean.Registration;
+import edu.neu.his.config.RegistrationConfig;
 import edu.neu.his.mapper.MedicalRecordMapper;
 import edu.neu.his.mapper.OutpatientRegistrationMapper;
 import edu.neu.his.util.Common;
@@ -68,4 +69,15 @@ public class MedicalRecordService {
         return medicalRecord.getStatus();
     }
 
+
+    @Transactional
+    public boolean canOperateMedicalRecord(int medical_record_id){
+        Registration registration = outpatientRegistrationMapper.findRegistrationById(medical_record_id);
+        if(registration==null)
+            return false;
+
+        if(registration.getStatus().equals(RegistrationConfig.registrationAvailable))
+            return true;
+        else return false;
+    }
 }

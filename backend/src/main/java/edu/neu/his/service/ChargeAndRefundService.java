@@ -1,7 +1,14 @@
 package edu.neu.his.service;
 
+import edu.neu.his.bean.ExamItem;
 import edu.neu.his.bean.OutpatientChargesRecord;
+import edu.neu.his.bean.PrescriptionItem;
+import edu.neu.his.config.ExamStatus;
+import edu.neu.his.config.OutpatientChargesRecordStatus;
+import edu.neu.his.config.PrescriptionStatus;
 import edu.neu.his.mapper.ChargeAndRefundMapper;
+import edu.neu.his.mapper.ExamItemMapper;
+import edu.neu.his.mapper.auto.AutoPrescriptionItemMapper;
 import edu.neu.his.mapper.auto.OutpatientChargesRecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +24,12 @@ public class ChargeAndRefundService {
 
     @Autowired
     private OutpatientChargesRecordMapper outpatientChargesRecordMapper;
+
+    @Autowired
+    private AutoPrescriptionItemMapper autoPrescriptionItemMapper;
+
+    @Autowired
+    private ExamItemMapper examItemMapper;
 
     @Transactional
     public List<OutpatientChargesRecord> findByMedicalRecordIdAndStatus(int medical_record_id,String status){
@@ -47,5 +60,22 @@ public class ChargeAndRefundService {
     @Transactional
     public int insert(OutpatientChargesRecord record){
         return outpatientChargesRecordMapper.insert(record);
+    }
+
+    @Transactional
+    public boolean itemHasReturn(OutpatientChargesRecord record){
+        int item_id = record.getItem_id();
+        if((int)record.getType()==OutpatientChargesRecordStatus.Prescription){
+            PrescriptionItem prescriptionItem = autoPrescriptionItemMapper.selectByPrimaryKey(item_id);
+            if(prescriptionItem.getStatus().equals(PrescriptionStatus.PrescriptionItemReturned))
+                return true;
+            else return false;
+        }
+        else {
+            ExamItem examItem = examItemMapper.selectByPrimaryKey(item_id);
+            if(examItem.getStatus().equals(ExamStatus.Cancelled))
+                return true;
+            else return false;
+        }
     }
 }
