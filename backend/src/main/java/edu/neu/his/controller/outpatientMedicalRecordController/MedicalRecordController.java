@@ -67,6 +67,9 @@ public class MedicalRecordController {
     @PostMapping("/getMedicalRecord")
     @ResponseBody
     public Map createMedicalRecord(int medical_record_id){
+        if(!medicalRecordService.canOperateMedicalRecord(medical_record_id))
+            return Response.error("错误，挂号不存在或该挂号已完成/已取消");
+
         MedicalRecord medicalRecord = medicalRecordService.findMedicalRecordById(medical_record_id);
         if(medicalRecord!=null)
             return Response.ok(medicalRecord);
@@ -82,10 +85,11 @@ public class MedicalRecordController {
 
     @PostMapping("/updateMedicalRecord")
     @ResponseBody
-    public Map updateMedicalRecord(@RequestBody Map req) throws IOException {
+    public Map updateMedicalRecord(@RequestBody Map req){
         int medical_record_id = (int)req.get("medical_record_id");
         if(medicalRecordService.findMedicalRecordById(medical_record_id)!=null){
             MedicalRecord medicalRecord = Utils.fromMap(req,MedicalRecord.class);
+            medicalRecord.setId(medical_record_id);
             medicalRecord.setStatus(MedicalRecordStatus.Committed);
             medicalRecordService.updateMedicalRecord(medicalRecord);
             return Response.ok();
@@ -97,12 +101,9 @@ public class MedicalRecordController {
     private MedicalRecord init(MedicalRecord medicalRecord){
         medicalRecord.setAllergy_history("");
         medicalRecord.setChief_complaint("");
-        medicalRecord.setChinese_initial_diagnosis("");
         medicalRecord.setCurrent_medical_history("");
         medicalRecord.setCurrent_treatment_situation("");
-        medicalRecord.setEnd_diagnosis("");
         medicalRecord.setPast_history("");
-        medicalRecord.setWestern_initial_diagnosis("");
         medicalRecord.setPhysical_examination("");
         medicalRecord.setCreate_time(Utils.getSystemTime());
         return medicalRecord;

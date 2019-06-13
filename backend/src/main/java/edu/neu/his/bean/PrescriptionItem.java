@@ -11,8 +11,6 @@ public class PrescriptionItem implements Serializable {
 
     private Integer drug_id;
 
-    private String drug_item;
-
     private String status;
 
     private String note;
@@ -82,13 +80,5 @@ public class PrescriptionItem implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
-    }
-
-    public String getDrug_item() {
-        return drug_item;
-    }
-
-    public void setDrug_item(String drug_item) {
-        this.drug_item = drug_item;
     }
 }

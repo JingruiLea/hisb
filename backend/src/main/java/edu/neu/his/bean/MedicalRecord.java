@@ -21,12 +21,6 @@ public class MedicalRecord implements Serializable {
 
     private String physical_examination;
 
-    private String western_initial_diagnosis;
-
-    private String chinese_initial_diagnosis;
-
-    private String end_diagnosis;
-
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -101,30 +95,6 @@ public class MedicalRecord implements Serializable {
         this.physical_examination = physical_examination == null ? null : physical_examination.trim();
     }
 
-    public String getWestern_initial_diagnosis() {
-        return western_initial_diagnosis;
-    }
-
-    public void setWestern_initial_diagnosis(String western_initial_diagnosis) {
-        this.western_initial_diagnosis = western_initial_diagnosis == null ? null : western_initial_diagnosis.trim();
-    }
-
-    public String getChinese_initial_diagnosis() {
-        return chinese_initial_diagnosis;
-    }
-
-    public void setChinese_initial_diagnosis(String chinese_initial_diagnosis) {
-        this.chinese_initial_diagnosis = chinese_initial_diagnosis == null ? null : chinese_initial_diagnosis.trim();
-    }
-
-    public String getEnd_diagnosis() {
-        return end_diagnosis;
-    }
-
-    public void setEnd_diagnosis(String end_diagnosis) {
-        this.end_diagnosis = end_diagnosis == null ? null : end_diagnosis.trim();
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -140,9 +110,6 @@ public class MedicalRecord implements Serializable {
         sb.append(", past_history=").append(past_history);
         sb.append(", allergy_history=").append(allergy_history);
         sb.append(", physical_examination=").append(physical_examination);
-        sb.append(", western_initial_diagnosis=").append(western_initial_diagnosis);
-        sb.append(", chinese_initial_diagnosis=").append(chinese_initial_diagnosis);
-        sb.append(", end_diagnosis=").append(end_diagnosis);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

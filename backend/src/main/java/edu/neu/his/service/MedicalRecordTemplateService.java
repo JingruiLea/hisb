@@ -16,12 +16,12 @@ public class MedicalRecordTemplateService {
 
     @Transactional
     public List<MedicalRecordTemplate> selectByUserId(int id){
-        return medicalRecordTemplateMapper.selectByUserId(id);
+        return medicalRecordTemplateMapper.selectByUserId(id,MedicalRecordStatus.SelectByUserId);
     }
 
     @Transactional
     public List<MedicalRecordTemplate> selectByDepartmentId(int id){
-        return medicalRecordTemplateMapper.selectByDepartmentId(id);
+        return medicalRecordTemplateMapper.selectByDepartmentId(id,MedicalRecordStatus.SelectByDepartmentId);
     }
 
     @Transactional
@@ -56,8 +56,8 @@ public class MedicalRecordTemplateService {
 
     @Transactional
     public List<MedicalRecordTemplate> selectByUser(int uid, int department_id){
-        List<MedicalRecordTemplate> list = medicalRecordTemplateMapper.selectByDepartmentId(department_id);
-        List<MedicalRecordTemplate> listByUserId = medicalRecordTemplateMapper.selectByUserId(uid);
+        List<MedicalRecordTemplate> list = medicalRecordTemplateMapper.selectByDepartmentId(department_id,MedicalRecordStatus.SelectByDepartmentId);
+        List<MedicalRecordTemplate> listByUserId = medicalRecordTemplateMapper.selectByUserId(uid,MedicalRecordStatus.SelectByUserId);
         List<MedicalRecordTemplate> listByType = medicalRecordTemplateMapper.selectByType(MedicalRecordStatus.SelectAll);
         list.addAll(listByUserId);
         list.addAll(listByType);

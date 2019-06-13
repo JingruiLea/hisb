@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 @Mapper
-public interface PrescriptionItemMapper {
+public interface AutoPrescriptionItemMapper {
     @Delete({
         "delete from prescription_item",
         "where id = #{id,jdbcType=INTEGER}"
