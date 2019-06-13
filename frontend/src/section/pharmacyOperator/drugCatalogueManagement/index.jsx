@@ -1,130 +1,92 @@
 import React from 'react';
-import {Button,Layout,Breadcrumb, Table,Drawer} from 'antd';
+import { Layout, Divider,Spin,Typography} from 'antd';
+import ToolBar from './ToolBar';
+import API from '../../../global/ApiConfig';
+import Message from '../../../global/Message';
+import DataTable from './DataTable'
+const {Content} = Layout;
 
-const { Content } = Layout;
-
-const columns = [
-  {
-    title:'编码',
-    dataIndex:'code',
-  },{
-    title:'通用名称',
-    dataIndex:'name'
-  },{
-    title:'状态',
-    dataIndex:'status'
-  },{
-    title:'规格',
-    dataIndex:'format'
-  },{
-    title:'厂商',
-    dataIndex:'manfacture'
-  }
-]
-
-var data = [];
-for(var i=0;i<100;i++) {
-  data.push({
-    key:i,
-    code:'GG234424',
-    name:'菜徐坤菜徐坤菜徐坤菜徐坤',
-    status:'有效',
-    format:'头',
-    manfacture:'ikunikunikunikunikunikunikunikun'
-  })
-}
 
 class DrugCatalogueManagement extends React.Component {
+    state = {
+        selectedRows:[],//选中项
+        drugs:[],//药品数据
+        loading:true//加载状态
+    };
 
-  state = {
-    selectedRows:[],
-    loading:false,
-    drawVisible:false
-  }
+    //设置表格选中的数据
+    setSelected=(selectedRows)=>{this.setState({selectedRows:selectedRows})}
 
-  openDrawer=()=>{
-    this.setState({drawVisible:true})
-  }
+    //初始化加载数据
+    componentDidMount = ()=>{this.reloadData();}
 
-  closeDrawer=()=>{
-    this.setState({drawVisible:false})
-  }
+    /***************************************  API   ******************************************* */
+    //上传数据后 重置数据
+    reloadData = ()=>{
+        this.setState({loading:true})
+        API.request(API.pharmacyWorkStation.drugInfoManagement.all)
+        .ok((drugs)=>{
+            for(var d of drugs) {d.key = d.id;}
+            this.setState({
+                drugs:drugs,
+                loading:false
+            });
+        }).submit();
+    }
 
-  render() {
-    const state = this.state;
-    const deleteDisable = state.selectedRows.length===0 || state.loading;
-    const updateDisable = state.selectedRows.length!==1 || state.loading;
+    updateRow=(rowData)=>{
+        API.request(API.pharmacyWorkStation.drugInfoManagement.update,rowData)
+        .ok((data)=>{
+            this.setState({selectedRows:[]})
+            this.reloadData();
+            Message.success("修改成功")
+        }).submit();
+    }
 
-    return (
-      <Content style={{ margin: '0 16px',paddingTop:10 }}>
+    newRow=(rowData)=>{
+        API.request(API.pharmacyWorkStation.drugInfoManagement.add,rowData)
+        .ok((data)=>{
+            this.reloadData();
+            Message.success("添加数据成功");
+        }).submit();
+    }
 
-        <div>
-          <Breadcrumb style={{float:'left',paddingTop:10}}>
-            <Breadcrumb.Item>HIS</Breadcrumb.Item>
-            <Breadcrumb.Item>
-              门诊药房
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              药品目录管理
-            </Breadcrumb.Item>
-          </Breadcrumb>
-
-          <div style={{float:'right',margin:5}}>
-            <Button 
-              style={{float:'right',marginLeft:'10px'}} 
-              type="primary" 
-              icon="plus">
-                添加
-            </Button>
-            <Button 
-              onClick={this.openDrawer.bind(this)}
-              disabled={updateDisable}
-              style={{float:'right',marginLeft:'10px'}}  
-              icon="edit">
-                修改
-            </Button>
-            <Button 
-              disabled={deleteDisable}
-              style={{float:'right',marginLeft:'10px'}} 
-              type="danger" 
-              icon="delete">
-                删除
-            </Button>
-            <Button 
-              style={{float:'right',marginLeft:'10px'}} 
-              type="dash" 
-              icon="upload">
-                导入
-            </Button>
-          </div>
-        </div>
-
-        <br/><br/>
-
-        <Table 
-          columns={columns} 
-          dataSource={data}
-          rowSelection={{
-            onChange: (selectedRowKeys, selectedRows) => {
-              //console.log(selectedRows)
-              this.setState({selectedRows});
-          }}}
-        />
-
-        <Drawer
-          title="修改药品信息"
-          placement="right"
-          closable={true}
-          onClose={this.closeDrawer.bind(this)}
-          width={800}
-          visible={this.state.drawVisible}
-        >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Drawer>
-      </Content>)
-  }
+    deleteRow=(idsArr)=>{
+        API.request(API.pharmacyWorkStation.drugInfoManagement.delete,{data:idsArr})
+        .ok((data)=>{
+            this.setState({selectedRows:[]})
+            this.reloadData();
+            Message.success("删除数据成功")
+        }).submit();
+    }
+    
+    render() {
+        return (
+        <Content style={{ margin: '0 16px',paddingTop:5 }}>
+            <ToolBar
+                disabled={this.state.loading}
+                selectedRows={this.state.selectedRows}
+                drugs={this.state.drugs}
+                reloadData={this.reloadData.bind(this)}
+                updateRow={this.updateRow.bind(this)}
+                deleteRow={this.deleteRow.bind(this)}
+                newRow={this.newRow.bind(this)}
+            />
+            <Divider/>
+            {this.state.loading?
+            <div style={{textAlign:'center',paddingTop:100}}>
+                <Spin/><br/>
+                <Typography.Paragraph>加载中...</Typography.Paragraph>
+            </div>
+            :<DataTable
+                data={this.state.drugs} 
+                rowSelection={this.state.rowSelection}
+                reloadData={this.reloadData.bind(this)}
+                setSelected={this.setSelected.bind(this)}
+            />}
+            
+        </Content>)
+    }
 }
 
 export default DrugCatalogueManagement;

@@ -15,7 +15,7 @@ class Request {
 
   onInternalError = (msg)=>Message.showConfirm('错误',msg)
 
-  onNetworkError = ()=>Message.showNetworkErrorMessage(); 
+  onNetworkError = (err)=>{Message.showNetworkErrorMessage();console.log('network Err',err)}; 
 
   //设置方法
   ok = (ok)=>{this.onOk=ok;return this;}
@@ -24,7 +24,7 @@ class Request {
 
   internalError = (internalError)=>{this.onInternalError = internalError;return this;}
 
-  networkError = (networkError)=>{this.onNetworkError = networkError;console.log('network Err',networkError);return this;}
+  networkError = (networkError)=>{this.onNetworkError = networkError;return this;}
 
   submit=()=>{
     const _this = this;

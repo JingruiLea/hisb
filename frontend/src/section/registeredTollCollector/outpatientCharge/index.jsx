@@ -17,6 +17,9 @@ class OutpatientCharge extends React.Component {
     loading:true
   }
 
+
+  /**********************     API     ***************************/
+
   handleSearch=(medical_record_number)=>{
     this.setState({loading:true})
     API.request(API.outpatientWorkstation.outpatientCharge.getRegistrationInfo,{medical_record_number})
@@ -45,8 +48,6 @@ class OutpatientCharge extends React.Component {
     }).submit();
   }
 
-
-  /**********************     API     ***************************/
   charge=(reqData)=>{
     API.request(API.outpatientWorkstation.outpatientCharge.charge,reqData)
     .ok((data)=>{
