@@ -31,15 +31,10 @@ public class MedicalRecordTemplateController {
     @PostMapping("/list")
     @ResponseBody
     public Map list(@RequestBody Map req){
-        int type = (int)req.get("type");
-        if(type == MedicalRecordStatus.SelectByUserId){
-            int uid = Auth.uid(req);
-            return Response.ok(medicalRecordTemplateService.selectByUserId(uid));
-        }else if(type == MedicalRecordStatus.SelectByDepartmentId){
-            int department_id = (int)req.get("department_id");
-            return Response.ok(medicalRecordTemplateService.selectByDepartmentId(department_id));
-        }else
-            return Response.ok(medicalRecordTemplateService.SelectByType(MedicalRecordStatus.SelectAll));
+        int uid = Auth.uid(req);
+        int department_id = userService.findByUid(uid).getDepartment_id();
+
+        return Response.ok(medicalRecordTemplateService.selectByUser(uid,department_id));
     }
 
     @PostMapping("/detail")

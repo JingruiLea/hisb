@@ -16,7 +16,7 @@ public interface MedicalRecordTemplateMapper {
             "current_medical_history, current_treatment_situation, past_history, allergy_history, ",
             "physical_examination",
             "from medical_record_template",
-            "where user_id = #{user_id,jdbcType=INTEGER}"
+            "where user_id = #{user_id,jdbcType=INTEGER} and type = #{type,jdbcType=INTEGER}"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
@@ -32,7 +32,7 @@ public interface MedicalRecordTemplateMapper {
             @Result(column="allergy_history", property="allergy_history", jdbcType=JdbcType.LONGVARCHAR),
             @Result(column="physical_examination", property="physical_examination", jdbcType=JdbcType.LONGVARCHAR)
     })
-    List<MedicalRecordTemplate> selectByUserId(int user_id);
+    List<MedicalRecordTemplate> selectByUserId(int user_id, int type);
 
     @Select({
             "select",
@@ -40,7 +40,7 @@ public interface MedicalRecordTemplateMapper {
             "current_medical_history, current_treatment_situation, past_history, allergy_history, ",
             "physical_examination",
             "from medical_record_template",
-            "where department_id = #{department_id,jdbcType=INTEGER}"
+            "where department_id = #{department_id,jdbcType=INTEGER} and type = #{type,jdbcType=INTEGER}"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
@@ -56,7 +56,7 @@ public interface MedicalRecordTemplateMapper {
             @Result(column="allergy_history", property="allergy_history", jdbcType=JdbcType.LONGVARCHAR),
             @Result(column="physical_examination", property="physical_examination", jdbcType=JdbcType.LONGVARCHAR)
     })
-    List<MedicalRecordTemplate> selectByDepartmentId(int department_id);
+    List<MedicalRecordTemplate> selectByDepartmentId(int department_id, int type);
 
     @Select({
             "select",

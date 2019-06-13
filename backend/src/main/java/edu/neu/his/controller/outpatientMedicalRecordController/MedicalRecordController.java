@@ -86,6 +86,7 @@ public class MedicalRecordController {
         int medical_record_id = (int)req.get("medical_record_id");
         if(medicalRecordService.findMedicalRecordById(medical_record_id)!=null){
             MedicalRecord medicalRecord = Utils.fromMap(req,MedicalRecord.class);
+            medicalRecord.setId(medical_record_id);
             medicalRecord.setStatus(MedicalRecordStatus.Committed);
             medicalRecordService.updateMedicalRecord(medicalRecord);
             return Response.ok();
@@ -97,12 +98,9 @@ public class MedicalRecordController {
     private MedicalRecord init(MedicalRecord medicalRecord){
         medicalRecord.setAllergy_history("");
         medicalRecord.setChief_complaint("");
-        medicalRecord.setChinese_initial_diagnosis("");
         medicalRecord.setCurrent_medical_history("");
         medicalRecord.setCurrent_treatment_situation("");
-        medicalRecord.setEnd_diagnosis("");
         medicalRecord.setPast_history("");
-        medicalRecord.setWestern_initial_diagnosis("");
         medicalRecord.setPhysical_examination("");
         medicalRecord.setCreate_time(Utils.getSystemTime());
         return medicalRecord;
