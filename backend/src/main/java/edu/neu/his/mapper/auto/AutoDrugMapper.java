@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 @Mapper
-public interface DrugMapper {
+public interface AutoDrugMapper {
     @Delete({
         "delete from drug",
         "where id = #{id,jdbcType=INTEGER}"

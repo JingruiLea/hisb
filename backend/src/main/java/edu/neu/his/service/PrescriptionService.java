@@ -10,7 +10,7 @@ import edu.neu.his.mapper.ChargeAndRefundMapper;
 import edu.neu.his.mapper.PrescriptionItemMapper;
 import edu.neu.his.mapper.PrescriptionMapper;
 import edu.neu.his.mapper.auto.AutoPrescriptionItemMapper;
-import edu.neu.his.mapper.auto.DrugMapper;
+import edu.neu.his.mapper.auto.AutoDrugMapper;
 import edu.neu.his.mapper.auto.OutpatientChargesRecordMapper;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class PrescriptionService {
     private OutpatientChargesRecordMapper outpatientChargesRecordMapper;
 
     @Autowired
-    private DrugMapper drugMapper;
+    private AutoDrugMapper autoDrugMapper;
 
     @Transactional
     public List<PrescriptionItem> findByPrescriptionAndStatus(int prescription_id, String prescriptionStatus, String recordStatus){
@@ -59,7 +59,7 @@ public class PrescriptionService {
             list.forEach(prescriptionItem -> {
                 Map prescriptionItemMap = Utils.objectToMap(prescriptionItem);
                 int drug_id = prescriptionItem.getDrug_id();
-                Drug drug = drugMapper.selectByPrimaryKey(drug_id);
+                Drug drug = autoDrugMapper.selectByPrimaryKey(drug_id);
                 prescriptionItemMap.put("drug_item",drug);
                 prescriptionItemResult.add(prescriptionItemMap);
             });
