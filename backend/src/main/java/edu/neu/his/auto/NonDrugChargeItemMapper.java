@@ -1,4 +1,4 @@
-package edu.neu.his.mapper.auto;
+package edu.neu.his.auto;
 
 import edu.neu.his.bean.nondrug.NonDrugChargeItem;
 import java.util.List;

@@ -1,4 +1,4 @@
-package edu.neu.his.controller.hospitalAdminController;
+package edu.neu.his.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

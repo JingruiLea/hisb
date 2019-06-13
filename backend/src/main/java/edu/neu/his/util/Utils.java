@@ -2,8 +2,8 @@ package edu.neu.his.util;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.neu.his.bean.User;
-import edu.neu.his.mapper.UserMapper;
+import edu.neu.his.bean.user.User;
+import edu.neu.his.bean.user.UserMapper;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package edu.neu.his.mapper.auto;
+package edu.neu.his.auto;
 
 import edu.neu.his.bean.dignosis.DiagnosisTemplate;
 import java.util.List;
