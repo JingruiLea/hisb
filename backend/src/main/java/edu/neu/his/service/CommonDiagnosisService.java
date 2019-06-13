@@ -1,7 +1,7 @@
 package edu.neu.his.service;
 
-import edu.neu.his.bean.CommonDiagnosis;
-import edu.neu.his.mapper.auto.CommonDiagnosisMapper;
+import edu.neu.his.bean.MedicalRecordDiagnosisTemplate;
+import edu.neu.his.mapper.auto.MedicalRecordDiagnosisTemplateMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,30 +11,30 @@ import java.util.List;
 @Service
 public class CommonDiagnosisService {
     @Autowired
-    private CommonDiagnosisMapper commonDiagnosisMapper;
+    private MedicalRecordDiagnosisTemplateMapper medicalRecordDiagnosisTemplateMapper;
 
     @Transactional
-    public CommonDiagnosis SelectById(int id){
-        return commonDiagnosisMapper.selectByPrimaryKey(id);
+    public MedicalRecordDiagnosisTemplate SelectById(int id){
+        return medicalRecordDiagnosisTemplateMapper.selectByPrimaryKey(id);
     }
 
     @Transactional
-    public int insert(CommonDiagnosis commonDiagnosis){
-        return commonDiagnosisMapper.insert(commonDiagnosis);
+    public int insert(MedicalRecordDiagnosisTemplate commonDiagnosis){
+        return medicalRecordDiagnosisTemplateMapper.insert(commonDiagnosis);
     }
 
     @Transactional
-    public List<CommonDiagnosis> selectAll(){
-        return commonDiagnosisMapper.selectAll();
+    public List<MedicalRecordDiagnosisTemplate> selectAll(){
+        return medicalRecordDiagnosisTemplateMapper.selectAll();
     }
 
     @Transactional
-    public int update(CommonDiagnosis commonDiagnosis){
-        return commonDiagnosisMapper.updateByPrimaryKey(commonDiagnosis);
+    public int update(MedicalRecordDiagnosisTemplate commonDiagnosis){
+        return medicalRecordDiagnosisTemplateMapper.updateByPrimaryKey(commonDiagnosis);
     }
 
     @Transactional
     public int delete(int id){
-        return commonDiagnosisMapper.deleteByPrimaryKey(id);
+        return medicalRecordDiagnosisTemplateMapper.deleteByPrimaryKey(id);
     }
 }

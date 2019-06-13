@@ -15,21 +15,6 @@ public class MedicalRecordTemplateService {
     private MedicalRecordTemplateMapper medicalRecordTemplateMapper;
 
     @Transactional
-    public List<MedicalRecordTemplate> selectByUserId(int id){
-        return medicalRecordTemplateMapper.selectByUserId(id,MedicalRecordStatus.SelectByUserId);
-    }
-
-    @Transactional
-    public List<MedicalRecordTemplate> selectByDepartmentId(int id){
-        return medicalRecordTemplateMapper.selectByDepartmentId(id,MedicalRecordStatus.SelectByDepartmentId);
-    }
-
-    @Transactional
-    public List<MedicalRecordTemplate> SelectAll(){
-        return medicalRecordTemplateMapper.selectAll();
-    }
-
-    @Transactional
     public MedicalRecordTemplate selectById(int id){
         return medicalRecordTemplateMapper.selectByPrimaryKey(id);
     }

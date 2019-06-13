@@ -3,7 +3,6 @@ package edu.neu.his.controller.outpatientMedicalRecordController;
 import edu.neu.his.bean.MedicalRecordTemplate;
 import edu.neu.his.bean.Registration;
 import edu.neu.his.config.Auth;
-import edu.neu.his.config.MedicalRecordStatus;
 import edu.neu.his.config.RegistrationConfig;
 import edu.neu.his.config.Response;
 import edu.neu.his.service.MedicalRecordTemplateService;
