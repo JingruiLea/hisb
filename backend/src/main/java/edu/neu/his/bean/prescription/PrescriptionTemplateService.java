@@ -6,7 +6,6 @@ import edu.neu.his.auto.PrescriptionTemplateItemMapper;
 import edu.neu.his.auto.PrescriptionTemplateMapper;
 import edu.neu.his.bean.drug.DrugService;
 import edu.neu.his.bean.user.User;
-import edu.neu.his.mapper.auto.*;
 import edu.neu.his.bean.medicalRecord.MedicalRecordService;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
