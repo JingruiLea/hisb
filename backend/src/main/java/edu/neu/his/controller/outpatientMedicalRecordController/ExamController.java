@@ -58,6 +58,9 @@ public class ExamController {
             return Response.ok(exam);
         }
         exam = Utils.fromMap(req, Exam.class);
+        if(!examService.medicalRecordHasSubmit(exam)){
+            return Response.error("病历首页尚未提交!");
+        }
         List<Integer> nonDrugIdList = (List<Integer>) req.get("non_drug_id_list");
         exam.setCreate_time(Utils.getSystemTime());
         exam.setStatus(Common.ZANCUN);

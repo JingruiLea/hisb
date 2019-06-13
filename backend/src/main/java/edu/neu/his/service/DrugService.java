@@ -1,11 +1,19 @@
 package edu.neu.his.service;
 
 import edu.neu.his.bean.Drug;
+import edu.neu.his.mapper.auto.DrugMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class DrugService {
+
+    @Autowired
+    DrugMapper drugMapper;
 
     @Transactional
     public int getExpenseClassificationId(Drug drug){
@@ -18,5 +26,14 @@ public class DrugService {
                 return 14;
         }
         return 0;
+    }
+
+    @Transactional
+    public boolean allItemValid(List<Map> drugList) {
+        for(Map map:drugList){
+            Drug drug = drugMapper.selectByPrimaryKey((Integer) map.get("id"));
+            if(drug == null) return false;
+        }
+        return true;
     }
 }

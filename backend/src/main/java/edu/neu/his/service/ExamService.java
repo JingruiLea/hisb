@@ -33,7 +33,7 @@ public class ExamService {
     @Transactional
     public boolean medicalRecordHasSubmit(Exam exam){
         String medicalRecordStatus = medicalRecordService.getStatusById(exam.getMedical_record_id());
-        if(!medicalRecordStatus.equals(Common.YITIJIAO)){
+        if(!Common.YITIJIAO.equals(medicalRecordStatus)){
             return false;
         }
         return true;

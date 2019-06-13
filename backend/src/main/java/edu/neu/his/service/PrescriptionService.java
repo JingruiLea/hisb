@@ -2,6 +2,7 @@ package edu.neu.his.service;
 
 import edu.neu.his.bean.Prescription;
 import edu.neu.his.bean.PrescriptionItem;
+import edu.neu.his.config.Response;
 import edu.neu.his.mapper.PrescriptionItemMapper;
 import edu.neu.his.mapper.PrescriptionMapper;
 import edu.neu.his.bean.*;
@@ -46,7 +47,7 @@ public class PrescriptionService {
 
 
     @Transactional
-    public void create(int user_id, int type, int medical_record_id, List<Map> drugIds){
+    public int create(int user_id, int type, int medical_record_id, List<Map> drugIds){
         Prescription prescription = new Prescription();
         prescription.setCreate_time(Utils.getSystemTime());
         prescription.setMedical_record_id(medical_record_id);
@@ -55,11 +56,12 @@ public class PrescriptionService {
         prescription.setUser_id(user_id);
         int id = autoPrescriptionMapper.insert(prescription);
         addItems(id, drugIds);
+        return id;
     }
 
     @Transactional
-    public boolean recordMedicalHasSubmit(int id){
-        return medicalRecordService.medicalRecordHasSubmit(id);
+    public boolean recordMedicalHasSubmit(int medicalRecordId){
+        return medicalRecordService.medicalRecordHasSubmit(medicalRecordId);
     }
 
     @Transactional
@@ -110,11 +112,11 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public void submit(User user, int id){
-        Prescription prescription = autoPrescriptionMapper.selectByPrimaryKey(id);
+    public void submit(User user, int prescriptionId){
+        Prescription prescription = autoPrescriptionMapper.selectByPrimaryKey(prescriptionId);
         prescription.setStatus(Common.YITIJIAO);
         autoPrescriptionMapper.updateByPrimaryKey(prescription);
-        List<PrescriptionItem> drugList = itemMapper.selectByPrescriptionId(id);
+        List<PrescriptionItem> drugList = itemMapper.selectByPrescriptionId(prescriptionId);
         drugList.forEach(item->{
             Drug drug = drugMapper.selectByPrimaryKey(item.getId());
             OutpatientChargesRecord record = new OutpatientChargesRecord();
@@ -149,5 +151,11 @@ public class PrescriptionService {
     public List<Prescription> findByMedicalRecordId(int medical_record_id){
         return prescriptionMapper.selectByMedicalRecordId(medical_record_id);
     }
+
+    @Transactional
+    public Prescription findById(int prescriptionId){
+        return autoPrescriptionMapper.selectByPrimaryKey(prescriptionId);
+    }
+
 
 }

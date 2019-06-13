@@ -30,10 +30,10 @@ public class MedicalRecordService {
     @Transactional
     public boolean medicalRecordHasSubmit(int id){
         String medicalRecordStatus = this.getStatusById(id);
-        if(!medicalRecordStatus.equals(Common.YITIJIAO)){
-            return false;
+        if(Common.YITIJIAO.equals(medicalRecordStatus)){
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Transactional
@@ -61,7 +61,11 @@ public class MedicalRecordService {
 
     @Transactional
     public String getStatusById(Integer id){
-        return medicalRecordMapper.selectByPrimaryKey(id).getStatus();
+        MedicalRecord medicalRecord = medicalRecordMapper.selectByPrimaryKey(id);
+        if(medicalRecord == null){
+            return null;
+        }
+        return medicalRecord.getStatus();
     }
 
 }
