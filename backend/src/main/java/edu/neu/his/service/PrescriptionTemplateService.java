@@ -26,7 +26,7 @@ public class PrescriptionTemplateService {
     PrescriptionTemplateItemMapper itemMapper;
 
     @Autowired
-    DrugMapper drugMapper;
+    AutoDrugMapper drugMapper;
 
     @Autowired
     DrugService drugService;
@@ -56,9 +56,7 @@ public class PrescriptionTemplateService {
     public void addItems(int prescriptionId, List<Map> drugInfos){
         for(Map i:drugInfos){
             PrescriptionTemplateItem prescriptionItem = new PrescriptionTemplateItem();
-            prescriptionItem.setAmount((Integer) i.get("amount"));
-            if (i.get("note") == null) prescriptionItem.setNote("");
-            else prescriptionItem.setNote((String) i.get("note"));
+            prescriptionItem = Utils.fromMap(i, PrescriptionTemplateItem.class);
             prescriptionItem.setDrug_id((Integer)i.get("id"));
             prescriptionItem.setPrescription_template_id(prescriptionId);
             itemMapper.insert(prescriptionItem);

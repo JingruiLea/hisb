@@ -1,6 +1,5 @@
 package edu.neu.his.controller.outpatientMedicalRecordController;
 
-import edu.neu.his.bean.PrescriptionItem;
 import edu.neu.his.config.Response;
 import edu.neu.his.service.DrugService;
 import edu.neu.his.service.PrescriptionService;
@@ -21,7 +20,7 @@ public class PrescriptionController {
     PrescriptionService prescriptionService;
 
     @Autowired
-    private DrugService drugService;
+    DrugService drugService;
 
     @PostMapping("/create")
     public Map create(Map req){

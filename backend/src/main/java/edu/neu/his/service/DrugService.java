@@ -12,6 +12,7 @@ import java.util.Map;
 
 @Service
 public class DrugService {
+
     @Autowired
     AutoDrugMapper autoDrugMapper;
 

@@ -76,9 +76,7 @@ public class PrescriptionService {
     public void addItems(int prescriptionId, List<Map> drugInfos){
         for(Map i:drugInfos){
             PrescriptionItem prescriptionItem = new PrescriptionItem();
-            prescriptionItem.setAmount((Integer) i.get("amount"));
-            if (i.get("note") == null) prescriptionItem.setNote("");
-            else prescriptionItem.setNote((String) i.get("note"));
+            prescriptionItem = Utils.fromMap(i, PrescriptionItem.class);
             prescriptionItem.setDrug_id((Integer)i.get("id"));
             prescriptionItem.setPrescription_id(prescriptionId);
             prescriptionItem.setStatus(Common.WEIQUYAO);
@@ -110,11 +108,7 @@ public class PrescriptionService {
         List<PrescriptionItem> items = itemMapper.selectByPrescriptionId(prescriptionId);
         List<Map> res = new ArrayList<>();
         for(PrescriptionItem item:items){
-            HashMap map = new HashMap();
-            map.put("id", item.getId());
-            map.put("amount", item.getAmount());
-            map.put("note", item.getNote());
-            res.add(map);
+            Utils.objectToMap(item);
         }
         return res;
     }
