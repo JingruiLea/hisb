@@ -1,5 +1,9 @@
 package edu.neu.his.bean.medicalRecord;
 
+import edu.neu.his.bean.diagnosis.DiagnoseItemType;
+import edu.neu.his.bean.diagnosis.MedicalRecordDiagnose;
+import edu.neu.his.bean.diagnosis.MedicalRecordDiagnoseItem;
+import edu.neu.his.bean.diagnosis.MedicalRecordDiagnoseService;
 import edu.neu.his.bean.registration.Registration;
 import edu.neu.his.config.Auth;
 import edu.neu.his.bean.registration.RegistrationConfig;
@@ -22,6 +26,9 @@ public class MedicalRecordController {
 
     @Autowired
     private OutpatientRegistrationService outpatientRegistrationService;
+
+    @Autowired
+    private MedicalRecordDiagnoseService medicalRecordDiagnoseService;
 
     @PostMapping("/getPatientList")
     @ResponseBody
@@ -56,43 +63,102 @@ public class MedicalRecordController {
     @PostMapping("/recordHistory")
     @ResponseBody
     public Map recordHistory(@RequestBody Map req){
+        List<Map> data = new ArrayList<>();
         String type = (String)req.get("type");
         String medical_certificate_number = (String)req.get("medical_certificate_number");
-        return Response.ok(medicalRecordService.findHistory(type,medical_certificate_number));
+
+        //获得挂号信息
+        List<Registration> registrationList = medicalRecordService.findHistory(type,medical_certificate_number);
+        registrationList.forEach(registration -> {
+            int medical_record_id = registration.getMedical_record_id();
+            //获得病历
+            MedicalRecord medicalRecord = medicalRecordService.findMedicalRecordById(medical_record_id);
+            if(medicalRecord.getStatus().equals(MedicalRecordStatus.Finished)) {
+                Map record = Utils.objectToMap(medicalRecord);
+                //获得诊断
+                MedicalRecordDiagnose medicalRecordDiagnose = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id);
+                Map diagnose = medicalRecordDiagnoseService.getExistDiagnose(medicalRecordDiagnose);
+                //向病历中加入诊断
+                record.put("diagnose", diagnose);
+                //向历史病历列表中加入该病历
+                data.add(record);
+            }
+        });
+
+        return Response.ok(data);
     }
 
     @PostMapping("/getMedicalRecord")
     @ResponseBody
-    public Map createMedicalRecord(int medical_record_id){
+    public Map createMedicalRecord(@RequestParam int medical_record_id){
         if(!medicalRecordService.canOperateMedicalRecord(medical_record_id))
             return Response.error("错误，挂号不存在或该挂号已完成/已取消");
 
         MedicalRecord medicalRecord = medicalRecordService.findMedicalRecordById(medical_record_id);
-        if(medicalRecord!=null)
-            return Response.ok(medicalRecord);
+        Map data;
+        Map diagnose;
 
-        medicalRecord = new MedicalRecord();
-        medicalRecord.setId(medical_record_id);
-        medicalRecord.setStatus(MedicalRecordStatus.TemporaryStorage);
-        medicalRecord = init(medicalRecord);
+        if(medicalRecord==null) {
+            medicalRecord = new MedicalRecord();
+            medicalRecord.setId(medical_record_id);
+            medicalRecord.setStatus(MedicalRecordStatus.TemporaryStorage);
+            medicalRecord = init(medicalRecord);
+            medicalRecordService.insertMedicalRecord(medicalRecord);
+        }
 
-        medicalRecordService.insertMedicalRecord(medicalRecord);
-        return Response.ok(medicalRecord);
+        data = Utils.objectToMap(medicalRecord);
+        MedicalRecordDiagnose medicalRecordDiagnose = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id);
+
+        if(medicalRecordDiagnose!=null) {
+            diagnose = medicalRecordDiagnoseService.getExistDiagnose(medicalRecordDiagnose);
+        }else {
+            medicalRecordDiagnose = new MedicalRecordDiagnose();
+            medicalRecordDiagnose.setMedical_record_id(medical_record_id);
+            medicalRecordDiagnoseService.insertDiagnose(medicalRecordDiagnose);
+            diagnose = medicalRecordDiagnoseService.getEmptyDiagnose(medicalRecordDiagnose);
+        }
+
+        data.put("diagnose", diagnose);
+        return Response.ok(data);
     }
 
     @PostMapping("/updateMedicalRecord")
     @ResponseBody
     public Map updateMedicalRecord(@RequestBody Map req){
-        int medical_record_id = (int)req.get("medical_record_id");
-        if(medicalRecordService.findMedicalRecordById(medical_record_id)!=null){
-            MedicalRecord medicalRecord = Utils.fromMap(req,MedicalRecord.class);
-            medicalRecord.setId(medical_record_id);
-            medicalRecord.setStatus(MedicalRecordStatus.Committed);
-            medicalRecordService.updateMedicalRecord(medicalRecord);
-            return Response.ok();
-        }else {
+        int medical_record_id = (int)req.get("id");
+        if(medicalRecordService.findMedicalRecordById(medical_record_id)==null)
             return Response.error("错误，该病历不存在");
-        }
+        //获得诊断ID
+        int diagnose_id = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id).getId();
+
+        //更新病历
+        MedicalRecord medicalRecord = Utils.fromMap(req,MedicalRecord.class);
+        medicalRecordService.updateMedicalRecord(medicalRecord);
+
+        //删除现有诊断子目
+        medicalRecordDiagnoseService.deleteAllByDiagnoseId(diagnose_id);
+
+        Map diagnose = (Map)req.get("diagnose");
+        List westernList = (List)diagnose.get("western_diagnose");
+        List chineseList = (List)diagnose.get("chinese_diagnose");
+
+        //更新诊断子目
+        westernList.forEach(object->{
+            Map itemMap = (Map)object;
+            Utils.initMap(itemMap);
+            MedicalRecordDiagnoseItem medicalRecordDiagnoseItem = Utils.fromMap(itemMap,MedicalRecordDiagnoseItem.class);
+            medicalRecordDiagnoseItem.setMedical_record_diagnose_id(diagnose_id);
+            medicalRecordDiagnoseService.insertDiagnoseItem(medicalRecordDiagnoseItem);
+        });
+        chineseList.forEach(object->{
+            Map itemMap = (Map)object;
+            Utils.initMap(itemMap);
+            MedicalRecordDiagnoseItem medicalRecordDiagnoseItem = Utils.fromMap(itemMap,MedicalRecordDiagnoseItem.class);
+            medicalRecordDiagnoseItem.setMedical_record_diagnose_id(diagnose_id);
+            medicalRecordDiagnoseService.insertDiagnoseItem(medicalRecordDiagnoseItem);
+        });
+
+        return Response.ok();
     }
 
     private MedicalRecord init(MedicalRecord medicalRecord){
