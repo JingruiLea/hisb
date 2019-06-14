@@ -99,13 +99,14 @@ public class OutpatientRegistrationControllerTest {
                         "      \"medical_certificate_number\": \"371625223284621134\",\n" +
                         "      \"medical_certificate_number_type\": \"id\",\n" +
                         "      \"medical_insurance_diagnosis\": \"不知道什么意思\",\n" +
-                        "      \"name\": \"王蓓蕾\",\n" +
+                        "      \"patient_name\": \"王蓓蕾\",\n" +
                         "      \"outpatient_doctor_id\"  : 3,\n" +
                         "      \"settlement_category_id\": 2,\n" +
                         "      \"registration_source\": \"app挂号\",\n" +
                         "      \"registration_level_id\": 1,\n" +
                         "      \"should_pay\" : 28.24,\n" +
-                        "      \"truely_pay\" : 100.00,\n" +
+                        "      \"truely_pay\" : 100,\n" +
+                        "      \"_uid\": 10002,\n" +
                         "      \"retail_fee\" : 71.76\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))

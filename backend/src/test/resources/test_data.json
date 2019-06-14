@@ -201,5 +201,97 @@
       "_uid": 10002
     }
 
+  },
+  "outpatientCharge":
+  {
+    "charge":
+    {
+      "medical_record_id" : 10000002,
+      "charges_id_list": [9, 10, 11, 12],
+      "should_pay" : 28.24,
+      "truely_pay" : 100,
+      "retail_fee" : 71.76,
+      "_uid": 10002
+    },
+    "getHistoryChargeItems":
+    {
+      "medical_record_id" : 10000002,
+      "start_time":"2019-06-10",
+      "end_time":"2019-06-10"
+    }
+  },
+  "RegistrationDailyCollectControllerTest":
+  {
+    "collect":
+    {
+      "start_time": "2019-06-04 16:15:00",
+      "end_time": "2019-06-11 16:15:00",
+      "_uid": 10002
+    }
+  },
+  "MedicalRecordControllerTest":
+  {
+    "registrationInfo":
+    {
+      "medicial_certificate_number" : "37152659294836",
+      "type":"id"
+    },
+    "updateMedicalRecord":
+    {
+      "medical_record_id" : 1,
+      "chief_complaint": "xxxxxxx",
+      "current_medical_history": "ssssssss",
+      "current_treatment_situation": "cy",
+      "past_history": "wu",
+      "allergy_history": "wu",
+      "physical_examination": "yyyy",
+      "create_time": "2019-06-13 14:26:07"
+    }
+  },
+  "MedicalRecordTemplateControllerTest":
+  {
+    "list":
+    {
+      "_uid": 10002
+    },
+    "detail":
+    {
+      "id": 1
+    },
+    "create":
+  {
+    "type": 0,
+    "_uid": 10005,
+    "name": "神经病模板"
+  },
+    "update":
+    {
+      "id": 1,
+      "type": 0,
+      "_uid": 10005,
+      "current_treatment_situation":"xxffrergrg",
+      "allergy_history": "wu",
+      "chief_complaint": "xxxxxxzxxx",
+      "current_medical_history" : "fffffff",
+      "name": "神经病模板",
+      "past_history": "wu",
+      "physical_examination": "wu",
+      "department_id": 2,
+      "create_time":"2019-6-13 09:30"
+    },
+    "delete":
+    {
+      "idArr":[1],
+      "_uid": 10004
+    }
+  },
+  "exam":
+  {
+    "getOrCreate":
+    {
+      "type":0,
+      "medical_record_id" : 1000002,
+      "non_drug_id_list":[1]
+    }
   }
 }

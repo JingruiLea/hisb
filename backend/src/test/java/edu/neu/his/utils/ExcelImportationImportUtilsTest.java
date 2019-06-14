@@ -1,11 +1,11 @@
 package edu.neu.his.utils;
 
 import edu.neu.his.bean.department.Department;
+import edu.neu.his.bean.department.DepartmentMapper;
 import edu.neu.his.bean.disease.Disease;
 import edu.neu.his.bean.disease.DiseaseClassification;
-import edu.neu.his.bean.nondrug.NonDrugChargeItem;
-import edu.neu.his.bean.department.DepartmentMapper;
 import edu.neu.his.bean.disease.DiseaseMapper;
+import edu.neu.his.bean.nondrug.NonDrugChargeItem;
 import edu.neu.his.bean.nondrug.NonDrugChargeItemMapper;
 import edu.neu.his.util.ExcelImportation;
 import org.junit.Test;

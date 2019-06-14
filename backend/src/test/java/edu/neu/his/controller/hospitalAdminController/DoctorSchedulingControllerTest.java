@@ -1,4 +1,4 @@
-package edu.neu.his.controller.outpatientMedicalRecordController;
+package edu.neu.his.controller.hospitalAdminController;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,24 +20,16 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ExamControllerTest {
-    private Logger logger = LoggerFactory.getLogger(ExamControllerTest.class);
+public class DoctorSchedulingControllerTest {
+    private Logger logger = LoggerFactory.getLogger(DoctorSchedulingControllerTest.class);
 
     @Autowired
     protected MockMvc mockMvc;
-
     @Test
-    public void create() throws  Exception{
+    public void getAllDoctorScheduling() throws Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/exam/getOrCreate")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(" {\n" +
-                        "      \"type\":0,\n" +
-                        "      \"medical_record_id\" : 1000002,\n" +
-                        "      \"non_drug_id_list\":[1]\n" +
-                        "    }")
-
+                get("/doctorSchedulingManagement/all")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -45,14 +37,22 @@ public class ExamControllerTest {
     }
 
     @Test
-    public void addOne() {
+    public void deleteDoctorScheduling() {
     }
 
     @Test
-    public void submit() {
+    public void addDoctorInfo() {
     }
 
     @Test
-    public void delOne() {
+    public void updateAllInfo() {
+    }
+
+    @Test
+    public void findAddInfo() {
+    }
+
+    @Test
+    public void findAddNameInfo() {
     }
 }

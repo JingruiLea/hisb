@@ -1,7 +1,5 @@
 package edu.neu.his.bean.billRecord;
 
-import edu.neu.his.bean.billRecord.BillRecord;
-import edu.neu.his.bean.billRecord.BillRecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
