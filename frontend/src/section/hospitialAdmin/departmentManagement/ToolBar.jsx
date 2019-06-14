@@ -6,7 +6,6 @@ import BatchImportUpload from './BatchImportUpload';
 
 const confirm = Modal.confirm;
 
-
 class ToolBar extends React.Component {
   state = {
     editModalDisplay:false,

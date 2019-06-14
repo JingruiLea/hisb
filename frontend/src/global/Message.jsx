@@ -5,16 +5,12 @@ const confirm = Modal.confirm;
 
 export default {
   //确认对话框
-  showConfirm:(title,content)=> {
+  showConfirm:(title,content,onOk,onCancel)=> {
     confirm({
       title: title,
       content: content,
-      onOk() {
-        return new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-        }).catch(() => console.log('Oops errors!'));
-      },
-      onCancel() {},
+      onOk:onOk,
+      onCancel:onCancel,
     });
   },
   //登录过期错误对话框

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Layout, Card,Input,Icon, Table, Divider, Tag,Spin,Typography} from 'antd';
-import axios from 'axios';
+import { Layout, Card} from 'antd';
 const {Content} = Layout;
 
 

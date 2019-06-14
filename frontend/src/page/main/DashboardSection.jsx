@@ -1,5 +1,4 @@
 import React from 'react';
-import Message from '../../global/Message';
 
 //3 hospitalAdmin
 import DepartmentManagement from '../../section/hospitialAdmin/departmentManagement'
@@ -13,10 +12,10 @@ import SchedulingManagement from '../../section/hospitialAdmin/schedulingManagem
 //4 registeredTollCollector
 import OutpatientRegistration from '../../section/registeredTollCollector/outpatientRegistration'
 import OutpatientCharge from '../../section/registeredTollCollector/outpatientCharge'
+import DailyCollectSection from '../../section/registeredTollCollector/dailyCollect'
 
 //5 outpatientDoctor
-import DiagnoseSection from '../../section/outpatientDoctor/diagnose'
-import PatentMedicinePrescription from '../../section/outpatientDoctor/patentMedicinePrescription'
+import OutpatientDoctorWorkspace from '../../section/outpatientDoctor'
 
 //6 pharmacyOperator
 import OutpatientDispensingSection from '../../section/pharmacyOperator/outpatientDispensing'
@@ -32,8 +31,6 @@ import OutpatientDepartmentsWorkloadStatistic from '../../section/financialAdmin
 import OutpatientPersonalWorkloadStatistic from '../../section/financialAdmin/outpatientPersonalWorkloadStatistic'
 
 
-
-
 class DashboardSection extends React.Component {
   render() {
       const me = this.props.me;
@@ -43,7 +40,7 @@ class DashboardSection extends React.Component {
       const {sectionKey} = this.props;
       return (
         <div>
-          {sectionKey==="0"?<PersonalWorkloadStatistic me={this.props.me}/>:null}
+          {sectionKey==="0"?<OutpatientDispensingSection me={this.props.me}/>:null}
 
           {sectionKey==="3-1"?<DepartmentManagement me={this.props.me}/>:null}
           {sectionKey==="3-2"?<UserManagement me={this.props.me}/>:null}
@@ -55,17 +52,14 @@ class DashboardSection extends React.Component {
 
           {sectionKey==="4-1"?<OutpatientRegistration me={this.props.me}/>:null}
           {sectionKey==="4-2"?<OutpatientCharge me={this.props.me}/>:null}
-          {sectionKey==="4-3"?<div>ToBeImplement</div>:null}
-          {sectionKey==="4-4"?<div>ToBeImplement</div>:null}
-          {sectionKey==="4-5"?<div>ToBeImplement</div>:null}
-          {sectionKey==="4-6"?<div>ToBeImplement</div>:null}
+          {sectionKey==="4-3"?<DailyCollectSection/>:null}
 
-          {sectionKey==="5-1"?<DiagnoseSection/>:null}
+          {sectionKey==="5-1"?<OutpatientDoctorWorkspace/>:null}
           {sectionKey==="5-2"?<div>ToBeImplement</div>:null}
           {sectionKey==="5-3"?<div>ToBeImplement</div>:null}
           {sectionKey==="5-4"?<div>ToBeImplement</div>:null}
           {sectionKey==="5-5"?<div>ToBeImplement</div>:null}
-          {sectionKey==="5-6"?<PatentMedicinePrescription/>:null}
+          {sectionKey==="5-6"?<div>ToBrImplement</div>:null}
           {sectionKey==="5-7"?<div>ToBeImplement</div>:null}
           {sectionKey==="5-8"?<div>ToBeImplement</div>:null}
           {sectionKey==="5-9"?<div>ToBeImplement</div>:null}

@@ -1,13 +1,16 @@
 import React from 'react';
-import {Card,Form,Layout,Row,Drawer, Table, Input, Typography, Button, Col} from 'antd'
-import RegistrationForm from './RegistrationForm'
+import {Drawer, Descriptions, Button} from 'antd'
+import Message from '../../../global/Message';
 
 class DetailDrawer extends React.Component {
 
   //处理退号
   handleWithdrawNumber=()=>{
     const data = this.props.data;
-    this.props.withdrawNumber(data.id)
+    Message.showConfirm(
+      '退号',
+      '你真的要退号吗？',
+      ()=>this.props.withdrawNumber(data.medical_record_id))
   }
 
   render() {
@@ -20,40 +23,20 @@ class DetailDrawer extends React.Component {
           onClose={this.onClose}
           visible={this.props.visible}
           onClose={this.props.onClose}
-          width={500}
+          width={800}
         >
           {data===null?null:
           <div>
-            <Row>
-              <Col span={8}>病历号：</Col>
-              <Col span={16}>{data.id}</Col>
-            </Row>
-            <Row>
-              <Col span={8}>姓名</Col>
-              <Col span={16}>{data.name}</Col>
-            </Row>
-            <Row>
-              <Col span={8}>性别</Col>
-              <Col span={16}>{data.gender}</Col>
-            </Row>
-            <Row>
-              <Col span={8}>病历号：</Col>
-              <Col span={16}>{10001}</Col>
-            </Row>
-            <Row>
-              <Col span={8}>病历号：</Col>
-              <Col span={16}>{10001}</Col>
-            </Row>
-            <Row>
-              <Col span={8}>病历号：</Col>
-              <Col span={16}>{10001}</Col>
-            </Row>
-            <Row>
-              <Col span={8}>病历号：</Col>
-              <Col span={16}>{10001}</Col>
-            </Row>
-
-            <Button type="danger" onClick={this.handleWithdrawNumber.bind(this)}>退号</Button>
+            <Descriptions bordered column={2}>
+              <Descriptions.Item label="病例号">{data.medical_record_id}</Descriptions.Item>
+              <Descriptions.Item label="姓名">{data.name}</Descriptions.Item>
+              <Descriptions.Item label="性别">{data.gender==='male'?'男':'女'}</Descriptions.Item>
+              <Descriptions.Item label="医保凭证类型：">{data.medical_certificate_number_type==="id"?"身份证":"医保卡"}</Descriptions.Item>
+              <Descriptions.Item label="卡号">{data.medical_certificate_number}</Descriptions.Item>
+              <Descriptions.Item label="花费">{data.cost}</Descriptions.Item>
+            </Descriptions>
+            
+            <br/><Button type="danger" onClick={this.handleWithdrawNumber.bind(this)} disabled={data.status==="退费"}>退号</Button>
           </div>}
         </Drawer>)
   }

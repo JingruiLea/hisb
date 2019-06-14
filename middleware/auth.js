@@ -12,13 +12,12 @@ const Roles = {
 
 //session验证
 auth.use('/',(req,res,next)=>{
-  console.log('enter auth',req.url)
+  console.log('enter auth',req.url,{uid:req.session.uid,role_id:req.session.role_id})
   if(req.session['uid']==null) 
     res.json({code:403,msg:"登录已过期"}).end()
   else 
     next();
 });
-
 
 //角色过滤
 auth.use('/',(req,res,next)=>{
@@ -34,7 +33,7 @@ auth.use('/',(req,res,next)=>{
     res.json({code:403}).end();
   else if(req.url.startsWith("/api/financialAdmin") && res.session['role_id']!=Roles.FinancialAdmin)
     res.json({code:403}).end();
-  else
+  else //url is /api/public 不需要受到限制直接next
     next();
 });
 

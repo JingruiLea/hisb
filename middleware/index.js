@@ -13,7 +13,8 @@ const DB = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
-  database:process.env.DB_NAME
+  database:process.env.DB_NAME,
+  port:process.env.DB_PORT
 })
 
 const hash=(pwd)=>{
@@ -27,7 +28,7 @@ const server = express();
 server.use(cookieSession({
   name:'session',
   keys:['boy ♂ next ♂ door','thank ♂ you ♂ sir','deep ♂ dark ♂ fantasy'],
-  maxAge:400*60*100
+  maxAge:400*60*100*100
 }));
 
 server.use(bodyParser.json({limit: '50MB'}));
