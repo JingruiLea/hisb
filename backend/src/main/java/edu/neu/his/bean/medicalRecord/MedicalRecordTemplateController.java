@@ -10,6 +10,7 @@ import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,10 +29,7 @@ public class MedicalRecordTemplateController {
     @PostMapping("/list")
     @ResponseBody
     public Map list(@RequestBody Map req){
-        int uid = Auth.uid(req);
-        int department_id = userService.findByUid(uid).getDepartment_id();
-
-        return Response.ok(medicalRecordTemplateService.selectByUser(uid,department_id));
+        return Response.ok(returnList(req));
     }
 
     @PostMapping("/detail")
@@ -43,50 +41,47 @@ public class MedicalRecordTemplateController {
     @PostMapping("/create")
     @ResponseBody
     public Map create(@RequestBody Map req){
-        MedicalRecordTemplate medicalRecordTemplate = new MedicalRecordTemplate();
-        int type = (int)req.get("type");
+        req = Utils.initMap(req);
+        MedicalRecordTemplate medicalRecordTemplate = Utils.fromMap(req,MedicalRecordTemplate.class);
         String name = (String)req.get("name");
-        while (medicalRecordTemplateService.selectByName(name).size()!=0){
-            name = name + "(1)";
-        }
+        name = checkName(name);
         int uid = Auth.uid(req);
         int department_id = userService.findByUid(uid).getDepartment_id();
 
-        medicalRecordTemplate.setType(type);
         medicalRecordTemplate.setName(name);
         medicalRecordTemplate.setUser_id(uid);
         medicalRecordTemplate.setDepartment_id(department_id);
-        medicalRecordTemplate = init(medicalRecordTemplate);
+        medicalRecordTemplate.setCreate_time(Utils.getSystemTime());
 
-        int medical_record_id = medicalRecordTemplateService.insert(medicalRecordTemplate);
-        Registration registration = outpatientRegistrationService.findRegistrationById(medical_record_id);
-        registration.setId_number(RegistrationConfig.registrationFinished);
-        outpatientRegistrationService.updateStatus(registration);
+        medicalRecordTemplateService.insert(medicalRecordTemplate);
 
-        return Response.ok(medicalRecordTemplateService.selectByUser(uid,department_id));
+        return Response.ok(returnList(req));
     }
 
     @PostMapping("/update")
     @ResponseBody
     public Map update(@RequestBody Map req) {
         int id = (int)req.get("id");
-        int uid = Auth.uid(req);
-        int department_id = userService.findByUid(uid).getDepartment_id();
-
-        if(medicalRecordTemplateService.selectById(id)==null)
+        MedicalRecordTemplate medicalRecordTemplate = medicalRecordTemplateService.selectById(id);
+        if(medicalRecordTemplate==null)
             return Response.error("错误，该病历模板不存在");
 
-        MedicalRecordTemplate medicalRecordTemplate = Utils.fromMap(req,MedicalRecordTemplate.class);
+        req = Utils.initMap(req);
+        String time = medicalRecordTemplate.getCreate_time();
+        medicalRecordTemplate = Utils.fromMap(req,MedicalRecordTemplate.class);
+        medicalRecordTemplate.setCreate_time(time);
+
+        String name = checkName(medicalRecordTemplate.getName());
+        medicalRecordTemplate.setName(name);
+
         medicalRecordTemplateService.update(medicalRecordTemplate);
 
-        return Response.ok(medicalRecordTemplateService.selectByUser(uid,department_id));
+        return Response.ok(returnList(req));
     }
 
     @PostMapping("/delete")
     @ResponseBody
     public Map delete(@RequestBody Map req){
-        int uid = Auth.uid(req);
-        int department_id = userService.findByUid(uid).getDepartment_id();
         List id_list = (List)req.get("idArr");
         id_list.forEach(id->{
             MedicalRecordTemplate medicalRecordTemplate = medicalRecordTemplateService.selectById((int)id);
@@ -94,18 +89,24 @@ public class MedicalRecordTemplateController {
                 medicalRecordTemplateService.delete((int)id);
         });
 
-        return Response.ok(medicalRecordTemplateService.selectByUser(uid,department_id));
+        return Response.ok(returnList(req));
     }
 
-    private MedicalRecordTemplate init(MedicalRecordTemplate medicalRecordTemplate){
-        medicalRecordTemplate.setAllergy_history("");
-        medicalRecordTemplate.setChief_complaint("");
-        medicalRecordTemplate.setCurrent_medical_history("");
-        medicalRecordTemplate.setCurrent_treatment_situation("");
-        medicalRecordTemplate.setPast_history("");
-        medicalRecordTemplate.setPhysical_examination("");
-        medicalRecordTemplate.setCreate_time(Utils.getSystemTime());
-        return medicalRecordTemplate;
+    private Map returnList(Map req){
+        Map data = new HashMap();
+        int uid = Auth.uid(req);
+        int department_id = userService.findByUid(uid).getDepartment_id();
+        data.put("personal",medicalRecordTemplateService.selectByUser(uid));
+        data.put("department",medicalRecordTemplateService.selectByDepartment(department_id));
+        data.put("hospital",medicalRecordTemplateService.selectByType(MedicalRecordStatus.Public));
+        return data;
+    }
+
+    private String checkName(String name){
+        while (medicalRecordTemplateService.selectByName(name).size()!=0){
+            name = name + "(1)";
+        }
+        return name;
     }
 
 }

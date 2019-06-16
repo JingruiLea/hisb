@@ -1,6 +1,5 @@
 package edu.neu.his.bean.medicalRecord;
 
-import edu.neu.his.bean.diagnosis.DiagnoseItemType;
 import edu.neu.his.bean.diagnosis.MedicalRecordDiagnose;
 import edu.neu.his.bean.diagnosis.MedicalRecordDiagnoseItem;
 import edu.neu.his.bean.diagnosis.MedicalRecordDiagnoseService;
@@ -122,18 +121,83 @@ public class MedicalRecordController {
         return Response.ok(data);
     }
 
+    @PostMapping("/saveMedicalRecord")
+    @ResponseBody
+    public Map saveMedicalRecord(@RequestBody Map req){
+        int medical_record_id = (int)req.get("id");
+        MedicalRecord medicalRecord = medicalRecordService.findMedicalRecordById(medical_record_id);
+        if(medicalRecord==null)
+            return Response.error("错误，该病历不存在");
+        else if(medicalRecord.getStatus().equals(MedicalRecordStatus.Finished))
+            return Response.error("错误，该病历已诊毕");
+
+        //更新病历
+        medicalRecord = Utils.fromMap(req,MedicalRecord.class);
+        medicalRecord.setStatus(MedicalRecordStatus.Committed);
+        medicalRecordService.updateMedicalRecord(medicalRecord);
+
+        //更新诊断
+        updateDiagnose(req,medical_record_id);
+
+        return Response.ok();
+    }
+
     @PostMapping("/updateMedicalRecord")
     @ResponseBody
     public Map updateMedicalRecord(@RequestBody Map req){
         int medical_record_id = (int)req.get("id");
-        if(medicalRecordService.findMedicalRecordById(medical_record_id)==null)
+        MedicalRecord medicalRecord = medicalRecordService.findMedicalRecordById(medical_record_id);
+        if(medicalRecord==null)
             return Response.error("错误，该病历不存在");
-        //获得诊断ID
-        int diagnose_id = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id).getId();
+        else if(!medicalRecord.getStatus().equals(MedicalRecordStatus.TemporaryStorage))
+            return Response.error("错误，该病历已提交或已诊毕");
 
         //更新病历
-        MedicalRecord medicalRecord = Utils.fromMap(req,MedicalRecord.class);
+        medicalRecord = Utils.fromMap(req,MedicalRecord.class);
+        medicalRecord.setStatus(MedicalRecordStatus.TemporaryStorage);
         medicalRecordService.updateMedicalRecord(medicalRecord);
+
+        //更新诊断
+        updateDiagnose(req,medical_record_id);
+
+        return Response.ok();
+    }
+
+    @PostMapping("/confirmMedicalRecord")
+    @ResponseBody
+    public Map confirmMedicalRecord(@RequestBody Map req){
+        int medical_record_id = (int)req.get("id");
+        MedicalRecord medicalRecord = medicalRecordService.findMedicalRecordById(medical_record_id);
+        if(medicalRecord==null)
+            return Response.error("错误，该病历不存在");
+        else if(medicalRecord.getStatus().equals(MedicalRecordStatus.Finished))
+            return Response.error("错误，该病历已诊毕");
+
+        //更新病历
+        medicalRecord = Utils.fromMap(req,MedicalRecord.class);
+        medicalRecord.setStatus(MedicalRecordStatus.Finished);
+        medicalRecordService.updateMedicalRecord(medicalRecord);
+
+        //更新诊断
+        updateDiagnose(req,medical_record_id);
+
+        return Response.ok();
+    }
+
+    private MedicalRecord init(MedicalRecord medicalRecord){
+        medicalRecord.setAllergy_history("");
+        medicalRecord.setChief_complaint("");
+        medicalRecord.setCurrent_medical_history("");
+        medicalRecord.setCurrent_treatment_situation("");
+        medicalRecord.setPast_history("");
+        medicalRecord.setPhysical_examination("");
+        medicalRecord.setCreate_time(Utils.getSystemTime());
+        return medicalRecord;
+    }
+
+    private void updateDiagnose(Map req, int medical_record_id){
+        //获得诊断ID
+        int diagnose_id = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id).getId();
 
         //删除现有诊断子目
         medicalRecordDiagnoseService.deleteAllByDiagnoseId(diagnose_id);
@@ -157,18 +221,5 @@ public class MedicalRecordController {
             medicalRecordDiagnoseItem.setMedical_record_diagnose_id(diagnose_id);
             medicalRecordDiagnoseService.insertDiagnoseItem(medicalRecordDiagnoseItem);
         });
-
-        return Response.ok();
-    }
-
-    private MedicalRecord init(MedicalRecord medicalRecord){
-        medicalRecord.setAllergy_history("");
-        medicalRecord.setChief_complaint("");
-        medicalRecord.setCurrent_medical_history("");
-        medicalRecord.setCurrent_treatment_situation("");
-        medicalRecord.setPast_history("");
-        medicalRecord.setPhysical_examination("");
-        medicalRecord.setCreate_time(Utils.getSystemTime());
-        return medicalRecord;
     }
 }
