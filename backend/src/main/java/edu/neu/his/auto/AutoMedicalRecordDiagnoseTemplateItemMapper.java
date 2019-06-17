@@ -2,16 +2,12 @@ package edu.neu.his.auto;
 
 import edu.neu.his.bean.diagnosis.MedicalRecordDiagnoseTemplateItem;
 import java.util.List;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectKey;
-import org.apache.ibatis.annotations.Update;
+
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
-public interface MedicalRecordDiagnoseTemplateItemMapper {
+@Mapper
+public interface AutoMedicalRecordDiagnoseTemplateItemMapper {
     @Delete({
         "delete from medical_record_diagnose_template_item",
         "where id = #{id,jdbcType=INTEGER}"
