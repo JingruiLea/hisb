@@ -1,10 +1,7 @@
 package edu.neu.his.bean.medicalRecord;
 
-import edu.neu.his.bean.registration.Registration;
 import edu.neu.his.config.Auth;
-import edu.neu.his.bean.registration.RegistrationConfig;
 import edu.neu.his.config.Response;
-import edu.neu.his.bean.registration.OutpatientRegistrationService;
 import edu.neu.his.bean.user.UserService;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +19,6 @@ public class MedicalRecordTemplateController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private OutpatientRegistrationService outpatientRegistrationService;
 
     @PostMapping("/list")
     @ResponseBody
