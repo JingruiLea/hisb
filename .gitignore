@@ -9,3 +9,4 @@ words.txt
 /auth/node_modules
 *.bak
 *lock
+.vscode/
