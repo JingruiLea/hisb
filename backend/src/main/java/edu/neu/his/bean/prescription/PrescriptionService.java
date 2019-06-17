@@ -52,7 +52,7 @@ public class PrescriptionService {
         Prescription prescription = new Prescription();
         prescription.setCreate_time(Utils.getSystemTime());
         prescription.setMedical_record_id(medical_record_id);
-        prescription.setStatus("暂存");
+        prescription.setStatus(Common.ZANCUN);
         prescription.setType(type);
         prescription.setUser_id(user_id);
         int id = autoPrescriptionMapper.insert(prescription);
@@ -88,11 +88,13 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public void removeItems(int prescriptionId, List<Map> drugInfos){
+    public boolean removeItems(int prescriptionId, List<Map> drugInfos){
         for(Map i:drugInfos){
             PrescriptionItem item = itemMapper.selectByDetail(prescriptionId, (Integer) i.get("id"));
+            if(item == null) return false;
             itemMapper.deleteByPrimaryKey(item.getId());
         }
+        return true;
     }
 
     @Transactional

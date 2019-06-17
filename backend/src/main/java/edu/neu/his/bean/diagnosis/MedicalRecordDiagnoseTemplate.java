@@ -1,17 +1,19 @@
-package edu.neu.his.bean.dignosis;
+package edu.neu.his.bean.diagnosis;
 
 import java.io.Serializable;
 
-public class DiagnosisTemplate implements Serializable {
+public class MedicalRecordDiagnoseTemplate implements Serializable {
     private Integer id;
 
-    private String name;
+    private String title;
 
     private Integer user_id;
 
     private Integer department_id;
 
-    private String content;
+    private Integer type;
+
+    private String create_time;
 
     private static final long serialVersionUID = 1L;
 
@@ -23,12 +25,12 @@ public class DiagnosisTemplate implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 
     public Integer getUser_id() {
@@ -47,12 +49,20 @@ public class DiagnosisTemplate implements Serializable {
         this.department_id = department_id;
     }
 
-    public String getContent() {
-        return content;
+    public Integer getType() {
+        return type;
     }
 
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time == null ? null : create_time.trim();
     }
 
     @Override
@@ -62,10 +72,11 @@ public class DiagnosisTemplate implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
+        sb.append(", title=").append(title);
         sb.append(", user_id=").append(user_id);
         sb.append(", department_id=").append(department_id);
-        sb.append(", content=").append(content);
+        sb.append(", type=").append(type);
+        sb.append(", create_time=").append(create_time);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

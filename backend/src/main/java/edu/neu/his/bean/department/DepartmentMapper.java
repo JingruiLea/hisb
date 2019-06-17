@@ -24,7 +24,7 @@ public interface DepartmentMapper extends Importable<Department> {
     int findClassificationIdByName(@Param("name") String name);
 
     @Insert("INSERT INTO department(id,pinyin, name , type, classification_id ) VALUES(#{id}, #{pinyin}, #{name} ,#{type},#{classification_id})")
-    void insert(Department department);
+    int insert(Department department);
 
     @Update("UPDATE department SET pinyin = #{pinyin} ,type = #{type} ,name = #{name}, classification_id = #{classification_id} WHERE id = #{id}")
     void update(Department department);

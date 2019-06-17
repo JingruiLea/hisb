@@ -45,13 +45,13 @@ public class Utils {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         String json = JSONObject.fromObject(map).toString();
-        T billRecord = null;
+        T object = null;
         try {
-            billRecord = objectMapper.readValue(json, tClass);
+            object = objectMapper.readValue(json, tClass);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return billRecord;
+        return object;
     }
 
 
@@ -101,5 +101,14 @@ public class Utils {
             return null;
         }
         return arr[arr.length - 1];
+
+    }
+    
+    public static Map initMap(Map<String,Object> map){
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            if(entry.getValue()==null)
+                entry.setValue("");
+        }
+        return map;
     }
 }

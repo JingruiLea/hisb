@@ -1,4 +1,4 @@
-package edu.neu.his.bean.dignosis;
+package edu.neu.his.bean.diagnosis;
 
 import edu.neu.his.bean.disease.Disease;
 import edu.neu.his.bean.disease.DiseaseClassification;
@@ -11,11 +11,10 @@ import java.util.List;
 
 @Service
 public class DiagnoseDirectoryService {
-    @Autowired
-    private DiseaseMapper diseaseMapper;
+    @Autowired DiseaseMapper diseaseMapper;
 
     @Transactional
-    public void updateDisease(int rawId,Disease disease) {
+    public void updateDisease(int rawId, Disease disease) {
         diseaseMapper.update(rawId, disease.getId(), disease.getCode(),disease.getName(),disease.getClassification_id(),disease.getPinyin(),disease.getCustom_name(),disease.getCustom_pinyin());
     }
 

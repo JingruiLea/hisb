@@ -2,13 +2,14 @@ package edu.neu.his.bean.exam;
 
 import java.util.List;
 
+import edu.neu.his.util.Importable;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Component;
 
 @Mapper
 @Component(value = "ExamItemMapper")
-public interface ExamItemMapper {
+public interface ExamItemMapper  {
     @Delete({
         "delete from exam_item",
         "where id = #{id,jdbcType=INTEGER}"

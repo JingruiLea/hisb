@@ -1,19 +1,21 @@
 package edu.neu.his.bean.exam;
 
+import edu.neu.his.bean.drug.Drug;
 import edu.neu.his.bean.medicalRecord.MedicalRecordService;
 import edu.neu.his.bean.nondrug.NonDrugChargeItem;
 import edu.neu.his.bean.nondrug.NonDrugChargeService;
 import edu.neu.his.bean.user.User;
 import edu.neu.his.util.Common;
 import edu.neu.his.util.Utils;
+import edu.neu.his.util.ExcelImportation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.rmi.CORBA.Util;
-import java.util.ArrayList;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service

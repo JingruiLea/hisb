@@ -1,12 +1,18 @@
 
 package edu.neu.his.bean.nondrug;
 
+import edu.neu.his.bean.exam.Exam;
 import edu.neu.his.bean.expenseClassification.ExpenseClassification;
+import edu.neu.his.util.Common;
+import edu.neu.his.util.ExcelImportation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 @Service
 public class NonDrugChargeService {
@@ -69,5 +75,18 @@ public class NonDrugChargeService {
     @Transactional
     public NonDrugChargeItem selectById(int id){
         return autoNonDrugChargeItemMapper.selectByPrimaryKey(id);
+    }
+
+    @Transactional
+    public boolean importFromFile(InputStream inputStream) {
+        try {
+            ExcelImportation excel = new ExcelImportation(inputStream, NonDrugChargeItem.class, nonDrugChargeItemMapper);
+            excel.setColumnFields(null, "id", "name", "format", "fee", "expense_classification_id", "department_id", "pinyin");
+            //((Map<String, Function<String, ?>>)excel.getPreFunctionMap()).put("classification_id", departmentMapper::findClassificationIdByName);
+            excel.exec();
+            return true;
+        } catch (Exception e)  {
+            return false;
+        }
     }
 }
