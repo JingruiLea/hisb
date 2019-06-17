@@ -1,16 +1,13 @@
 import React from 'react';
-import {Layout, Divider, Input, Modal} from 'antd'
-import {Row,Col,Table,Card,Typography,Pagination} from 'antd'
-import { Tabs } from 'antd';
-import { Tree } from 'antd';
+import {Row,Col,Layout,Card,Tabs} from 'antd'
 
-import MedicalRecord from './medicalRecord';
-import SiderPatientSelector from './SiderPatientSelector';
 import API from '../../global/ApiConfig';
+import SiderPatientSelector from './SiderPatientSelector';
+import MedicalRecordHome from './medicalRecord';
+import PrescriptionSection from './inspection'
+import InspectionSection from './inspection';
 
-const DirectoryTree = Tree.DirectoryTree;
-const { TreeNode } = Tree;
-const TabPane = Tabs.TabPane;
+
 const {Content,Header} = Layout;
 
 class DiagnoseSection extends React.Component {
@@ -27,7 +24,7 @@ class DiagnoseSection extends React.Component {
     siderLoading:true
   }
 
-  componentDidMount=()=>{this.initPatientsList()}
+  componentDidMount=()=>{console.log('mounted');this.initPatientsList()}
 
   //选择当前操作的病人挂号信息
   selectPatient=(registration)=>{
@@ -42,17 +39,23 @@ class DiagnoseSection extends React.Component {
         currentPatient:currentPatient,
         siderLoading:false
       })
+      this.MedicalRecordHome.syncAllHistoryMedicalRecord();
+      this.MedicalRecordHome.applyMedialRecordData(currentPatient.medicalRecord)
       this.initPatientsList();
     })
   }
 
+  //（创建）获取挂号对应的病历信息
   getMedicalRecord=(medical_record_id,callback)=>{
     API.request(API.outpatientDoctor.medicalRecord.get,{medical_record_id})
     .ok(medicalRecord=>{
+      medicalRecord.diagnose.western_diagnose.forEach(x=>x.key=x.disease_id)
+      medicalRecord.diagnose.chinese_diagnose.forEach(x=>x.key=x.disease_id)
       callback(medicalRecord)
     }).submit()
   }
 
+  //初始化患者列表
   initPatientsList=()=>{
     console.log('loading patient list...')
     API.request(API.outpatientDoctor.medicalRecord.getPatientList)
@@ -83,12 +86,34 @@ class DiagnoseSection extends React.Component {
             <Card>
               <Tabs size="small">
                 <Tabs.TabPane tab="门诊病历" key="1">
-                  <MedicalRecord currentPatient={state.currentPatient} />
+                  <MedicalRecordHome  
+                    onRef={(ref)=>{this.MedicalRecordHome=ref}}
+                    currentPatient={state.currentPatient} />
                 </Tabs.TabPane>
-                <Tabs.TabPane tab="成药处方" key="2">
+
+                <Tabs.TabPane tab="检查申请" key="2">
+                  <InspectionSection
+                      onRef={(ref)=>{this.InspectionSection=ref}}
+                      currentPatient={state.currentPatient} />
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab="检验申请" key="3">
+                  
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab="处置申请" key="4">
+                  
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab="成药处方" key="5">
                   
                 </Tabs.TabPane> 
-                <Tabs.TabPane tab="检验申请" key="3">
+
+                <Tabs.TabPane tab="草药处方" key="6">
+                  
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab="费用查询" key="7">
                   
                 </Tabs.TabPane>
               </Tabs>
