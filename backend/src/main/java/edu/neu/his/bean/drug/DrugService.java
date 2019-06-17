@@ -1,12 +1,16 @@
 package edu.neu.his.bean.drug;
 
 import edu.neu.his.auto.AutoDrugMapper;
+import edu.neu.his.util.Common;
+import edu.neu.his.util.ExcelImportation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 @Service
 public class DrugService {
@@ -69,5 +73,32 @@ public class DrugService {
     @Transactional
     public List<Drug> selectDrugByName(String name){
         return drugMapper.selectByName(name);
+    }
+
+    @Transactional
+    public boolean importFromFile(InputStream inputStream) {
+        try {
+            ExcelImportation excel = new ExcelImportation(inputStream, Drug.class, drugMapper);
+            excel.setColumnFields("id", "code", "name", "format", "unit", "manufacturer", "dosage_form", "type", "price", "pinyin", "stock");
+            excel.skipLine(2);
+            Map<String, Function<String, ?>> preFunctionMap = excel.getPreFunctionMap();
+            preFunctionMap.put("stock", (i)-> 100);
+            preFunctionMap.put("type", s->{
+                switch (Integer.parseInt(s)){
+                    case 101:
+                        return Common.XIYAOTYPE;
+                    case 103:
+                        return Common.ZHONGCAOYAOTYPE;
+                    case 102:
+                        return Common.ZHONGCHENGYAOTYPE;
+                    default:
+                        return "";
+                }
+            });
+            excel.exec();
+            return true;
+        } catch (Exception e)  {
+            return false;
+        }
     }
 }

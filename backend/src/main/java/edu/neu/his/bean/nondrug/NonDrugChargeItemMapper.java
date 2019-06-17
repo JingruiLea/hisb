@@ -20,7 +20,7 @@ public interface NonDrugChargeItemMapper extends Importable<NonDrugChargeItem> {
 
     @Insert("INSERT INTO non_drug_charge_item(id, code, format, pinyin, name , fee, expense_classification_id, department_id) " +
             "VALUES(#{id}, #{code}, #{format}, #{pinyin}, #{name}, #{fee}, #{expense_classification_id}, #{department_id})")
-    void insert(NonDrugChargeItem nonDrugCharge);
+    int insert(NonDrugChargeItem nonDrugCharge);
 
     @Update("UPDATE non_drug_charge_item SET pinyin = #{pinyin}, code = #{code}, format=#{format}, pinyin=#{pinyin}, name = #{name}," +
             "fee=#{fee}, expense_classification_id = #{expense_classification_id}, department_id = #{department_id} WHERE id = #{id}")

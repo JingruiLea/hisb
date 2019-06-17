@@ -87,7 +87,7 @@ public class ExamController {
         if(!exam.getStatus().equals(Common.ZANCUN)){
             return Response.error("该检查/检验/处置单状态错误!");
         }
-        List<Integer> nonDrugIds = (List<Integer>) map.get("non_drug_id");
+        List<Integer> nonDrugIds = (List<Integer>) map.get("non_drug_id_list");
         nonDrugIds.forEach(id->{
             ExamItem examItem = new ExamItem();
             examItem.setStatus(Common.WEIDENGJI);
@@ -149,7 +149,7 @@ public class ExamController {
             return Response.error("该检查/检验/处置单状态错误!");
         }
 
-        List<Integer> nonDrugIds = (List<Integer>) map.get("non_drug_id");
+        List<Integer> nonDrugIds = (List<Integer>) map.get("non_drug_id_list");
         nonDrugIds.forEach(nonDrugId->{
             ExamItem examItem = examItemService.selectByDetail(nonDrugId, examId);
             examItemService.deleteById(examItem.getId());

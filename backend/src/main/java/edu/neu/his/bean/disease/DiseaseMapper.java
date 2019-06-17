@@ -38,8 +38,9 @@ public interface DiseaseMapper extends Importable<Disease> {
     void insertDiseaseClassification(DiseaseClassification diseaseClassification);
 
     @Override
-    default void insert(Disease instance){
+    default int insert(Disease instance){
         this.insertDisease(instance);
+        return 1;
     }
 
     @Select("SELECT id FROM disease_classification where name = #{classification_name}")

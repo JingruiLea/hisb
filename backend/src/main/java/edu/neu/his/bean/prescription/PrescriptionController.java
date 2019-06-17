@@ -30,6 +30,9 @@ public class PrescriptionController {
         if(!prescriptionService.recordMedicalHasSubmit(medicalRecordId)){
             return Response.error("找不到已经提交的病历!");
         }
+        if(!drugService.allItemValid(drugList)){
+            return Response.error("该药品不存在!");
+        }
         int prescriptionId = prescriptionService.create(Utils.getSystemUser(req).getUid(), type, medicalRecordId, drugList);
         return Response.ok(prescriptionService.findById(prescriptionId));
     }
