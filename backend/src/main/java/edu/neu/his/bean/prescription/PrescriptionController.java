@@ -4,6 +4,7 @@ import edu.neu.his.config.Response;
 import edu.neu.his.bean.drug.DrugService;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -68,9 +69,15 @@ public class PrescriptionController {
 
     @PostMapping("/submit")
     public Map submit(Map map){
-        int prescriptionId = (int)map.get("prescription_id ");
+        int prescriptionId = (int)map.get("prescription_id");
         prescriptionService.submit(Utils.getSystemUser(map), prescriptionId);
         return Response.ok();
     }
 
+    @PostMapping("/detail")
+    public Map detail(Map map){
+        int prescriptionId = (int)map.get("prescription_id");
+        List res = prescriptionService.detail(prescriptionId);
+        return Response.ok(res);
+    }
 }
