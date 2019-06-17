@@ -15,4 +15,7 @@ public class Common {
     public static final String YITUIFEI = "已退费";
     public static final int RECORD_TYPE_CHUFANG = 0;
     public static final int RECORD_TYPE_JIANCHA = 1;
+    public static final String WEIQUYAO = "未取药";
+    public static final String YIQUYAO = "已取药";
+    public static final String YITUIYAO = "已退药";
 }

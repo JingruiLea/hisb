@@ -2,8 +2,8 @@ package edu.neu.his.util;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.neu.his.bean.User;
-import edu.neu.his.mapper.UserMapper;
+import edu.neu.his.bean.user.User;
+import edu.neu.his.bean.user.UserMapper;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -45,13 +45,13 @@ public class Utils {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         String json = JSONObject.fromObject(map).toString();
-        T billRecord = null;
+        T object = null;
         try {
-            billRecord = objectMapper.readValue(json, tClass);
+            object = objectMapper.readValue(json, tClass);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return billRecord;
+        return object;
     }
 
 
@@ -93,5 +93,13 @@ public class Utils {
 
     public static User getSystemUser(Map req){
         return initUtils.userMapper.find((int)req.get("_uid"));
+    }
+
+    public static Map initMap(Map<String,Object> map){
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            if(entry.getValue()==null)
+                entry.setValue("");
+        }
+        return map;
     }
 }

@@ -53,6 +53,7 @@
         </javaClientGenerator>
 
         <table tableName="medical_record_diagnosis_template"
+        <table tableName="medical_record_diagnose_template_item"
                enableCountByExample="true"
                enableUpdateByExample="true"
                enableDeleteByExample="true"
