@@ -73,6 +73,22 @@ public class MedicalRecordControllerTest {
     }
 
     @Test
+    public void recordHistory() throws Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/medicalRecord/allHistoryMedicalRecord")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(" {\n" +
+                        "      \"type\":\"id\",\n" +
+                        "      \"medical_certificate_number\":\"371625223284621134\"\n" +
+                        "    }")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    @Test
     public void updateMedicalRecord() throws Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
@@ -93,4 +109,28 @@ public class MedicalRecordControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
+
+    @Test
+    public void saveMedicalRecord() throws Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/medicalRecord/saveMedicalRecord")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(" {\n" +
+                        "      \"medical_record_id\" : 1,\n" +
+                        "      \"chief_complaint\": \"gaiguo\",\n" +
+                        "      \"current_medical_history\": \"ssssssss\",\n" +
+                        "      \"current_treatment_situation\": \"cy\",\n" +
+                        "      \"past_history\": \"wu\",\n" +
+                        "      \"allergy_history\": \"wu\",\n" +
+                        "      \"physical_examination\": \"yyyy\",\n" +
+                        "      \"create_time\": \"2019-06-13 14:26:07\"\n" +
+                        "    }")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+
 }

@@ -246,6 +246,11 @@
       "allergy_history": "wu",
       "physical_examination": "yyyy",
       "create_time": "2019-06-13 14:26:07"
+    },
+    "allHistoryMedicalRecord":
+    {
+      "type":"id",
+      "medical_certificate_number":"123123132"
     }
   },
   "MedicalRecordTemplateControllerTest":
