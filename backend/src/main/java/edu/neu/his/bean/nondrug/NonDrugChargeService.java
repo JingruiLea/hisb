@@ -57,6 +57,7 @@ public class NonDrugChargeService {
 
     @Transactional
     public boolean exist(NonDrugChargeItem nonDrugChargeItem) {
+        if(nonDrugChargeItem==null) return false;
         return nonDrugChargeItemMapper.checkIdExistNums(nonDrugChargeItem)==1;
     }
 

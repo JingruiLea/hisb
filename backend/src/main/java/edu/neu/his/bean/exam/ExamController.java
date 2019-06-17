@@ -1,5 +1,7 @@
 package edu.neu.his.bean.exam;
 
+import edu.neu.his.auto.ExamItemResultMapper;
+import edu.neu.his.bean.medicalRecord.MedicalRecordService;
 import edu.neu.his.bean.nondrug.NonDrugChargeItem;
 import edu.neu.his.bean.outpatientCharges.OutpatientChargesRecord;
 import edu.neu.his.config.Response;
@@ -8,16 +10,18 @@ import edu.neu.his.bean.nondrug.NonDrugChargeService;
 import edu.neu.his.util.Common;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.core.parameters.P;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.*;
+
+import static org.springframework.util.ResourceUtils.CLASSPATH_URL_PREFIX;
 
 @RestController
 @RequestMapping("/exam")
@@ -35,6 +39,9 @@ public class ExamController {
     );
      */
 
+    @Value("${web.upload-path}")
+    private String filePath;
+
     @Autowired
     ExamService examService;
 
@@ -45,7 +52,13 @@ public class ExamController {
     NonDrugChargeService nonDrugChargeService;
 
     @Autowired
+    MedicalRecordService medicalRecordService;
+
+    @Autowired
     OutpatientChargesRecordMapper outpatientChargesRecordMapper;
+
+    @Autowired
+    ExamItemResultService examItemResultMapper;
 
     @PostMapping("/getOrCreate")
     public Map create(@RequestBody Map req){
@@ -54,10 +67,15 @@ public class ExamController {
             return Response.ok(exam);
         }
         exam = Utils.fromMap(req, Exam.class);
-        if(!examService.medicalRecordHasSubmit(exam)){
+        if(!medicalRecordService.hasSubmit(exam.getMedical_record_id())){
             return Response.error("病历首页尚未提交!");
         }
         List<Integer> nonDrugIdList = (List<Integer>) req.get("non_drug_id_list");
+        for (Integer id: nonDrugIdList) {
+            if(!nonDrugChargeService.exist(nonDrugChargeService.selectById(id))){
+                return Response.error("列表错误!");
+            }
+        }
         exam.setCreate_time(Utils.getSystemTime());
         exam.setStatus(Common.ZANCUN);
         Integer examId = examService.insert(exam);
@@ -88,6 +106,11 @@ public class ExamController {
             return Response.error("该检查/检验/处置单状态错误!");
         }
         List<Integer> nonDrugIds = (List<Integer>) map.get("non_drug_id");
+        for (Integer id: nonDrugIds) {
+            if(!nonDrugChargeService.exist(nonDrugChargeService.selectById(id))){
+                return Response.error("列表错误!");
+            }
+        }
         nonDrugIds.forEach(id->{
             ExamItem examItem = new ExamItem();
             examItem.setStatus(Common.WEIDENGJI);
@@ -150,6 +173,11 @@ public class ExamController {
         }
 
         List<Integer> nonDrugIds = (List<Integer>) map.get("non_drug_id");
+        for (Integer id: nonDrugIds) {
+            if(!nonDrugChargeService.exist(nonDrugChargeService.selectById(id))){
+                return Response.error("列表错误!");
+            }
+        }
         nonDrugIds.forEach(nonDrugId->{
             ExamItem examItem = examItemService.selectByDetail(nonDrugId, examId);
             examItemService.deleteById(examItem.getId());
@@ -159,4 +187,92 @@ public class ExamController {
         return Response.ok(res);
     }
 
+    @PostMapping("list")
+    public Map list(@RequestBody Map req){
+        int medicalRecordId = (int) req.get("medical_record_id");
+        List res = examService.list(medicalRecordId, Utils.getSystemUser(req));
+        return Response.ok(res);
+    }
+
+    @PostMapping("register")
+    public Map register(@RequestBody Map req){
+        List<Integer> examItemIds = (List<Integer>) req.get("exam_item_id");
+        if(examItemService.register(examItemIds)){
+            return Response.ok();
+        }else {
+            return Response.error("列表错误!");
+        }
+    }
+
+    @PostMapping("submitResult")
+    public Map submitResult(@RequestParam Map req, @RequestParam("file")MultipartFile[] files){
+        int examItemId = Integer.parseInt((String) req.get("exam_item_id"));
+        ExamItem examItem = examItemService.selectByPrimaryKey(examItemId);
+        if(examItem == null){
+            return Response.error("没有该检查!");
+        }
+        if(!examItem.getStatus().equals(Common.YIDENGJI)){
+            return Response.error("该检查尚未登记!");
+        }
+        ExamItemResult examItemResult = Utils.fromMap(req, ExamItemResult.class);
+        String DBFile = "";
+        for (int i = 0; i < files.length; i++) {
+            long time = new Date().getTime();
+            String suffix = Utils.getFileSuffix(files[i].getOriginalFilename());
+            String filename = examItemId + time + "." + suffix;
+            FileOutputStream fos;
+            try {
+                String path = filePath + filename;
+                File file = new File(path);
+                fos = new FileOutputStream(file);
+                fos.write(files[i].getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            DBFile += files[i].getOriginalFilename() + "&" + filename + ";";
+        }
+        examItemResult.setFile(DBFile);
+        examItemResultMapper.insertOrUpdate(examItemResult);
+        examItem.setStatus("已完成");
+        examItemService.update(examItem);
+        return Response.ok();
+    }
+
+    @PostMapping("getResult")
+    public Map getResult(@RequestBody Map req){
+        int examItemId = (int)req.get("exam_item_id");
+        ExamItemResult examItemResult = examItemResultMapper.selectByExamItemId(examItemId);
+        Map res = Utils.objectToMap(examItemResult);
+        String files = examItemResult.getFile();
+        String[] filenames = files.split(";");
+        List fileList = new ArrayList();
+        for (String filename : filenames) {
+            String[] nameArr = filename.split("&");
+            HashMap fileMap = new HashMap();
+            String originName = nameArr[0];
+            String saveName = nameArr[1];
+            fileMap.put("originName", originName);
+            fileMap.put("saveName", saveName);
+            fileList.add(fileMap);
+        }
+        res.put("file", fileList);
+        return Response.ok(res);
+    }
+
+    @RequestMapping("getResultFile")
+    public void getResultFile(@RequestParam Map req, HttpServletResponse response) throws IOException {
+        String filename = (String) req.get("filename");
+        response.setContentType("application/force-download");
+        response.addHeader("Content-Disposition", "attachment;fileName=" + filename);
+        OutputStream os = response.getOutputStream();
+        byte[] buff = new byte[1024];
+        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(filePath + filename));
+        int i = bis.read(buff);
+        while (i != -1) {
+            os.write(buff, 0, buff.length);
+            os.flush();
+            i = bis.read(buff);
+        }
+        os.close();
+    }
 }

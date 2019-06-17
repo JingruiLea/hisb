@@ -69,4 +69,9 @@ public class PrescriptionTemplateController {
         return Response.ok();
     }
 
+    @PostMapping("/list")
+    public Map list(Map req){
+        List list = prescriptionTemplateService.findAll(Utils.getSystemUser(req));
+        return Response.ok(list);
+    }
 }

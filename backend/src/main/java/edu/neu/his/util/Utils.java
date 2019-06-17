@@ -94,4 +94,12 @@ public class Utils {
     public static User getSystemUser(Map req){
         return initUtils.userMapper.find((int)req.get("_uid"));
     }
+
+    public static String getFileSuffix(String filename){
+        String[] arr = filename.split("\\.");
+        if(arr.length < 2){
+            return null;
+        }
+        return arr[arr.length - 1];
+    }
 }

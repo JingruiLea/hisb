@@ -78,4 +78,16 @@ public class MedicalRecordService {
             return true;
         else return false;
     }
+
+    @Transactional
+    public boolean hasSubmit(Integer id){
+        MedicalRecord medicalRecord = medicalRecordMapper.selectByPrimaryKey(id);
+        if(medicalRecord==null){
+            return false;
+        }
+        if(!Common.YITIJIAO.equals(medicalRecord.getStatus())){
+            return false;
+        }
+        return true;
+    }
 }

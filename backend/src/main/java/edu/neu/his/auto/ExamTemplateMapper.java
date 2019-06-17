@@ -1,6 +1,6 @@
 package edu.neu.his.auto;
 
-import edu.neu.his.bean.exam.ExamTemplate;
+import edu.neu.his.bean.examTemplate.ExamTemplate;
 import java.util.List;
 
 import org.apache.ibatis.annotations.*;
@@ -13,13 +13,6 @@ public interface ExamTemplateMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int deleteByPrimaryKey(Integer id);
-
-
-    @Delete({
-        "delete from exam_template_item",
-        "where exam_template_id = #{id,jdbcType=INTEGER}"
-    })
-    int deleteItemByPrimaryKey(Integer id);
 
     @Insert({
         "insert into exam_template (template_name, user_id, ",
@@ -89,4 +82,11 @@ public interface ExamTemplateMapper {
             @Result(column="create_time", property="create_time", jdbcType=JdbcType.VARCHAR)
     })
     ExamTemplate selectByName(String templateName);
+
+    @Delete({
+            "delete from exam_template_item",
+            "where exam_template_id = #{id,jdbcType=INTEGER}"
+    })
+    int deleteItemByPrimaryKey(Integer id);
+
 }

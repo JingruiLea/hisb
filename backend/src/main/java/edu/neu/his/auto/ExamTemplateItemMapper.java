@@ -1,6 +1,6 @@
 package edu.neu.his.auto;
 
-import edu.neu.his.bean.exam.ExamTemplateItem;
+import edu.neu.his.bean.examTemplate.ExamTemplateItem;
 import java.util.List;
 
 import org.apache.ibatis.annotations.*;
@@ -69,16 +69,15 @@ public interface ExamTemplateItemMapper {
 
     @Select({
             "select",
-            "id, exam_template_id, non_drug_item_id, `status`",
-            "from exam_item",
+            "id, exam_template_id, non_drug_item_id",
+            "from exam_template_item",
             "where non_drug_item_id = #{nonDrugId, jdbcType=INTEGER}",
             "and exam_template_id = #{examId, jdbcType=INTEGER}"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-            @Result(column="exam_template_id", property="exam_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="exam_template_id", property="exam_template_id", jdbcType=JdbcType.INTEGER),
             @Result(column="non_drug_item_id", property="non_drug_item_id", jdbcType=JdbcType.INTEGER),
-            @Result(column="status", property="status", jdbcType=JdbcType.VARCHAR)
     })
     ExamTemplateItem selectOneByDetail(Integer nonDrugId, int examId);
 }

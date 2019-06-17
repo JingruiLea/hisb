@@ -67,4 +67,20 @@ public interface ExamMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Exam record);
+
+    @Select({
+            "select",
+            "id, medical_record_id, `type`, create_time, user_id, `status`",
+            "from exam",
+            "where medical_record_id = #{medicalRecordId,jdbcType=INTEGER}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="medical_record_id", property="medical_record_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="type", property="type", jdbcType=JdbcType.INTEGER),
+            @Result(column="create_time", property="create_time", jdbcType=JdbcType.VARCHAR),
+            @Result(column="user_id", property="user_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="status", property="status", jdbcType=JdbcType.VARCHAR)
+    })
+    List<Exam> selectByMedicalRecordId(int medicalRecordId);
 }
