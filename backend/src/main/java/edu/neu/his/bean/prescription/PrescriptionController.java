@@ -5,6 +5,7 @@ import edu.neu.his.bean.drug.DrugService;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,7 @@ public class PrescriptionController {
     DrugService drugService;
 
     @PostMapping("/create")
-    public Map create(Map req){
+    public Map create(@RequestBody Map req){
         int medicalRecordId = (int)req.get("medical_record_id");
         List<Map> drugList = (List)req.get("drug_list");
         int type = (int)req.get("type");
@@ -34,7 +35,7 @@ public class PrescriptionController {
     }
 
     @PostMapping("/addItem")
-    public Map addItem(Map req){
+    public Map addItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_id");
         List<Map> drugList = (List)req.get("drug_list");
         if(!drugService.allItemValid(drugList)){
@@ -45,7 +46,7 @@ public class PrescriptionController {
     }
 
     @PostMapping("/deleteItem")
-    public Map deleteItem(Map req){
+    public Map deleteItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_id");
         List<Map> drugList = (List)req.get("drug_list");
         if(!drugService.allItemValid(drugList)){
@@ -56,7 +57,7 @@ public class PrescriptionController {
     }
 
     @PostMapping("/updateItem")
-    public Map updateItem(Map req){
+    public Map updateItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_id");
         List<Map> drugList = (List)req.get("drug_list");
         if(!drugService.allItemValid(drugList)){
@@ -67,7 +68,7 @@ public class PrescriptionController {
     }
 
     @PostMapping("/submit")
-    public Map submit(Map map){
+    public Map submit(@RequestBody Map map){
         int prescriptionId = (int)map.get("prescription_id ");
         prescriptionService.submit(Utils.getSystemUser(map), prescriptionId);
         return Response.ok();

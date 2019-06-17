@@ -323,5 +323,49 @@
       "exam_template_id" : 2,
       "non_drug_id" : [9]
     }
+  },
+  "PrescriptionControllerTest":
+  {
+    "create":
+    {
+      "type":0,
+      "medical_record_id": 1000002,
+      "drug_list":[
+        {"id":9, "amount":2,"note":"多吃"},
+        {"id":3,"amount":3}
+      ],
+      "_uid": 10002
+    },
+    "additem":
+    {
+      "prescription_id" : 2,
+      "drug_list": [
+        {"id":9, "amount":2,"note":"多吃"},
+        {"id":3, "amount":3}
+      ],
+      "_uid":10004
+    },
+    "deleteItem":
+    {
+      "prescription_id" : 2,
+      "drug_list" :[
+        {"id":9},
+        {"id":3}
+      ],
+      "_uid": 10004
+    },
+    "updateItem":
+    {
+      "prescription_id" : 2,
+      "drug_list" :[
+        {"id":1, "amount":2,"note":"多吃"}
+      ],
+      "_uid": 10004
+    },
+    "submit":
+    {
+      "prescription_id ":1,
+      "_uid": 10004
+    }
   }
 }
