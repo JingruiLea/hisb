@@ -64,7 +64,7 @@ public class MedicalRecordControllerTest {
                 post("/medicalRecord/getMedicalRecord")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"medical_record_id\" : 10004\n" +
+                        "      \"medical_record_id\" : 1\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())

@@ -89,7 +89,8 @@ public class MedicalRecordController {
 
     @PostMapping("/getMedicalRecord")
     @ResponseBody
-    public Map createMedicalRecord(@RequestParam int medical_record_id){
+    public Map createMedicalRecord(@RequestBody Map req){
+        int medical_record_id = (int)req.get("medical_record_id");
         if(!medicalRecordService.canOperateMedicalRecord(medical_record_id))
             return Response.error("错误，挂号不存在或该挂号已完成/已取消");
 

@@ -36,7 +36,7 @@ public interface MedicalRecordDiagnoseItemMapper {
             "main_symptom, suspect, syndrome_differentiation",
             "from medical_record_diagnose_item",
             "where medical_record_diagnose_id = #{medical_record_diagnose_id,jdbcType=INTEGER}" +
-                    " and diagnose_type = #{diagnose_type,jdbcType=JdbcType.VARCHAR}"
+                    " and diagnose_type = #{diagnose_type,jdbcType=VARCHAR}"
     })
     @Results({
             @Result(column="id", property="id", jdbcType= JdbcType.INTEGER, id=true),
