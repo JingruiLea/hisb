@@ -64,7 +64,7 @@ public interface MedicalRecordDiagnoseTemplateMapper {
             "select",
             "id, title, user_id, department_id, `type`, create_time",
             "from medical_record_diagnose_template",
-            "where title = #{title,JdbcType.VARCHAR}"
+            "where title = #{title,jdbcType=VARCHAR}"
     })
     @Results({
             @Result(column="id", property="id", jdbcType= JdbcType.INTEGER, id=true),
