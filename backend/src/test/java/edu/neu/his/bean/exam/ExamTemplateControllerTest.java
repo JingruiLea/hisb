@@ -50,10 +50,10 @@ public class ExamTemplateControllerTest {
                 post("/examTemplate/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"template_name\": \"常规检查3\",\n" +
+                        "      \"template_name\": \"常规检查4\",\n" +
                         "      \"type\": 2,\n" +
                         "      \"_uid\": 10004,\n" +
-                        "      \"non_drug_id_list\": [11,12]\n" +
+                        "      \"non_drug_id_list\": []\n" +
                         "    }")
 
                 .accept(MediaType.APPLICATION_JSON))
@@ -82,11 +82,11 @@ public class ExamTemplateControllerTest {
     public void delete() throws  Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/examTemplate/submit")
+                post("/examTemplate/delete")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"exam_id\" : 1,\n" +
-                        "      \"_uid\":10005\n" +
+                        "      \"id\": [1],\n" +
+                        "      \"_uid\": 10004\n" +
                         "    }")
 
                 .accept(MediaType.APPLICATION_JSON))
@@ -99,11 +99,11 @@ public class ExamTemplateControllerTest {
     public void addOne() throws  Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/examTemplate/submit")
+                post("/examTemplate/addItem")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"exam_id\" : 1,\n" +
-                        "      \"_uid\":10005\n" +
+                        "      \"exam_template_id\" : 2,\n" +
+                        "      \"non_drug_id\" : [19]\n" +
                         "    }")
 
                 .accept(MediaType.APPLICATION_JSON))
@@ -116,11 +116,11 @@ public class ExamTemplateControllerTest {
     public void delOne() throws  Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/examTemplate/submit")
+                post("/examTemplate/delItem")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(" {\n" +
-                        "      \"exam_id\" : 1,\n" +
-                        "      \"_uid\":10005\n" +
+                .content("  {\n" +
+                        "      \"exam_id\" : 9,\n" +
+                        "      \"non_drug_id\" : [9]\n" +
                         "    }")
 
                 .accept(MediaType.APPLICATION_JSON))

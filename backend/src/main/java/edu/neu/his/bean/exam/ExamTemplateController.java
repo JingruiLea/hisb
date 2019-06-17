@@ -57,12 +57,13 @@ public class ExamTemplateController {
     }
 
     @PostMapping("/detail")
-    public Map detail(int examTemplateId){
+    public Map detail(@RequestBody Map req){
+        int examTemplateId = (int)req.get("exam_template_id");
         return Response.ok(examTemplateItemService.detail(examTemplateId));
     }
 
     @PostMapping("delete")
-    public Map delete(Map req){
+    public Map delete(@RequestBody Map req){
         List<Integer> ids = (List<Integer>) req.get("id");
         ids.forEach(id->{
             if(examTemplateService.selectById(id) == null){
@@ -75,7 +76,7 @@ public class ExamTemplateController {
 
     @PostMapping("/addItem")
     public Map addOne(@RequestBody Map map){
-        int examId = (int)map.get("exam_template_id ");
+        int examId = (int)map.get("exam_template_id");
         ExamTemplate exam = examTemplateService.selectById(examId);
         if(exam == null){
             return Response.error("找不到该检查/检验/处置组套!");

@@ -259,11 +259,11 @@
       "id": 1
     },
     "create":
-  {
-    "type": 0,
-    "_uid": 10005,
-    "name": "神经病模板"
-  },
+    {
+      "type": 0,
+      "_uid": 10005,
+      "name": "神经病模板"
+    },
     "update":
     {
       "id": 1,
@@ -291,7 +291,37 @@
     {
       "type":0,
       "medical_record_id" : 1000002,
-      "non_drug_id_list":[1]
+      "non_drug_id_list":[1],
+      "_uid":10005
+    },
+    "add":
+    {
+      "exam_id" : 2,
+      "non_drug_id" : [9]
+    }
+  },
+  "ExamTemplateControllerTest":
+  {
+    "create":
+    {
+      "id": 1,
+      "template_name": "常规检查",
+      "type": 0,
+      "_uid": 10004,
+      "non_drug_id_list": [1]
+    },
+    "detail":
+    {
+      "exam_template_id": 1
+    },
+    "delete":
+    {
+      "id": [2]
+    },
+    "addItem":
+    {
+      "exam_template_id" : 2,
+      "non_drug_id" : [9]
     }
   }
 }
