@@ -52,7 +52,8 @@
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 
-        <table tableName="drug"
+        <table tableName="medical_record_diagnosis_template"
+        <table tableName="medical_record_diagnose_template_item"
                enableCountByExample="true"
                enableUpdateByExample="true"
                enableDeleteByExample="true"

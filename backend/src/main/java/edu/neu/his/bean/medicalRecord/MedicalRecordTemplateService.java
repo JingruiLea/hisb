@@ -12,17 +12,7 @@ public class MedicalRecordTemplateService {
     private MedicalRecordTemplateMapper medicalRecordTemplateMapper;
 
     @Transactional
-    public List<MedicalRecordTemplate> selectByUserId(int id){
-        return medicalRecordTemplateMapper.selectByUserId(id,MedicalRecordStatus.SelectByUserId);
-    }
-
-    @Transactional
-    public List<MedicalRecordTemplate> selectByDepartmentId(int id){
-        return medicalRecordTemplateMapper.selectByDepartmentId(id,MedicalRecordStatus.SelectByDepartmentId);
-    }
-
-    @Transactional
-    public List<MedicalRecordTemplate> SelectAll(){
+    public List<MedicalRecordTemplate> selectAll(){
         return medicalRecordTemplateMapper.selectAll();
     }
 
@@ -52,17 +42,19 @@ public class MedicalRecordTemplateService {
     }
 
     @Transactional
-    public List<MedicalRecordTemplate> selectByUser(int uid, int department_id){
-        List<MedicalRecordTemplate> list = medicalRecordTemplateMapper.selectByDepartmentId(department_id,MedicalRecordStatus.SelectByDepartmentId);
-        List<MedicalRecordTemplate> listByUserId = medicalRecordTemplateMapper.selectByUserId(uid,MedicalRecordStatus.SelectByUserId);
-        List<MedicalRecordTemplate> listByType = medicalRecordTemplateMapper.selectByType(MedicalRecordStatus.SelectAll);
-        list.addAll(listByUserId);
-        list.addAll(listByType);
+    public List<MedicalRecordTemplate> selectByUser(int uid){
+        List<MedicalRecordTemplate> listByUserId = medicalRecordTemplateMapper.selectByUserId(uid,MedicalRecordStatus.Personal);
+        return listByUserId;
+    }
+
+    @Transactional
+    public List<MedicalRecordTemplate> selectByDepartment(int department_id){
+        List<MedicalRecordTemplate> list = medicalRecordTemplateMapper.selectByDepartmentId(department_id,MedicalRecordStatus.Department);
         return list;
     }
 
     @Transactional
-    public List<MedicalRecordTemplate> SelectByType(int type){
+    public List<MedicalRecordTemplate> selectByType(int type){
         return medicalRecordTemplateMapper.selectByType(type);
     }
 }

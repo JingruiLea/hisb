@@ -1,4 +1,4 @@
-package edu.neu.his.bean.dignosis;
+package edu.neu.his.bean.diagnosis;
 
 import edu.neu.his.bean.disease.Disease;
 import edu.neu.his.bean.disease.DiseaseClassification;
