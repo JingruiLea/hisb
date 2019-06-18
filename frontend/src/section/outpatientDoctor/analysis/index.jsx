@@ -6,9 +6,9 @@ import IADEditTable from './IADEditTable'
 import API from '../../../global/ApiConfig';
 import Message from '../../../global/Message';
 
-const IAD_TYPE = 0;
+const IAD_TYPE = 1;
 
-class InspectionSection extends React.Component {
+class AnalysisSection extends React.Component {
   state={
     allItems:[],
     currentList:[],
@@ -183,7 +183,7 @@ class InspectionSection extends React.Component {
           <Col span={16}>
             <div style={{marginRight:'20px'}}>
 
-              <Typography.Title level={4}>检查编辑</Typography.Title>
+              <Typography.Title level={4}>检验编辑</Typography.Title>
               <IADEditTable 
                   allItems={allItems}
                   createIAD={this.createIAD.bind(this)}
@@ -231,4 +231,4 @@ class InspectionSection extends React.Component {
   }
 }
 
-export default InspectionSection;
+export default AnalysisSection;

@@ -4,9 +4,9 @@ import {Row,Col,Layout,Card,Tabs} from 'antd'
 import API from '../../global/ApiConfig';
 import SiderPatientSelector from './SiderPatientSelector';
 import MedicalRecordHome from './medicalRecord';
-import PrescriptionSection from './inspection'
 import InspectionSection from './inspection';
-
+import AnalysisSection from './analysis';
+import DisposalSection from './disposal';
 
 const {Content,Header} = Layout;
 
@@ -84,36 +84,40 @@ class DiagnoseSection extends React.Component {
 
           <Col span={19}>
             <Card>
-              <Tabs size="small">
-                <Tabs.TabPane tab="门诊病历" key="1">
+              <Tabs size="small" defaultActiveKey={'2'}>
+                <Tabs.TabPane tab="门诊病历" key="1" forceRender>
                   <MedicalRecordHome  
                     onRef={(ref)=>{this.MedicalRecordHome=ref}}
                     currentPatient={state.currentPatient} />
                 </Tabs.TabPane>
 
-                <Tabs.TabPane tab="检查申请" key="2">
+                <Tabs.TabPane tab="检查申请" key="2" forceRender>
                   <InspectionSection
                       onRef={(ref)=>{this.InspectionSection=ref}}
                       currentPatient={state.currentPatient} />
                 </Tabs.TabPane>
 
-                <Tabs.TabPane tab="检验申请" key="3">
-                  
+                <Tabs.TabPane tab="检验申请" key="3" forceRender>
+                  <AnalysisSection
+                      onRef={(ref)=>{this.InspectionSection=ref}}
+                      currentPatient={state.currentPatient} />  
                 </Tabs.TabPane>
 
-                <Tabs.TabPane tab="处置申请" key="4">
-                  
+                <Tabs.TabPane tab="处置申请" key="4" forceRender>
+                  <DisposalSection
+                      onRef={(ref)=>{this.InspectionSection=ref}}
+                      currentPatient={state.currentPatient} />  
                 </Tabs.TabPane>
 
-                <Tabs.TabPane tab="成药处方" key="5">
+                <Tabs.TabPane tab="成药处方" key="5" forceRender>
                   
                 </Tabs.TabPane> 
 
-                <Tabs.TabPane tab="草药处方" key="6">
+                <Tabs.TabPane tab="草药处方" key="6" forceRender>
                   
                 </Tabs.TabPane>
 
-                <Tabs.TabPane tab="费用查询" key="7">
+                <Tabs.TabPane tab="费用查询" key="7" forceRender>
                   
                 </Tabs.TabPane>
               </Tabs>
