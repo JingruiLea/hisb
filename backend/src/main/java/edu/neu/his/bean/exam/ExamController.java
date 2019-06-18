@@ -60,13 +60,31 @@ public class ExamController {
     @Autowired
     ExamItemResultService examItemResultMapper;
 
-    @PostMapping("/getOrCreate")
-    public Map create(@RequestBody Map req){
-        Exam exam = examService.selectByMedicalRecordIdAndType((int)req.get("medical_record_id"), (int)req.get("type"));
-        if(exam != null){
-            return Response.ok(exam);
+    @PostMapping("allItems")
+    public Map allItemsByType(@RequestBody Map req){
+        List res = examService.allItemsByType((Integer) req.get("type"));
+        return Response.ok(res);
+    }
+
+    @PostMapping("cancel")
+    public Map cancel(@RequestBody Map req){
+        List<Integer> ids = (List<Integer>) req.get("id");
+        for (Integer id : ids) {
+            Exam exam = examService.selectById(id);
+            if(exam == null) return Response.error("没有该检查!");
+            exam.setStatus(Common.YIZUOFEI);
+            examService.updateByPrimaryKey(exam);
         }
-        exam = Utils.fromMap(req, Exam.class);
+        return Response.ok();
+    }
+
+    @PostMapping("/create")
+    public Map create(@RequestBody Map req){
+//         = examService.selectByMedicalRecordIdAndType((int)req.get("medical_record_id"), (int)req.get("type"));
+//        if(exam != null){
+//            return Response.ok(exam);
+//        }
+        Exam exam = Utils.fromMap(req, Exam.class);
         if(!medicalRecordService.hasSubmit(exam.getMedical_record_id())){
             return Response.error("病历首页尚未提交!");
         }
@@ -95,7 +113,26 @@ public class ExamController {
         return Response.ok(res);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/update")
+    public Map update(@RequestBody Map req){
+        int examId = (int) req.get("id");
+        List<Integer> nonDrugIdList = (List<Integer>) req.get("non_drug_id_list");
+        examService.deleteAllItemById(examId);
+        for (Integer id: nonDrugIdList) {
+            if(!nonDrugChargeService.exist(nonDrugChargeService.selectById(id))){
+                return Response.error("列表错误!");
+            }
+        }
+        nonDrugIdList.forEach(nonDrugId -> {
+            ExamItem examItem = new ExamItem();
+            examItem.setExam_id(examId);
+            examItem.setNon_drug_item_id(nonDrugId);
+            examItem.setStatus(Common.WEIDENGJI);
+            examItemService.insert(examItem);
+        });
+        return Response.ok();
+    }
+
     public Map addOne(@RequestBody Map map) throws IOException {
         int examId = (int)map.get("exam_id");
         Exam exam = examService.selectById(examId);
@@ -123,45 +160,57 @@ public class ExamController {
         return Response.ok(res);
     }
 
-    @PostMapping("/submit")
+    @PostMapping("/send")
     public Map submit(@RequestBody Map map){
-        int examId = (int)map.get("exam_id");
-        Exam exam = examService.selectById(examId);
-        if(exam == null){
-            return Response.error("找不到该检查/检验/处置单!");
+        List<Integer> examIds = (List<Integer>) map.get("id");
+        for (Integer examId : examIds) {
+            Exam exam = examService.selectById(examId);
+            if(exam == null){
+                return Response.error("找不到该检查/检验/处置单!");
+            }
+            if(!exam.getStatus().equals(Common.ZANCUN)){
+                return Response.error("该检查/检验/处置单状态错误!");
+            }
+            exam.setStatus(Common.YITIJIAO);
+            examService.updateByPrimaryKey(exam);
+            List<Integer> nonDrugIdList = examService.getNonDrugItemIdListById(examId);
+            nonDrugIdList.forEach(itemId->{
+                NonDrugChargeItem nonDrugChargeItem = nonDrugChargeService.selectById(itemId);
+                OutpatientChargesRecord record = new OutpatientChargesRecord();
+                record.setCreate_time(Utils.getSystemTime());
+                record.setMedical_record_id(exam.getMedical_record_id());
+                record.setBill_record_id(0);
+                record.setItem_id(itemId);
+                record.setType(Common.RECORD_TYPE_JIANCHA);
+                record.setExpense_classification_id(nonDrugChargeItem.getExpense_classification_id());
+                record.setStatus(Common.WEIJIAOFEI);
+                record.setQuantity(1);
+                record.setCost(nonDrugChargeItem.getFee());
+                record.setCollect_time("");
+                record.setExecute_department_id(Utils.getSystemUser(map).getDepartment_id());
+                record.setCreate_time(Utils.getSystemTime());
+                record.setCollect_time("");
+                record.setReturn_time("");
+                record.setCreate_user_id(Utils.getSystemUser(map).getUid());
+                record.setCollect_user_id(0);
+                record.setReturn_user_id(0);
+                outpatientChargesRecordMapper.insert(record);
+            });
         }
-        if(!exam.getStatus().equals(Common.ZANCUN)){
-            return Response.error("该检查/检验/处置单状态错误!");
-        }
-        exam.setStatus(Common.YITIJIAO);
-        examService.updateByPrimaryKey(exam);
-        List<Integer> nonDrugIdList = examService.getNonDrugItemIdListById(examId);
-        nonDrugIdList.forEach(itemId->{
-            NonDrugChargeItem nonDrugChargeItem = nonDrugChargeService.selectById(itemId);
-            OutpatientChargesRecord record = new OutpatientChargesRecord();
-            record.setCreate_time(Utils.getSystemTime());
-            record.setMedical_record_id(exam.getMedical_record_id());
-            record.setBill_record_id(0);
-            record.setItem_id(itemId);
-            record.setType(Common.RECORD_TYPE_JIANCHA);
-            record.setExpense_classification_id(nonDrugChargeItem.getExpense_classification_id());
-            record.setStatus(Common.WEIJIAOFEI);
-            record.setQuantity(1);
-            record.setCost(nonDrugChargeItem.getFee());
-            record.setCollect_time("");
-            record.setExecute_department_id(Utils.getSystemUser(map).getDepartment_id());
-            record.setCreate_time(Utils.getSystemTime());
-            record.setCollect_time("");
-            record.setReturn_time("");
-            record.setCreate_user_id(Utils.getSystemUser(map).getUid());
-            record.setCollect_user_id(0);
-            record.setReturn_user_id(0);
-            outpatientChargesRecordMapper.insert(record);
-        });
         return Response.ok();
     }
 
     @PostMapping("/delete")
+    public Map delete(@RequestBody Map req){
+        List<Integer> examIds = (List<Integer>) req.get("id");
+        for (Integer examId : examIds) {
+            if(examService.delete(examId) != 1){
+                return Response.error("列表错误!");
+            }
+        }
+        return Response.ok();
+    }
+
     public Map delOne(@RequestBody Map map) {
         int examId = (int)map.get("exam_id");
         Exam exam = examService.selectById(examId);

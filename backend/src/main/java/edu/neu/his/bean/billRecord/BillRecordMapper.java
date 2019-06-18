@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Mapper
-@Component(value = "BillRecordMapper")
+@Component(value = "AutoBillRecordMapper")
 public interface BillRecordMapper {
     @Insert("INSERT INTO bill_record(medical_record_id, type , print_status, " +
             "cost, should_pay, truely_pay, retail_fee, user_id, create_time) " +

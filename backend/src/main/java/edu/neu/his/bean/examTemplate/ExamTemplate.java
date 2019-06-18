@@ -11,6 +11,8 @@ public class ExamTemplate implements Serializable {
 
     private Integer department_id;
 
+    private Integer display_type;
+
     private Integer type;
 
     private String create_time;
@@ -49,6 +51,14 @@ public class ExamTemplate implements Serializable {
         this.department_id = department_id;
     }
 
+    public Integer getDisplay_type() {
+        return display_type;
+    }
+
+    public void setDisplay_type(Integer display_type) {
+        this.display_type = display_type;
+    }
+
     public Integer getType() {
         return type;
     }
@@ -75,6 +85,7 @@ public class ExamTemplate implements Serializable {
         sb.append(", template_name=").append(template_name);
         sb.append(", user_id=").append(user_id);
         sb.append(", department_id=").append(department_id);
+        sb.append(", display_type=").append(display_type);
         sb.append(", type=").append(type);
         sb.append(", create_time=").append(create_time);
         sb.append(", serialVersionUID=").append(serialVersionUID);

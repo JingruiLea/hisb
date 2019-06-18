@@ -1,4 +1,4 @@
-package edu.neu.his.bean.prescription;
+package edu.neu.his.bean.prescriptionTemplate;
 
 import edu.neu.his.auto.AutoDrugMapper;
 import edu.neu.his.auto.OutpatientChargesRecordMapper;
@@ -55,6 +55,14 @@ public class PrescriptionTemplateService {
     @Transactional
     public boolean recordMedicalHasSubmit(int id){
         return medicalRecordService.medicalRecordHasSubmit(id);
+    }
+
+    @Transactional
+    public String rename(String templateName){
+        while(prescriptionTemplateMapper.selectByName(templateName)!=null){
+            templateName += "(1)";
+        }
+        return templateName;
     }
 
     @Transactional

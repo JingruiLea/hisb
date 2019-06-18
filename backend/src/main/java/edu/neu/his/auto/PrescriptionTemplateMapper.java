@@ -1,6 +1,6 @@
 package edu.neu.his.auto;
 
-import edu.neu.his.bean.prescription.PrescriptionTemplate;
+import edu.neu.his.bean.prescriptionTemplate.PrescriptionTemplate;
 import java.util.List;
 
 import org.apache.ibatis.annotations.*;
@@ -64,4 +64,20 @@ public interface PrescriptionTemplateMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(PrescriptionTemplate record);
+
+    @Select({
+            "select",
+            "id, template_name, create_time, `type`, user_id, department_id",
+            "from prescription_template",
+            "where template_name=#{name}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="template_name", property="template_name", jdbcType=JdbcType.VARCHAR),
+            @Result(column="create_time", property="create_time", jdbcType=JdbcType.VARCHAR),
+            @Result(column="type", property="type", jdbcType=JdbcType.INTEGER),
+            @Result(column="user_id", property="user_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="department_id", property="department_id", jdbcType=JdbcType.INTEGER)
+    })
+    PrescriptionTemplate selectByName(String templateName);
 }

@@ -1,4 +1,4 @@
-package edu.neu.his.bean.prescription;
+package edu.neu.his.bean.prescriptionTemplate;
 
 import edu.neu.his.bean.user.User;
 import edu.neu.his.config.Response;
@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/prescriptionTemplate")
@@ -23,9 +25,10 @@ public class PrescriptionTemplateController {
 
     @PostMapping("/create")
     public Map create(Map req){
-        List<Map> drugList = (List)req.get("drug_list");
+        List<Map> drugList = (List)req.get("prescription_item_list");
         String name = (String)req.get("name");
         User user = Utils.getSystemUser(req);
+        name = prescriptionTemplateService.rename(name);
         int prescriptionId = prescriptionTemplateService.create(user, name, drugList);
         return Response.ok(prescriptionTemplateService.findAll(user));
     }
@@ -71,7 +74,14 @@ public class PrescriptionTemplateController {
 
     @PostMapping("/list")
     public Map list(Map req){
-        List list = prescriptionTemplateService.findAll(Utils.getSystemUser(req));
-        return Response.ok(list);
+        List<PrescriptionTemplate> list = prescriptionTemplateService.findAll(Utils.getSystemUser(req));
+        List personal = list.stream().filter(item->item.getType()==0).collect(Collectors.toList());
+        List department = list.stream().filter(item->item.getType()==0).collect(Collectors.toList());
+        List hospital = list.stream().filter(item->item.getType()==0).collect(Collectors.toList());
+        Map res = new HashMap();
+        res.put("personal",personal);
+        res.put("department", department);
+        res.put("hospital", hospital);
+        return Response.ok(res);
     }
 }

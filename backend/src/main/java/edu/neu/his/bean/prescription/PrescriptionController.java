@@ -2,15 +2,18 @@ package edu.neu.his.bean.prescription;
 
 import edu.neu.his.config.Response;
 import edu.neu.his.bean.drug.DrugService;
+import edu.neu.his.util.Common;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/prescription")
@@ -25,7 +28,7 @@ public class PrescriptionController {
     @PostMapping("/create")
     public Map create(Map req){
         int medicalRecordId = (int)req.get("medical_record_id");
-        List<Map> drugList = (List)req.get("drug_list");
+        List<Map> drugList = (List)req.get("prescription_item_list");
         int type = (int)req.get("type");
         if(!prescriptionService.recordMedicalHasSubmit(medicalRecordId)){
             return Response.error("找不到已经提交的病历!");
@@ -37,7 +40,6 @@ public class PrescriptionController {
         return Response.ok(prescriptionService.findById(prescriptionId));
     }
 
-    @PostMapping("/addItem")
     public Map addItem(Map req){
         int prescriptionId = (int)req.get("prescription_id");
         List<Map> drugList = (List)req.get("drug_list");
@@ -48,7 +50,6 @@ public class PrescriptionController {
         return Response.ok();
     }
 
-    @PostMapping("/deleteItem")
     public Map deleteItem(Map req){
         int prescriptionId = (int)req.get("prescription_id");
         List<Map> drugList = (List)req.get("drug_list");
@@ -59,21 +60,28 @@ public class PrescriptionController {
         return Response.ok();
     }
 
-    @PostMapping("/updateItem")
+    @PostMapping("/update")
     public Map updateItem(Map req){
         int prescriptionId = (int)req.get("prescription_id");
-        List<Map> drugList = (List)req.get("drug_list");
+        List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
         }
-        prescriptionService.updateItems(prescriptionId, drugList);
+        prescriptionService.removeAllItems(prescriptionId);
+        prescriptionService.addItems(prescriptionId, drugList);
         return Response.ok();
     }
 
     @PostMapping("/submit")
-    public Map submit(Map map){
-        int prescriptionId = (int)map.get("prescription_id");
-        prescriptionService.submit(Utils.getSystemUser(map), prescriptionId);
+    public Map submit(Map req){
+        int prescriptionId = (int)req.get("prescription_id");
+        List<Map> drugList = (List)req.get("prescription_item_list");
+        if(!drugService.allItemValid(drugList)){
+            return Response.error("该药品不存在!");
+        }
+        prescriptionService.removeAllItems(prescriptionId);
+        prescriptionService.addItems(prescriptionId, drugList);
+        prescriptionService.submit(Utils.getSystemUser(req), prescriptionId);
         return Response.ok();
     }
 
@@ -81,6 +89,30 @@ public class PrescriptionController {
     public Map detail(Map map){
         int prescriptionId = (int)map.get("prescription_id");
         List res = prescriptionService.detail(prescriptionId);
+        return Response.ok(res);
+    }
+
+    @RequestMapping("allDrugs")
+    public Map allDrugs(@RequestBody Map req){
+        int type = (int) req.get("type");
+        List res = drugService.selectAllDrug().stream().filter(item->{
+            if(type == 0 && item.getDosage_form().equals(Common.ZHONGCHENGYAOTYPE)){
+                return true;
+            }else if(type == 0 && item.getDosage_form().equals(Common.XIYAOTYPE)){
+                return true;
+            }else if(type == 1 && item.getDosage_form().equals(Common.ZHONGCAOYAOTYPE)){
+                return true;
+            }
+            return false;
+        }).collect(Collectors.toList());
+        return Response.ok(res);
+    }
+
+    @RequestMapping("allPrescription")
+    public Map allPrescription(@RequestBody Map req){
+        int type = (int) req.get("type");
+        List<Prescription> list = prescriptionService.selectAll();
+        List res = list.stream().filter(item-> item.getType() == type).collect(Collectors.toList());
         return Response.ok(res);
     }
 }

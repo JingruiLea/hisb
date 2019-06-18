@@ -47,4 +47,7 @@ public interface OutpatientRegistrationMapper {
 
     @Select("SELECT * FROM registration WHERE id_number = #{id_number} and status = #{status}")
     List<Registration> findRegistrationByIdNumberAndStatus(@Param("id_number") String id_number, @Param("status") String status);
+
+    @Select("SELECT medical_record_id FROM registration WHERE patient_name = #{patient_name}")
+    List<Integer> findMedicalRecordIdByName(@Param("patient_name") String patient_name);
 }

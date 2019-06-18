@@ -1,10 +1,7 @@
 package edu.neu.his.bean.prescription;
 
 import edu.neu.his.bean.prescription.Prescription;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Component;
 
@@ -28,4 +25,13 @@ public interface PrescriptionMapper {
             @Result(column="user_id", property="user_id", jdbcType=JdbcType.INTEGER)
     })
     List<Prescription> selectByMedicalRecordId(int medical_record_id);
+
+
+
+    @Delete({
+            "delete",
+            "from prescription_template_item",
+            "where prescription_template_id = #{prescriptionId,jdbcType=INTEGER}"
+    })
+    void removeAllItems(int prescriptionId);
 }

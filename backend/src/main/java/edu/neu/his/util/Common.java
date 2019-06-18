@@ -21,4 +21,5 @@ public class Common {
     public static final String XIYAOTYPE = "西药";
     public static final String ZHONGCAOYAOTYPE = "中草药";
     public static final String ZHONGCHENGYAOTYPE = "中成药";
+    public static final String YIZUOFEI = "已作废";
 }

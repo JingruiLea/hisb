@@ -1,5 +1,6 @@
 package edu.neu.his.bean.exam;
 
+import edu.neu.his.bean.nondrug.NonDrugChargeItem;
 import edu.neu.his.util.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class ExamItemService {
     public ExamItem selectByDetail(Integer nonDrugId, Integer examId){
         return examItemMapper.selectOneByDetail(nonDrugId, examId);
     }
+
 
     @Transactional
     public boolean register(List<Integer> itemIds){

@@ -102,4 +102,33 @@ public class ExamService {
     }
 
 
+    @Transactional
+    public List<NonDrugChargeItem> allItemsByType(int type){
+        return nonDrugChargeService.findAll().stream().filter(item->{
+            if(type == 0 && item.getExpense_classification_id() == 3){
+                return true;
+            }else if(type == 1 && item.getExpense_classification_id() == 7){
+                return true;
+            }else if(type == 2 && item.getExpense_classification_id() == 16){
+                return true;
+            }
+            return false;
+        }).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public int delete(int id){
+        return examMapper.deleteByPrimaryKey(id);
+    }
+
+    @Transactional
+    public boolean deleteAllItemById(int id) {
+        List<ExamItem> list = examItemMapper.selectByExamId(id);
+        for (ExamItem o : list) {
+            if(examItemMapper.deleteByPrimaryKey(o.getId()) != 1){
+                return false;
+            }
+        }
+        return true;
+    }
 }

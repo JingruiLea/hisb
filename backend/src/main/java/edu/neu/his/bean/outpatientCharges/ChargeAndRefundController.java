@@ -37,7 +37,7 @@ public class ChargeAndRefundController {
     @GetMapping("/getChargeItems")
     @ResponseBody
     public Map info(int medical_record_id){
-        return Response.ok(chargeAndRefundService.findByMedicalRecordIdAndStatus(medical_record_id,OutpatientChargesRecordStatus.ToCharge));
+        return Response.ok(chargeAndRefundService.findByMedicalRecordIdAndStatus(medical_record_id, OutpatientChargesRecordStatus.ToCharge));
     }
 
     @GetMapping("/getHistoryChargeItems")
@@ -53,9 +53,27 @@ public class ChargeAndRefundController {
         return Response.ok(chargeAndRefundService.findByMedicalRecordIdAndTime(medical_record_id,start_time,end_time));
     }
 
+    @RequestMapping("/historyChargeItems")
+    @ResponseBody
+    public Map getHistoryChargeItems5(@RequestBody Map req){
+        if(req.get("medical_record_id")!=null && (int)req.get("medical_record_id")!=0){
+            int medical_record_id = (int)req.get("medical_record_id");
+            return Response.ok(chargeAndRefundService.findByMedicalRecordIdAndStatus(medical_record_id, OutpatientChargesRecordStatus.Charged));
+        }else{
+            String name = (String)req.get("name");
+            List<Integer> medical_record_ids = outpatientRegistrationService.findMedicalRecordIdByName(name);
+            List res = new ArrayList();
+            for (Integer medical_record_id : medical_record_ids) {
+                List list = chargeAndRefundService.findByMedicalRecordIdAndStatus(medical_record_id, OutpatientChargesRecordStatus.Charged);
+                res.addAll(list);
+            }
+            return Response.ok(res);
+        }
+    }
+
     @PostMapping("/charge")
     @ResponseBody
-    public Map collect(@RequestBody Map req) throws IOException {
+    public Map collect(@RequestBody Map req) {
         OperateStatus.initOperateMap();
         int uid = Auth.uid(req);
 

@@ -1,4 +1,4 @@
-package edu.neu.his.bean.prescription;
+package edu.neu.his.bean.prescriptionTemplate;
 
 import java.io.Serializable;
 

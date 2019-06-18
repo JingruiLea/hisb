@@ -1,6 +1,6 @@
 package edu.neu.his.auto;
 
-import edu.neu.his.bean.prescription.PrescriptionTemplateItem;
+import edu.neu.his.bean.prescriptionTemplate.PrescriptionTemplateItem;
 import java.util.List;
 
 import org.apache.ibatis.annotations.*;

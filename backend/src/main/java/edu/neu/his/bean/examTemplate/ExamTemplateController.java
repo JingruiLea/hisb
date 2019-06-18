@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/examTemplate")
@@ -24,12 +25,12 @@ public class ExamTemplateController {
 
     @Autowired
     NonDrugChargeService nonDrugChargeService;
-    @PostMapping("/list")
+    @PostMapping("/all")
     public Map list(@RequestBody Map req){
         int type = (int)req.get("type");
         List<ExamTemplate> res = examTemplateService.findAll(Utils.getSystemUser(req))
-                ;//.stream().filter(item -> item.getType() == type)
-                //.collect(Collectors.toList());
+                .stream().filter(item -> item.getType() == type)
+                .collect(Collectors.toList());
         return Response.ok(res);
     }
 
@@ -118,5 +119,37 @@ public class ExamTemplateController {
         Map<String, Object> res = new HashMap();
         res.put("non_drug_item_id", examTemplateService.getNonDrugItemIdListById(exam.getId()));
         return Response.ok(res);
+    }
+
+
+    @PostMapping("update")
+    public Map update(@RequestBody Map req){
+        int id = (int) req.get("id");
+        User user = Utils.getSystemUser(req);
+        examTemplateService.deleteItemByPrimaryKey(id);
+        ExamTemplate originExamTemplate = examTemplateService.selectById(id);
+        String templateName = (String)req.get("template_name");
+        if(!templateName.equals(originExamTemplate.getTemplate_name())){
+            while(examTemplateService.selectByName(templateName) != null){
+                templateName += "(1)";
+            }
+        }
+        req.put("template_name", templateName);
+        List<Integer> nonDrugIdList = (List<Integer>) req.get("non_drug_id_list");
+        ExamTemplate examTemplate = Utils.fromMap(req, ExamTemplate.class);
+        examTemplate.setDepartment_id(user.getDepartment_id());
+        examTemplate.setTemplate_name(templateName);
+        examTemplate.setCreate_time(Utils.getSystemTime());
+        examTemplate.setId(originExamTemplate.getId());
+        if(examTemplateService.updateById(examTemplate)!=1){
+            return Response.error("错误!");
+        }
+        nonDrugIdList.forEach(nonDrugId ->{
+            ExamTemplateItem examTemplateItem = new ExamTemplateItem();
+            examTemplateItem.setExam_template_id(id);
+            examTemplateItem.setNon_drug_item_id(nonDrugId);
+            examTemplateItemService.insert(examTemplateItem);
+        });
+        return Response.ok();
     }
 }

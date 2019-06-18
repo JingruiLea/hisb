@@ -62,8 +62,17 @@ public class ExamTemplateService {
     }
 
     @Transactional
+    public void deleteItemByPrimaryKey(int id){
+        examTemplateMapper.deleteItemByPrimaryKey(id);
+    }
+
+    @Transactional
     public List<Integer> getNonDrugItemIdListById(Integer id){
         List<ExamTemplateItem> itemList = examTemplateItemMapper.selectByTemplateId(id);
         return itemList.stream().map(ExamTemplateItem::getNon_drug_item_id).collect(Collectors.toList());
+    }
+
+    public Integer updateById(ExamTemplate examTemplate) {
+        return examTemplateMapper.updateByPrimaryKey(examTemplate);
     }
 }

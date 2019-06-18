@@ -75,4 +75,8 @@ public class ChargeAndRefundService {
             else return false;
         }
     }
+
+    public List<OutpatientChargesRecord> findAll() {
+        return outpatientChargesRecordMapper.selectAll();
+    }
 }
