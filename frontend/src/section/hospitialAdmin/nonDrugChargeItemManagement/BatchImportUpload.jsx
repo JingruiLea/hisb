@@ -1,6 +1,6 @@
 import React from 'react';
 import {Upload,message} from 'antd';
-import { Typography, Button,Input,Modal,Breadcrumb,Form,Icon} from 'antd';
+import { Typography, Button} from 'antd';
 import API from '../../../global/ApiConfig';
 import Status from '../../../global/Status';
 
@@ -13,6 +13,7 @@ class BatchImportUpload extends React.Component {
   uploadProps = {
     name: 'file',
     action: API.bacisInfoManagement.nonDrugItem.import.url,
+    withCredentials:true
   };
 
   onChange(info) {

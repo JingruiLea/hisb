@@ -1,11 +1,6 @@
 import React from 'react';
-import {Typography,Form,Input,Icon,Col, Select, Row,DatePicker,Radio,Button, AutoComplete} from 'antd'
+import {Form,Input,Icon,Col, Select, Row,DatePicker,Radio,Button} from 'antd'
 import moment from 'moment';
-import API from '../../../global/ApiConfig';
-import Status from '../../../global/Status';
-import Message from '../../../global/Message';
-import axios from 'axios'
-
 const { Option } = Select;
 const RadioGroup = Radio.Group;
 
@@ -30,9 +25,6 @@ class RegistrationForm extends React.Component {
       {name:"支付宝",id:3}
     ],
     */
-
-    outPatientDoctor:[],//[{name:"lijinrui",id:10}], //自动同步
-    cost:0
   }
 
   componentDidMount=()=>{
@@ -82,10 +74,11 @@ class RegistrationForm extends React.Component {
   }
 
   //表单提交
-  handleSubmit = e => {
+  handleSubmit =async e => {
     e.preventDefault();
-    const form = this;
-    this.props.form.validateFields((err, values) => {
+    const _this = this;
+    const form = this.props.form;
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
         const birthday = values.birthday.format('YYYY-MM-DD hh:mm:ss');
         const consultation_date = values.consultation_date.format('YYYY-MM-DD hh:mm:ss')
@@ -93,19 +86,28 @@ class RegistrationForm extends React.Component {
         values.consultation_date = consultation_date; 
         console.log('submit ',values)
         //非支付状态 请求价格
-        if(!this.props.payMode)
-          this.props.calculateFee(values)
-        //支付状态确认 打印表单
-        else 
-          this.props.submitRegistration(values)
+        if(!this.props.payMode) {
+          await this.props.calculateFee(values)
+          //console.log({truely_pay:this.props.cost})
+          //form.setFieldsValue({truely_pay:form.cost})
+        } //支付状态确认 打印表单
+        else {
+          values.should_pay =  this.props.cost;
+          values.truely_pay = parseFloat(values.truely_pay)
+          await this.props.submitRegistration(values)
+          this.clearForm();
+        }
       }
     });
   };
 
   cancelPaymentMode=()=>{this.props.setPaymentMode(false);}
 
+  clearForm=()=>{this.props.form.resetFields();}
+
   render() {
     //年龄列表
+    const form = this;
     var ageArr = [];for(var i=0;i<150;i++) ageArr.push(i);
     const {getFieldDecorator,setFieldsValue} = this.props.form;
     const formItemLayout = {
@@ -271,7 +273,7 @@ class RegistrationForm extends React.Component {
         </Col>
         <Col span={6}>
           <Form.Item label="门诊医生" {...formItemLayout}>
-            {getFieldDecorator('outpatent_doctor_id', {
+            {getFieldDecorator('outpatient_doctor_id', {
               rules: [{ required: true, message: '选择门诊医生' }],
             })(
               <Select disabled={this.props.outPatientDoctors.length===0} disabled={this.props.payMode}>
@@ -338,38 +340,70 @@ class RegistrationForm extends React.Component {
         </Col>
       </Row>
 
-      <div>
-        <Button 
-          style={{float:'right',marginTop:25,marginLeft:30}} size="large"
-          hidden={!this.props.payMode}
-          onClick={this.cancelPaymentMode.bind(this)}>
-          取消
-        </Button>
-        <Button 
-          htmlType="submit" 
-          type="primary" 
-          hidden={this.props.payMode}
-          style={{float:'right',marginTop:25,marginLeft:30}} size="large">
-          挂号
-        </Button>
-        <Button 
-          htmlType="submit" 
-          type="danger" 
-          hidden={!this.props.payMode}
-          style={{float:'right',marginTop:25,marginLeft:30}} size="large">
-          付款
-        </Button>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        {this.props.payMode?
-        <div>
-        <Typography.Title style={{float:'right'}}>
-          {this.props.cost}元
-        </Typography.Title>
-        <span style={{float:'right',marginTop:20}}>应收：</span>
-        </div>
-        :null}
-      </div>
-
+      <Row>
+        <Col span={6}>
+          <div style={{textAlign:'center',display:this.props.payMode?'block':'none'}}>
+          <span >应收：<span style={{fontSize:30}}>{this.props.cost}元</span></span>
+          </div>
+        </Col>
+        <Col span={6}>
+          {this.props.payMode?
+          <Form.Item label="收款" style={{float:'right',display:this.props.payMode?'block':'none'}} {...formItemLayout}>
+            {getFieldDecorator('truely_pay', {
+              rules:[{required:true,message:'输入收款'}],
+              initialValue:this.props.cost
+            })(<Input
+                prefix={<Icon type="money" style={{ color: 'rgba(0,0,0,.25)'}} />}
+                placeholder="实际收款" disabled={!this.props.payMode} type="number"
+                onChange={(e)=>{
+                  const take = e.target.value;
+                  const withdraw = take-this.props.cost
+                  this.props.form.setFieldsValue({retail_fee:withdraw})
+                }}
+              />
+            )}
+          </Form.Item>:null}
+        </Col>
+        <Col span={6}>
+          <Form.Item label="找零" style={{float:'right',display:this.props.payMode?'block':'none'}} {...formItemLayout}>
+            {getFieldDecorator('retail_fee', {
+              initialValue:0,
+              rules:[{validator:(rule, value, callback)=>{
+                if(value<0) callback("实收不得小于应收！")
+                else callback()
+              }}]
+            })(
+              <Input
+                prefix={<Icon type="money" style={{ color: 'rgba(0,0,0,.25)'}} />}
+                placeholder="找零" disabled type="number"
+              />
+            )}
+          </Form.Item>
+        </Col>
+        <Col span={6}>
+          <Button 
+            style={{float:'right',marginLeft:30}} size="large"
+            hidden={!this.props.payMode}
+            onClick={this.cancelPaymentMode.bind(this)}>
+            取消
+          </Button>
+          <Button 
+            htmlType="submit" 
+            type="primary" 
+            hidden={this.props.payMode}
+            style={{float:'right',marginLeft:30}} size="large">
+            挂号
+          </Button>
+          <Button 
+            htmlType="submit" 
+            type="danger" 
+            hidden={!this.props.payMode}
+            style={{float:'right',marginLeft:30}} size="large">
+            付款
+          </Button>
+        </Col>
+      </Row>
+    
     </Form>)
   }
 }

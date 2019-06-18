@@ -1,10 +1,7 @@
 import React from 'react';
-import { Layout, Button,Input,Icon, Table, Divider, Tag,Spin,Typography} from 'antd';
-import Highlighter from 'react-highlight-words';
-import axios from 'axios';
+import { Layout, Divider,Spin,Typography} from 'antd';
 import ToolBar from './ToolBar';
 import API from '../../../global/ApiConfig';
-import Status from '../../../global/Status';
 import Message from '../../../global/Message';
 import DataTable from './DataTable'
 const {Content} = Layout;
@@ -24,114 +21,46 @@ class DepartmentManagement extends React.Component {
     //初始化加载数据
     componentDidMount = ()=>{this.reloadData();}
 
-    /***************************************  数据交互   ******************************************* */
+    /***************************************  API   ******************************************* */
     //上传数据后 重置数据
     reloadData = ()=>{
-        const _this = this;
-        this.setState({loading:true})
-        axios({
-            method: API.bacisInfoManagement.department.all.method,
-            url: API.bacisInfoManagement.department.all.url,
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            //console.log('receive',data)
-            if(data.code===Status.Ok) {
-                var tableData = data.data.department;
-                for(var d of tableData) {d.key = d.id;}
-                this.setState({
-                    tableData:tableData,
-                    departmentClassification:data.data.department_classification,
-                    loading:false
-                });
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-            Message.showNetworkErrorMessage();
-        });
+        API.request(API.bacisInfoManagement.department.all,{})
+        .ok((data)=>{
+            var tableData = data.department;
+            for(var d of tableData) {d.key = d.id;}
+            this.setState({
+                tableData:tableData,
+                departmentClassification:data.department_classification,
+                loading:false
+            });
+        }).submit()
     }
 
-    updateRow=(data)=>{
-        const _this = this;
-        axios({
-            method: API.bacisInfoManagement.department.update.method,
-            url: API.bacisInfoManagement.department.update.url,
-            data: data,
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            console.log('receive',data)
-            if(data.code===Status.Ok) {
-                _this.setState({selectedRows:[]})
-                this.reloadData();
-                Message.success("修改成功")
-                //this.setState({tableData:data.data,loading:true})
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-            Message.showNetworkErrorMessage();
-        });
+    updateRow=(rowData)=>{
+        API.request(API.bacisInfoManagement.department.update,rowData)
+        .ok((data)=>{
+            this.setState({selectedRows:[]})
+            this.reloadData();
+            Message.success("修改成功");
+        }).submit()
     }
 
-    newRow=(data)=>{
-        const _this = this;
-        axios({
-            method: API.bacisInfoManagement.department.add.method,
-            url: API.bacisInfoManagement.department.add.url,
-            data: data,
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            console.log('receive',data)
-            if(data.code===Status.Ok) {
-                this.reloadData();
-                Message.success("添加数据成功");
-               // this.setState({tableData:data.data,loading:false})
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-           Message.showNetworkErrorMessage();
-        });
+    newRow=(rowData)=>{
+        API.request(API.bacisInfoManagement.department.add,rowData)
+        .ok((data)=>{
+            this.reloadData();
+            Message.success("添加数据成功");
+        }).submit()
     }
 
-    deleteRow=(data)=>{
-        const _this = this;
-        axios({
-            method: API.bacisInfoManagement.department.delete.method,
-            url: API.bacisInfoManagement.department.delete.url,
-            data: {data:data},
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            console.log('receive',data)
-            if(data.code===Status.Ok) {
-                _this.setState({selectedRows:[]})
-                _this.reloadData();
-                Message.success("删除数据成功","")
-               // this.setState({tableData:data.data,loading:false})
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-           Message.showNetworkErrorMessage();
-        });
+    deleteRow=(idArr)=>{
+        API.request(API.bacisInfoManagement.department.delete,{data:idArr})
+        .ok((data)=>{
+            this.setState({selectedRows:[]})
+            this.reloadData();
+            Message.success("删除数据成功","")
+        }).submit()
     }
-    
 
     render() {
         return (

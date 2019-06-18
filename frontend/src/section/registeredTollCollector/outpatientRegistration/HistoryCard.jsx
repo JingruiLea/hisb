@@ -1,12 +1,13 @@
 import React from 'react';
-import {Card,Form,Layout,Row,Select, Table, Input, Typography, Button, Col} from 'antd';
+import {Card, Table, Input, Button} from 'antd';
 import DetailDrawer from './DetailDrawer';
 
 class HistoryCard extends React.Component {
 
   state = { 
     drawerVisible: false,
-    drawerData:null
+    drawerData:null,
+    searchText:''
   };
 
   showDrawer = (data) => {
@@ -21,47 +22,36 @@ class HistoryCard extends React.Component {
     this.setState({drawerVisible: false});
   };
 
-  //退号
-  withdrawNumber=(id)=>{
-    
+  handleSearchInputChange=e=>{
+    this.setState({searchText:e.target.value})
   }
 
   column = [
     {
       title:"病例号",
-      dataIndex:"id"
+      dataIndex:"medical_record_id"
     },{
       title:"姓名",
       dataIndex:"name"
     },{
       title:"性别",
-      dataIndex:"gender"
+      dataIndex:"gender",
+      render:(str)=>(str==="male"?<span>男性</span>:<span>女性</span>)
     },{
-      title:"挂号日期",
-      dataIndex:"time"
+      title:"日期",
+      dataIndex:"create_time"
     },{
-      title:"状态",
-      dataIndex:"status"
+      title:"医生",
+      dataIndex:"outpatient_doctor_name"
     },{
-      title:"实收费用",
-      dataIndex:"cost"
+      title:"等级",
+      dataIndex:"registration_level_name"
     },{
       title:"看诊科室",
-      dataIndex:"department"
-    },{
-      title:"数量",
-      render:()=>{
-        return (
-          <Select style={{width:100}}>
-            {
-              [1,2,3,4,5,6,7,8,9,10].map(x=>(<Select.Option value={x} key={x}>{x}</Select.Option>))
-            }
-          </Select>
-        )
-      }
+      dataIndex:"department_name"
     },{
       title:"操作",
-      render:(data)=>(<Button type="primary" onClick={()=>{this.showDrawer(data)}}>详情</Button>)
+      render:(data)=>(<Button bill={data} type="primary" onClick={()=>{this.showDrawer(data)}}>详情</Button>)
     }
   ]
 
@@ -73,8 +63,13 @@ class HistoryCard extends React.Component {
             <span>查询历史挂号记录</span>
           </div>
           <div style={{float:'right'}}>
-            <Input placeholder="输入病历号" style={{width:'300px'}}></Input>
-            <Button type="primary">搜索</Button>
+            <Input 
+              placeholder="输入病历号" 
+              style={{width:'300px'}} 
+              onChange={this.handleSearchInputChange.bind(this)}
+              value={this.state.searchText}
+            ></Input>
+            <Button type="primary" onClick={()=>{this.props.searchHistory(this.state.searchText)}}>搜索</Button>
           </div>
         </div>
       }>
@@ -83,7 +78,7 @@ class HistoryCard extends React.Component {
           visible={this.state.drawerVisible}
           data={this.state.drawerData}
           onClose={this.hideDrawer.bind(this)}
-          withdrawNumber={this.withdrawNumber.bind(this)}
+          withdrawNumber={this.props.withdrawNumber.bind(this)}
         />
       </Card>)
   }

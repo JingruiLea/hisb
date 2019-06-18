@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Button,Input,Icon, Table, Divider, Tag,Spin,Typography} from 'antd';
+import { Layout, Divider,Spin,Typography} from 'antd';
 import axios from 'axios';
 import ToolBar from './ToolBar';
 import API from '../../../global/ApiConfig';
@@ -24,117 +24,48 @@ class NonDrugChargeItemManagement extends React.Component {
     //初始化加载数据
     componentDidMount = ()=>{this.reloadData();}
 
-    /***************************************  数据交互   ******************************************* */
+    /***************************************  API   ******************************************* */
     //上传数据后 重置数据
     reloadData = ()=>{
-        const _this = this;
         this.setState({loading:true})
-        axios({
-            method: API.bacisInfoManagement.nonDrugItem.all.method,
-            url: API.bacisInfoManagement.nonDrugItem.all.url,
-            data: {},
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            //console.log('receive',data)
-            if(data.code===Status.Ok) {
-                const tableData = data.data.non_drug_charge;
-                for(var d of tableData) {d.key = d.id;}
-                console.log(data.data)
-                this.setState({
-                    non_drug_charge:tableData,
-                    department:data.data.department,
-                    expense_classification:data.data.expense_classification,
-                    loading:false
-                });
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-            Message.showNetworkErrorMessage();
-        });
+        API.request(API.bacisInfoManagement.nonDrugItem.all,{})
+        .ok((data)=>{
+            const tableData = data.non_drug_charge;
+            for(var d of tableData) {d.key = d.id;}
+            this.setState({
+                non_drug_charge:tableData,
+                department:data.department,
+                expense_classification:data.expense_classification,
+                loading:false
+            });
+        }).submit();
     }
 
-    updateRow=(data)=>{
-        const _this = this;
-        axios({
-            method: API.bacisInfoManagement.nonDrugItem.update.method,
-            url: API.bacisInfoManagement.nonDrugItem.update.url,
-            data: data,
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            console.log('receive',data)
-            if(data.code===Status.Ok) {
-                _this.setState({selectedRows:[]})
-                this.reloadData();
-                Message.success("修改成功")
-                //this.setState({tableData:data.data,loading:true})
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-            Message.showNetworkErrorMessage();
-        });
+    updateRow=(rowData)=>{
+        API.request(API.bacisInfoManagement.nonDrugItem.update,rowData)
+        .ok((data)=>{
+            this.setState({selectedRows:[]})
+            this.reloadData();
+            Message.success("修改成功")
+        }).submit();
     }
 
-    newRow=(data)=>{
-        const _this = this;
-        axios({
-            method: API.bacisInfoManagement.nonDrugItem.add.method,
-            url: API.bacisInfoManagement.nonDrugItem.add.url,
-            data: data,
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            console.log('receive',data)
-            if(data.code===Status.Ok) {
-                this.reloadData();
-                Message.success("添加数据成功");
-               // this.setState({tableData:data.data,loading:false})
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-           Message.showNetworkErrorMessage();
-        });
+    newRow=(rowData)=>{
+        API.request(API.bacisInfoManagement.nonDrugItem.add,rowData)
+        .ok((data)=>{
+            this.reloadData();
+            Message.success("添加数据成功");
+        }).submit();
     }
 
-    deleteRow=(data)=>{
-        const _this = this;
-        axios({
-            method: API.bacisInfoManagement.nonDrugItem.delete.method,
-            url: API.bacisInfoManagement.nonDrugItem.delete.url,
-            data: {data},
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            console.log('receive',data)
-            if(data.code===Status.Ok) {
-                _this.setState({selectedRows:[]})
-                _this.reloadData();
-                Message.success("删除数据成功","")
-               // this.setState({tableData:data.data,loading:false})
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-           Message.showNetworkErrorMessage();
-        });
+    deleteRow=(idsArr)=>{
+        API.request(API.bacisInfoManagement.nonDrugItem.delete,{data:idsArr})
+        .ok((data)=>{
+            this.setState({selectedRows:[]})
+            this.reloadData();
+            Message.success("删除数据成功","")
+        }).submit();
     }
-    
 
     render() {
         return (

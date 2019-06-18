@@ -1,6 +1,5 @@
 import React from 'react';
-import { Layout, Button,Input,Modal,Breadcrumb,Form,Icon,Select} from 'antd';
-const confirm = Modal.confirm;
+import {Button,Input,Modal,Form,Icon,Select} from 'antd';
 
 const Option = Select.Option
 
