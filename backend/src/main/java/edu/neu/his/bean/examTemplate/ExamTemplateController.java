@@ -46,10 +46,10 @@ public class ExamTemplateController {
         examTemplate.setDepartment_id(user.getDepartment_id());
         examTemplate.setTemplate_name(templateName);
         examTemplate.setCreate_time(Utils.getSystemTime());
-        Integer examTemplateId = examTemplateService.insert(examTemplate);
+        examTemplateService.insert(examTemplate);
         nonDrugIdList.forEach(nonDrugId ->{
             ExamTemplateItem examTemplateItem = new ExamTemplateItem();
-            examTemplateItem.setExam_template_id(examTemplateId);
+            examTemplateItem.setExam_template_id(examTemplate.getId());
             examTemplateItem.setNon_drug_item_id(nonDrugId);
             examTemplateItemService.insert(examTemplateItem);
         });

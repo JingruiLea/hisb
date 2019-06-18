@@ -93,4 +93,11 @@ public interface PrescriptionTemplateItemMapper {
             @Result(column="note", property="note", jdbcType=JdbcType.LONGVARCHAR)
     })
     List<PrescriptionTemplateItem> selectByPrescriptionId(int prescriptionId);
+
+
+    @Delete({
+            "delete from prescription_template_item",
+            "where prescription_template_id = #{id,jdbcType=INTEGER}"
+    })
+    void deleteAllByPrescriptionId(int id);
 }

@@ -47,9 +47,9 @@ public class PrescriptionTemplateService {
         prescription.setTemplate_name(name);
         prescription.setUser_id(user.getUid());
         prescription.setDepartment_id(user.getDepartment_id());
-        int id = prescriptionTemplateMapper.insert(prescription);
-        addItems(id, drugIds);
-        return id;
+        prescriptionTemplateMapper.insert(prescription);
+        addItems(prescription.getId(), drugIds);
+        return prescription.getId();
     }
 
     @Transactional
@@ -89,9 +89,15 @@ public class PrescriptionTemplateService {
     @Transactional
     public void removeItems(int prescriptionId, List<Map> drugInfos){
         for(Map i:drugInfos){
-            PrescriptionTemplateItem item = itemMapper.selectByDetail(prescriptionId, (Integer) i.get("id"));
+            PrescriptionTemplateItem item = itemMapper.selectByDetail(prescriptionId, (Integer) i.get("drug_id"));
             itemMapper.deleteByPrimaryKey(item.getId());
         }
+    }
+
+
+    @Transactional
+    public void removeAllItems(int prescriptionId){
+        itemMapper.deleteAllByPrescriptionId(prescriptionId);
     }
 
     @Transactional
@@ -134,9 +140,15 @@ public class PrescriptionTemplateService {
     public void delete(int id){
         List<PrescriptionTemplateItem> list = itemMapper.selectByPrescriptionId(id);
         for (PrescriptionTemplateItem item : list) {
+            if(item == null) return;
             itemMapper.deleteByPrimaryKey(item.getId());
         }
         prescriptionTemplateMapper.deleteByPrimaryKey(id);
     }
 
+
+    @Transactional
+    public PrescriptionTemplate selectById(int id){
+        return prescriptionTemplateMapper.selectByPrimaryKey(id);
+    }
 }

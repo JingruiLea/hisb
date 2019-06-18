@@ -115,4 +115,16 @@ public class PrescriptionController {
         List res = list.stream().filter(item-> item.getType() == type).collect(Collectors.toList());
         return Response.ok(res);
     }
+
+    @RequestMapping("delete")
+    public Map delete(@RequestBody Map req){
+        List<Integer> ids = (List<Integer>) req.get("id");
+        for (Integer id : ids) {
+            prescriptionService.removeAllItems(id);
+            if(prescriptionService.delete(id)!=1){
+                return Response.error("列表错误!");
+            }
+        }
+        return Response.ok();
+    }
 }

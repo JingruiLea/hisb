@@ -1,5 +1,6 @@
 package edu.neu.his.bean.prescriptionTemplate;
 
+import edu.neu.his.auto.PrescriptionTemplateMapper;
 import edu.neu.his.bean.user.User;
 import edu.neu.his.config.Response;
 import edu.neu.his.bean.drug.DrugService;
@@ -20,16 +21,20 @@ public class PrescriptionTemplateController {
 
     @Autowired
     PrescriptionTemplateService prescriptionTemplateService;
+
+    @Autowired
+    PrescriptionTemplateMapper prescriptionTemplateMapper;
+
     @Autowired
     private DrugService drugService;
 
     @PostMapping("/create")
     public Map create(Map req){
         List<Map> drugList = (List)req.get("prescription_item_list");
-        String name = (String)req.get("name");
+        String name = (String)req.get("template_name");
         User user = Utils.getSystemUser(req);
         name = prescriptionTemplateService.rename(name);
-        int prescriptionId = prescriptionTemplateService.create(user, name, drugList);
+        prescriptionTemplateService.create(user, name, drugList);
         return Response.ok(prescriptionTemplateService.findAll(user));
     }
 
@@ -39,10 +44,9 @@ public class PrescriptionTemplateController {
         return Response.ok(prescriptionTemplateService.findAll(Utils.getSystemUser(req)));
     }
 
-    @PostMapping("/addItem")
     public Map addItem(Map req){
         int prescriptionId = (int)req.get("prescription_template_id");
-        List<Map> drugList = (List)req.get("drug_list");
+        List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
         }
@@ -50,10 +54,9 @@ public class PrescriptionTemplateController {
         return Response.ok();
     }
 
-    @PostMapping("/deleteItem")
     public Map deleteItem(Map req){
         int prescriptionId = (int)req.get("prescription_template_id");
-        List<Map> drugList = (List)req.get("drug_list");
+        List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
         }
@@ -61,14 +64,32 @@ public class PrescriptionTemplateController {
         return Response.ok();
     }
 
-    @PostMapping("/updateItem")
     public Map updateItem(Map req){
         int prescriptionId = (int)req.get("prescription_template_id");
-        List<Map> drugList = (List)req.get("drug_list");
+        List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
         }
         prescriptionTemplateService.updateItems(prescriptionId, drugList);
+        return Response.ok();
+    }
+
+    @PostMapping("/update")
+    public Map update(Map req){
+        int prescriptionId = (int)req.get("id");
+        String name = (String)req.get("template_name");
+        PrescriptionTemplate prescriptionTemplate = prescriptionTemplateService.selectById(prescriptionId);
+        if(!name.equals(prescriptionTemplate.getTemplate_name())){
+            name = prescriptionTemplateService.rename(name);
+            prescriptionTemplate.setTemplate_name(name);
+        }
+        prescriptionTemplateMapper.updateByPrimaryKey(prescriptionTemplate);
+        List<Map> drugList = (List)req.get("prescription_item_list");
+        if(!drugService.allItemValid(drugList)){
+            return Response.error("该药品不存在!");
+        }
+        prescriptionTemplateService.removeAllItems(prescriptionId);
+        prescriptionTemplateService.addItems(prescriptionId, drugList);
         return Response.ok();
     }
 

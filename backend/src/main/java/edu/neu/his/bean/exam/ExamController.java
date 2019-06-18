@@ -103,9 +103,9 @@ public class ExamController {
             examItem.setExam_id(examId);
             examItem.setNon_drug_item_id(nonDrugId);
             examItem.setStatus(Common.WEIDENGJI);
-            int itemId = examItemService.insert(examItem);
-            if(itemId > 0)
-                resultList.add(itemId);
+            examItemService.insert(examItem);
+            if(examItem.getId() > 0)
+                resultList.add(examItem.getId());
         });
         Map<String, Object> res = new HashMap();
         res.put("id", examId);

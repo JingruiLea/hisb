@@ -54,9 +54,9 @@ public class PrescriptionService {
         prescription.setStatus(Common.ZANCUN);
         prescription.setType(type);
         prescription.setUser_id(user_id);
-        int id = autoPrescriptionMapper.insert(prescription);
-        addItems(id, drugIds);
-        return id;
+        autoPrescriptionMapper.insert(prescription);
+        addItems(prescription.getId(), drugIds);
+        return prescription.getId();
     }
 
     @Transactional
@@ -216,5 +216,9 @@ public class PrescriptionService {
 
     public void removeAllItems(int prescriptionId) {
         prescriptionMapper.removeAllItems(prescriptionId);
+    }
+
+    public int delete(Integer id) {
+       return autoPrescriptionMapper.deleteByPrimaryKey(id);
     }
 }
