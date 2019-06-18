@@ -55,6 +55,49 @@ public class MedicalRecordDiagnoseTemplateControllerTest {
                 post("/diagnoseTemplate/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
+                        "      \"title\":\"XX模板1\",\n" +
+                        "      \"type\":1,\n" +
+                        "      \"_uid\": 10004,\n" +
+                        "      \"diagnose\":{\n" +
+                        "        \"western_diagnose\":[\n" +
+                        "          {\n" +
+                        "            \"disease_id\":1,\n" +
+                        "            \"disease_name\":\"疾病\",\n" +
+                        "            \"disease_code\":\"1\",\n" +
+                        "            \"diagnose_type\":\"西医\",\n" +
+                        "            \"main_symptom\":true,\n" +
+                        "            \"suspect\":true\n" +
+                        "          }\n" +
+                        "        ],\n" +
+                        "        \"chinese_diagnose\":[\n" +
+                        "          {\n" +
+                        "            \"disease_id\":3,\n" +
+                        "            \"disease_name\":\"气虚\",\n" +
+                        "            \"disease_code\":\"ZY23873\",\n" +
+                        "            \"diagnose_type\":\"中医\",\n" +
+                        "            \"syndrome_differentiation\":\"气血逆行，印堂发黑\"\n" +
+                        "          }\n" +
+                        "        ]\n" +
+                        "      }\n" +
+                        "    }")
+
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        String a = response.getContentAsString();
+        Utils.prettyPrintJSON(a);
+    }
+
+    @Test
+    public void update()  throws  Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/diagnoseTemplate/update")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "      \"id\":1,\n" +
                         "      \"title\":\"XX模板\",\n" +
                         "      \"type\":1,\n" +
                         "      \"_uid\": 10004,\n" +
@@ -91,34 +134,13 @@ public class MedicalRecordDiagnoseTemplateControllerTest {
     }
 
     @Test
-    public void update()  throws  Exception{
-        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/diagnoseTemplate/list")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(" {\n" +
-                        "      \"_uid\":1" +
-                        "\n" +
-                        "    }")
-
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
-        MockHttpServletResponse response = result.getResponse();
-        String a = response.getContentAsString();
-        Utils.prettyPrintJSON(a);
-    }
-
-    @Test
     public void delete()  throws  Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/diagnoseTemplate/list")
+                post("/diagnoseTemplate/delete")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"_uid\":1" +
-                        "\n" +
+                        "      \"idArr\":[2,3,1]\n" +
                         "    }")
 
                 .accept(MediaType.APPLICATION_JSON))
@@ -134,11 +156,10 @@ public class MedicalRecordDiagnoseTemplateControllerTest {
     public void detail()  throws  Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/diagnoseTemplate/list")
+                post("/diagnoseTemplate/detail")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"_uid\":1" +
-                        "\n" +
+                        "      \"id\": 1\n" +
                         "    }")
 
                 .accept(MediaType.APPLICATION_JSON))
