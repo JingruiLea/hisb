@@ -42,7 +42,7 @@ public class ExpenseClassificationService {
 
     @Transactional
     public boolean exist(ExpenseClassification expenseClassification) {
-        return expenseClassificationMapper.checkIdExistNums(expenseClassification)==1;
+        return expenseClassificationMapper.checkIdExistNums(expenseClassification)==1 || expenseClassificationMapper.checkNameExistNums(expenseClassification)==1;
     }
 
     @Transactional

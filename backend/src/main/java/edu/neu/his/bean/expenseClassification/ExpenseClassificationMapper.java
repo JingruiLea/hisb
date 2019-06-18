@@ -38,6 +38,9 @@ public interface ExpenseClassificationMapper {
     @Select("SELECT count(*) FROM expense_classification where id = #{id}")
     int checkIdExistNums(ExpenseClassification expenseClassification);
 
+    @Select("SELECT count(*) FROM expense_classification where fee_name = #{fee_name}")
+    int checkNameExistNums(ExpenseClassification expenseClassification);
+
     @Select("SELECT count(*) FROM expense_classification where id = #{id}")
     int checkId(@Param("id") int id);
 }

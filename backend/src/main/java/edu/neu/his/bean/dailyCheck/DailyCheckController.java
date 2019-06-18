@@ -8,6 +8,7 @@ import edu.neu.his.config.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,12 +39,13 @@ public class DailyCheckController {
     }
 
     @PostMapping("/getReport")
+    @ResponseBody
     public Map getReport(@RequestBody Map req){
         String start_date = (String)req.get("start_date");
         String end_date = (String)req.get("end_date");
-        int toll_collector_id = (Integer)req.get("toll_collector_id");
-        int checker_id = (Integer)req.get("checker_id");
+        int toll_collector_id = (int)req.get("toll_collector_id");
         List<Report> reports = dailyCheckService.getReport(start_date,end_date,toll_collector_id);
+
         getBillRecord(reports);
         getRegistrationFee(reports);
         classificationTotal = dailyCheckService.getTotal();
@@ -52,7 +54,7 @@ public class DailyCheckController {
         expenseClassifications = getAllClassifitation();
         //total = new Float[expenseClassifications.size()];
         //得到每个费用科目的总额
-        Map<String,Float> classifitationFees = getClassifitationFee(expenseClassifications,toll_collector_id);
+        Map<String,Float> classifitationFees = getClassifitationFee(expenseClassifications,toll_collector_id,start_date,end_date);
         dailyCheck = new DailyCheck(toll_collector_id,classificationTotal[0],classificationTotal[1],classifitationFees,
                 init_bill_record_id, invalid_bill_record_id, reprint_bill_record_id, init_bill_record_num, invalid_bill_record_num,reprint_bill_record_num);
         return Response.ok(dailyCheck);
@@ -68,8 +70,8 @@ public class DailyCheckController {
         return dailyCheckService.getAllClassifitation();
     }
 
-    public Map<String,Float> getClassifitationFee(List<ExpenseClassification> expenseClassifications,int toll_collector_id){
-        return dailyCheckService.getClassifitationFee(expenseClassifications,toll_collector_id);
+    public Map<String,Float> getClassifitationFee(List<ExpenseClassification> expenseClassifications,int toll_collector_id,String start_date,String end_date){
+        return dailyCheckService.getClassifitationFee(expenseClassifications,toll_collector_id,start_date,end_date);
 
      /*   Map<String,Float> classifitationFees = new HashMap<String,Float>();
         expenseClassifications.forEach(expenseClassification->{
@@ -83,6 +85,9 @@ public class DailyCheckController {
     }
 
     public void getBillRecord(List<Report> reports){
+        init_bill_record_id = new ArrayList<Integer>();
+        invalid_bill_record_id = new ArrayList<Integer>();
+        reprint_bill_record_id = new ArrayList<Integer>();
         reports.forEach(report -> {
             if(report.getPrint_status()==0) {
                 init_bill_record_id.add(report.getBill_record_id());
@@ -97,17 +102,59 @@ public class DailyCheckController {
         });
     }
 
+    @PostMapping("/confirmCheck")
+    @ResponseBody
+    public Map confirmCheck(@RequestBody Map req){
+        String start_date = (String)req.get("start_date");
+        String end_date = (String)req.get("end_date");
+        int toll_collector_id = (Integer)req.get("toll_collector_id");
+        int checker_id = (Integer)req.get("checker_id");
+
+        if (canUpdate(start_date,end_date,toll_collector_id,checker_id)) {
+            dailyCheckService.confirmCheck(start_date,end_date,toll_collector_id,checker_id);
+            return Response.ok();
+        } else {
+            return Response.error("没有需要更新的日结核对信息！");
+        }
+    }
+
+    private boolean canUpdate(String start_date,String end_date,int toll_collector_id,int checker_id){
+        return dailyCheckService.exist(start_date,end_date,toll_collector_id,checker_id);
+    }
+
+    @PostMapping("/history")
+    @ResponseBody
+    public Map history(@RequestBody Map req){
+        String start_date = (String)req.get("start_date");
+        String end_date = (String)req.get("end_date");
+        return Response.ok(dailyCheckService.history(start_date,end_date));
+    }
+
+
     @PostMapping("/departmentCheck")
+    @ResponseBody
     public Map getDepartmentCheck(@RequestBody Map req){
         String start_date = (String)req.get("start_date");
         String end_date = (String)req.get("end_date");
-        dailyCheckService.getDepartmentCheck(start_date,end_date);
+
+        Map data = new HashMap();
+        data.put("columns",dailyCheckService.getDepartmentColumns(start_date,end_date));
+        data.put("tableData", dailyCheckService.getDepartmentCheck(start_date,end_date));
+        data.put("chartsData",dailyCheckService.getChartsDatas());
+        return Response.ok(data);
     }
 
     @PostMapping("/userCheck")
+    @ResponseBody
     public Map getUserCheck(@RequestBody Map req){
         String start_date = (String)req.get("start_date");
         String end_date = (String)req.get("end_date");
-        dailyCheckService.getUserCheck(start_date,end_date);
+        //return Response.ok(dailyCheckService.getUserCheck(start_date,end_date));
+
+        Map data = new HashMap();
+        data.put("columns",dailyCheckService.getUserColumns(start_date,end_date));
+        data.put("tableData", dailyCheckService.getUserCheck(start_date,end_date));
+        data.put("chartsData",dailyCheckService.getChartsDatas());
+        return Response.ok(data);
     }
 }
