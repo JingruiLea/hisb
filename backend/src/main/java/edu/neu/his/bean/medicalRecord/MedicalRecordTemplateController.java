@@ -28,7 +28,8 @@ public class MedicalRecordTemplateController {
 
     @PostMapping("/detail")
     @ResponseBody
-    public Map detail(int id){
+    public Map detail(@RequestBody Map req){
+        int id = (int)req.get("id");
         return Response.ok(medicalRecordTemplateService.selectById(id));
     }
 
@@ -37,12 +38,12 @@ public class MedicalRecordTemplateController {
     public Map create(@RequestBody Map req){
         req = Utils.initMap(req);
         MedicalRecordTemplate medicalRecordTemplate = Utils.fromMap(req,MedicalRecordTemplate.class);
-        String name = (String)req.get("name");
-        name = checkName(name);
+        String title = (String)req.get("title");
+        title = updateCheckTitle(medicalRecordTemplate);
         int uid = Auth.uid(req);
         int department_id = userService.findByUid(uid).getDepartment_id();
 
-        medicalRecordTemplate.setName(name);
+        medicalRecordTemplate.setTitle(title);
         medicalRecordTemplate.setUser_id(uid);
         medicalRecordTemplate.setDepartment_id(department_id);
         medicalRecordTemplate.setCreate_time(Utils.getSystemTime());
@@ -65,8 +66,8 @@ public class MedicalRecordTemplateController {
         medicalRecordTemplate = Utils.fromMap(req,MedicalRecordTemplate.class);
         medicalRecordTemplate.setCreate_time(time);
 
-        String name = checkName(medicalRecordTemplate.getName());
-        medicalRecordTemplate.setName(name);
+        String title = updateCheckTitle(medicalRecordTemplate);
+        medicalRecordTemplate.setTitle(title);
 
         medicalRecordTemplateService.update(medicalRecordTemplate);
 
@@ -96,11 +97,16 @@ public class MedicalRecordTemplateController {
         return data;
     }
 
-    private String checkName(String name){
-        while (medicalRecordTemplateService.selectByName(name).size()!=0){
-            name = name + "(1)";
+    private String updateCheckTitle(MedicalRecordTemplate medicalRecordTemplate) {
+        String title = medicalRecordTemplate.getTitle();
+        List<MedicalRecordTemplate> list = medicalRecordTemplateService.selectByTitle(title);
+        if (list.size() == 1 && list.get(0).getId() == medicalRecordTemplate.getId()) {
+            return title;
         }
-        return name;
+        while (medicalRecordTemplateService.selectByTitle(title).size() != 0) {
+            title = title + "(1)";
+        }
+        return title;
     }
 
 }

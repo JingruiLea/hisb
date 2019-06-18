@@ -251,6 +251,60 @@
     {
       "type":"id",
       "medical_certificate_number":"123123132"
+    },
+    "saveMedicalRecord":
+    {
+      "id":1,
+      "status":"诊毕",
+      "chief_complaint":"主诉",
+      "current_medical_history":"无现病史",
+      "current_treatment_situation":"现病治疗情况",
+      "past_history":"无既往史",
+      "allergy_history":"无过敏史",
+      "physical_examination":"正常",
+      "create_time":"2019-08-08",
+      "diagnose":{
+        "western_diagnose":[
+          {
+            "disease_id":1,
+            "disease_name":"神经病",
+            "disease_code":"XY82873",
+            "diagnose_type":"西医",
+            "syndrome_differentiation":"",
+            "main_symptom":true,
+            "suspect":true
+          },
+          {
+            "disease_id":2,
+            "disease_name":"癫痫",
+            "disease_code":"XY82823",
+            "diagnose_type":"西医",
+            "syndrome_differentiation":"",
+            "main_symptom":false,
+            "suspect":true
+          }
+        ],
+        "chinese_diagnose":[
+          {
+            "disease_id":3,
+            "disease_name":"气虚",
+            "disease_code":"ZY23873",
+            "diagnose_type":"中医",
+            "syndrome_differentiation":"气血逆行，印堂发黑",
+            "main_symptom":false,
+            "suspect":false
+          },{
+            "disease_id":4,
+            "disease_name":"肾虚",
+            "disease_code":"ZY82343",
+            "diagnose_type":"中医",
+            "syndrome_differentiation":"天庭饱满，地阁方圆",
+            "main_symptom":true,
+            "suspect":false
+          }
+        ]
+      }
+
     }
   },
   "MedicalRecordTemplateControllerTest":
@@ -265,24 +319,29 @@
     },
     "create":
     {
-      "type": 0,
-      "_uid": 10005,
-      "name": "神经病模板"
+      "title":"神经病模板",
+      "type":1,
+      "chief_complaint":"主诉",
+      "current_medical_history":"无现病史",
+      "current_treatment_situation":"现病治疗情况",
+      "past_history":"无既往史",
+      "allergy_history":"无过敏史",
+      "physical_examination":"正常",
+      "_uid": 10004
     },
     "update":
     {
-      "id": 1,
-      "type": 0,
-      "_uid": 10005,
-      "current_treatment_situation":"xxffrergrg",
-      "allergy_history": "wu",
-      "chief_complaint": "xxxxxxzxxx",
-      "current_medical_history" : "fffffff",
-      "name": "神经病模板",
-      "past_history": "wu",
-      "physical_examination": "wu",
-      "department_id": 2,
-      "create_time":"2019-6-13 09:30"
+      "id":2,
+      "title":"神经病模板",
+      "type":1,
+      "chief_complaint":"主诉",
+      "current_medical_history":"无现病史",
+      "current_treatment_situation":"现病治疗情况",
+      "past_history":"无既往史",
+      "allergy_history":"无过敏史",
+      "physical_examination":"正常",
+      "department_id": 1,
+      "_uid": 10004
     },
     "delete":
     {
