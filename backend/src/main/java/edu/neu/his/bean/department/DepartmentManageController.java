@@ -39,7 +39,7 @@ public class DepartmentManageController {
      *获得所有科室的列表
      * @return 返回查找到的所有科室和状态码等信息
      */
-    @GetMapping("/getAll")
+    @RequestMapping("/getAll")
     @ResponseBody
     public Map listAllDepartment(){
         Map data = new HashMap();

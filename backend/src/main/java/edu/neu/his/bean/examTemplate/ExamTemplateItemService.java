@@ -1,7 +1,9 @@
 package edu.neu.his.bean.examTemplate;
 
 import edu.neu.his.auto.ExamTemplateItemMapper;
+import edu.neu.his.auto.ExamTemplateMapper;
 import edu.neu.his.auto.NonDrugChargeItemMapper;
+import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,12 +11,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ExamTemplateItemService {
 
     @Autowired
     ExamTemplateItemMapper examTemplateItemMapper;
+
+    @Autowired
+    ExamTemplateMapper examTemplateMapper;
 
     @Autowired
     NonDrugChargeItemMapper nonDrugChargeItemMapper;
@@ -25,16 +31,16 @@ public class ExamTemplateItemService {
     }
 
 
-    public List<HashMap> detail(int templateId) {
-        List<HashMap> res = new ArrayList<>();
+    public Map detail(int templateId) {
+        Map res = Utils.objectToMap(examTemplateMapper.selectByPrimaryKey(templateId));
         List<ExamTemplateItem> examTemplateItems = examTemplateItemMapper.selectByTemplateId(templateId);
+        List resItem = new ArrayList();
         for (ExamTemplateItem item: examTemplateItems) {
-            HashMap<String, Object> resItem = new HashMap<>();
-            resItem.put("id", item.getId());
-            resItem.put("exam_template_id", item.getExam_template_id());
-            resItem.put("non_drug_item", nonDrugChargeItemMapper.selectByPrimaryKey(item.getId()));
-            res.add(resItem);
+            Map resItemMap = Utils.objectToMap(item);
+            resItem.add(resItemMap);
+
         }
+        res.put("items", resItem);
         return res;
     }
 

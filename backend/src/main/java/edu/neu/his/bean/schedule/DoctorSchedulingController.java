@@ -23,7 +23,7 @@ public class DoctorSchedulingController {
     SimpleDateFormat formatter = new SimpleDateFormat(("yyyy-mm-dd"));
     ParsePosition pos = new ParsePosition(0);
 
-    @GetMapping("/all")
+    @RequestMapping("/all")
     @ResponseBody
     public Map getAllDoctorScheduling() {
         return Response.ok(doctorSchedulingService.findAll());

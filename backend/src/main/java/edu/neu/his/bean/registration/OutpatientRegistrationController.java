@@ -45,7 +45,7 @@ public class OutpatientRegistrationController {
     @Autowired
     private OperateLogService operateLogService;
 
-    @GetMapping("/init")
+    @RequestMapping("/init")
     @ResponseBody
     public Map init(){
         Map data = new HashMap();

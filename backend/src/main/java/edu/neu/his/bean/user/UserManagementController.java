@@ -24,7 +24,7 @@ public class UserManagementController {
     @Autowired
     private DepartmentService departmentService;
 
-    @GetMapping("/all")
+    @RequestMapping("/all")
     @ResponseBody
     public Map selectAllUser() {
         List<User> users = userService.allUsers();

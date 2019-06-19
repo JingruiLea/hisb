@@ -22,7 +22,7 @@ public class ExamTemplateService {
     @Transactional
     public List<ExamTemplate> findAll(User user){
         return examTemplateMapper.selectAll().stream().filter(item->{
-            switch (item.getType()){
+            switch (item.getDisplay_type()){
                 case 0:
                     if(item.getUser_id() == user.getUid()){
                         return true;

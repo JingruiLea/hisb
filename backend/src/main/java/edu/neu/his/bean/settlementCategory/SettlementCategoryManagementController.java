@@ -15,7 +15,7 @@ public class SettlementCategoryManagementController {
     @Autowired
     SettlementCategoryService settlementCategoryService;
 
-    @GetMapping("/all")
+    @RequestMapping("/all")
     @ResponseBody
     public Map getAllSettlementCategory() {
         return Response.ok(settlementCategoryService.findAll());

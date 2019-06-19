@@ -28,7 +28,7 @@ public class RegistrationDailyCollectController {
     @Autowired
     private BillRecordService billRecordService;
 
-    @GetMapping("/list")
+    @RequestMapping("/list")
     @ResponseBody
     public Map list(int _uid){
         if(userService.findByUid(_uid)!=null)
@@ -37,7 +37,7 @@ public class RegistrationDailyCollectController {
             return Response.error("错误，该用户ID不存在");
     }
 
-    @GetMapping("/detail")
+    @RequestMapping("/detail")
     @ResponseBody
     public Map detail(int daily_collect_id){
         List<DailyDetail> dailyDetailList = dailyCollectService.findDailyDetailByCollectId(daily_collect_id);

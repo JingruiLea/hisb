@@ -42,6 +42,11 @@ public class ExamTemplateController {
             templateName += "(1)";
         }
         List<Integer> nonDrugIdList = (List<Integer>) req.get("non_drug_id_list");
+        for (Integer id: nonDrugIdList) {
+            if(!nonDrugChargeService.exist(nonDrugChargeService.selectById(id))){
+                return Response.error("列表错误!");
+            }
+        }
         ExamTemplate examTemplate = Utils.fromMap(req, ExamTemplate.class);
         examTemplate.setDepartment_id(user.getDepartment_id());
         examTemplate.setTemplate_name(templateName);
@@ -65,12 +70,12 @@ public class ExamTemplateController {
     @PostMapping("delete")
     public Map delete(@RequestBody Map req){
         List<Integer> ids = (List<Integer>) req.get("id");
-        ids.forEach(id->{
+        for (Integer id : ids) {
             if(examTemplateService.selectById(id) == null){
-                return;
+                return Response.error("不存在该模板");
             }
             examTemplateService.deleteByTemplateId(id);
-        });
+        }
         return Response.ok(examTemplateService.findAll(Utils.getSystemUser(req)));
     }
 
@@ -126,8 +131,10 @@ public class ExamTemplateController {
     public Map update(@RequestBody Map req){
         int id = (int) req.get("id");
         User user = Utils.getSystemUser(req);
-        examTemplateService.deleteItemByPrimaryKey(id);
         ExamTemplate originExamTemplate = examTemplateService.selectById(id);
+        if (originExamTemplate == null) {
+            return Response.error("没有该模板!");
+        }
         String templateName = (String)req.get("template_name");
         if(!templateName.equals(originExamTemplate.getTemplate_name())){
             while(examTemplateService.selectByName(templateName) != null){
@@ -136,6 +143,12 @@ public class ExamTemplateController {
         }
         req.put("template_name", templateName);
         List<Integer> nonDrugIdList = (List<Integer>) req.get("non_drug_id_list");
+        for (Integer i: nonDrugIdList) {
+            if(!nonDrugChargeService.exist(nonDrugChargeService.selectById(i))){
+                return Response.error("列表错误!");
+            }
+        }
+        examTemplateService.deleteItemByPrimaryKey(id);
         ExamTemplate examTemplate = Utils.fromMap(req, ExamTemplate.class);
         examTemplate.setDepartment_id(user.getDepartment_id());
         examTemplate.setTemplate_name(templateName);

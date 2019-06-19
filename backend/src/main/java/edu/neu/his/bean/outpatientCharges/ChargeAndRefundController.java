@@ -34,13 +34,13 @@ public class ChargeAndRefundController {
     @Autowired
     private OutpatientRegistrationService outpatientRegistrationService;
 
-    @GetMapping("/getChargeItems")
+    @RequestMapping("/getChargeItems")
     @ResponseBody
     public Map info(int medical_record_id){
         return Response.ok(chargeAndRefundService.findByMedicalRecordIdAndStatus(medical_record_id, OutpatientChargesRecordStatus.ToCharge));
     }
 
-    @GetMapping("/getHistoryChargeItems")
+    @RequestMapping("/getHistoryChargeItems")
     @ResponseBody
     public Map historyInfo(@RequestBody Map req){
         int medical_record_id = (int)req.get("medical_record_id");
@@ -213,7 +213,7 @@ public class ChargeAndRefundController {
         }
     }
 
-    @GetMapping("/registrationByRecordId")
+    @RequestMapping("/registrationByRecordId")
     @ResponseBody
     public Map registrationByRecordId(int medical_record_id){
         Registration registration = outpatientRegistrationService.findRegistrationById(medical_record_id);

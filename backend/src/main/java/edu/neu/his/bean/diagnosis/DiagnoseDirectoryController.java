@@ -17,7 +17,7 @@ public class DiagnoseDirectoryController {
     @Autowired
     private DiagnoseDirectoryService diagnoseDirectoryService;
 
-    @GetMapping("/allClassification")
+    @RequestMapping("/allClassification")
     @ResponseBody
     public Map allDiseaseClassification(){
         return Response.ok(diagnoseDirectoryService.findAllDiseaseClassification());

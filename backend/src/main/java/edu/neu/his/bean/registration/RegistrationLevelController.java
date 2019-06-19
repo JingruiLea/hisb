@@ -15,7 +15,7 @@ public class RegistrationLevelController {
     @Autowired
     private RegistrationLevelService registrationLevelService;
 
-    @GetMapping("/all")
+    @RequestMapping("/all")
     @ResponseBody
     public Map listAllRegistration_level(){
         return Response.ok(registrationLevelService.findAll());

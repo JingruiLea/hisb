@@ -28,7 +28,7 @@ public class NonDrugChargeItemController {
         return Response.ok(nonDrugChargeService.findNonDrugChargeByName(name));
     }
 
-    @GetMapping("/all")
+    @RequestMapping("/all")
     @ResponseBody
     public Map listAllNonDrugCharge(){
         Map data = new HashMap();

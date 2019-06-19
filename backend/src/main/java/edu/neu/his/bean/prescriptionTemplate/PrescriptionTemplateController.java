@@ -7,6 +7,7 @@ import edu.neu.his.bean.drug.DrugService;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -78,11 +79,17 @@ public class PrescriptionTemplateController {
     public Map update(Map req){
         int prescriptionId = (int)req.get("id");
         String name = (String)req.get("template_name");
-        PrescriptionTemplate prescriptionTemplate = prescriptionTemplateService.selectById(prescriptionId);
-        if(!name.equals(prescriptionTemplate.getTemplate_name())){
+        PrescriptionTemplate prescriptionTemplate = Utils.fromMap(req, PrescriptionTemplate.class);
+        PrescriptionTemplate originPrescriptionTemplate = prescriptionTemplateService.selectById(prescriptionId);
+        if(originPrescriptionTemplate == null){
+            return Response.error("该组套不存在!");
+        }
+        prescriptionTemplate.setId(originPrescriptionTemplate.getId());
+        if(!name.equals(originPrescriptionTemplate.getTemplate_name())){
             name = prescriptionTemplateService.rename(name);
             prescriptionTemplate.setTemplate_name(name);
         }
+
         prescriptionTemplateMapper.updateByPrimaryKey(prescriptionTemplate);
         List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
@@ -94,7 +101,7 @@ public class PrescriptionTemplateController {
     }
 
     @PostMapping("/list")
-    public Map list(Map req){
+    public Map list(@RequestBody Map req){
         List<PrescriptionTemplate> list = prescriptionTemplateService.findAll(Utils.getSystemUser(req));
         List personal = list.stream().filter(item->item.getType()==0).collect(Collectors.toList());
         List department = list.stream().filter(item->item.getType()==0).collect(Collectors.toList());
@@ -105,4 +112,5 @@ public class PrescriptionTemplateController {
         res.put("hospital", hospital);
         return Response.ok(res);
     }
+
 }

@@ -30,6 +30,8 @@ public class Department {
         this.classification_id = classification_id;
     }
 
+    public Department(){}
+
     public int getId() {
         return id;
     }

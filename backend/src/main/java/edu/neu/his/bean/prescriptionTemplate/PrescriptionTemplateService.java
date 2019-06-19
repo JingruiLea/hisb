@@ -118,7 +118,7 @@ public class PrescriptionTemplateService {
     @Transactional
     public List<PrescriptionTemplate> findAll(User user){
        return prescriptionTemplateMapper.selectAll().stream().filter(item->{
-           switch (item.getType()){
+           switch (item.getDisplay_type()){
                case 0:
                    if(item.getUser_id() == user.getUid()){
                        return true;
@@ -151,4 +151,6 @@ public class PrescriptionTemplateService {
     public PrescriptionTemplate selectById(int id){
         return prescriptionTemplateMapper.selectByPrimaryKey(id);
     }
+
+
 }

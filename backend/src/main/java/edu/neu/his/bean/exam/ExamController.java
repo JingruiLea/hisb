@@ -86,7 +86,7 @@ public class ExamController {
 //        }
         Exam exam = Utils.fromMap(req, Exam.class);
         if(!medicalRecordService.hasSubmit(exam.getMedical_record_id())){
-            return Response.error("病历首页尚未提交!");
+            return Response.error("病历状态错误!");
         }
         List<Integer> nonDrugIdList = (List<Integer>) req.get("non_drug_id_list");
         for (Integer id: nonDrugIdList) {
@@ -96,7 +96,8 @@ public class ExamController {
         }
         exam.setCreate_time(Utils.getSystemTime());
         exam.setStatus(Common.ZANCUN);
-        Integer examId = examService.insert(exam);
+        examService.insert(exam);
+        Integer examId = exam.getId();
         List<Integer> resultList = new ArrayList<>();
         nonDrugIdList.forEach(nonDrugId -> {
             ExamItem examItem = new ExamItem();
@@ -116,13 +117,16 @@ public class ExamController {
     @PostMapping("/update")
     public Map update(@RequestBody Map req){
         int examId = (int) req.get("id");
+        if(examService.selectById(examId)==null){
+            return Response.error("没有该检查单!");
+        }
         List<Integer> nonDrugIdList = (List<Integer>) req.get("non_drug_id_list");
-        examService.deleteAllItemById(examId);
         for (Integer id: nonDrugIdList) {
             if(!nonDrugChargeService.exist(nonDrugChargeService.selectById(id))){
                 return Response.error("列表错误!");
             }
         }
+        examService.deleteAllItemById(examId);
         nonDrugIdList.forEach(nonDrugId -> {
             ExamItem examItem = new ExamItem();
             examItem.setExam_id(examId);

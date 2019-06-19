@@ -12,6 +12,7 @@ import edu.neu.his.auto.AutoDrugMapper;
 import edu.neu.his.auto.OutpatientChargesRecordMapper;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -242,5 +243,14 @@ public class PrescriptionService {
     
     public List<PrescriptionItem> findPrescriptionItemByStatus(String prescriptionStatus){
         return prescriptionItemMapper.selectByStatus(prescriptionStatus);
+    }
+
+    public boolean cancel(Integer id) {
+        Prescription prescription = autoPrescriptionMapper.selectByPrimaryKey(id);
+        if(prescription == null){
+            return false;
+        }
+        prescription.setStatus(Common.YIZUOFEI);
+        return true;
     }
 }

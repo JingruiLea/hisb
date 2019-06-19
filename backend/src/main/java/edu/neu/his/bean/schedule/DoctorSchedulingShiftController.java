@@ -16,7 +16,7 @@ public class DoctorSchedulingShiftController {
     @Autowired
     DoctorSchedulingShiftService doctorSchedulingShiftService;
 
-    @GetMapping("/all")
+    @RequestMapping("/all")
     @ResponseBody
     public Map getAllDoctorSchedulingShift() {
         return Response.ok(doctorSchedulingShiftService.findAll());

@@ -127,4 +127,16 @@ public class PrescriptionController {
         }
         return Response.ok();
     }
+
+
+    @RequestMapping("/cancel")
+    public Map cancel(@RequestBody Map req){
+        List<Integer> ids = (List<Integer>) req.get("id");
+        for (Integer id : ids) {
+            if(!prescriptionService.cancel(id)){
+                return Response.error("没有该组套!");
+            }
+        }
+        return Response.ok();
+    }
 }

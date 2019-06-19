@@ -14,7 +14,7 @@ public class ExpenseClassificationController {
     @Autowired
     private ExpenseClassificationService expenseClassificationService;
 
-    @GetMapping("/all")
+    @RequestMapping("/all")
     @ResponseBody
     public Map findAll(){
         return Response.ok(expenseClassificationService.findAll());

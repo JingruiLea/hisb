@@ -16,13 +16,13 @@ public class DoctorWorkforceController {
     @Autowired
     DoctorWorkforceService doctorWorkforceService;
 
-    @GetMapping("/all")
+    @RequestMapping("/all")
     @ResponseBody
     public Map getAllDoctorWorkforce() {
         return Response.ok(doctorWorkforceService.getDoctorWorkforces());
     }
 
-    @GetMapping("/getAll")
+    @RequestMapping("/getAll")
     @ResponseBody
     public Map getAllSchedule() {
         //System.out.println("doctorWorkforceService.findAllSchedule()"+doctorWorkforceService.findAllSchedule());
@@ -54,7 +54,7 @@ public class DoctorWorkforceController {
         return Response.ok();
     }
 
-    @GetMapping("/update")
+    @RequestMapping("/update")
     @ResponseBody
     public Map updateDoctorWorkforce() {
         System.out.println("doctorWorkforceService.getDoctorWorkforces()"+doctorWorkforceService.getDoctorWorkforces());

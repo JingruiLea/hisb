@@ -32,7 +32,7 @@ public class DailyCheckController {
     int invalid_bill_record_num = 0;
     int reprint_bill_record_num = 0;
 
-    @GetMapping("/init")
+    @RequestMapping("/init")
     @ResponseBody
     public Map init(){
         return Response.ok(dailyCheckService.getTollCollector());
