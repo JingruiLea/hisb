@@ -55,7 +55,7 @@ public class MedicalRecordDiagnoseTemplateControllerTest {
                 post("/diagnoseTemplate/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"title\":\"XX模板1\",\n" +
+                        "      \"title\":\"XX模板12\",\n" +
                         "      \"type\":1,\n" +
                         "      \"_uid\": 10004,\n" +
                         "      \"diagnose\":{\n" +
@@ -159,7 +159,7 @@ public class MedicalRecordDiagnoseTemplateControllerTest {
                 post("/diagnoseTemplate/detail")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"id\": 1\n" +
+                        "      \"id\": 12\n" +
                         "    }")
 
                 .accept(MediaType.APPLICATION_JSON))

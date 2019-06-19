@@ -51,12 +51,8 @@ public class PrescriptionController {
         return Response.ok();
     }
 
-<<<<<<< HEAD
     @PostMapping("/deleteItem")
     public Map deleteItem(@RequestBody Map req){
-=======
-    public Map deleteItem(Map req){
->>>>>>> ljr
         int prescriptionId = (int)req.get("prescription_id");
         List<Map> drugList = (List)req.get("drug_list");
         if(!drugService.allItemValid(drugList)){
@@ -66,13 +62,8 @@ public class PrescriptionController {
         return Response.ok();
     }
 
-<<<<<<< HEAD
     @PostMapping("/updateItem")
     public Map updateItem(@RequestBody Map req){
-=======
-    @PostMapping("/update")
-    public Map updateItem(Map req){
->>>>>>> ljr
         int prescriptionId = (int)req.get("prescription_id");
         List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
@@ -84,13 +75,8 @@ public class PrescriptionController {
     }
 
     @PostMapping("/submit")
-<<<<<<< HEAD
-    public Map submit(@RequestBody Map map){
-        int prescriptionId = (int)map.get("prescription_id ");
-        prescriptionService.submit(Utils.getSystemUser(map), prescriptionId);
-=======
-    public Map submit(Map req){
-        int prescriptionId = (int)req.get("prescription_id");
+    public Map submit(@RequestBody Map req){
+        int prescriptionId = (int)req.get("prescription_id ");
         List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
@@ -98,7 +84,6 @@ public class PrescriptionController {
         prescriptionService.removeAllItems(prescriptionId);
         prescriptionService.addItems(prescriptionId, drugList);
         prescriptionService.submit(Utils.getSystemUser(req), prescriptionId);
->>>>>>> ljr
         return Response.ok();
     }
 
