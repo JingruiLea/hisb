@@ -90,7 +90,6 @@ public class DoctorWorkforceController {
         if(ids.isEmpty()){
             return Response.error("");
         }
-
         doctorWorkforceService.addOneDoctorWorkforce(schedule);
         return Response.ok();
     }

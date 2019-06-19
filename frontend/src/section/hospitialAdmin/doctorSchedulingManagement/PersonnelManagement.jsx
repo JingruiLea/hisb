@@ -100,7 +100,7 @@ newRow=(data)=>{
 }
 
 deleteRow=(data)=>{
-  API.request(API.bacisInfoManagement.schedulingInfoManagement.deletePersonnelInfo,{data})
+  API.request(API.bacisInfoManagement.schedulingInfoManagement.deletePersonnelInfo,{data:data})
   .ok((data)=>{
       this.setState({selectedRows:[]})
       this.reloadData();

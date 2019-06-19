@@ -32,8 +32,10 @@ public class DoctorSchedulingController {
     @PostMapping("/delete")
     @ResponseBody
     public Map deleteDoctorScheduling(@RequestBody Map req) {
-        List<Map> doctorSchedulings = (List<Map>) req.get("data");
-        doctorSchedulings.forEach(doctorSchedulingShift -> doctorSchedulingService.deleteDoctorSchedulingShiftByName((String) doctorSchedulingShift.get("name")));
+        List<Integer> doctorSchedulingIds = (List<Integer>) req.get("data");
+        doctorSchedulingIds.forEach(id -> doctorSchedulingService.deleteDoctorSchedulingShiftById(id));
+        //List<Map> doctorSchedulings = (List<Map>) req.get("data");
+        //doctorSchedulings.forEach(doctorSchedulingShift -> doctorSchedulingService.deleteDoctorSchedulingShiftByName((String) doctorSchedulingShift.get("name")));
         return Response.ok();
     }
 
@@ -61,9 +63,9 @@ public class DoctorSchedulingController {
     public Map updateAllInfo(@RequestBody Map req) throws ParseException {
         System.out.println("updateAllInfo:"+req);
         int id = (Integer)req.get("id");
-        String name = (String) req.get("name");
-        String department_name = (String) req.get("department_name");
-        String title = (String) req.get("title");
+        //String name = (String) req.get("name");
+        //String department_name = (String) req.get("department_name");
+        //String title = (String) req.get("title");
         String registration_Level = (String) req.get("registration_Level");
         String shift = (String) req.get("shift");
 
@@ -73,9 +75,9 @@ public class DoctorSchedulingController {
         int scheduling_limit = (Integer)req.get("scheduling_limit");
         DoctorSchedulingInfo doctorSchedulingInfo = new DoctorSchedulingInfo();
         doctorSchedulingInfo.setId(id);
-        doctorSchedulingInfo.setName(name);
-        doctorSchedulingInfo.setTitle(title);
-        doctorSchedulingInfo.setDepartment_name(department_name);
+        //doctorSchedulingInfo.setName(name);
+        //doctorSchedulingInfo.setTitle(title);
+        //doctorSchedulingInfo.setDepartment_name(department_name);
         doctorSchedulingInfo.setRegistration_Level(registration_Level);
         doctorSchedulingInfo.setShift(shift);
         doctorSchedulingInfo.setExpiry_date(expiry_date);

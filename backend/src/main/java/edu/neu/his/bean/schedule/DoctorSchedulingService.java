@@ -22,8 +22,8 @@ public class DoctorSchedulingService {
     }
 
     @Transactional
-    public void deleteDoctorSchedulingShiftByName(String name) {
-        doctorSchedulingMapper.deleteDoctorSchedulingByName(name);
+    public void deleteDoctorSchedulingShiftById(int id) {
+        doctorSchedulingMapper.deleteDoctorSchedulingById(id);
     }
 
     @Transactional

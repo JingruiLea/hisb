@@ -283,8 +283,10 @@ timeConflict=(inputData)=>{
             selectedRows:[],
             inputDate:false
           })
-          //this.reloadData();
+          //this.reloadData();         
           Message.success("选择时间段成功")
+        }else{
+          _this.showOverwriteConfirm(data);
         }
     }).submit();
 }
@@ -387,7 +389,13 @@ deleteOverwriteInfo=(data)=>{
           </Col>
           <Col span={18}> 
           <Row>
-            <ToolBar
+            <Card title={
+              <div>
+                <div style={{float:'left',paddingTop:5}}>
+                  <span>选择排班人员</span>
+                </div>
+                <div style={{float:'right'}}>
+                <ToolBar
                 disabled={this.state.loading}
                 selectedRows={this.state.selectedRows}
                 reloadData={this.reloadData.bind(this)}
@@ -401,8 +409,10 @@ deleteOverwriteInfo=(data)=>{
                 inputDate={this.state.inputDate}
                 num={this.state.num}
                 toAddSchedule={this.state.toAddddSchedule}
-            />
-            <Divider/>
+              />
+                </div>
+            </div>
+            } style={{overflow:'scroll',minWidth:'100px',height:'300px'}} >        
             {this.state.loading?
             <div style={{textAlign:'center',paddingTop:100}}>
                 <Spin/><br/>
@@ -413,12 +423,18 @@ deleteOverwriteInfo=(data)=>{
                 rowSelection={this.state.rowSelection}
                 reloadData={this.reloadData.bind(this)}
                 setSelected={this.setSelected.bind(this)}
-            />}
+            />}          
+            </Card>
             </Row>
           </Col>
         </Row>
         <Row>
-          
+        <Card title={
+          <div>
+          <div style={{float:'left',paddingTop:5}}>
+            <span>排班信息列表</span>
+          </div>
+          <div style={{float:'right'}}>
           <ScheduleToolBar
                 disabled={this.state.loading}
                 selectedScheduleRows={this.state.selectedScheduleRows}
@@ -434,7 +450,9 @@ deleteOverwriteInfo=(data)=>{
                 componentDidMount={this.componentDidMount.bind(this)}
                 setSchedule={this.setSchedule.bind(this)}
             />
-            <Divider/> 
+          </div>
+      </div>
+        } style={{overflow:'scroll',minWidth:'100px',height:'500px'}} >
                 {this.state.loading?
             <div style={{textAlign:'center',paddingTop:100}}>
                 <Spin/><br/>
@@ -448,6 +466,7 @@ deleteOverwriteInfo=(data)=>{
                 updateSchedule={this.updateSchedule.bind(this)} 
                 rowKey={this.id}
             />}
+            </Card>
           </Row>
        
           </Content>)

@@ -50,11 +50,9 @@ class ToolBar extends React.Component {
       const chooseButtonDisabled = selectedRows.length===0 || this.props.disabled ||this.props.inputDate;
       const chooseNum = selectedRows.length===0?null:selectedRows.length+"条记录";
       return (
-      <div >
+        
+      <div>
         <div>
-        <Breadcrumb style={{float:'left',paddingTop:10}}>
-          <Breadcrumb.Item>选择排班人员</Breadcrumb.Item>
-        </Breadcrumb>
         <div style={{float:'right',margin:5}}>
 
           <Button onClick={this.props.reloadData}>
