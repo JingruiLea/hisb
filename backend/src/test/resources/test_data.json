@@ -362,15 +362,39 @@
     {
       "exam_id" : 2,
       "non_drug_id" : [9]
+    },
+    "create":
+    {
+      "type":0,
+      "medical_record_id" : 1000002,
+      "non_drug_id_list":[1]
+    },
+    "delete":
+    {
+      "id":[1],
+      "_uid": 10005
+    },
+    "update":
+    {
+      "type":0,
+      "id" : 1000002,
+      "non_drug_id_list":[1],
+      "_uid": 10004
+    },
+    "list":
+    {
+      "type":0,
+      "medical_record_id":1,
+      "_uid": 10005
     }
   },
   "ExamTemplateControllerTest":
   {
     "create":
     {
-      "id": 1,
+      "type": 1,
       "template_name": "常规检查",
-      "type": 0,
+      "display_type":0,
       "_uid": 10004,
       "non_drug_id_list": [1]
     },
@@ -382,10 +406,14 @@
     {
       "id": [2]
     },
-    "addItem":
+    "update":
     {
-      "exam_template_id" : 2,
-      "non_drug_id" : [9]
+      "id":2,
+      "type":0,
+      "display_type":0,
+      "template_name" :"神经病检查",
+      "non_drug_id_list": [1],
+      "_uid": 100004
     }
   },
   "PrescriptionControllerTest":
