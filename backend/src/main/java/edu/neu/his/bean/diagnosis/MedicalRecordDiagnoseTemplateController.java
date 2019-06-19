@@ -102,6 +102,8 @@ public class MedicalRecordDiagnoseTemplateController {
     public Map detail(@RequestBody Map req){
         int id = (int)req.get("id");
         MedicalRecordDiagnoseTemplate medicalRecordDiagnoseTemplate = medicalRecordDiagnoseTemplateService.selectTemplateById(id);
+        if(medicalRecordDiagnoseTemplate == null)
+            return  Response.error("错误，该诊断模板不存在");
         Map data = Utils.objectToMap(medicalRecordDiagnoseTemplate);
         data.put("diagnose",medicalRecordDiagnoseTemplateService.returnDiagnoseTemplateMap(id));
 

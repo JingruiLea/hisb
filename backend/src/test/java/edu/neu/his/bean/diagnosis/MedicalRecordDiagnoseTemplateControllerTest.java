@@ -98,7 +98,7 @@ public class MedicalRecordDiagnoseTemplateControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "      \"id\":1,\n" +
-                        "      \"title\":\"XX模板\",\n" +
+                        "      \"title\":\"XX模板4\",\n" +
                         "      \"type\":1,\n" +
                         "      \"_uid\": 10004,\n" +
                         "      \"diagnose\":{\n" +
