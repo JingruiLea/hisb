@@ -28,7 +28,8 @@ public class MedicalRecordTemplateController {
 
     @PostMapping("/detail")
     @ResponseBody
-    public Map detail(int id){
+    public Map detail(@RequestBody Map req){
+        int id = (int)req.get("id");
         return Response.ok(medicalRecordTemplateService.selectById(id));
     }
 
@@ -38,7 +39,7 @@ public class MedicalRecordTemplateController {
         req = Utils.initMap(req);
         MedicalRecordTemplate medicalRecordTemplate = Utils.fromMap(req,MedicalRecordTemplate.class);
         String title = (String)req.get("title");
-        title = checkTitle(title);
+        title = updateCheckTitle(medicalRecordTemplate);
         int uid = Auth.uid(req);
         int department_id = userService.findByUid(uid).getDepartment_id();
 
@@ -96,21 +97,13 @@ public class MedicalRecordTemplateController {
         return data;
     }
 
-    private String checkTitle(String title){
-        while (medicalRecordTemplateService.selectByTitle(title).size()!=0){
-            title = title + "(1)";
-        }
-        return title;
-    }
-
-    private String updateCheckTitle(MedicalRecordTemplate medicalRecordTemplate){
+    private String updateCheckTitle(MedicalRecordTemplate medicalRecordTemplate) {
         String title = medicalRecordTemplate.getTitle();
         List<MedicalRecordTemplate> list = medicalRecordTemplateService.selectByTitle(title);
-        if (list.size()==1 && list.get(0).getId()==medicalRecordTemplate.getId()){
+        if (list.size() == 1 && list.get(0).getId() == medicalRecordTemplate.getId()) {
             return title;
         }
-
-        while (medicalRecordTemplateService.selectByTitle(title).size()!=0){
+        while (medicalRecordTemplateService.selectByTitle(title).size() != 0) {
             title = title + "(1)";
         }
         return title;

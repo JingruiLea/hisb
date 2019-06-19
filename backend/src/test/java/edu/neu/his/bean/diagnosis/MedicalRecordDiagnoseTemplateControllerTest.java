@@ -1,4 +1,4 @@
-package edu.neu.his.controller.outpatientMedicalRecordController;
+package edu.neu.his.bean.diagnosis;
 
 import edu.neu.his.utils.Utils;
 import org.junit.Test;
@@ -17,41 +17,28 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.junit.Assert.*;
+
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class MedicalRecordTemplateControllerTest {
-    private Logger logger = LoggerFactory.getLogger(MedicalRecordTemplateControllerTest.class);
+public class MedicalRecordDiagnoseTemplateControllerTest {
+    private Logger logger = LoggerFactory.getLogger(MedicalRecordDiagnoseTemplateControllerTest.class);
 
     @Autowired
     protected MockMvc mockMvc;
 
     @Test
-    public void list()throws  Exception{
+    public void list() throws  Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/medicalRecordTemplate/list")
-                .content(" {\n" +
-                        "      \"_uid\": 10004\n" +
-                        "    }")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
-        MockHttpServletResponse response = result.getResponse();
-        String a = response.getContentAsString();
-        Utils.prettyPrintJSON(a);
-    }
-    @Test
-    public void detail()throws  Exception{
-        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/medicalRecordTemplate/detail")
+                post("/diagnoseTemplate/list")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"id\": 4\n" +
+                        "      \"_uid\": 10005\n" +
                         "    }")
+
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -62,22 +49,38 @@ public class MedicalRecordTemplateControllerTest {
     }
 
     @Test
-    public void create()throws  Exception{
+    public void create()  throws  Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/medicalRecordTemplate/create")
+                post("/diagnoseTemplate/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"title\":\"神经病模板\",\n" +
+                        "      \"title\":\"XX模板12\",\n" +
                         "      \"type\":1,\n" +
-                        "      \"chief_complaint\":\"主诉\",\n" +
-                        "      \"current_medical_history\":\"无现病史\",\n" +
-                        "      \"current_treatment_situation\":\"现病治疗情况\",\n" +
-                        "      \"past_history\":\"无既往史\",\n" +
-                        "      \"allergy_history\":\"无过敏史\",\n" +
-                        "      \"physical_examination\":\"正常\",\n" +
-                        "      \"_uid\": 10004\n" +
+                        "      \"_uid\": 10004,\n" +
+                        "      \"diagnose\":{\n" +
+                        "        \"western_diagnose\":[\n" +
+                        "          {\n" +
+                        "            \"disease_id\":1,\n" +
+                        "            \"disease_name\":\"疾病\",\n" +
+                        "            \"disease_code\":\"1\",\n" +
+                        "            \"diagnose_type\":\"西医\",\n" +
+                        "            \"main_symptom\":true,\n" +
+                        "            \"suspect\":true\n" +
+                        "          }\n" +
+                        "        ],\n" +
+                        "        \"chinese_diagnose\":[\n" +
+                        "          {\n" +
+                        "            \"disease_id\":3,\n" +
+                        "            \"disease_name\":\"气虚\",\n" +
+                        "            \"disease_code\":\"ZY23873\",\n" +
+                        "            \"diagnose_type\":\"中医\",\n" +
+                        "            \"syndrome_differentiation\":\"气血逆行，印堂发黑\"\n" +
+                        "          }\n" +
+                        "        ]\n" +
+                        "      }\n" +
                         "    }")
+
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -88,24 +91,39 @@ public class MedicalRecordTemplateControllerTest {
     }
 
     @Test
-    public void update()throws  Exception{
+    public void update()  throws  Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/medicalRecordTemplate/update")
+                post("/diagnoseTemplate/update")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(" {\n" +
-                        "      \"id\":2,\n" +
-                        "      \"title\":\"神经病模板\",\n" +
+                .content("{\n" +
+                        "      \"id\":1,\n" +
+                        "      \"title\":\"XX模板4\",\n" +
                         "      \"type\":1,\n" +
-                        "      \"chief_complaint\":\"主诉2\",\n" +
-                        "      \"current_medical_history\":\"无现病史\",\n" +
-                        "      \"current_treatment_situation\":\"现病治疗情况\",\n" +
-                        "      \"past_history\":\"无既往史\",\n" +
-                        "      \"allergy_history\":\"无过敏史\",\n" +
-                        "      \"physical_examination\":\"正常\",\n" +
-                        "      \"department_id\": 1,\n" +
-                        "      \"_uid\": 10004\n" +
+                        "      \"_uid\": 10004,\n" +
+                        "      \"diagnose\":{\n" +
+                        "        \"western_diagnose\":[\n" +
+                        "          {\n" +
+                        "            \"disease_id\":1,\n" +
+                        "            \"disease_name\":\"神经病\",\n" +
+                        "            \"disease_code\":\"XY82873\",\n" +
+                        "            \"diagnose_type\":\"西医\",\n" +
+                        "            \"main_symptom\":true,\n" +
+                        "            \"suspect\":true\n" +
+                        "          }\n" +
+                        "        ],\n" +
+                        "        \"chinese_diagnose\":[\n" +
+                        "          {\n" +
+                        "            \"disease_id\":3,\n" +
+                        "            \"disease_name\":\"气虚\",\n" +
+                        "            \"disease_code\":\"ZY23873\",\n" +
+                        "            \"diagnose_type\":\"中医\",\n" +
+                        "            \"syndrome_differentiation\":\"气血逆行，印堂发黑\"\n" +
+                        "          }\n" +
+                        "        ]\n" +
+                        "      }\n" +
                         "    }")
+
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -116,15 +134,15 @@ public class MedicalRecordTemplateControllerTest {
     }
 
     @Test
-    public void delete()throws  Exception{
+    public void delete()  throws  Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/medicalRecordTemplate/delete")
+                post("/diagnoseTemplate/delete")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"idArr\":[2],\n" +
-                        "      \"_uid\": 10004\n" +
+                        "      \"idArr\":[2,3,1]\n" +
                         "    }")
+
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -134,4 +152,22 @@ public class MedicalRecordTemplateControllerTest {
         Utils.prettyPrintJSON(a);
     }
 
+    @Test
+    public void detail()  throws  Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/diagnoseTemplate/detail")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(" {\n" +
+                        "      \"id\": 12\n" +
+                        "    }")
+
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        String a = response.getContentAsString();
+        Utils.prettyPrintJSON(a);
+    }
 }

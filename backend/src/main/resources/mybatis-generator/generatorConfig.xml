@@ -48,7 +48,7 @@
         </sqlMapGenerator>
 
         <!-- 生成mapxml对应client，也就是接口dao -->
-        <javaClientGenerator targetPackage="edu.neu.his.auto" targetProject="src/main/java" type="ANNOTATEDMAPPER" >
+        <javaClientGenerator targetPackage="edu.neu.his.mapper.auto" targetProject="src/main/java" type="ANNOTATEDMAPPER" >
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 

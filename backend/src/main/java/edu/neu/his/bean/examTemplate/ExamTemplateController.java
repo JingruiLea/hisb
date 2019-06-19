@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @RestController
@@ -62,8 +63,8 @@ public class ExamTemplateController {
     }
 
     @PostMapping("/detail")
-    public Map detail(@RequestBody Map map){
-        int examTemplateId = (int) map.get("exam_template_id");
+    public Map detail(@RequestBody Map req){
+        int examTemplateId = (int)req.get("exam_template_id");
         return Response.ok(examTemplateItemService.detail(examTemplateId));
     }
 

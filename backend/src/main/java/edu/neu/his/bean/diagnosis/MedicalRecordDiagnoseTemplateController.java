@@ -1,5 +1,7 @@
 package edu.neu.his.bean.diagnosis;
 
+import edu.neu.his.bean.drug.Drug;
+import edu.neu.his.bean.drug.DrugService;
 import edu.neu.his.bean.medicalRecord.MedicalRecordStatus;
 import edu.neu.his.bean.user.User;
 
@@ -17,7 +19,6 @@ import java.util.Map;
 public class MedicalRecordDiagnoseTemplateController {
     @Autowired
     MedicalRecordDiagnoseTemplateService medicalRecordDiagnoseTemplateService;
-
     @Autowired
     DiagnoseDirectoryService diagnoseDirectoryService;
 
@@ -63,11 +64,11 @@ public class MedicalRecordDiagnoseTemplateController {
     public Map update(@RequestBody Map req){
         MedicalRecordDiagnoseTemplate medicalRecordDiagnoseTemplate = Utils.fromMap(req,MedicalRecordDiagnoseTemplate.class);
         String title = updateCheckName(medicalRecordDiagnoseTemplate);
-        medicalRecordDiagnoseTemplate.setTitle(title);
-
         User user = Utils.getSystemUser(req);
         medicalRecordDiagnoseTemplate.setUser_id(user.getUid());
         medicalRecordDiagnoseTemplate.setDepartment_id(user.getDepartment_id());
+        medicalRecordDiagnoseTemplate.setTitle(title);
+
         medicalRecordDiagnoseTemplateService.updateDiagnoseTemplate(medicalRecordDiagnoseTemplate);
         int diagnose_template_id = medicalRecordDiagnoseTemplate.getId();
 
@@ -102,8 +103,8 @@ public class MedicalRecordDiagnoseTemplateController {
     public Map detail(@RequestBody Map req){
         int id = (int)req.get("id");
         MedicalRecordDiagnoseTemplate medicalRecordDiagnoseTemplate = medicalRecordDiagnoseTemplateService.selectTemplateById(id);
-        if(medicalRecordDiagnoseTemplate==null)
-            return Response.error("错误，该诊断模板不存在");
+        if(medicalRecordDiagnoseTemplate == null)
+            return  Response.error("错误，该诊断模板不存在");
         Map data = Utils.objectToMap(medicalRecordDiagnoseTemplate);
         data.put("diagnose",medicalRecordDiagnoseTemplateService.returnDiagnoseTemplateMap(id));
 

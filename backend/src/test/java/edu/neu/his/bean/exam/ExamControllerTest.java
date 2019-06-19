@@ -1,4 +1,4 @@
-package edu.neu.his.controller.outpatientMedicalRecordController;
+package edu.neu.his.bean.exam;
 
 import edu.neu.his.utils.Utils;
 import org.junit.Test;
@@ -17,41 +17,26 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class MedicalRecordTemplateControllerTest {
-    private Logger logger = LoggerFactory.getLogger(MedicalRecordTemplateControllerTest.class);
+public class ExamControllerTest {
+    private Logger logger = LoggerFactory.getLogger(ExamControllerTest.class);
 
     @Autowired
     protected MockMvc mockMvc;
 
     @Test
-    public void list()throws  Exception{
+    public void allItemsByType() throws  Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/medicalRecordTemplate/list")
-                .content(" {\n" +
-                        "      \"_uid\": 10004\n" +
-                        "    }")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
-        MockHttpServletResponse response = result.getResponse();
-        String a = response.getContentAsString();
-        Utils.prettyPrintJSON(a);
-    }
-    @Test
-    public void detail()throws  Exception{
-        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/medicalRecordTemplate/detail")
+                post("/exam/allItems")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"id\": 4\n" +
+                        "      \"type\": 1\n" +
                         "    }")
+
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
@@ -62,69 +47,119 @@ public class MedicalRecordTemplateControllerTest {
     }
 
     @Test
-    public void create()throws  Exception{
+    public void cancel() throws  Exception{
         logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/medicalRecordTemplate/create")
+                post("/exam/cancel")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "      \"title\":\"神经病模板\",\n" +
+                        "      \"id\": [1]\n" +
+                        "    }")
+
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        String a = response.getContentAsString();
+        Utils.prettyPrintJSON(a);
+    }
+
+    @Test
+    public void create() throws  Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/exam/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(" {\n" +
+                        "      \"type\":0,\n" +
+                        "      \"medical_record_id\" : 2,\n" +
+                        "      \"non_drug_id_list\":[1],\n" +
+                        "      \"_uid\": 10005\n" +
+                        "    }")
+
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        String a = response.getContentAsString();
+        Utils.prettyPrintJSON(a);
+    }
+
+    @Test
+    public void update() throws  Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/exam/update")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(" {\n" +
+                        "      \"type\":0,\n" +
+                        "      \"id\" : 2,\n" +
+                        "      \"non_drug_id_list\":[19],\n" +
+                        "      \"_uid\": 10004\n" +
+                        "    }")
+
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        String a = response.getContentAsString();
+        Utils.prettyPrintJSON(a);
+    }
+
+    @Test
+    public void submit() throws  Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/exam/send")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(" {\n" +
+                        "      \"id\": [3]\n" +
+                        "    }")
+
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        String a = response.getContentAsString();
+        Utils.prettyPrintJSON(a);
+    }
+
+    @Test
+    public void delete() throws  Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/exam/delete")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(" {\n" +
+                        "      \"id\":[8],\n" +
+                        "      \"_uid\": 10005\n" +
+                        "    }")
+
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        String a = response.getContentAsString();
+        Utils.prettyPrintJSON(a);
+    }
+
+    @Test
+    public void list() throws  Exception{
+        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                post("/exam/list")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(" {\n" +
                         "      \"type\":1,\n" +
-                        "      \"chief_complaint\":\"主诉\",\n" +
-                        "      \"current_medical_history\":\"无现病史\",\n" +
-                        "      \"current_treatment_situation\":\"现病治疗情况\",\n" +
-                        "      \"past_history\":\"无既往史\",\n" +
-                        "      \"allergy_history\":\"无过敏史\",\n" +
-                        "      \"physical_examination\":\"正常\",\n" +
-                        "      \"_uid\": 10004\n" +
+                        "      \"medical_record_id\":2,\n" +
+                        "      \"_uid\": 10005\n" +
                         "    }")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
-        MockHttpServletResponse response = result.getResponse();
-        String a = response.getContentAsString();
-        Utils.prettyPrintJSON(a);
-    }
 
-    @Test
-    public void update()throws  Exception{
-        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/medicalRecordTemplate/update")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(" {\n" +
-                        "      \"id\":2,\n" +
-                        "      \"title\":\"神经病模板\",\n" +
-                        "      \"type\":1,\n" +
-                        "      \"chief_complaint\":\"主诉2\",\n" +
-                        "      \"current_medical_history\":\"无现病史\",\n" +
-                        "      \"current_treatment_situation\":\"现病治疗情况\",\n" +
-                        "      \"past_history\":\"无既往史\",\n" +
-                        "      \"allergy_history\":\"无过敏史\",\n" +
-                        "      \"physical_examination\":\"正常\",\n" +
-                        "      \"department_id\": 1,\n" +
-                        "      \"_uid\": 10004\n" +
-                        "    }")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andReturn();
-        MockHttpServletResponse response = result.getResponse();
-        String a = response.getContentAsString();
-        Utils.prettyPrintJSON(a);
-    }
-
-    @Test
-    public void delete()throws  Exception{
-        logger.info("MockMvcResultMatchers.status().isOk()", MockMvcResultMatchers.status().isOk());
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                post("/medicalRecordTemplate/delete")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(" {\n" +
-                        "      \"idArr\":[2],\n" +
-                        "      \"_uid\": 10004\n" +
-                        "    }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())

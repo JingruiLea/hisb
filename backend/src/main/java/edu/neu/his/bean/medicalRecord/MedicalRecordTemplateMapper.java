@@ -80,7 +80,7 @@ public interface MedicalRecordTemplateMapper {
             @Result(column="allergy_history", property="allergy_history", jdbcType=JdbcType.LONGVARCHAR),
             @Result(column="physical_examination", property="physical_examination", jdbcType=JdbcType.LONGVARCHAR)
     })
-    List<MedicalRecordTemplate> selectByName(String title);
+    List<MedicalRecordTemplate> selectByTitle(String title);
 
     @Select({
             "select",
@@ -130,7 +130,7 @@ public interface MedicalRecordTemplateMapper {
 
     @Select({
             "select",
-            "id, `title`, `type`, user_id, department_id, create_time, `status`, chief_complaint, ",
+            "id, `title`, `type`, user_id, department_id, create_time, chief_complaint, ",
             "current_medical_history, current_treatment_situation, past_history, allergy_history, ",
             "physical_examination",
             "from medical_record_template",
@@ -143,7 +143,6 @@ public interface MedicalRecordTemplateMapper {
             @Result(column="user_id", property="user_id", jdbcType=JdbcType.INTEGER),
             @Result(column="department_id", property="department_id", jdbcType=JdbcType.INTEGER),
             @Result(column="create_time", property="create_time", jdbcType=JdbcType.VARCHAR),
-            @Result(column="status", property="status", jdbcType=JdbcType.VARCHAR),
             @Result(column="chief_complaint", property="chief_complaint", jdbcType=JdbcType.LONGVARCHAR),
             @Result(column="current_medical_history", property="current_medical_history", jdbcType=JdbcType.LONGVARCHAR),
             @Result(column="current_treatment_situation", property="current_treatment_situation", jdbcType=JdbcType.LONGVARCHAR),
@@ -155,7 +154,7 @@ public interface MedicalRecordTemplateMapper {
 
     @Select({
             "select",
-            "id, `title`, `type`, user_id, department_id, create_time, `status`, chief_complaint, ",
+            "id, `title`, `type`, user_id, department_id, create_time, chief_complaint, ",
             "current_medical_history, current_treatment_situation, past_history, allergy_history, ",
             "physical_examination",
             "from medical_record_template"
@@ -167,7 +166,6 @@ public interface MedicalRecordTemplateMapper {
             @Result(column="user_id", property="user_id", jdbcType=JdbcType.INTEGER),
             @Result(column="department_id", property="department_id", jdbcType=JdbcType.INTEGER),
             @Result(column="create_time", property="create_time", jdbcType=JdbcType.VARCHAR),
-            @Result(column="status", property="status", jdbcType=JdbcType.VARCHAR),
             @Result(column="chief_complaint", property="chief_complaint", jdbcType=JdbcType.LONGVARCHAR),
             @Result(column="current_medical_history", property="current_medical_history", jdbcType=JdbcType.LONGVARCHAR),
             @Result(column="current_treatment_situation", property="current_treatment_situation", jdbcType=JdbcType.LONGVARCHAR),

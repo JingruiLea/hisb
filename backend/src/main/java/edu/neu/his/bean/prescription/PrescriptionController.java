@@ -26,7 +26,7 @@ public class PrescriptionController {
     DrugService drugService;
 
     @PostMapping("/create")
-    public Map create(Map req){
+    public Map create(@RequestBody Map req){
         int medicalRecordId = (int)req.get("medical_record_id");
         List<Map> drugList = (List)req.get("prescription_item_list");
         int type = (int)req.get("type");
@@ -40,7 +40,8 @@ public class PrescriptionController {
         return Response.ok(prescriptionService.findById(prescriptionId));
     }
 
-    public Map addItem(Map req){
+    @PostMapping("/addItem")
+    public Map addItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_id");
         List<Map> drugList = (List)req.get("drug_list");
         if(!drugService.allItemValid(drugList)){
@@ -50,7 +51,8 @@ public class PrescriptionController {
         return Response.ok();
     }
 
-    public Map deleteItem(Map req){
+    @PostMapping("/deleteItem")
+    public Map deleteItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_id");
         List<Map> drugList = (List)req.get("drug_list");
         if(!drugService.allItemValid(drugList)){
@@ -60,8 +62,8 @@ public class PrescriptionController {
         return Response.ok();
     }
 
-    @PostMapping("/update")
-    public Map updateItem(Map req){
+    @PostMapping("/updateItem")
+    public Map updateItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_id");
         List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
@@ -73,8 +75,8 @@ public class PrescriptionController {
     }
 
     @PostMapping("/submit")
-    public Map submit(Map req){
-        int prescriptionId = (int)req.get("prescription_id");
+    public Map submit(@RequestBody Map req){
+        int prescriptionId = (int)req.get("prescription_id ");
         List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");

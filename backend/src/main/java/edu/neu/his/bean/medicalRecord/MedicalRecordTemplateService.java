@@ -23,7 +23,7 @@ public class MedicalRecordTemplateService {
 
     @Transactional
     public List<MedicalRecordTemplate> selectByTitle(String title){
-        return medicalRecordTemplateMapper.selectByName(title);
+        return medicalRecordTemplateMapper.selectByTitle(title);
     }
 
     @Transactional

@@ -132,7 +132,7 @@ public class MedicalRecordTemplate implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", name=").append(title);
+        sb.append(", title=").append(title);
         sb.append(", type=").append(type);
         sb.append(", user_id=").append(user_id);
         sb.append(", department_id=").append(department_id);
