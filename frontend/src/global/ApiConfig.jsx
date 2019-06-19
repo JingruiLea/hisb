@@ -335,7 +335,7 @@ const API = {
                 method:'post'
             }
         },
-        //处方(成药 草药 医技部录)
+        //处方(成药 草药 医技补录)
         prescription:{
             //获取所有的药品
             allDrugs:{
@@ -401,7 +401,23 @@ const API = {
     },
     //医技科室
     doctorOfTechnology:{
-
+        //其他见上文 处方管理 
+        //执行检查 检验 处置
+        IADExcute:{
+            //登记
+            register:{
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/examExcute/register',
+                method:'post'
+            },//录入结果
+            submitResult:{
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/examExcute/submitResult',
+                method:'post'
+            },//获取结果
+            getResult:{
+                url:'http://www.mocky.io/v2/5d09f14f3400001129d8313d',//apiServerPrefix+'/examExcute/getResult',
+                method:'post'
+            }
+        }
     },
     //药房
     pharmacyWorkStation:{
@@ -453,6 +469,24 @@ const API = {
                 url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a'//apiServerPrefix+'/drugWithdrawal/submit'
             }
         }
+    },
+    //财务处统计
+    financialAdmin:{
+        //收费项目管理
+        expenseClassification:{
+            all:{//获得全部的收费项目
+                method:'get', url:'http://www.mocky.io/v2/5d09dc833400001229d8303f',//apiServerPrefix+'/expenseClassificationManage/all'
+            },
+            add:{//添加收费项目
+                method:'post',url:'http://www.mocky.io/v2/5d09dca13400005e29d83040',//apiServerPrefix+'/expenseClassificationManage/add'
+            },
+            delete:{//删除收费项目
+                method:'post',url:'http://www.mocky.io/v2/5d09dca13400005e29d83040',//apiServerPrefix+'/expenseClassificationManage/delete'
+            },
+            update:{//更新收费项目
+                method:'post',url:'http://www.mocky.io/v2/5d09dca13400005e29d83040',//apiServerPrefix+'/expenseClassificationManage/update'
+            }
+        },
     },
 
 

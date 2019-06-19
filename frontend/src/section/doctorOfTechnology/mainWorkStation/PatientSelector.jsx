@@ -1,8 +1,8 @@
 import React from 'react';
 import {Card,Badge,Table, Button, Icon,Input, Spin} from 'antd';
-import Message from '../../global/Message';
-import Highlighter from 'react-highlight-words';
 
+import Highlighter from 'react-highlight-words';
+import Message from '../../../global/Message'
 
 class PatientSelector extends React.Component {
 
@@ -10,14 +10,6 @@ class PatientSelector extends React.Component {
   state = {
     searchText:''
   }
-
-  /**
-   * 
-   * currentPatient{
-   *  registration:
-   *  medicalRecord:
-   * }
-   */
 
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -69,7 +61,6 @@ class PatientSelector extends React.Component {
     ),
   });
 
-
   handleSearch = (selectedKeys, confirm) => {
     confirm();
     this.setState({ searchText: selectedKeys[0] });
@@ -96,7 +87,6 @@ class PatientSelector extends React.Component {
   }]
 
   render() {
-    const {state} = this;
     //变量
     const {patientList,currentPatient,loading} = this.props;
     //方法

@@ -1,94 +1,71 @@
 import React from 'react';
 import ReactToPrint from 'react-to-print';
 
-import {Card,Typography, Divider, Row,Col} from 'antd';
-import { Button } from 'antd/lib/radio';
+import {Card,Typography, Divider, Row,Col,Upload,Icon,Modal} from 'antd';
 const { Title } = Typography;
-
-
-class ComponentToPrint extends React.Component {
+ 
+class Demo extends React.Component{
   state = {
-    name:'蔡徐坤',
-    gender:'女',
-    age:20,
-    data_of_onset:'2015-2-23',
-    outpatient_service:'0000023',
-    prescription_number:'234242',
-    chief_complaint:'',
-    present_illness_histroy:'',
-    past_history:'',
-    physical_examination:'',
-    depuy_examination:'无',
-    preliminary_diagnosis:'哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',
-    handling_opinions:[
-      'hhhhhhh',
-      'hhhhhh'
-    ]
+    previewVisible: false,
+    previewImage: '',
+    fileList: [],
+    /**{
+        uid: '-1',
+        name: 'xxx.png',
+        status: 'done',
+        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+      }, */
+  };
+
+  getBase64=(file)=> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
   }
 
+  handleCancel = () => this.setState({ previewVisible: false });
+
+  handlePreview = async file => {
+    if (!file.url && !file.preview) {
+      file.preview = await this.getBase64(file.originFileObj);
+    }
+    this.setState({
+      previewImage: file.url || file.preview,
+      previewVisible: true,
+    });
+  };
+
+  handleChange = ({ fileList }) => this.setState({ fileList });
 
   render() {
-    const state = this.state
-
+    const { previewVisible, previewImage, fileList } = this.state;
+    const uploadButton = (
+      <div>
+        <Icon type="plus" />
+        <div className="ant-upload-text">上传</div>
+      </div>
+    );
     return (
-      <Card style={{margin:20,width:'100vh'}}>
-        <div style={{margin:20}}>
-        <Title style={{textAlign:'center'}}  level={3}>NEU XXXXXXX 医院</Title>
-        <Typography.Paragraph style={{textAlign:'center'}}>
-          <b>姓名：</b>{state.name}<span style={{marginLeft:70}}/>
-          <b>性别：</b>{state.gender}<span style={{marginLeft:70}}/>
-          <b>年龄：</b>{state.age}
-        </Typography.Paragraph>
-        <Divider style={{marginTop:0,marginBottom:10}}/>
-        <Typography.Paragraph style={{textAlign:'center'}}>
-          <b>发病日期：</b>{state.data_of_onset}<span style={{marginLeft:70}}/>
-          <b>门诊号：</b>{state.outpatient_service}<span style={{marginLeft:70}}/>
-          <b>处方号：</b>{state.prescription_number}
-        </Typography.Paragraph>
-        <Divider style={{marginTop:0,marginBottom:10}}/>
-
-        <Row>
-          <Col span={4}><b>主诉：</b></Col>
-          <Col span={20}><Typography.Paragraph>{state.chief_complaint}</Typography.Paragraph></Col>
-        </Row>
-        <Row>
-          <Col span={4}><b>现病史：</b></Col>
-          <Col span={20}><Typography.Paragraph>{state.present_illness_histroy}</Typography.Paragraph></Col>
-        </Row>
-        <Row>
-          <Col span={4}><b>既往史：</b></Col>
-          <Col span={20}><Typography.Paragraph>{state.past_history}</Typography.Paragraph></Col>
-        </Row>
-        <Row>
-          <Col span={4}><b>体格检查：</b></Col>
-          <Col span={20}><Typography.Paragraph>{state.physical_examination}</Typography.Paragraph></Col>
-        </Row>
-        <Row>
-          <Col span={4}><b>辅助检查：</b></Col>
-          <Col span={20}><Typography.Paragraph>{state.depuy_examination}</Typography.Paragraph></Col>
-        </Row>
-        <Row>
-          <Col span={4}><b>初步诊断：</b></Col>
-          <Col span={20}><Typography.Paragraph>{state.preliminary_diagnosis}</Typography.Paragraph></Col>
-        </Row>
-        <Row>
-          <Col span={4}><b>处理意见：</b></Col>
-          <Col span={20}><Typography.Paragraph>{state.handling_opinions.map((x)=>(<Typography.Paragraph>{x}</Typography.Paragraph>))}</Typography.Paragraph></Col>
-        </Row>
-        <Divider/>
-        <Typography.Paragraph><b>以下空白</b></Typography.Paragraph>
-        <Typography.Paragraph style={{textAlign:'center'}}>
-          <b>患者签字：<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></b>
-          <b>医生签字：<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></b>
-        </Typography.Paragraph>
-        <Typography><b>注意：治疗期间出现新症状或病情加重请及时复诊，病情平稳，请按医生要求复诊！</b></Typography>
-        </div>
-      </Card>
+      <div className="clearfix">
+        <Upload
+          action="http://localhost:8082/upload"
+          listType="picture-card"
+          fileList={fileList}
+          onPreview={this.handlePreview}
+          onChange={this.handleChange}
+        >
+          {fileList.length >= 3 ? null : uploadButton}
+        </Upload>
+        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+          <img alt="example" style={{ width: '100%' }} src={previewImage} />
+        </Modal>
+      </div>
     );
   }
 }
-
- 
  
 class Demo2 extends React.Component {
   state = {
@@ -289,22 +266,4 @@ class Demo2 extends React.Component {
   }
 }
 
-
-class Example extends React.Component {
-  render() {
-    return (
-      <div>
-        <ReactToPrint
-          trigger={() => <Button type="link">Print this out!</Button>}
-          content={() => this.componentRef}
-        />
-        <ComponentToPrint ref={el => (this.componentRef = el)} />
-
-
-        <Demo2/>
-      </div>
-    );
-  }
-}
-
-export default Example
+export default Demo

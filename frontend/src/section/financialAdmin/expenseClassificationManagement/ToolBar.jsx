@@ -42,7 +42,7 @@ class ToolBar extends React.Component {
       cancelText: '取消',
       onOk() {
         const selectedRows = _this.props.selectedRows;
-        _this.props.deleteRow(selectedRows);
+        _this.props.deleteRow(selectedRows.map(x=>x.id));
       },
       onCancel() {
         console.log('Cancel clicked');

@@ -6,13 +6,26 @@ console.warn('loading configuration...')
 console.info(process.env)
 const env = process.env;
 
+fs.writeFile('./fileserver/.env',
+`FILE_SERVER_PROTOCAL=${env.FILE_SERVER_PROTOCAL}
+FILE_SERVER_DOMAIN=${env.FILE_SERVER_DOMAIN}
+FILE_SERVER_PORT=${env.FILE_SERVER_PORT}
+STORE_DIR=${env.STORE_DIR}
+SIZE_LIMIT=${env.SIZE_LIMIT}`
+,(err)=>{
+  if(err)
+    console.error(err)
+  else 
+    console.warn('generating fileserver configuration...OK.')
+})
+
 fs.writeFile('./middleware/.env',
 `DB_HOST=${env.DB_HOST}
 DB_USER=${env.DB_USER}
 DB_PASS=${env.DB_PASS}
 DB_NAME=${env.DB_NAME}
 DB_PORT=${env.DB_PORT}
-API_SERVER=${env.API_SERVER_PROXY+'://'+env.API_SERVER_DOMAIN+':'+env.API_SERVER_PORT}
+API_SERVER=${env.API_SERVER_PROTOCAL+'://'+env.API_SERVER_DOMAIN+':'+env.API_SERVER_PORT}
 PORT=${env.MIDDLEWARE_PORT}
 MODE=${env.MODE}
 DEFAULT_INJECT_UID=${env.DEFAULT_INJECT_UID}`
@@ -25,7 +38,7 @@ DEFAULT_INJECT_UID=${env.DEFAULT_INJECT_UID}`
 
 fs.writeFile('./frontend/src/global/Config.jsx',
 `export default {
-  server:'${env.MIDDLEWARE_PROXY+'://'+env.MIDDLEWARE_DOMAIN+':'+env.MIDDLEWARE_PORT}'
+  server:'${env.MIDDLEWARE_PROTOCAL+'://'+env.MIDDLEWARE_DOMAIN+':'+env.MIDDLEWARE_PORT}'
 }`
   ,(err)=>{
     if(err)

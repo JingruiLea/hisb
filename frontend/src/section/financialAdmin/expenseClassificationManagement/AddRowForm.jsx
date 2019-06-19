@@ -38,7 +38,7 @@ class AddRowForm extends React.Component {
         )}
       </Form.Item>
       <Form.Item label="名称">
-        {getFieldDecorator('name', {
+        {getFieldDecorator('fee_name', {
           rules: [{ required: true, message: '输入名称' }],
         })(
           <Input
@@ -47,6 +47,16 @@ class AddRowForm extends React.Component {
           />
         )}
       </Form.Item>
+      <Form.Item label="拼音">
+          {getFieldDecorator('pinyin', {
+            rules: [{ required: true, message: '输入拼音' }],
+          })(
+            <Input
+              prefix={<Icon type="number" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="输入拼音"
+            />
+          )}
+        </Form.Item>
       <Button htmlType="submit" type="primary">提交</Button>
       </Form>)
   }
