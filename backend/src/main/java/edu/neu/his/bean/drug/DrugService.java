@@ -43,7 +43,7 @@ public class DrugService {
     @Transactional
     public boolean allItemValid(List<Map> drugList) {
         for(Map map:drugList){
-            Drug drug = autoDrugMapper.selectByPrimaryKey((Integer) map.get("durg_id"));
+            Drug drug = autoDrugMapper.selectByPrimaryKey((Integer) map.get("drug_id"));
             if(drug == null) return false;
         }
         return true;
