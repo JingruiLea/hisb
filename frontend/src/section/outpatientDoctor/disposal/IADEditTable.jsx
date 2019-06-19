@@ -132,7 +132,7 @@ class IADEditTable extends React.Component {
     else if(mode=="updateTemplate") modeName="修改组套";
 
     return(
-      <Collapse activeKey={activeKey} destroyInactivePanel>
+      <Collapse activeKey={activeKey} destroyInactivePanel bordered={false}>
         <Panel key={'1'} header={modeName} disabled={!visible}>
           
           <Select
@@ -153,10 +153,10 @@ class IADEditTable extends React.Component {
           <Button style={{marginLeft:'20px'}} type="primary" onClick={this.handleSubmit.bind(this)}>提交</Button>
           <Button style={{marginLeft:'20px'}} type="default" onClick={this.clear.bind(this)}>清空</Button>
           <Button style={{marginLeft:'20px'}} type="dashed" onClick={this.cancel.bind(this)}>取消</Button>
-          
+          <br/><br/>
 
           {(mode==="newTemplate"||mode==="updateTemplate")?(
-            <div style={{marginTop:'10px'}}>
+            <div style={{marginTop:'10px',marginBottom:'10px'}}>
              <Radio.Group 
               onChange={this.changeTemplateDisplayType} 
               value={this.state.templateDisplayType}>
@@ -173,6 +173,7 @@ class IADEditTable extends React.Component {
           ):null} 
 
           <Table
+            size="small"
             dataSource={non_drug_items}
             columns={[
               {title:"项目名称",dataIndex:"name"},

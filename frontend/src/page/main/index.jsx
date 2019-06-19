@@ -102,19 +102,6 @@ class DashboardPage extends React.Component {
               }
             >
               <Menu.Item key="5-1">门诊病例首页</Menu.Item>
-              <Menu.Item key="5-2">检查申请</Menu.Item>
-              <Menu.Item key="5-3">检验申请</Menu.Item>
-              <Menu.Item key="5-4">门诊确诊</Menu.Item>
-              <Menu.Item key="5-5">处置申请</Menu.Item>
-              <Menu.Item key="5-6">成药处方</Menu.Item>
-              <Menu.Item key="5-7">草药处方</Menu.Item>
-              <Menu.Item key="5-8">诊毕</Menu.Item>
-              <Menu.Item key="5-9">患者费用明细查询</Menu.Item>
-              <Menu.Item key="5-10">病历模板管理</Menu.Item>
-              <Menu.Item key="5-11">检查组套管理</Menu.Item>
-              <Menu.Item key="5-12">检验组套管理</Menu.Item>
-              <Menu.Item key="5-13">处置组套管理</Menu.Item>
-              <Menu.Item key="5-14">处方组套管理</Menu.Item>
               <Menu.Item key="5-15">个人工作量统计</Menu.Item>
             </SubMenu>
             

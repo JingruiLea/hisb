@@ -39,9 +39,7 @@ class InspectionSection extends React.Component {
 
   //同步当前的项目
   syncCurrentList=async()=>{
-    //const {medical_record_id} = this.props.currentPatient.medicalRecord.id;
-    const medical_record_id = 1;
-    console.warn('this is a temp debug choice!')
+    const {medical_record_id} = this.props.currentPatient.medicalRecord.id;
     API.request(API.outpatientDoctor.IAD.list,{
       type:IAD_TYPE,
       medical_record_id

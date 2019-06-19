@@ -55,19 +55,6 @@ class DashboardSection extends React.Component {
           {sectionKey==="4-3"?<DailyCollectSection/>:null}
 
           {sectionKey==="5-1"?<OutpatientDoctorWorkspace/>:null}
-          {sectionKey==="5-2"?<div>ToBeImplement</div>:null}
-          {sectionKey==="5-3"?<div>ToBeImplement</div>:null}
-          {sectionKey==="5-4"?<div>ToBeImplement</div>:null}
-          {sectionKey==="5-5"?<div>ToBeImplement</div>:null}
-          {sectionKey==="5-6"?<div>ToBrImplement</div>:null}
-          {sectionKey==="5-7"?<div>ToBeImplement</div>:null}
-          {sectionKey==="5-8"?<div>ToBeImplement</div>:null}
-          {sectionKey==="5-9"?<div>ToBeImplement</div>:null}
-          {sectionKey==="5-10"?<div>ToBeImplement</div>:null}
-          {sectionKey==="5-11"?<div>ToBeImplement</div>:null}
-          {sectionKey==="5-12"?<div>ToBeImplement</div>:null}
-          {sectionKey==="5-13"?<div>ToBeImplement</div>:null}
-          {sectionKey==="5-14"?<div>ToBeImplement</div>:null}
           {sectionKey==="5-15"?<div>ToBeImplement</div>:null}
 
           {sectionKey==="6-1"?<div>ToBeImplement</div>:null}

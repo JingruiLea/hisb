@@ -334,6 +334,69 @@ const API = {
                 url:'http://www.mocky.io/v2/5d0885a73400004d005d978f',//apiServerPrefix+'/exam/detail',
                 method:'post'
             }
+        },
+        //处方(成药 草药 医技部录)
+        prescription:{
+            //获取所有的药品
+            allDrugs:{
+                url:'http://www.mocky.io/v2/5d089c6d34000059005d989d',//apiServerPrefix+'prescription/allDrugs'
+                method:'post',
+            },//获取全部的处方
+            allPrescription:{
+                url:'http://www.mocky.io/v2/5d08f5a43400000e00d82cb6',//apiServerPrefix+'/prescription/allPrescription',
+                method:'post'
+            },//创建处方
+            create:{
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescription/create',
+                method:'post'
+            },//暂存（更新）处方
+            update:{
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescription/create',
+                method:'post'
+            },//发送处方
+            send:{
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescription/submit',
+                method:'post'
+            },//删除处方
+            delete:{
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescription/delete',
+                method:'post'
+            },//作废处方
+            cancel:{
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescription/cancel',
+                method:'post'
+            }
+        },
+        prescriptionTemplate:{
+            //获取全部的组套
+            list:{
+                url:'http://www.mocky.io/v2/5d08b2e434000064985d996e',//apiServerPrefix+'/prescriptionTemplate/list',
+                method:'post'
+            },//创建组套
+            create:{
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescriptionTemplate/create',
+                method:'post'
+            },//组套详情
+            detail:{
+                url:'http://www.mocky.io/v2/5d08b4313400007a005d997c',//apiServerPrefix+'/prescription/detail',
+                method:'post'
+            },//删除组套
+            delete:{
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescription/delete',
+                method:'post'
+            },//更新组套
+            update:{
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescriptionTemplate/update',
+                method:'post'
+            }
+        },
+        //患者费用查询
+        patientFee:{
+            //获取全部费用
+            historyChargeItems:{
+                url:'http://www.mocky.io/v2/5d099fe53400005e29d82f11',//apiServerPrefix+'/outpatientCharge/historyChargeItems',
+                method:'post'
+            }
         }
     },
     //药房

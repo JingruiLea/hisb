@@ -1,5 +1,5 @@
 import React from 'react';
-import {Tree,Button} from 'antd'
+import {Tree,Button, Table} from 'antd'
 import Message from '../../../global/Message';
 
 const { TreeNode, DirectoryTree } = Tree;
@@ -32,6 +32,7 @@ class TemplateSelector extends React.Component {
     const {selectedTemplate} = this.state;
     const templates = this.resolveTemplates(allTemplates);
     const toolBarDisabled = selectedTemplate===null || selectedTemplate===undefined;
+if(selectedTemplate) console.warn(selectedTemplate)
     return(
     <div>
       <DirectoryTree multiple defaultExpandAll onSelect={(key)=>this.handleSelect(key)} >
@@ -45,7 +46,6 @@ class TemplateSelector extends React.Component {
 
       <br/>
       <div style={{float:'right'}}>
-          <span style={{float:'left',marginRight:'10px'}}>操作</span>
           <Button
             style={{float:'right',marginRight:'10px'}}
             icon="plus" type="primary" size="small"
@@ -73,8 +73,25 @@ class TemplateSelector extends React.Component {
                 this.props.applyTemplate(selectedTemplate)
               })
             }} 
-            disabled={!editorOpen}>应用</Button>
+            disabled={!editorOpen || selectedTemplate===null}>应用</Button>
+      </div>
+
+      {selectedTemplate?
+        <div>
+          <br/><br/>
+          <Table
+            style={{marginTop:'10px'}}
+            title={()=>"详情"}
+            size="small"
+            dataSource={selectedTemplate.items}
+            columns={[
+              {title:"项目名称",dataIndex:"non_drug_item.name"},
+              {title:"规格",dataIndex:"non_drug_item.format"},
+              {title:"费用",dataIndex:"non_drug_item.fee"}
+            ]}
+          />
         </div>
+       :null}
       
     </div>)
   }

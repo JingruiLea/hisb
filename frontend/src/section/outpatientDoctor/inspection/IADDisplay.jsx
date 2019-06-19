@@ -35,7 +35,7 @@ class IADDisplay extends React.Component {
             >新建</Button>
         </Typography.Title>
 
-        <Collapse accordion>
+        <Collapse accordion bordered={false}>
           {list.map(data=>(
             <Panel header={
               <span>
@@ -44,6 +44,7 @@ class IADDisplay extends React.Component {
               </span>
             } key={data.id}>
               <Table
+                size="small"
                 title={()=>(
                   <span>
                     <span style={{marginRight:'30px'}}>创建时间：{data.create_time}</span>

@@ -55,6 +55,7 @@ class MedicalRecordHome extends React.Component {
     console.log('update medicalRecord:',medicalRecord)
     API.request(API.outpatientDoctor.medicalRecord.update,medicalRecord)
     .ok(data=>{
+      //this.props.refreshPatientMedicalRecord();
       Message.success('病历已暂存')
     }).submit();
   }
@@ -64,6 +65,7 @@ class MedicalRecordHome extends React.Component {
     console.log('save medicalRecord:',medicalRecord)
     API.request(API.outpatientDoctor.medicalRecord.save,medicalRecord)
     .ok(data=>{
+      this.props.refreshPatientMedicalRecord();
       Message.success('病历已暂存')
     }).submit();
   }  
