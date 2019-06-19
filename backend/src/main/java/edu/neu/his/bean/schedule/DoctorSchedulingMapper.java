@@ -26,8 +26,8 @@ public interface DoctorSchedulingMapper {
     void addDoctorScheduling1(DoctorSchedulingInfo doctorSchedulingInfo, @Param("level_id") int level_id);
 
     //@Delete("DELETE FROM doctor_scheduling_info WHERE name = #{name}")
-    @Delete("DELETE doctor_scheduling_info FROM doctor_scheduling_info,user_info WHERE doctor_scheduling_info.uid=user_info.uid and user_info.real_name=#{name}")
-    void deleteDoctorSchedulingByName(@Param("name") String name);
+    @Delete("DELETE doctor_scheduling_info FROM doctor_scheduling_info,user_info WHERE doctor_scheduling_info.uid=user_info.uid and user_info.uid=#{id}")
+    void deleteDoctorSchedulingById(@Param("id") int id);
 
     @Update("UPDATE doctor_scheduling_info set shift_id = #{shift_id},scheduling_limit = #{doctorSchedulingInfo.scheduling_limit},"+
             "expiry_date = #{doctorSchedulingInfo.expiry_date} WHERE uid = #{doctorSchedulingInfo.id}")

@@ -55,10 +55,7 @@ class ScheduleToolBar extends React.Component {
       //this.setState({conflict:this.props.conflict});
 
       return (
-      <div >
-      <Breadcrumb style={{float:'left',paddingTop:10}}>
-          <Breadcrumb.Item>排班信息列表</Breadcrumb.Item>
-        </Breadcrumb>
+      <div>
         <div style={{float:'right',margin:5}}>
           <Button onClick={this.props.setSchedule}>
             <Icon type="sync" spin={this.props.disabled}></Icon>
