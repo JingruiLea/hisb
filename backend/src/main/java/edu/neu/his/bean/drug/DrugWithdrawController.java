@@ -17,6 +17,9 @@ public class DrugWithdrawController {
     @Autowired
     private PrescriptionService prescriptionService;
 
+    @Autowired
+    private DrugService drugService;
+
     @PostMapping("/list")
     @ResponseBody
     public Map list(int medical_record_id){
@@ -35,13 +38,18 @@ public class DrugWithdrawController {
     @ResponseBody
     public Map submit(@RequestBody Map req){
         List ids = (List)req.get("prescription_item_id");
-        if(!prescriptionService.allExist(ids))
-            return Response.error("错误，有ID不存在");
+        if(!prescriptionService.allCanReturn(ids))
+            return Response.error("错误，有ID不存在或药品已经被退");
+
 
         ids.forEach(id->{
             PrescriptionItem prescriptionItem = prescriptionService.findPrescriptionItemById((int)id);
-            if(prescriptionItem.getStatus().equals(PrescriptionStatus.PrescriptionItemToTake))
-                prescriptionService.returnDrug(prescriptionItem);
+            prescriptionService.returnDrug(prescriptionItem);
+            if(prescriptionItem.getStatus().equals(PrescriptionStatus.PrescriptionItemTaken)){
+                Drug drug = drugService.selectDrugById(prescriptionItem.getDrug_id());
+                int stock = drug.getStock()+prescriptionItem.getAmount();
+                drug.setStock(stock);
+            }
         });
 
         return Response.ok();

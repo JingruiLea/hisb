@@ -23,7 +23,8 @@ public class DrugService {
 
     @Transactional
     public int insertDrug(Drug drug){
-        return drugMapper.insert(drug);
+        drugMapper.insert(drug);
+        return drug.getId();
     }
 
     @Transactional
@@ -100,5 +101,10 @@ public class DrugService {
         } catch (Exception e)  {
             return false;
         }
+
+    }
+    
+    public Drug selectDrugById(int id){
+        return autoDrugMapper.selectByPrimaryKey(id);
     }
 }

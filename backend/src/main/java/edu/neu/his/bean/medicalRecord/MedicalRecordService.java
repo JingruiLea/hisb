@@ -50,7 +50,8 @@ public class MedicalRecordService {
 
     @Transactional
     public int insertMedicalRecord(MedicalRecord medicalRecord){
-        return medicalRecordMapper.insert(medicalRecord);
+        medicalRecordMapper.insert(medicalRecord);
+        return medicalRecord.getId();
     }
 
     @Transactional

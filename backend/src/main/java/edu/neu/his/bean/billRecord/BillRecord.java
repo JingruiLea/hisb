@@ -2,6 +2,12 @@ package edu.neu.his.bean.billRecord;
 
 import java.io.Serializable;
 
+/**
+ * 该类代表票据记录，即对病历涉及的收费项目开具的发票
+ *
+ * @author 王婧怡
+ * @version 1.0
+ */
 public class BillRecord implements Serializable {
     private Integer id;
 

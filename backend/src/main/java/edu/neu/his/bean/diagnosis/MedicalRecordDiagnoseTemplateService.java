@@ -29,7 +29,8 @@ public class MedicalRecordDiagnoseTemplateService {
 
     @Transactional
     public int insertDiagnoseTemplate(MedicalRecordDiagnoseTemplate medicalRecordTemplate){
-        return autoMedicalRecordDiagnoseTemplateMapper.insert(medicalRecordTemplate);
+        autoMedicalRecordDiagnoseTemplateMapper.insert(medicalRecordTemplate);
+        return medicalRecordTemplate.getId();
     }
 
     @Transactional
@@ -70,7 +71,8 @@ public class MedicalRecordDiagnoseTemplateService {
 
     @Transactional
     public int insertDiagnoseTemplateItem(MedicalRecordDiagnoseTemplateItem medicalRecordTemplateItem){
-        return autoMedicalRecordDiagnoseTemplateItemMapper.insert(medicalRecordTemplateItem);
+        autoMedicalRecordDiagnoseTemplateItemMapper.insert(medicalRecordTemplateItem);
+        return medicalRecordTemplateItem.getId();
     }
 
     @Transactional

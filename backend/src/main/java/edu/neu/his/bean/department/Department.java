@@ -1,5 +1,11 @@
 package edu.neu.his.bean.department;
 
+/**
+ *该类代表医院的科室
+ *
+ * @author 王婧怡
+ * @version 1.0
+ */
 public class Department {
     private int id;
     private String pinyin;
@@ -8,6 +14,14 @@ public class Department {
     private int classification_id;
     private String classification_name;
 
+    /**
+     * 带参数构造函数,初始化id、拼音、名称、类型和科室分类id
+     * @param id 科室id
+     * @param pinyin 科室拼音
+     * @param name 科室名称
+     * @param type 科室类型
+     * @param classification_id 科室分类id
+     */
     public Department(int id,String pinyin,String name,String type,int classification_id) {
         this.id = id;
         this.pinyin = pinyin;
@@ -15,17 +29,6 @@ public class Department {
         this.type = type;
         this.classification_id = classification_id;
     }
-
-    public Department(int id,String pinyin,String name,String type,String classification_name,int classification_id) {
-        this.id = id;
-        this.pinyin = pinyin;
-        this.name = name;
-        this.type = type;
-        this.classification_name = classification_name;
-        this.classification_id = classification_id;
-    }
-
-    public Department(){}
 
     public int getId() {
         return id;

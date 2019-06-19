@@ -56,7 +56,8 @@ public class ChargeAndRefundService {
 
     @Transactional
     public int insert(OutpatientChargesRecord record){
-        return outpatientChargesRecordMapper.insert(record);
+        outpatientChargesRecordMapper.insert(record);
+        return record.getId();
     }
 
     @Transactional
