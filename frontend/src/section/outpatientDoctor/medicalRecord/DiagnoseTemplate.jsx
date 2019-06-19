@@ -1,28 +1,28 @@
 import React from 'react';
-import {Row,Col,Modal, Form,Tree,Card,Button,Spin} from 'antd'
+import {Layout, Tabs,Tree, Modal, Form,Table,Card,Button,Spin} from 'antd'
 import Message from '../../../global/Message';
-import MedicalRecordTemplateEdit from './MedicalRecordTemplateEdit'
+import DiagnoseTemplateEdit from './DiagnoseTemplateEdit'
 
 const DirectoryTree = Tree.DirectoryTree;
 const { TreeNode } = Tree;
 
-class MedicalRecordTemplate extends React.Component {
+
+class DiagnoseTemplate extends React.Component {
 
   state = {
     selectedTemplate:null,
     editTemplateModalVisible:false,
     editingTemplate:null,
-    editMode:null //update | new
+    editMode:null //"new" | "update" 
   }
-
 
   componentDidMount=()=>{this.props.onRef(this)}
 
   onSelect=(selectkeys)=>{
-    const {allMedicalRecordTemplate} = this.props;
+    const {allDiagnoseTemplate} = this.props;
     const id = parseInt(selectkeys[0]);
     for(var type of ["personal","department","hospital"]) {
-      var templates = allMedicalRecordTemplate[type].filter(x=>x.id===id);
+      var templates = allDiagnoseTemplate[type].filter(x=>x.id===id);
       if(templates.length==1) {
         this.setState({selectedTemplate:templates[0]})
         return;
@@ -35,7 +35,7 @@ class MedicalRecordTemplate extends React.Component {
   handleApplyTemplate=()=>{
     const {selectedTemplate} = this.state;
     if(selectedTemplate===null) return;
-    Message.showConfirm('病例模板','你确定要使用该模板吗?',()=>{
+    Message.showConfirm('诊断模板','你确定要使用该诊断模板吗?',()=>{
       this.props.applyTemplate(selectedTemplate.id);
     })
   }
@@ -44,13 +44,15 @@ class MedicalRecordTemplate extends React.Component {
   handleDeleteTemplate=()=>{
     const {selectedTemplate} = this.state;
     if(selectedTemplate===null) return;
-    Message.showConfirm('病例模板','你确定要删除该模板吗?',()=>{
+    Message.showConfirm('诊断模板','你确定要删除该诊断模板吗?',()=>{
       const id = selectedTemplate.id;
-      this.props.deleteMedicalRecordTemplate(id);
+      this.props.deleteDiagnoseTemplate(id);
     })
   }
 
   //开启/关闭 模板编辑器
+  hideEditTemplateModal=()=>{this.setState({editTemplateModalVisible:false})}
+
   showEditTemplateModal=(mode,editingTemplate)=>{
     this.setState({
       editTemplateModalVisible:true,
@@ -58,40 +60,47 @@ class MedicalRecordTemplate extends React.Component {
       editingTemplate:editingTemplate
     })
   }
-    
-  hideEditTemplateModal=()=>{
-    this.setState({
-      editTemplateModalVisible:false,
-      editingTemplate:null
-  })}
 
   //修改模板修改
   handleUpdateTemplateSubmit=(mode,values)=>{
     if(mode==="update")
-      this.props.updateMedicalRecordTemplate(values);
+      this.props.updateDiagnoseTemplate(values);
     else if(mode==="new")
-      this.props.createMedicalRecordTemplate(values)
+      this.props.createDiagnoseTemplate(values)
   }
 
   render() {
     const disabled = this.props.disabled;
-  
-    const {allMedicalRecordTemplate} = this.props;
+    const {allDiagnoseTemplate} = this.props;
     const {selectedTemplate,editMode,editingTemplate} = this.state;
+    
     var personal,department,hospital = null;
-    if(allMedicalRecordTemplate) {
-      personal = allMedicalRecordTemplate.personal;
-      department = allMedicalRecordTemplate.department;
-      hospital = allMedicalRecordTemplate.hospital;
+    if(allDiagnoseTemplate) {
+      personal = allDiagnoseTemplate.personal;
+      department = allDiagnoseTemplate.department;
+      hospital = allDiagnoseTemplate.hospital;
     }
   
-    if(editingTemplate && editingTemplate.type===undefined) editingTemplate.type = 0;
-    if(editingTemplate && editingTemplate.title===undefined) editingTemplate.title = '未命名';
+    const { getFieldDecorator } = this.props.form;
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 4 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 19 },
+      },
+    };
+    const rules=[{
+        required:true,
+        message:'字段不能为空'
+    }]
 
     return (
     <div >
       <Card style={{minHeight:'300px'}}>
-      {allMedicalRecordTemplate===null?(<Spin style={{textAlign:'center'}}>载入中</Spin>):
+      {allDiagnoseTemplate===null?(<Spin style={{textAlign:'center'}}>载入中</Spin>):
         <DirectoryTree multiple defaultExpandAll onExpand={this.onExpand} showSearch onSelect={this.onSelect.bind(this)} >
           {personal===null?null:
           <TreeNode title="我的模板" key="0-0" selectable={false}>
@@ -114,7 +123,10 @@ class MedicalRecordTemplate extends React.Component {
           <Button
             style={{float:'right',marginRight:'10px'}}
             icon="plus" type="primary" size="small"
-            onClick={()=>{this.showEditTemplateModal("new",{})}}
+            onClick={()=>{this.showEditTemplateModal("new",{
+              chinese_diagnose:[],
+              western_diagnose:[]
+            })}}
             >新建</Button>
           <Button 
             style={{float:'right',marginRight:'10px'}} 
@@ -123,7 +135,7 @@ class MedicalRecordTemplate extends React.Component {
             disabled={selectedTemplate===null}>删除</Button>
           <Button 
             style={{float:'right',marginRight:'10px'}} 
-            icon="edit" type="danger" size="small"
+            icon="edit" type="danger" size="small" 
             onClick={()=>{this.showEditTemplateModal("update",selectedTemplate)}} 
             disabled={selectedTemplate===null}>修改</Button>
           <Button 
@@ -135,14 +147,28 @@ class MedicalRecordTemplate extends React.Component {
       }>
         {selectedTemplate===null?null:
         <div>
-            <Row><Col span={10}><b>主诉：</b></Col><Col span={14}>{selectedTemplate.chief_complain}</Col></Row>
-            <Row><Col span={10}><b>现病史：</b></Col><Col span={14}>{selectedTemplate.current_medical_history}</Col></Row>
-            <Row><Col span={10}><b>现病治疗情况：</b></Col><Col span={14}>{selectedTemplate.current_treatment_situation}</Col></Row>
-            <Row><Col span={10}><b>既往史：</b></Col><Col span={14}>{selectedTemplate.past_history}</Col></Row>
-            <Row><Col span={10}><b>过敏史：</b></Col><Col span={14}>{selectedTemplate.allergy_history}</Col></Row>
-            <Row><Col span={10}><b>体格诊断</b></Col><Col span={14}>{selectedTemplate.physical_examination}</Col></Row>
+          <Table
+            title={()=>"西医诊断"} bordered={false}
+            size="small" pagination={false}
+            dataSource={selectedTemplate.western_diagnose}
+            columns={[
+              {title:"ICD编码",dataIndex:"disease_code"},
+              {title:"名称",dataIndex:"disease_name"}
+            ]}
+          />
+          <br/>
+          <Table
+            title={()=>"中医诊断"} bordered={false}
+            size="small" pagination={false}
+            dataSource={selectedTemplate.chinese_diagnose}
+            columns={[
+              {title:"诊断编码",dataIndex:"disease_code"},
+              {title:"名称",dataIndex:"disease_name"}
+            ]}
+          />
         </div>}
       </Card>
+
 
       <Modal 
         destroyOnClose closable
@@ -152,14 +178,16 @@ class MedicalRecordTemplate extends React.Component {
         title={editMode==="update"?"编辑模板":"创建模板"} width={700}
         >
           {editingTemplate?
-          <MedicalRecordTemplateEdit
+          <DiagnoseTemplateEdit
             mode={editMode}
             template={editingTemplate}
+            allDiagnoses={this.props.allDiagnoses}
             handleUpdateTemplateSubmit={this.handleUpdateTemplateSubmit.bind(this)}
             />:null}
       </Modal>
+
     </div>)
   }
 }
 
-export default Form.create({name:"template_update"})(MedicalRecordTemplate);
+export default Form.create({name:"template_update"})(DiagnoseTemplate);

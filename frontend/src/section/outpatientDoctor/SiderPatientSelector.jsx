@@ -1,6 +1,5 @@
 import React from 'react';
 import {Card,Modal,Typography,Badge,Table, Button, Icon,Input,Select, Spin} from 'antd';
-import API from '../../global/ApiConfig';
 import Message from '../../global/Message';
 import Highlighter from 'react-highlight-words';
 

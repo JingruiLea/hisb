@@ -6,9 +6,9 @@ import PrescriptionEdit from './PrescriptionEdit'
 import API from '../../../global/ApiConfig';
 import Message from '../../../global/Message';
 
-const PRESCRIPTION_TYPE = 0;
+const PRESCRIPTION_TYPE = 1;
 
-class PatentMedcinePrescription extends React.Component {
+class HerbalMedcinePrescription extends React.Component {
   state={
     allDrugs:[],//全部药 只读取（只有指定分类）
     currentList:[],//当前所有的处方
@@ -224,4 +224,4 @@ class PatentMedcinePrescription extends React.Component {
   }
 }
 
-export default PatentMedcinePrescription;
+export default HerbalMedcinePrescription;
