@@ -1,13 +1,11 @@
 import React from 'react';
-import {Row,Col,Layout,Card,Typography, Input, Table, Divider} from 'antd';
+import {Row,Col,Layout} from 'antd';
 import Sider from './sider';
-import { Descriptions } from 'antd';
-
 import API from '../../../global/ApiConfig';
 import Message from '../../../global/Message';
 import PrescriptionDisplay from './PrescriptionDisplay';
 
-const {Content, Footer} = Layout;
+const {Content} = Layout;
 
 class OutpatientDispensingSection extends React.Component {
 

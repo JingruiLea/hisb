@@ -153,7 +153,6 @@ class ToolBar extends React.Component {
           <EditRowForm
             updateRow={this.props.updateRow.bind(this)} 
             data={this.props.selectedRows[0]}  
-            updateRow={this.props.updateRow.bind(this)}
             exit={this.hideEditModal.bind(this)}
             department={this.props.department}
             expense_classification={this.props.expense_classification} />

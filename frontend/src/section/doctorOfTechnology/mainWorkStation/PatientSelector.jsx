@@ -4,9 +4,8 @@ import Message from '../../global/Message';
 import Highlighter from 'react-highlight-words';
 
 
-class SiderPatientSelector extends React.Component {
+class PatientSelector extends React.Component {
 
-  /*该模块管理当前的看诊病人的病例信息 */
 
   state = {
     searchText:''
@@ -96,13 +95,8 @@ class SiderPatientSelector extends React.Component {
       </span>)
   }]
 
-  isRegistrationCurrent(registraion) {
-    if(this.props.currentPatient.registration===undefined) return false;
-    const curRegistration = this.props.currentPatient.registration;
-    return curRegistration.medical_record_id === registraion.medical_record_id;
-  }
-
   render() {
+    const {state} = this;
     //变量
     const {patientList,currentPatient,loading} = this.props;
     //方法
@@ -146,11 +140,11 @@ class SiderPatientSelector extends React.Component {
           }}
           title={()=>`暂存（共${pending.length}名患者)`}
           columns={this.columns} dataSource={pending} 
-          pagination={{pageSize:6}} 
+          pagination={true} pagination={{pageSize:6}} 
           size="small" />
       </Card>
     )
   }
 }
 
-export default SiderPatientSelector;
+export default PatientSelector;

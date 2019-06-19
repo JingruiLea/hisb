@@ -1,6 +1,6 @@
 import React from 'react';
-import {Row,Col,Layout,Card,Typography,Pagination, Form, Table, Divider, Button, Spin} from 'antd'
-import { Tree,Input,DatePicker } from 'antd';
+import {Layout,Typography, Form, Table, Button, Spin} from 'antd'
+import { DatePicker } from 'antd';
 import { Chart,Geom,Axis,Tooltip} from "bizcharts";
 
 const cols = {
@@ -9,8 +9,8 @@ const cols = {
   }
 };
 
-const { RangePicker, MonthPicker } = DatePicker;
-const {Content, Footer} = Layout;
+const { RangePicker } = DatePicker;
+const {Content} = Layout;
 
 
 /************* 加载数据 ****************** */

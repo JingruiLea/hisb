@@ -138,7 +138,7 @@ prescription_item_list:[
   }
 
   makeArray=(s,e)=>{
-    var res = new Array();
+    var res = [];
     for(var i=s;i<e;i++)
       res.push(i);
     return res;
@@ -163,6 +163,9 @@ prescription_item_list:[
       case "updateTemplate":{
         this.props.updateTemplate(id,templateDisplayType,templateName,prescription_item_list)
         break;
+      }
+      default:{
+        console.error('unknown mode')
       }
     }
   }
@@ -193,10 +196,10 @@ prescription_item_list:[
     const {allDrugs} = this.props;
     const {visible,prescription_item_list,mode,activeKey} = this.state;
     var modeName = "编辑器";
-    if(mode=="new") modeName="创建";
-    else if(mode=="update") modeName="修改";
-    else if(mode=="newTemplate") modeName="创建组套";
-    else if(mode=="updateTemplate") modeName="修改组套";
+    if(mode==="new") modeName="创建";
+    else if(mode==="update") modeName="修改";
+    else if(mode==="newTemplate") modeName="创建组套";
+    else if(mode==="updateTemplate") modeName="修改组套";
 
     return(
       <Collapse activeKey={activeKey} destroyInactivePanel bordered={false}>
@@ -280,7 +283,7 @@ prescription_item_list:[
                   <Input defaultValue={text} style={{width:'120px'}} size="small" value={text} onChange={(e)=>this.handleInputChange(index,"note",e)}/>)
               },
               {title:"操作",
-                render:(text,record,index)=>(<a href="javascript:;" onClick={()=>{this.deleteRow(index)}}>删除</a>)
+                render:(text,record,index)=>(<Button type="link" onClick={()=>{this.deleteRow(index)}}>删除</Button>)
               }
             ]}
           />

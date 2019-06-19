@@ -12,7 +12,7 @@ class BatchImportUpload extends React.Component {
 
   uploadProps = {
     name: 'file',
-    action: '',//API.pharmacyWorkStation.drugInfoManagement.import.url,
+    action: API.pharmacyWorkStation.drugInfoManagement.import.url,
     withCredentials:true
   };
 

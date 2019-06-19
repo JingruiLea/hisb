@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Button,Input,Icon, Table, Divider, Tag,Spin,Typography} from 'antd';
+import { Layout, Divider,Spin,Typography} from 'antd';
 import axios from 'axios';
 import ToolBar from './ToolBar';
 import API from '../../../global/ApiConfig';
@@ -33,7 +33,6 @@ class RegistrationLevelManagement extends React.Component {
     /***************************************  数据交互   ******************************************* */
     //上传数据后 重置数据
     reloadData = ()=>{
-        const _this = this;
         this.setState({loading:true});
         axios({
             method: API.bacisInfoManagement.registrationLevel.all.method,
@@ -87,7 +86,6 @@ class RegistrationLevelManagement extends React.Component {
     }
 
     newRow=(data)=>{
-        const _this = this;
         axios({
             method: API.bacisInfoManagement.registrationLevel.add.method,
             url: API.bacisInfoManagement.registrationLevel.add.url,

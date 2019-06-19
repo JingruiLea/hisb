@@ -6,7 +6,6 @@ class EditRowForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const form = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values.id = parseInt(values.id);

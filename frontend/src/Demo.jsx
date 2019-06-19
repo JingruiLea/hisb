@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactToPrint from 'react-to-print';
 
-import {Card,Typography, Layout, Divider, Row,Col} from 'antd';
+import {Card,Typography, Divider, Row,Col} from 'antd';
+import { Button } from 'antd/lib/radio';
 const { Title } = Typography;
 
 
@@ -294,7 +295,7 @@ class Example extends React.Component {
     return (
       <div>
         <ReactToPrint
-          trigger={() => <a href="#">Print this out!</a>}
+          trigger={() => <Button type="link">Print this out!</Button>}
           content={() => this.componentRef}
         />
         <ComponentToPrint ref={el => (this.componentRef = el)} />

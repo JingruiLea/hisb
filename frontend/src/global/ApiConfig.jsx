@@ -399,6 +399,10 @@ const API = {
             }
         }
     },
+    //医技科室
+    doctorOfTechnology:{
+
+    },
     //药房
     pharmacyWorkStation:{
         //药品目录管理

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form,Input,Collapse,Radio,Divider,Button} from 'antd';
+import {Form,Input,Radio,Divider,Button} from 'antd';
 
 class MedicalRecordTemplateEdit extends React.Component {
 

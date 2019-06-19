@@ -85,6 +85,10 @@ class MedicalRecordForm extends React.Component {
         this.props.openMedicalRecordTemplateEditor("new",values)
         break;
       }
+      default:{
+        console.error('known mode');
+        break;
+      }
     }
   };
   

@@ -1,4 +1,6 @@
 #!/usr/bin/sh
+echo 'generating config...'
+node configure
 echo 'ready to run middleware...'
 cd middleware && node index.js&
 echo 'started.'

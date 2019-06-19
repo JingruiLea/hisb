@@ -13,7 +13,6 @@ class AddRowForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const form = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received addRow values of form: ', values);
