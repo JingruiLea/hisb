@@ -22,13 +22,14 @@ public class MedicalRecordTemplateService {
     }
 
     @Transactional
-    public List<MedicalRecordTemplate> selectByName(String name){
-        return medicalRecordTemplateMapper.selectByName(name);
+    public List<MedicalRecordTemplate> selectByTitle(String title){
+        return medicalRecordTemplateMapper.selectByName(title);
     }
 
     @Transactional
     public int insert(MedicalRecordTemplate medicalRecordTemplate){
-        return medicalRecordTemplateMapper.insert(medicalRecordTemplate);
+        medicalRecordTemplateMapper.insert(medicalRecordTemplate);
+        return medicalRecordTemplate.getId();
     }
 
     @Transactional

@@ -18,6 +18,9 @@ public class MedicalRecordDiagnoseTemplateController {
     @Autowired
     MedicalRecordDiagnoseTemplateService medicalRecordDiagnoseTemplateService;
 
+    @Autowired
+    DiagnoseDirectoryService diagnoseDirectoryService;
+
     @PostMapping("/list")
     @ResponseBody
     public Map list(@RequestBody Map req){
@@ -61,6 +64,10 @@ public class MedicalRecordDiagnoseTemplateController {
         MedicalRecordDiagnoseTemplate medicalRecordDiagnoseTemplate = Utils.fromMap(req,MedicalRecordDiagnoseTemplate.class);
         String title = updateCheckName(medicalRecordDiagnoseTemplate);
         medicalRecordDiagnoseTemplate.setTitle(title);
+
+        User user = Utils.getSystemUser(req);
+        medicalRecordDiagnoseTemplate.setUser_id(user.getUid());
+        medicalRecordDiagnoseTemplate.setDepartment_id(user.getDepartment_id());
         medicalRecordDiagnoseTemplateService.updateDiagnoseTemplate(medicalRecordDiagnoseTemplate);
         int diagnose_template_id = medicalRecordDiagnoseTemplate.getId();
 
@@ -92,8 +99,11 @@ public class MedicalRecordDiagnoseTemplateController {
 
     @PostMapping("/detail")
     @ResponseBody
-    public Map detail(@RequestParam int id){
+    public Map detail(@RequestBody Map req){
+        int id = (int)req.get("id");
         MedicalRecordDiagnoseTemplate medicalRecordDiagnoseTemplate = medicalRecordDiagnoseTemplateService.selectTemplateById(id);
+        if(medicalRecordDiagnoseTemplate==null)
+            return Response.error("错误，该诊断模板不存在");
         Map data = Utils.objectToMap(medicalRecordDiagnoseTemplate);
         data.put("diagnose",medicalRecordDiagnoseTemplateService.returnDiagnoseTemplateMap(id));
 
@@ -140,7 +150,8 @@ public class MedicalRecordDiagnoseTemplateController {
             MedicalRecordDiagnoseTemplateItem medicalRecordDiagnoseTemplateItem = Utils.fromMap(itemMap, MedicalRecordDiagnoseTemplateItem.class);
             medicalRecordDiagnoseTemplateItem.setMedical_record_diagnose_template_id(diagnose_template_id);
             medicalRecordDiagnoseTemplateItem.setDiagnose_type(type);
-            medicalRecordDiagnoseTemplateService.insertDiagnoseTemplateItem(medicalRecordDiagnoseTemplateItem);
+            if(diagnoseDirectoryService.checkIdExist(medicalRecordDiagnoseTemplateItem.getDisease_id()))
+                medicalRecordDiagnoseTemplateService.insertDiagnoseTemplateItem(medicalRecordDiagnoseTemplateItem);
         });
     }
 }

@@ -19,7 +19,8 @@ public class DrugService {
 
     @Transactional
     public int insertDrug(Drug drug){
-        return drugMapper.insert(drug);
+        drugMapper.insert(drug);
+        return drug.getId();
     }
 
     @Transactional
@@ -69,5 +70,10 @@ public class DrugService {
     @Transactional
     public List<Drug> selectDrugByName(String name){
         return drugMapper.selectByName(name);
+    }
+
+    @Transactional
+    public Drug selectDrugById(int id){
+        return autoDrugMapper.selectByPrimaryKey(id);
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public interface MedicalRecordTemplateMapper {
     @Select({
             "select",
-            "id, `name`, `type`, user_id, department_id, create_time, chief_complaint, ",
+            "id, `title`, `type`, user_id, department_id, create_time, chief_complaint, ",
             "current_medical_history, current_treatment_situation, past_history, allergy_history, ",
             "physical_examination",
             "from medical_record_template",
@@ -20,7 +20,7 @@ public interface MedicalRecordTemplateMapper {
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-            @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
+            @Result(column="title", property="title", jdbcType=JdbcType.VARCHAR),
             @Result(column="type", property="type", jdbcType=JdbcType.INTEGER),
             @Result(column="user_id", property="user_id", jdbcType=JdbcType.INTEGER),
             @Result(column="department_id", property="department_id", jdbcType=JdbcType.INTEGER),
@@ -36,7 +36,7 @@ public interface MedicalRecordTemplateMapper {
 
     @Select({
             "select",
-            "id, `name`, `type`, user_id, department_id, create_time, chief_complaint, ",
+            "id, `title`, `type`, user_id, department_id, create_time, chief_complaint, ",
             "current_medical_history, current_treatment_situation, past_history, allergy_history, ",
             "physical_examination",
             "from medical_record_template",
@@ -44,7 +44,7 @@ public interface MedicalRecordTemplateMapper {
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-            @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
+            @Result(column="title", property="title", jdbcType=JdbcType.VARCHAR),
             @Result(column="type", property="type", jdbcType=JdbcType.INTEGER),
             @Result(column="user_id", property="user_id", jdbcType=JdbcType.INTEGER),
             @Result(column="department_id", property="department_id", jdbcType=JdbcType.INTEGER),
@@ -60,15 +60,15 @@ public interface MedicalRecordTemplateMapper {
 
     @Select({
             "select",
-            "id, `name`, `type`, user_id, department_id, create_time, chief_complaint, ",
+            "id, `title`, `type`, user_id, department_id, create_time, chief_complaint, ",
             "current_medical_history, current_treatment_situation, past_history, allergy_history, ",
             "physical_examination",
             "from medical_record_template",
-            "where `name` = #{name,jdbcType=VARCHAR}"
+            "where `title` = #{title,jdbcType=VARCHAR}"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-            @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
+            @Result(column="title", property="title", jdbcType=JdbcType.VARCHAR),
             @Result(column="type", property="type", jdbcType=JdbcType.INTEGER),
             @Result(column="user_id", property="user_id", jdbcType=JdbcType.INTEGER),
             @Result(column="department_id", property="department_id", jdbcType=JdbcType.INTEGER),
@@ -80,11 +80,11 @@ public interface MedicalRecordTemplateMapper {
             @Result(column="allergy_history", property="allergy_history", jdbcType=JdbcType.LONGVARCHAR),
             @Result(column="physical_examination", property="physical_examination", jdbcType=JdbcType.LONGVARCHAR)
     })
-    List<MedicalRecordTemplate> selectByName(String name);
+    List<MedicalRecordTemplate> selectByName(String title);
 
     @Select({
             "select",
-            "id, `name`, `type`, user_id, department_id, create_time, chief_complaint, ",
+            "id, `title`, `type`, user_id, department_id, create_time, chief_complaint, ",
             "current_medical_history, current_treatment_situation, past_history, allergy_history, ",
             "physical_examination",
             "from medical_record_template",
@@ -92,7 +92,7 @@ public interface MedicalRecordTemplateMapper {
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-            @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
+            @Result(column="title", property="title", jdbcType=JdbcType.VARCHAR),
             @Result(column="type", property="type", jdbcType=JdbcType.INTEGER),
             @Result(column="user_id", property="user_id", jdbcType=JdbcType.INTEGER),
             @Result(column="department_id", property="department_id", jdbcType=JdbcType.INTEGER),
@@ -113,13 +113,13 @@ public interface MedicalRecordTemplateMapper {
     int deleteByPrimaryKey(Integer id);
 
     @Insert({
-            "insert into medical_record_template (`name`, `type`, ",
+            "insert into medical_record_template (`title`, `type`, ",
             "user_id, department_id, ",
             "create_time, `status`, ",
             "chief_complaint, current_medical_history, ",
             "current_treatment_situation, past_history, ",
             "allergy_history, physical_examination)",
-            "values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, ",
+            "values (#{title,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, ",
             "#{user_id,jdbcType=INTEGER}, #{department_id,jdbcType=INTEGER}, ",
             "#{create_time,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, ",
             "#{chief_complaint,jdbcType=LONGVARCHAR}, #{current_medical_history,jdbcType=LONGVARCHAR}, ",
@@ -131,7 +131,7 @@ public interface MedicalRecordTemplateMapper {
 
     @Select({
             "select",
-            "id, `name`, `type`, user_id, department_id, create_time, `status`, chief_complaint, ",
+            "id, `title`, `type`, user_id, department_id, create_time, `status`, chief_complaint, ",
             "current_medical_history, current_treatment_situation, past_history, allergy_history, ",
             "physical_examination",
             "from medical_record_template",
@@ -139,7 +139,7 @@ public interface MedicalRecordTemplateMapper {
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-            @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
+            @Result(column="title", property="title", jdbcType=JdbcType.VARCHAR),
             @Result(column="type", property="type", jdbcType=JdbcType.INTEGER),
             @Result(column="user_id", property="user_id", jdbcType=JdbcType.INTEGER),
             @Result(column="department_id", property="department_id", jdbcType=JdbcType.INTEGER),
@@ -156,14 +156,14 @@ public interface MedicalRecordTemplateMapper {
 
     @Select({
             "select",
-            "id, `name`, `type`, user_id, department_id, create_time, `status`, chief_complaint, ",
+            "id, `title`, `type`, user_id, department_id, create_time, `status`, chief_complaint, ",
             "current_medical_history, current_treatment_situation, past_history, allergy_history, ",
             "physical_examination",
             "from medical_record_template"
     })
     @Results({
             @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
-            @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
+            @Result(column="title", property="title", jdbcType=JdbcType.VARCHAR),
             @Result(column="type", property="type", jdbcType=JdbcType.INTEGER),
             @Result(column="user_id", property="user_id", jdbcType=JdbcType.INTEGER),
             @Result(column="department_id", property="department_id", jdbcType=JdbcType.INTEGER),
@@ -180,7 +180,7 @@ public interface MedicalRecordTemplateMapper {
 
     @Update({
             "update medical_record_template",
-            "set `name` = #{name,jdbcType=VARCHAR},",
+            "set `title` = #{title,jdbcType=VARCHAR},",
             "`type` = #{type,jdbcType=INTEGER},",
             "user_id = #{user_id,jdbcType=INTEGER},",
             "department_id = #{department_id,jdbcType=INTEGER},",

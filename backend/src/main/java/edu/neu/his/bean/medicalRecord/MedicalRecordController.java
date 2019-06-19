@@ -59,7 +59,7 @@ public class MedicalRecordController {
         return Response.ok(medicalRecordService.find(type,medical_certificate_number, RegistrationConfig.registrationAvailable));
     }
 
-    @PostMapping("/recordHistory")
+    @PostMapping("/allHistoryMedicalRecord")
     @ResponseBody
     public Map recordHistory(@RequestBody Map req){
         List<Map> data = new ArrayList<>();
@@ -72,11 +72,14 @@ public class MedicalRecordController {
             int medical_record_id = registration.getMedical_record_id();
             //获得病历
             MedicalRecord medicalRecord = medicalRecordService.findMedicalRecordById(medical_record_id);
-            if(medicalRecord.getStatus().equals(MedicalRecordStatus.Finished)) {
+            if(medicalRecord!=null && medicalRecord.getStatus().equals(MedicalRecordStatus.Finished)) {
                 Map record = Utils.objectToMap(medicalRecord);
                 //获得诊断
+                Map diagnose = new HashMap();
                 MedicalRecordDiagnose medicalRecordDiagnose = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id);
-                Map diagnose = medicalRecordDiagnoseService.getExistDiagnose(medicalRecordDiagnose);
+                if(medicalRecordDiagnose!=null)
+                    diagnose = medicalRecordDiagnoseService.getExistDiagnose(medicalRecordDiagnose);
+
                 //向病历中加入诊断
                 record.put("diagnose", diagnose);
                 //向历史病历列表中加入该病历
@@ -89,7 +92,8 @@ public class MedicalRecordController {
 
     @PostMapping("/getMedicalRecord")
     @ResponseBody
-    public Map createMedicalRecord(@RequestParam int medical_record_id){
+    public Map createMedicalRecord(@RequestBody Map req){
+        int medical_record_id = (int)req.get("medical_record_id");
         if(!medicalRecordService.canOperateMedicalRecord(medical_record_id))
             return Response.error("错误，挂号不存在或该挂号已完成/已取消");
 

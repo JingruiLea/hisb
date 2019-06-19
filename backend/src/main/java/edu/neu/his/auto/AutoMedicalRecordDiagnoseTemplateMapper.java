@@ -61,8 +61,7 @@ public interface AutoMedicalRecordDiagnoseTemplateMapper {
         "set title = #{title,jdbcType=VARCHAR},",
           "user_id = #{user_id,jdbcType=INTEGER},",
           "department_id = #{department_id,jdbcType=INTEGER},",
-          "`type` = #{type,jdbcType=INTEGER},",
-          "create_time = #{create_time,jdbcType=VARCHAR}",
+          "`type` = #{type,jdbcType=INTEGER}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(MedicalRecordDiagnoseTemplate record);

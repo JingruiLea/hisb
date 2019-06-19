@@ -136,6 +136,7 @@ public class PrescriptionService {
         });
     }
 
+    @Autowired
     private AutoPrescriptionItemMapper autoPrescriptionItemMapper;
 
     @Autowired
@@ -172,7 +173,7 @@ public class PrescriptionService {
                 prescriptionItemResult.add(prescriptionItemMap);
             });
             Map prescriptionMap = Utils.objectToMap(prescription);
-            prescriptionMap.put("prescription_item",prescriptionItemResult);
+            prescriptionMap.put("prescription_item_list",prescriptionItemResult);
             result.add(prescriptionMap);
         });
 
@@ -185,15 +186,33 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public boolean allExist(List ids){
-        List<Integer> notHave = new ArrayList<>();
+    public boolean allCanReturn(List ids){
+        List<Integer> cannotReturn = new ArrayList<>();
 
         ids.forEach(id->{
             PrescriptionItem prescriptionItem = findPrescriptionItemById((int)id);
             if(prescriptionItem==null)
-                notHave.add((int)id);
+                cannotReturn.add((int)id);
+            else{
+                Drug drug = drugService.selectDrugById(prescriptionItem.getDrug_id());
+                int stock = drug.getStock()-prescriptionItem.getAmount();
+                if(stock<0)
+                    cannotReturn.add((int)id);
+            }
         });
-        return notHave.size()==0;
+        return cannotReturn.size()==0;
+    }
+
+    @Transactional
+    public boolean allCanTake(List ids){
+        List<Integer> cannotTake = new ArrayList<>();
+
+        ids.forEach(id->{
+            PrescriptionItem prescriptionItem = findPrescriptionItemById((int)id);
+            if(prescriptionItem==null && prescriptionItem.getStatus().equals(PrescriptionStatus.PrescriptionItemReturned))
+                cannotTake.add((int)id);
+        });
+        return cannotTake.size()==0;
     }
 
     @Transactional
@@ -206,5 +225,10 @@ public class PrescriptionService {
         //修改处方详情
         prescriptionItem.setStatus(PrescriptionStatus.PrescriptionItemReturned);
         return autoPrescriptionItemMapper.updateByPrimaryKey(prescriptionItem);
+    }
+
+    @Transactional
+    public List<PrescriptionItem> findPrescriptionItemByStatus(String prescriptionStatus){
+        return prescriptionItemMapper.selectByStatus(prescriptionStatus);
     }
 }

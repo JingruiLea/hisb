@@ -2,6 +2,12 @@ package edu.neu.his.bean.daily;
 
 import java.io.Serializable;
 
+/**
+ * 该类代表日结记录
+ *
+ * @author 王婧怡
+ * @version 1.0
+ */
 public class DailyCollect implements Serializable {
     private Integer id;
 
