@@ -2,11 +2,15 @@ package edu.neu.his.auto;
 
 import edu.neu.his.bean.prescription.PrescriptionItem;
 import java.util.List;
-
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 
-@Mapper
 public interface AutoPrescriptionItemMapper {
     @Delete({
         "delete from prescription_item",
@@ -15,10 +19,14 @@ public interface AutoPrescriptionItemMapper {
     int deleteByPrimaryKey(Integer id);
 
     @Insert({
-        "insert into prescription_item (amount, prescription_id, ",
+        "insert into prescription_item (`usage`, dosage, ",
+        "frequency, day_count, ",
+        "times, amount, prescription_id, ",
         "drug_id, `status`, ",
         "note)",
-        "values (#{amount,jdbcType=INTEGER}, #{prescription_id,jdbcType=INTEGER}, ",
+        "values (#{usage,jdbcType=VARCHAR}, #{dosage,jdbcType=VARCHAR}, ",
+        "#{frequency,jdbcType=VARCHAR}, #{day_count,jdbcType=INTEGER}, ",
+        "#{times,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER}, #{prescription_id,jdbcType=INTEGER}, ",
         "#{drug_id,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, ",
         "#{note,jdbcType=LONGVARCHAR})"
     })
@@ -27,12 +35,18 @@ public interface AutoPrescriptionItemMapper {
 
     @Select({
         "select",
-        "id, amount, prescription_id, drug_id, `status`, note",
+        "id, `usage`, dosage, frequency, day_count, times, amount, prescription_id, drug_id, ",
+        "`status`, note",
         "from prescription_item",
         "where id = #{id,jdbcType=INTEGER}"
     })
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="usage", property="usage", jdbcType=JdbcType.VARCHAR),
+        @Result(column="dosage", property="dosage", jdbcType=JdbcType.VARCHAR),
+        @Result(column="frequency", property="frequency", jdbcType=JdbcType.VARCHAR),
+        @Result(column="day_count", property="day_count", jdbcType=JdbcType.INTEGER),
+        @Result(column="times", property="times", jdbcType=JdbcType.INTEGER),
         @Result(column="amount", property="amount", jdbcType=JdbcType.INTEGER),
         @Result(column="prescription_id", property="prescription_id", jdbcType=JdbcType.INTEGER),
         @Result(column="drug_id", property="drug_id", jdbcType=JdbcType.INTEGER),
@@ -43,11 +57,17 @@ public interface AutoPrescriptionItemMapper {
 
     @Select({
         "select",
-        "id, amount, prescription_id, drug_id, `status`, note",
+        "id, `usage`, dosage, frequency, day_count, times, amount, prescription_id, drug_id, ",
+        "`status`, note",
         "from prescription_item"
     })
     @Results({
         @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="usage", property="usage", jdbcType=JdbcType.VARCHAR),
+        @Result(column="dosage", property="dosage", jdbcType=JdbcType.VARCHAR),
+        @Result(column="frequency", property="frequency", jdbcType=JdbcType.VARCHAR),
+        @Result(column="day_count", property="day_count", jdbcType=JdbcType.INTEGER),
+        @Result(column="times", property="times", jdbcType=JdbcType.INTEGER),
         @Result(column="amount", property="amount", jdbcType=JdbcType.INTEGER),
         @Result(column="prescription_id", property="prescription_id", jdbcType=JdbcType.INTEGER),
         @Result(column="drug_id", property="drug_id", jdbcType=JdbcType.INTEGER),
@@ -58,7 +78,12 @@ public interface AutoPrescriptionItemMapper {
 
     @Update({
         "update prescription_item",
-        "set amount = #{amount,jdbcType=INTEGER},",
+        "set `usage` = #{usage,jdbcType=VARCHAR},",
+          "dosage = #{dosage,jdbcType=VARCHAR},",
+          "frequency = #{frequency,jdbcType=VARCHAR},",
+          "day_count = #{day_count,jdbcType=INTEGER},",
+          "times = #{times,jdbcType=INTEGER},",
+          "amount = #{amount,jdbcType=INTEGER},",
           "prescription_id = #{prescription_id,jdbcType=INTEGER},",
           "drug_id = #{drug_id,jdbcType=INTEGER},",
           "`status` = #{status,jdbcType=VARCHAR},",
@@ -67,9 +92,10 @@ public interface AutoPrescriptionItemMapper {
     })
     int updateByPrimaryKey(PrescriptionItem record);
 
+
     @Select({
             "select",
-            "id, amount, prescription_id, drug_id, `status`, note",
+            "*",
             "from prescription_item",
             "where prescription_id = #{prescriptionId,jdbcType=INTEGER}",
             "and drug_id = #{drugId}"
@@ -86,7 +112,7 @@ public interface AutoPrescriptionItemMapper {
 
     @Select({
             "select",
-            "id, amount, prescription_id, drug_id, `status`, note",
+            "*",
             "from prescription_item",
             "where prescription_id = #{prescriptionId,jdbcType=INTEGER}",
     })
