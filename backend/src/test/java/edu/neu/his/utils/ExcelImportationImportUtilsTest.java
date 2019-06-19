@@ -75,18 +75,18 @@ public class ExcelImportationImportUtilsTest {
         //((Map<String, Function<String, ?>>)excel.getPreFunctionMap()).put("classification_id", departmentMapper::findClassificationIdByName);
         excel.exec();
     }
-/*
-    @Autowired
-    DrugService drugService;
 
-    @Test
-    public void drugImport(){
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("drug.xlsx");
-        ExcelImportation excel = new ExcelImportation(inputStream, Drug.class, drugService);
-        excel.skipLine(1);
-        excel.setColumnFields("code", "name", "format", "unit", "manufacturer", "dosageForm", "type", "price", "pinyin");
-        //((Map<String, Function<String, ?>>)excel.getPreFunctionMap()).put("classification_id", departmentMapper::findClassificationIdByName);
-        excel.exec();
-    }
-*/
+//    @Autowired
+//    DrugService drugService;
+//
+//    @Test
+//    public void drugImport(){
+//        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("drug.xlsx");
+//        ExcelImportation excel = new ExcelImportation(inputStream, Drug.class, drugService);
+//        excel.skipLine(1);
+//        excel.setColumnFields("code", "name", "format", "unit", "manufacturer", "dosageForm", "type", "price", "pinyin");
+//        //((Map<String, Function<String, ?>>)excel.getPreFunctionMap()).put("classification_id", departmentMapper::findClassificationIdByName);
+//        excel.exec();
+//    }
+
 }

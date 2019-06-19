@@ -1,6 +1,6 @@
 package edu.neu.his.auto;
 
-import edu.neu.his.bean.exam.ExamTemplateItem;
+import edu.neu.his.bean.examTemplate.ExamTemplateItem;
 import java.util.List;
 
 import org.apache.ibatis.annotations.*;

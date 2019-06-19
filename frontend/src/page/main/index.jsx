@@ -1,21 +1,18 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 
 import DashboardSection from './DashboardSection'
 import DashboardHeader from '../../section/DashboardHeader'
-import axios from "axios";
 import API from '../../global/ApiConfig';
-import Status from '../../global/Status';
-import Message from '../../global/Message';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
 class DashboardPage extends React.Component {
   state = {
     collapsed: false,
     sectionKey:"0",
-    openKey:"sub3",
+    openKey:"sub4",
     me:{
       username:"XUranus",
       real_name:"李井瑞",
@@ -47,25 +44,10 @@ class DashboardPage extends React.Component {
   }
 
   componentDidMount() {
-    const _this = this;
-    axios({
-        method: API.me.myInfo.method,
-        url: API.me.myInfo.url,
-        withCredentials:true,
-        crossDomain: true
-      }).then((res)=>{
-        const data = res.data;
-        console.log('receive',data)
-        if(data.code===Status.Ok) {
-            _this.setState({me:data.data})
-        } else if(data.code===Status.PermissionDenied) {
-            Message.showAuthExpiredMessage();
-        } else {
-            Message.showConfirm('错误',data.msg)
-        }
-    }).catch((err)=>{
-        Message.showNetworkErrorMessage();
-    });
+    API.request(API.me.myInfo,{})
+    .ok((data)=>{
+      this.setState({me:data})
+    }).submit();
   }
 
   render() {
@@ -105,12 +87,9 @@ class DashboardPage extends React.Component {
                 </span>
               }
             >
-              <Menu.Item key="4-1">现场挂号</Menu.Item>
-              <Menu.Item key="4-2">收费</Menu.Item>
-              <Menu.Item key="4-3">退号</Menu.Item>
-              <Menu.Item key="4-4">退费</Menu.Item>
-              <Menu.Item key="4-5">患者费用查询</Menu.Item>
-              <Menu.Item key="4-6">收费员日结</Menu.Item>
+              <Menu.Item key="4-1">挂号/退号</Menu.Item>
+              <Menu.Item key="4-2">收费/退费</Menu.Item>
+              <Menu.Item key="4-3">收费员日结</Menu.Item>
             </SubMenu>
 
             <SubMenu

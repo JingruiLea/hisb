@@ -28,4 +28,13 @@ public class ExpenseClassification {
     public void setFee_name(String fee_name) {
         this.fee_name = fee_name;
     }
+
+    @Override
+    public String toString() {
+        return "ExpenseClassification{" +
+                "id=" + id +
+                ", pinyin='" + pinyin + '\'' +
+                ", fee_name='" + fee_name + '\'' +
+                '}';
+    }
 }

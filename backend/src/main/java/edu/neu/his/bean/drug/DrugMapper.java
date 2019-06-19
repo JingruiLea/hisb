@@ -1,13 +1,14 @@
 package edu.neu.his.bean.drug;
 
 import edu.neu.his.bean.drug.Drug;
+import edu.neu.his.util.Importable;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
 
 @Mapper
-public interface DrugMapper {
+public interface DrugMapper extends Importable<Drug> {
     @Insert({
             "insert into drug (id, code, `name`, ",
             "format, unit, manufacturer, ",

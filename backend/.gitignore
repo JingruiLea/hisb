@@ -28,3 +28,9 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+
+.idea/
+.classpath
+*.iml
+.settings
+target/

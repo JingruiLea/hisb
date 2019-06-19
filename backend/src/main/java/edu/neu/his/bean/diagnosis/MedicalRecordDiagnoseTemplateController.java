@@ -22,6 +22,9 @@ public class MedicalRecordDiagnoseTemplateController {
     @Autowired
     DiagnoseDirectoryService diagnoseDirectoryService;
 
+    @Autowired
+    DiagnoseDirectoryService diagnoseDirectoryService;
+
     @PostMapping("/list")
     @ResponseBody
     public Map list(@RequestBody Map req){
@@ -68,6 +71,10 @@ public class MedicalRecordDiagnoseTemplateController {
         medicalRecordDiagnoseTemplate.setUser_id(user.getUid());
         medicalRecordDiagnoseTemplate.setDepartment_id(user.getDepartment_id());
         medicalRecordDiagnoseTemplate.setTitle(title);
+
+        User user = Utils.getSystemUser(req);
+        medicalRecordDiagnoseTemplate.setUser_id(user.getUid());
+        medicalRecordDiagnoseTemplate.setDepartment_id(user.getDepartment_id());
         medicalRecordDiagnoseTemplateService.updateDiagnoseTemplate(medicalRecordDiagnoseTemplate);
         int diagnose_template_id = medicalRecordDiagnoseTemplate.getId();
 

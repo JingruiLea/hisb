@@ -1,9 +1,7 @@
 import React from 'react';
-import { Layout, Button,Input,Icon, Table, Divider, Tag,Spin,Typography} from 'antd';
-import axios from 'axios';
+import { Layout, Divider,Spin,Typography} from 'antd';
 import ToolBar from './ToolBar';
 import API from '../../../global/ApiConfig';
-import Status from '../../../global/Status';
 import Message from '../../../global/Message';
 import DataTable from './DataTable'
 const {Content} = Layout;
@@ -28,31 +26,15 @@ class DiagnosticDirectoryManagementSection extends React.Component {
     /***************************************  数据交互   ******************************************* */
     
     init = async()=>{
-        axios({
-            method: API.bacisInfoManagement.diagnoseDirectory.allClassification.method,
-            url: API.bacisInfoManagement.diagnoseDirectory.allClassification.url,
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            //console.log('receive',data)
-            if(data.code===Status.Ok) {
-                var allClassification = data.data;
-                console.log('classification loaded:',allClassification);
-                this.setState({
-                    diseaseClassification:allClassification,
-                    loading:false
-                });
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-            Message.showNetworkErrorMessage();
-        });
+        API.request(API.bacisInfoManagement.diagnoseDirectory.allClassification,{})
+        .ok((data)=>{
+            var allClassification = data;
+            this.setState({
+                diseaseClassification:allClassification,
+                loading:false
+            });
+        }).submit();
     }
-
 
     handleSelectClassification=async (selectClassificationID)=>{
         console.log('select classification id',selectClassificationID)
@@ -66,111 +48,43 @@ class DiagnosticDirectoryManagementSection extends React.Component {
 
     reloadData=()=>{
         console.log('reload disease, classification id',this.state.selectClassificationID)
-        axios({
-            method: API.bacisInfoManagement.diagnoseDirectory.searchAllByClassificationId.method,
-            url: API.bacisInfoManagement.diagnoseDirectory.searchAllByClassificationId.url,
-            data:{classification_id:this.state.selectClassificationID},
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            //console.log('receive',data)
-            if(data.code===Status.Ok) {
-                var diseases = data.data.diseases;
-                diseases.forEach((x)=>{x.key = x.id})
-                this.setState({
-                    diseases:diseases,
-                    loading:false,
-                    selectClassificationID:this.state.selectClassificationID
-                });
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-            Message.showNetworkErrorMessage();
-            console.log(err)
-        });
+        API.request(API.bacisInfoManagement.diagnoseDirectory.searchAllByClassificationId,{classification_id:this.state.selectClassificationID})
+        .ok((data)=>{
+            var diseases = data.diseases;
+            diseases.forEach((x)=>{x.key = x.id})
+            this.setState({
+                diseases:diseases,
+                loading:false,
+                selectClassificationID:this.state.selectClassificationID
+            });
+        }).submit();
     }
 
-    updateRow=(data)=>{
-        const _this = this;
-        axios({
-            method: API.bacisInfoManagement.diagnoseDirectory.update.method,
-            url: API.bacisInfoManagement.diagnoseDirectory.update.url,
-            data: data,
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            console.log('receive',data)
-            if(data.code===Status.Ok) {
-                _this.setState({selectedRows:[]})
-                this.reloadData();
-                Message.success("修改成功")
-                //this.setState({tableData:data.data,loading:true})
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-            Message.showNetworkErrorMessage();
-        });
+    updateRow=(rowData)=>{
+        API.request(API.bacisInfoManagement.diagnoseDirectory.update,rowData)
+        .ok((data)=>{
+            this.setState({selectedRows:[]})
+            this.reloadData();
+            Message.success("修改成功")
+        }).submit();
     }
 
-    newRow=(data)=>{
-        const _this = this;
-        axios({
-            method: API.bacisInfoManagement.diagnoseDirectory.add.method,
-            url: API.bacisInfoManagement.diagnoseDirectory.add.url,
-            data: data,
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            console.log('receive',data)
-            if(data.code===Status.Ok) {
-                this.reloadData();
-                Message.success("添加数据成功");
-               // this.setState({tableData:data.data,loading:false})
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-           Message.showNetworkErrorMessage();
-        });
+    newRow=(rowData)=>{
+        API.request(API.bacisInfoManagement.diagnoseDirectory.add,rowData)
+        .ok((data)=>{
+            this.reloadData();
+            Message.success("添加数据成功");
+        }).submit();
     }
 
-    deleteRow=(data)=>{
-        const _this = this;
-        axios({
-            method: API.bacisInfoManagement.diagnoseDirectory.delete.method,
-            url: API.bacisInfoManagement.diagnoseDirectory.delete.url,
-            data: {data},
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            console.log('receive',data)
-            if(data.code===Status.Ok) {
-                _this.setState({selectedRows:[]})
-                _this.reloadData();
-                Message.success("删除数据成功","")
-               // this.setState({tableData:data.data,loading:false})
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-           Message.showNetworkErrorMessage();
-        });
+    deleteRow=(idsArr)=>{
+        API.request(API.bacisInfoManagement.diagnoseDirectory.delete,{data:idsArr})
+        .ok((data)=>{
+            this.setState({selectedRows:[]})
+            this.reloadData();
+            Message.success("删除数据成功","")
+        }).submit();
     }
-    
 
     render() {
 

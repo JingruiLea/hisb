@@ -50,7 +50,8 @@ public class MedicalRecordService {
 
     @Transactional
     public int insertMedicalRecord(MedicalRecord medicalRecord){
-        return medicalRecordMapper.insert(medicalRecord);
+        medicalRecordMapper.insert(medicalRecord);
+        return medicalRecord.getId();
     }
 
     @Transactional
@@ -77,5 +78,17 @@ public class MedicalRecordService {
         if(registration.getStatus().equals(RegistrationConfig.registrationAvailable))
             return true;
         else return false;
+    }
+
+    @Transactional
+    public boolean hasSubmit(Integer id){
+        MedicalRecord medicalRecord = medicalRecordMapper.selectByPrimaryKey(id);
+        if(medicalRecord==null){
+            return false;
+        }
+        if(!Common.YITIJIAO.equals(medicalRecord.getStatus())){
+            return false;
+        }
+        return true;
     }
 }

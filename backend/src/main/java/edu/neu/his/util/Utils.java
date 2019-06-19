@@ -95,6 +95,15 @@ public class Utils {
         return initUtils.userMapper.find((int)req.get("_uid"));
     }
 
+    public static String getFileSuffix(String filename){
+        String[] arr = filename.split("\\.");
+        if(arr.length < 2){
+            return null;
+        }
+        return arr[arr.length - 1];
+
+    }
+    
     public static Map initMap(Map<String,Object> map){
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             if(entry.getValue()==null)

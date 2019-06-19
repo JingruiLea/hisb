@@ -1,6 +1,6 @@
 package edu.neu.his.auto;
 
-import edu.neu.his.bean.prescription.PrescriptionTemplateItem;
+import edu.neu.his.bean.prescriptionTemplate.PrescriptionTemplateItem;
 import java.util.List;
 
 import org.apache.ibatis.annotations.*;
@@ -93,4 +93,11 @@ public interface PrescriptionTemplateItemMapper {
             @Result(column="note", property="note", jdbcType=JdbcType.LONGVARCHAR)
     })
     List<PrescriptionTemplateItem> selectByPrescriptionId(int prescriptionId);
+
+
+    @Delete({
+            "delete from prescription_template_item",
+            "where prescription_template_id = #{id,jdbcType=INTEGER}"
+    })
+    void deleteAllByPrescriptionId(int id);
 }

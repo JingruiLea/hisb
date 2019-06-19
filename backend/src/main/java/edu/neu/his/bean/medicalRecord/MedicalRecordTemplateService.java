@@ -28,7 +28,8 @@ public class MedicalRecordTemplateService {
 
     @Transactional
     public int insert(MedicalRecordTemplate medicalRecordTemplate){
-        return medicalRecordTemplateMapper.insert(medicalRecordTemplate);
+        medicalRecordTemplateMapper.insert(medicalRecordTemplate);
+        return medicalRecordTemplate.getId();
     }
 
     @Transactional

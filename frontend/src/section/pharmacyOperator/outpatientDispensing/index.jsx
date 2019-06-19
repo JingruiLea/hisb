@@ -85,7 +85,7 @@ const data2=[{
   refund_amount:16.00,
   drug_delivery_status:'已发'
 },{
-  prescription_number:361855,
+  prescription_number:361856,
   billing_doctor:'开诊医生',
   drug_name:'脑残片',
   unit_price:16.00,
@@ -127,7 +127,10 @@ class OutpatientDispensingSection extends React.Component {
 
               <Divider/>
 
-              <Table title={()=>(<span style={{fontSize:'20px'}}><b>处方信息</b></span>)} columns={mainColumn} dataSource={data2}/>
+              <Table 
+                title={()=>(<span style={{fontSize:'20px'}}><b>处方信息</b></span>)} 
+                columns={mainColumn} 
+                dataSource={data2}/>
             </Card>
           </Col>
         </Row>

@@ -33,7 +33,6 @@ public class PrescriptionService {
     @Autowired
     AutoPrescriptionMapper autoPrescriptionMapper;
 
-
     @Autowired
     AutoPrescriptionItemMapper itemMapper;
 
@@ -52,12 +51,12 @@ public class PrescriptionService {
         Prescription prescription = new Prescription();
         prescription.setCreate_time(Utils.getSystemTime());
         prescription.setMedical_record_id(medical_record_id);
-        prescription.setStatus("暂存");
+        prescription.setStatus(Common.ZANCUN);
         prescription.setType(type);
         prescription.setUser_id(user_id);
-        int id = autoPrescriptionMapper.insert(prescription);
-        addItems(id, drugIds);
-        return id;
+        autoPrescriptionMapper.insert(prescription);
+        addItems(prescription.getId(), drugIds);
+        return prescription.getId();
     }
 
     @Transactional
@@ -68,9 +67,8 @@ public class PrescriptionService {
     @Transactional
     public void addItems(int prescriptionId, List<Map> drugInfos){
         for(Map i:drugInfos){
-            PrescriptionItem prescriptionItem = new PrescriptionItem();
-            prescriptionItem = Utils.fromMap(i, PrescriptionItem.class);
-            prescriptionItem.setDrug_id((Integer)i.get("id"));
+            PrescriptionItem prescriptionItem = Utils.fromMap(i, PrescriptionItem.class);
+            prescriptionItem.setDrug_id((Integer)i.get("drug_id"));
             prescriptionItem.setPrescription_id(prescriptionId);
             prescriptionItem.setStatus(Common.WEIQUYAO);
             itemMapper.insert(prescriptionItem);
@@ -80,19 +78,21 @@ public class PrescriptionService {
     @Transactional
     public void updateItems(int prescriptionId, List<Map> drugInfos){
         for(Map i:drugInfos){
-            PrescriptionItem prescriptionItem = itemMapper.selectByDetail(prescriptionId, (Integer) i.get("id"));
-            prescriptionItem.setAmount((Integer) i.get("amount"));
-            prescriptionItem.setNote((String)i.get("note"));
-            itemMapper.updateByPrimaryKey(prescriptionItem);
+            PrescriptionItem prescriptionItem = itemMapper.selectByDetail(prescriptionId, (Integer) i.get("drug_id"));
+            PrescriptionItem prescriptionItem1 = Utils.fromMap(i, PrescriptionItem.class);
+            prescriptionItem1.setId(prescriptionItem.getId());
+            itemMapper.updateByPrimaryKey(prescriptionItem1);
         }
     }
 
     @Transactional
-    public void removeItems(int prescriptionId, List<Map> drugInfos){
+    public boolean removeItems(int prescriptionId, List<Map> drugInfos){
         for(Map i:drugInfos){
-            PrescriptionItem item = itemMapper.selectByDetail(prescriptionId, (Integer) i.get("id"));
+            PrescriptionItem item = itemMapper.selectByDetail(prescriptionId, (Integer) i.get("drug_id"));
+            if(item == null) return false;
             itemMapper.deleteByPrimaryKey(item.getId());
         }
+        return true;
     }
 
     @Transactional
@@ -136,6 +136,7 @@ public class PrescriptionService {
         });
     }
 
+    @Autowired
     private AutoPrescriptionItemMapper autoPrescriptionItemMapper;
 
     @Autowired
@@ -172,7 +173,7 @@ public class PrescriptionService {
                 prescriptionItemResult.add(prescriptionItemMap);
             });
             Map prescriptionMap = Utils.objectToMap(prescription);
-            prescriptionMap.put("prescription_item",prescriptionItemResult);
+            prescriptionMap.put("prescription_item_list",prescriptionItemResult);
             result.add(prescriptionMap);
         });
 
@@ -185,15 +186,33 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public boolean allExist(List ids){
-        List<Integer> notHave = new ArrayList<>();
+    public boolean allCanReturn(List ids){
+        List<Integer> cannotReturn = new ArrayList<>();
 
         ids.forEach(id->{
             PrescriptionItem prescriptionItem = findPrescriptionItemById((int)id);
             if(prescriptionItem==null)
-                notHave.add((int)id);
+                cannotReturn.add((int)id);
+            else{
+                Drug drug = drugService.selectDrugById(prescriptionItem.getDrug_id());
+                int stock = drug.getStock()-prescriptionItem.getAmount();
+                if(stock<0)
+                    cannotReturn.add((int)id);
+            }
         });
-        return notHave.size()==0;
+        return cannotReturn.size()==0;
+    }
+
+    @Transactional
+    public boolean allCanTake(List ids){
+        List<Integer> cannotTake = new ArrayList<>();
+
+        ids.forEach(id->{
+            PrescriptionItem prescriptionItem = findPrescriptionItemById((int)id);
+            if(prescriptionItem==null && prescriptionItem.getStatus().equals(PrescriptionStatus.PrescriptionItemReturned))
+                cannotTake.add((int)id);
+        });
+        return cannotTake.size()==0;
     }
 
     @Transactional
@@ -206,5 +225,22 @@ public class PrescriptionService {
         //修改处方详情
         prescriptionItem.setStatus(PrescriptionStatus.PrescriptionItemReturned);
         return autoPrescriptionItemMapper.updateByPrimaryKey(prescriptionItem);
+    }
+
+    @Transactional
+    public List<Prescription> selectAll() {
+        return autoPrescriptionMapper.selectAll();
+    }
+
+    public void removeAllItems(int prescriptionId) {
+        prescriptionMapper.removeAllItems(prescriptionId);
+    }
+
+    public int delete(Integer id) {
+       return autoPrescriptionMapper.deleteByPrimaryKey(id);
+    }
+    
+    public List<PrescriptionItem> findPrescriptionItemByStatus(String prescriptionStatus){
+        return prescriptionItemMapper.selectByStatus(prescriptionStatus);
     }
 }

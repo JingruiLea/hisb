@@ -75,8 +75,8 @@ public class MedicalRecordController {
             if(medicalRecord!=null && medicalRecord.getStatus().equals(MedicalRecordStatus.Finished)) {
                 Map record = Utils.objectToMap(medicalRecord);
                 //获得诊断
-                MedicalRecordDiagnose medicalRecordDiagnose = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id);
                 Map diagnose = new HashMap();
+                MedicalRecordDiagnose medicalRecordDiagnose = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id);
                 if(medicalRecordDiagnose!=null)
                     diagnose = medicalRecordDiagnoseService.getExistDiagnose(medicalRecordDiagnose);
 

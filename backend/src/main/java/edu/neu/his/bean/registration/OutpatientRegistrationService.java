@@ -39,4 +39,9 @@ public class OutpatientRegistrationService {
     public List<Registration> findByDoctor(int id){
         return outpatientRegistrationMapper.findRegistrationByDoctor(id);
     }
+
+    @Transactional
+    public List<Integer> findMedicalRecordIdByName(String name){
+        return outpatientRegistrationMapper.findMedicalRecordIdByName(name);
+    }
 }

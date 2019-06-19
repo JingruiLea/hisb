@@ -1,7 +1,5 @@
 import React from 'react';
-import { Layout, Button,Input,Modal,Breadcrumb,Form,Icon,Select} from 'antd';
-const confirm = Modal.confirm;
-
+import {Button,Input,Form,Icon,Select} from 'antd';
 const Option = Select.Option
 
 class EditRowForm extends React.Component {

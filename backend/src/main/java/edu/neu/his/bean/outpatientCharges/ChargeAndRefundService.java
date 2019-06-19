@@ -56,7 +56,8 @@ public class ChargeAndRefundService {
 
     @Transactional
     public int insert(OutpatientChargesRecord record){
-        return outpatientChargesRecordMapper.insert(record);
+        outpatientChargesRecordMapper.insert(record);
+        return record.getId();
     }
 
     @Transactional
@@ -74,5 +75,9 @@ public class ChargeAndRefundService {
                 return true;
             else return false;
         }
+    }
+
+    public List<OutpatientChargesRecord> findAll() {
+        return outpatientChargesRecordMapper.selectAll();
     }
 }

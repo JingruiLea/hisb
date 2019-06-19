@@ -1,12 +1,23 @@
 package edu.neu.his.bean.exam;
 
+import edu.neu.his.bean.drug.Drug;
 import edu.neu.his.bean.medicalRecord.MedicalRecordService;
+import edu.neu.his.bean.nondrug.NonDrugChargeItem;
+import edu.neu.his.bean.nondrug.NonDrugChargeService;
+import edu.neu.his.bean.user.User;
 import edu.neu.his.util.Common;
+import edu.neu.his.util.Utils;
+import edu.neu.his.util.ExcelImportation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +30,9 @@ public class ExamService {
 
     @Autowired
     MedicalRecordService medicalRecordService;
+
+    @Autowired
+    NonDrugChargeService nonDrugChargeService;
 
     @Transactional
     public int insertItem(ExamItem item){
@@ -65,4 +79,56 @@ public class ExamService {
         return null;
     }
 
+    @Transactional
+    public List list(int medicalRecordId, User user){
+        List res = new ArrayList();
+        List<Exam> examList = examMapper.selectByMedicalRecordId(medicalRecordId);
+        for (Exam exam : examList) {
+            Map examMap = Utils.objectToMap(exam);
+            List<ExamItem> examItemList = examItemMapper.selectByExamId(exam.getId());
+            List itemList = new ArrayList();
+            for (ExamItem examItem : examItemList) {
+                Map examItemMap = Utils.objectToMap(examItem);
+                NonDrugChargeItem nonDrugChargeItem = nonDrugChargeService.selectById(examItem.getNon_drug_item_id());
+                examItemMap.put("non_drug_item", Utils.objectToMap(nonDrugChargeItem));
+                if(nonDrugChargeItem.getDepartment_id() == user.getDepartment_id()){
+                    itemList.add(examItemMap);
+                }
+            }
+            examMap.put("exam_item", itemList);
+            res.add(examMap);
+        }
+        return res;
+    }
+
+
+    @Transactional
+    public List<NonDrugChargeItem> allItemsByType(int type){
+        return nonDrugChargeService.findAll().stream().filter(item->{
+            if(type == 0 && item.getExpense_classification_id() == 3){
+                return true;
+            }else if(type == 1 && item.getExpense_classification_id() == 7){
+                return true;
+            }else if(type == 2 && item.getExpense_classification_id() == 16){
+                return true;
+            }
+            return false;
+        }).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public int delete(int id){
+        return examMapper.deleteByPrimaryKey(id);
+    }
+
+    @Transactional
+    public boolean deleteAllItemById(int id) {
+        List<ExamItem> list = examItemMapper.selectByExamId(id);
+        for (ExamItem o : list) {
+            if(examItemMapper.deleteByPrimaryKey(o.getId()) != 1){
+                return false;
+            }
+        }
+        return true;
+    }
 }
