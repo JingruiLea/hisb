@@ -69,14 +69,15 @@ public class ExamService {
         return examMapper.updateByPrimaryKey(record);
     }
 
-    public Exam selectByMedicalRecordIdAndType(int medicalRecordId, int type){
+    public List<Exam> selectByMedicalRecordIdAndType(int medicalRecordId, int type){
         List<Exam> list = examMapper.selectAll();
+        List<Exam> res = new ArrayList<>();
         for(Exam exam:list){
             if(exam.getMedical_record_id() == medicalRecordId && exam.getType()==type){
-                return exam;
+                res.add(exam);
             }
         }
-        return null;
+        return res;
     }
 
     @Transactional
@@ -130,5 +131,25 @@ public class ExamService {
             }
         }
         return true;
+    }
+
+    public List listByType(int type, int medicalRecordId, User systemUser) {
+        List<Exam> examList = selectByMedicalRecordIdAndType(medicalRecordId, type);
+        List res = new ArrayList();
+        for (Exam exam : examList) {
+            Map examMap = Utils.objectToMap(exam);
+            if(exam.getType()!=type) continue;
+            List<ExamItem> examItemList = examItemMapper.selectByExamId(exam.getId());
+            List itemList = new ArrayList();
+            for (ExamItem examItem : examItemList) {
+                Map examItemMap = Utils.objectToMap(examItem);
+                NonDrugChargeItem nonDrugChargeItem = nonDrugChargeService.selectById(examItem.getNon_drug_item_id());
+                examItemMap.put("non_drug_item", Utils.objectToMap(nonDrugChargeItem));
+                itemList.add(examItemMap);
+            }
+            examMap.put("exam_item", itemList);
+            res.add(examMap);
+        }
+        return res;
     }
 }
