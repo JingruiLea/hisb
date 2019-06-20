@@ -247,4 +247,8 @@ public class PrescriptionService {
         prescription.setStatus(Common.YIZUOFEI);
         return true;
     }
+
+    public Prescription selectById(int prescriptionId) {
+        return autoPrescriptionMapper.selectByPrimaryKey(prescriptionId);
+    }
 }

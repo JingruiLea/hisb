@@ -15,10 +15,10 @@ import java.util.Map;
 @RequestMapping("/drugWithdrawal")
 public class DrugWithdrawController {
     @Autowired
-    private PrescriptionService prescriptionService;
+    PrescriptionService prescriptionService;
 
     @Autowired
-    private DrugService drugService;
+    DrugService drugService;
 
     @PostMapping("/list")
     @ResponseBody
