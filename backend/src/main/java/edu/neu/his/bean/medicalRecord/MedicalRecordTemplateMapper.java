@@ -1,8 +1,6 @@
 package edu.neu.his.bean.medicalRecord;
 
-import edu.neu.his.bean.medicalRecord.MedicalRecordTemplate;
 import java.util.List;
-
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Component;

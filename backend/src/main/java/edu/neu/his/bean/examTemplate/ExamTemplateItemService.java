@@ -37,8 +37,8 @@ public class ExamTemplateItemService {
         List resItem = new ArrayList();
         for (ExamTemplateItem item: examTemplateItems) {
             Map resItemMap = Utils.objectToMap(item);
+            resItemMap.put("non_drug_item", nonDrugChargeItemMapper.selectByPrimaryKey(item.getNon_drug_item_id()));
             resItem.add(resItemMap);
-
         }
         res.put("items", resItem);
         return res;
