@@ -1,6 +1,5 @@
 package edu.neu.his.bean.prescription;
 
-import edu.neu.his.bean.prescription.PrescriptionItem;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +8,7 @@ import java.util.List;
 @Mapper
 @Component(value = "PrescriptionItemMapper")
 public interface PrescriptionItemMapper {
-    @Select("SELECT prescription_item.id, amount, prescription_id, drug_id, prescription_item.status, note" +
+    @Select("SELECT prescription_item.id, amount, prescription_id, drug_id, prescription_item.status, note " +
             "FROM  prescription_item, outpatient_charges_record " +
             "WHERE prescription_id = #{prescription_id} " +
             "and prescription_item.status = #{prescriptionStatus} " +
