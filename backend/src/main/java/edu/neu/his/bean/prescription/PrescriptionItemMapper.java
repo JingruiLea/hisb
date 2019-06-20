@@ -18,7 +18,7 @@ public interface PrescriptionItemMapper {
                                                          @Param("prescriptionStatus") String prescriptionStatus,
                                                          @Param("recordStatus") String recordStatus);
 
-    @Select("SELECT * FROM  prescription_item" +
-            "where status = #{status}")
+    @Select("SELECT * FROM  prescription_item " +
+            "where status = #{status,jdbcType=VARCHAR}")
     List<PrescriptionItem> selectByStatus(@Param("status") String status);
 }

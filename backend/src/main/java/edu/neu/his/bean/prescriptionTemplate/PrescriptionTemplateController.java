@@ -35,13 +35,20 @@ public class PrescriptionTemplateController {
         String name = (String)req.get("template_name");
         User user = Utils.getSystemUser(req);
         name = prescriptionTemplateService.rename(name);
-        prescriptionTemplateService.create(user, name, drugList);
+        prescriptionTemplateService.create(req ,user, name, drugList);
         return Response.ok(prescriptionTemplateService.findAll(user));
     }
 
     @PostMapping("/delete")
     public Map delete(Map req){
-        prescriptionTemplateService.delete((Integer) req.get("prescription_template_id"));
+        List<Integer> prescriptionIds = (List<Integer>) req.get("id");
+        for (Integer prescriptionId : prescriptionIds) {
+            PrescriptionTemplate prescriptionTemplate = prescriptionTemplateService.selectById(prescriptionId);
+            if(prescriptionTemplate == null){
+                return Response.error("该组套不存在!");
+            }
+            prescriptionTemplateService.delete(prescriptionId);
+        }
         return Response.ok(prescriptionTemplateService.findAll(Utils.getSystemUser(req)));
     }
 

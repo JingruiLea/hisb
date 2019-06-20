@@ -41,8 +41,8 @@ public class PrescriptionTemplateService {
 
 
     @Transactional
-    public int create(User user, String name, List<Map> drugIds){
-        PrescriptionTemplate prescription = new PrescriptionTemplate();
+    public int create(Map req, User user, String name, List<Map> drugIds){
+        PrescriptionTemplate prescription = Utils.fromMap(req, PrescriptionTemplate.class);
         prescription.setCreate_time(Utils.getSystemTime());
         prescription.setTemplate_name(name);
         prescription.setUser_id(user.getUid());
@@ -140,7 +140,6 @@ public class PrescriptionTemplateService {
     public void delete(int id){
         List<PrescriptionTemplateItem> list = itemMapper.selectByPrescriptionId(id);
         for (PrescriptionTemplateItem item : list) {
-            if(item == null) return;
             itemMapper.deleteByPrimaryKey(item.getId());
         }
         prescriptionTemplateMapper.deleteByPrimaryKey(id);

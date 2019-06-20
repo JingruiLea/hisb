@@ -247,6 +247,8 @@ public class ExamController {
         return Response.ok(res);
     }
 
+
+
     @PostMapping("register")
     public Map register(@RequestBody Map req){
         List<Integer> examItemIds = (List<Integer>) req.get("exam_item_id");

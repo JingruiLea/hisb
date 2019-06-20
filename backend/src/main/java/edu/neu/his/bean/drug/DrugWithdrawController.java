@@ -22,7 +22,8 @@ public class DrugWithdrawController {
 
     @PostMapping("/list")
     @ResponseBody
-    public Map list(int medical_record_id){
+    public Map list(@RequestBody Map req){
+        int medical_record_id = (int) req.get("medical_record_id");
         List<Map> toTakeList = prescriptionService.getList(medical_record_id,
                 PrescriptionStatus.PrescriptionItemToTake, OutpatientChargesRecordStatus.Charged);
 
@@ -44,12 +45,12 @@ public class DrugWithdrawController {
 
         ids.forEach(id->{
             PrescriptionItem prescriptionItem = prescriptionService.findPrescriptionItemById((int)id);
-            prescriptionService.returnDrug(prescriptionItem);
             if(prescriptionItem.getStatus().equals(PrescriptionStatus.PrescriptionItemTaken)){
                 Drug drug = drugService.selectDrugById(prescriptionItem.getDrug_id());
                 int stock = drug.getStock() + prescriptionItem.getAmount();
                 drug.setStock(stock);
                 drugService.updateDrug(drug);
+                prescriptionService.returnDrug(prescriptionItem);
             }
         });
 
