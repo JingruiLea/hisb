@@ -1,6 +1,5 @@
 package edu.neu.his.bean.prescription;
 
-import edu.neu.his.bean.prescription.PrescriptionItem;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 

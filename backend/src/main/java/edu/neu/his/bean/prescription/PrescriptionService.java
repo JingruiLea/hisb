@@ -187,20 +187,12 @@ public class PrescriptionService {
 
     @Transactional
     public boolean allCanReturn(List ids){
-        List<Integer> cannotReturn = new ArrayList<>();
-
-        ids.forEach(id->{
+        for (Object id : ids) {
             PrescriptionItem prescriptionItem = findPrescriptionItemById((int)id);
             if(prescriptionItem==null)
-                cannotReturn.add((int)id);
-            else{
-                Drug drug = drugService.selectDrugById(prescriptionItem.getDrug_id());
-                int stock = drug.getStock()-prescriptionItem.getAmount();
-                if(stock < 0)
-                    cannotReturn.add((int)id);
-            }
-        });
-        return cannotReturn.size()==0;
+                return false;
+        }
+        return true;
     }
 
     @Transactional

@@ -47,7 +47,7 @@ public class DrugWithdrawController {
             prescriptionService.returnDrug(prescriptionItem);
             if(prescriptionItem.getStatus().equals(PrescriptionStatus.PrescriptionItemTaken)){
                 Drug drug = drugService.selectDrugById(prescriptionItem.getDrug_id());
-                int stock = drug.getStock()+prescriptionItem.getAmount();
+                int stock = drug.getStock() + prescriptionItem.getAmount();
                 drug.setStock(stock);
             }
         });
