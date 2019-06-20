@@ -1,4 +1,4 @@
-package edu.neu.his.bean.prescriptionTemplate;
+package edu.neu.his.bean.prescription;
 
 import java.io.Serializable;
 
@@ -8,6 +8,16 @@ public class PrescriptionTemplateItem implements Serializable {
     private Integer prescription_template_id;
 
     private Integer drug_id;
+
+    private String usage;
+
+    private String dosage;
+
+    private String frequency;
+
+    private Integer day_count;
+
+    private Integer times;
 
     private Integer amount;
 
@@ -39,6 +49,46 @@ public class PrescriptionTemplateItem implements Serializable {
         this.drug_id = drug_id;
     }
 
+    public String getUsage() {
+        return usage;
+    }
+
+    public void setUsage(String usage) {
+        this.usage = usage == null ? null : usage.trim();
+    }
+
+    public String getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(String dosage) {
+        this.dosage = dosage == null ? null : dosage.trim();
+    }
+
+    public String getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(String frequency) {
+        this.frequency = frequency == null ? null : frequency.trim();
+    }
+
+    public Integer getDay_count() {
+        return day_count;
+    }
+
+    public void setDay_count(Integer day_count) {
+        this.day_count = day_count;
+    }
+
+    public Integer getTimes() {
+        return times;
+    }
+
+    public void setTimes(Integer times) {
+        this.times = times;
+    }
+
     public Integer getAmount() {
         return amount;
     }
@@ -64,6 +114,11 @@ public class PrescriptionTemplateItem implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", prescription_template_id=").append(prescription_template_id);
         sb.append(", drug_id=").append(drug_id);
+        sb.append(", usage=").append(usage);
+        sb.append(", dosage=").append(dosage);
+        sb.append(", frequency=").append(frequency);
+        sb.append(", day_count=").append(day_count);
+        sb.append(", times=").append(times);
         sb.append(", amount=").append(amount);
         sb.append(", note=").append(note);
         sb.append(", serialVersionUID=").append(serialVersionUID);
