@@ -18,8 +18,8 @@ public interface DoctorSchedulingMapper {
             "registration_level.id=user_info.registration_level_id and doctor_scheduling_info.shift_id=doctor_scheduling_shift.id")
     List<DoctorSchedulingInfo> findAll();
 
-    @Insert("INSERT INTO doctor_scheduling_info (uid,shift_id,expiry_date,scheduling_limit) values (#{doctorSchedulingInfo.id},#{shift_id},"+
-            "#{doctorSchedulingInfo.expiry_date},#{doctorSchedulingInfo.scheduling_limit})")
+    @Insert("INSERT INTO doctor_scheduling_info (uid,shift_id,expiry_date,scheduling_limit,residue) values (#{doctorSchedulingInfo.id},#{shift_id},"+
+            "#{doctorSchedulingInfo.expiry_date},#{doctorSchedulingInfo.scheduling_limit},#{doctorSchedulingInfo.scheduling_limit})")
     void addDoctorScheduling(DoctorSchedulingInfo doctorSchedulingInfo, @Param("shift_id") int shift_id);
 
     @Update("UPDATE user_info set registration_level_id=#{level_id} WHERE uid=#{doctorSchedulingInfo.id}")
@@ -30,7 +30,7 @@ public interface DoctorSchedulingMapper {
     void deleteDoctorSchedulingById(@Param("id") int id);
 
     @Update("UPDATE doctor_scheduling_info set shift_id = #{shift_id},scheduling_limit = #{doctorSchedulingInfo.scheduling_limit},"+
-            "expiry_date = #{doctorSchedulingInfo.expiry_date} WHERE uid = #{doctorSchedulingInfo.id}")
+            "expiry_date = #{doctorSchedulingInfo.expiry_date}, residue = #{doctorSchedulingInfo.scheduling_limit} WHERE uid = #{doctorSchedulingInfo.id}")
     void updateDoctorScheduling(DoctorSchedulingInfo doctorSchedulingInfo, @Param("shift_id") int shift_id);
 
     @Select("SELECT real_name as name, department.name as department_name FROM user_info,department WHERE user_info.department_id=department.id and user_info.uid=#{uid}")

@@ -33,7 +33,7 @@ public interface DoctorWorkforceMapper {
 
     //@Select("SELECT doctor_scheduling.id,schedule_date,week,doctor_scheduling_info.name,department_name,doctor_scheduling.shift,doctor_scheduling.reg_limit,residue,valid,doctor_scheduling_info.registration_Level  FROM doctor_scheduling_info,doctor_scheduling WHERE doctor_scheduling_info.name = doctor_scheduling.name")
     @Select("SELECT doctor_scheduling.id as id,user_info.real_name as name,schedule_date,week,doctor_scheduling.shift as shift,"+
-            "department.name as department_name,registration_level.name as registration_Level,reg_limit,residue,valid "+
+            "department.name as department_name,registration_level.name as registration_Level,reg_limit,doctor_scheduling.residue,valid "+
             "FROM doctor_scheduling,doctor_scheduling_info,user_info,department,registration_level "+
             "WHERE doctor_scheduling_info.uid=user_info.uid and user_info.department_id=department.id and doctor_scheduling.uid=doctor_scheduling_info.uid"+
             " and registration_level.id=user_info.registration_level_id ")
@@ -48,12 +48,17 @@ public interface DoctorWorkforceMapper {
     void addOneDoctorWorkforce(Schedule schedule, @Param("registration_level_id") int registration_level_id, @Param("uid") int uid);
 
     //@Select("SELECT doctor_scheduling.id,schedule_date,week,doctor_scheduling_info.name,department_name,doctor_scheduling.shift,scheduling_limit,residue,valid,doctor_scheduling_info.registration_Level  FROM doctor_scheduling_info,doctor_scheduling WHERE doctor_scheduling_info.name = doctor_scheduling.name and doctor_scheduling_info.name = #{name}")
-    @Select("SELECT doctor_scheduling.id as id, schedule_date, week, user_info.real_name, department.name as department_name, "+
-            "doctor_scheduling.shift as shift, scheduling_limit, residue, valid, registration_level.name as registration_Level "+
+    /*@Select("SELECT user_info.uid as id, schedule_date, week, user_info.real_name as name, department.name as department_name, "+
+            "doctor_scheduling.shift as shift, scheduling_limit as reg_limit, doctor_scheduling.residue, valid, registration_level.name as registration_Level "+
             "FROM doctor_scheduling_info, user_info, department, registration_level, doctor_scheduling "+
             "WHERE doctor_scheduling_info.uid=user_info.uid and user_info.department_id=department.id and "+
             "doctor_scheduling.uid=doctor_scheduling_info.uid "+
-            " and registration_level.id=user_info.registration_level_id and user_info.real_name=#{name}")
+            " and registration_level.id=user_info.registration_level_id and user_info.real_name=#{name}")*/
+    @Select("SELECT user_info.uid as id, user_info.real_name as name, department.name as department_name, " +
+            "doctor_scheduling_shift.shift as shift, scheduling_limit as reg_limit, doctor_scheduling_info.residue, registration_level.name as registration_Level " +
+            "FROM doctor_scheduling_info, user_info, department, registration_level, doctor_scheduling_shift " +
+            "WHERE doctor_scheduling_info.uid=user_info.uid and user_info.department_id=department.id and doctor_scheduling_shift.id=doctor_scheduling_info.shift_id " +
+            "and registration_level.id=user_info.registration_level_id and user_info.real_name=#{name}")
     List<AllSchedule> findAddInfo(@Param("name") String name);
 
     @Select("SELECT id,schedule_date FROM doctor_scheduling WHERE schedule_date = #{schedule_date} and shift = #{shift} and uid = #{uid}")
@@ -70,4 +75,9 @@ public interface DoctorWorkforceMapper {
 
     @Select("SELECT name FROM registration_level")
     List<String> getRegistrationLevels();
+
+    @Select("SELECT user_info.real_name as name, scheduling_limit as reg_limit, residue as residue "+
+            "FROM user_info, doctor_scheduling_info "+
+            "WHERE user_info.uid=doctor_scheduling_info.uid")
+    List<Schedule> injectDoctorWorkforce(Schedule schedule);
 }

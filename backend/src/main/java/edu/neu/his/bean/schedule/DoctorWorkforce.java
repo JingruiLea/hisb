@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DoctorWorkforce {
+    int id;
     String name;
     String shift;//排班
     Date expiry_date;//有效期限
@@ -15,12 +16,21 @@ public class DoctorWorkforce {
     ArrayList<int[][]> workforce;//已排班时间
     String registration_Level;//号别
 
-    public DoctorWorkforce(String name,String shift,Date expiry_date,Integer limit,String registration_Level){
+    public DoctorWorkforce(int id, String name,String shift,Date expiry_date,Integer limit,String registration_Level){
+        this.id = id;
         this.name = name;
         this.shift = shift;
         this.expiry_date = expiry_date;
         this.limit = limit;
         this.registration_Level = registration_Level;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -4,6 +4,10 @@ import Highlighter from 'react-highlight-words';
 
 const {Content} = Layout;
 
+const paginationProps = {
+    showQuickJumper: false,
+    defaultPageSize:2,
+  };
 
 class DataTable extends React.Component {
     state = {
@@ -124,7 +128,8 @@ class DataTable extends React.Component {
     render() {
         return (
           <Table 
-            columns={this.columns} 
+            columns={this.columns}  
+            pagination={ paginationProps}
             dataSource={this.props.data} 
             rowSelection={this.rowSelection}
             reloadData={this.props.reloadData}

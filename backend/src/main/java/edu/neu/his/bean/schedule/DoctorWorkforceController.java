@@ -19,6 +19,15 @@ public class DoctorWorkforceController {
     @GetMapping("/all")
     @ResponseBody
     public Map getAllDoctorWorkforce() {
+        List<Schedule> getSchedules = doctorWorkforceService.getDoctorWorkforces();
+        List<Schedule> inject = new ArrayList<Schedule>();
+        getSchedules.forEach(schedule ->
+        {
+            inject.add(doctorWorkforceService.injectDoctoeWorkforce(schedule));
+            schedule.setName(inject.get(inject.size() - 1).getName());
+            schedule.setReg_limit(inject.get(inject.size() - 1).getReg_limit());
+            schedule.setResidue(inject.get(inject.size() - 1).getResidue());
+        });
         return Response.ok(doctorWorkforceService.getDoctorWorkforces());
     }
 
@@ -44,7 +53,7 @@ public class DoctorWorkforceController {
         List<String> dateRange = (List<String>) req.get("dateRange");
         System.out.println("dateRange:"+dateRange);
         System.out.println(doctorWorkforces);
-        doctorWorkforces.forEach(doctorWorkforce -> doctorWorkforceService.chooseDoctorWorkforceByName((String) doctorWorkforce.get("name"),(String) doctorWorkforce.get("shift"),(String) doctorWorkforce.get("expiry_date"),(Integer) doctorWorkforce.get("scheduling_limit"),(String) doctorWorkforce.get("registration_Level")));
+        doctorWorkforces.forEach(doctorWorkforce -> doctorWorkforceService.chooseDoctorWorkforceByName((int)doctorWorkforce.get("id"), (String) doctorWorkforce.get("name"),(String) doctorWorkforce.get("shift"),(String) doctorWorkforce.get("expiry_date"),(Integer) doctorWorkforce.get("scheduling_limit"),(String) doctorWorkforce.get("registration_Level")));
         //doctorWorkforceService.schedule(dateRange);
         //改为分挂号级别
         //doctorWorkforceService.scheduleByRegistrationLevel(dateRange);
@@ -54,12 +63,12 @@ public class DoctorWorkforceController {
         return Response.ok();
     }
 
-    @GetMapping("/update")
+ /*   @GetMapping("/update")
     @ResponseBody
     public Map updateDoctorWorkforce() {
         System.out.println("doctorWorkforceService.getDoctorWorkforces()"+doctorWorkforceService.getDoctorWorkforces());
         return Response.ok();
-    }
+    }*/
 
 
     @PostMapping("/add")
@@ -81,8 +90,10 @@ public class DoctorWorkforceController {
     public Map addOneRow(@RequestBody Map req) {
         System.out.println("addRow:"+req);
         Schedule schedule = map2DoctorWorkforceInfo(req);
-        if (schedule==null)
+        if (schedule==null) {
+            System.out.println("addRow false");
             return Response.error("该用户不存在");
+        }
 
         //查找id是否存在
         List<DoctorSchedulingInfo> ids = doctorWorkforceService.getName(schedule.getName());
@@ -109,15 +120,15 @@ public class DoctorWorkforceController {
             return Response.error("");
         }
 
-        String name = schedule.getName();
-        String schedule_date = schedule.getScheduleDate();
-        schedule_date = schedule_date.substring(0,10);
+        int uid = Integer.parseInt((String) req.get("id"));
+        String schedule_date = ((String) req.get("schedule_date")).substring(0,10);
         System.out.println("schedule_date="+schedule_date);
-        String shift = schedule.getShift();
-        if (schedule==null)
+        String shift = (String) req.get("shift");
+
+        if (uid==0)
             return Response.error("该用户不存在");
-        System.out.println("addrowC:"+doctorWorkforceService.findAddRowConflict(name,schedule_date,shift));
-        return Response.ok(doctorWorkforceService.findAddRowConflict(name,schedule_date,shift));
+        //System.out.println("addrowC:"+doctorWorkforceService.findAddRowConflict(name,schedule_date,shift));
+        return Response.ok(doctorWorkforceService.findAddRowConflict(uid,schedule_date,shift));
     }
 
 
@@ -145,6 +156,8 @@ public class DoctorWorkforceController {
     @ResponseBody
     public Map findAddInfo(@RequestBody Map req){
         String name = (String) req.get("data");
+        System.out.println("add table"+name);
+        System.out.println("res:"+doctorWorkforceService.findAddInfo(name));
         return Response.ok(doctorWorkforceService.findAddInfo(name));
     }
 
@@ -156,7 +169,12 @@ public class DoctorWorkforceController {
     public Map overwriteInfo(@RequestBody Map req){
         System.out.println("overwrite:"+req);
         List<Map> times = (List<Map>) req.get("data");
-        times.forEach(doctorWorkforce -> doctorWorkforceService.deleteDoctorWorkforceById((Integer)doctorWorkforce.get("id"),(String)doctorWorkforce.get("scheduleDate")));
+        if(!times.isEmpty()) {
+            times.forEach(doctorWorkforce ->
+            {
+                doctorWorkforceService.deleteDoctorWorkforceById((Integer) doctorWorkforce.get("id"), (String) doctorWorkforce.get("schedule_date"));
+            });
+        }
         return Response.ok();
     }
 
@@ -173,7 +191,9 @@ public class DoctorWorkforceController {
             while (iter.hasNext()) {
                 Map.Entry entry = (Map.Entry) iter.next();
                 String key = (String)entry.getKey();
-
+                if(key.equals("id")){
+                    schedule.setId((Integer) entry.getValue());
+                }
                 if(key.equals("name")){
                     schedule.setName((String)entry.getValue());
                 }
@@ -207,6 +227,7 @@ public class DoctorWorkforceController {
     private Schedule map2DoctorWorkforceInfo(Map req) {
         Map req1 = req;//(Map)req.get("data");
         Schedule schedule = new Schedule();
+        schedule.setId(Integer.parseInt((String) req1.get("id")));
         schedule.setName((String) req1.get("name"));
 
         String sche = (String) req1.get("schedule_date");

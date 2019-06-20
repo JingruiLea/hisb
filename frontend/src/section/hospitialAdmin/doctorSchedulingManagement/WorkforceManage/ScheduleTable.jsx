@@ -4,6 +4,11 @@ import Highlighter from 'react-highlight-words';
 
 const {Content} = Layout;
 
+const paginationProps = {
+    showQuickJumper: false,
+    defaultPageSize:5,
+  };
+
 class ScheduleTable extends React.Component {
     state = {
         searchText: '',
@@ -133,6 +138,7 @@ class ScheduleTable extends React.Component {
         return (
           <Table rowKey="id" 
             columns={this.columns} 
+            pagination={ paginationProps}
             dataSource={this.props.data} 
             rowSelection={this.rowSelection}
             reloadSchedule={this.props.reloadSchedule}

@@ -53,7 +53,7 @@ class ToolBar extends React.Component {
         
       <div>
         <div>
-        <div style={{float:'right',margin:5}}>
+        <div style={{float:'right',margin:0}}>
 
           <Button onClick={this.props.reloadData}>
             <Icon type="sync" spin={this.props.disabled}></Icon>

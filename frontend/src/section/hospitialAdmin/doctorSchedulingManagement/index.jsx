@@ -6,10 +6,10 @@ const { SubMenu }  = Menu;
 
 class DoctorSchedulingManagement extends React.Component {
   state = {
-    current: 'setting:2',
+    current: 'setting:3',
     collapsed: false,
-    sectionKey:"setting:2",
-    openKey:"setting:2"
+    sectionKey:"setting:3",
+    openKey:"setting:3"
   };
 
   handleClick = e => {
@@ -43,7 +43,7 @@ class DoctorSchedulingManagement extends React.Component {
 
         <Layout style={{ minHeight: '100vh' }}>
 
-      <Menu onClick={this.changeSection} onOpenChange={this.onOpenChange} openKeys={[this.state.openKey]} defaultSelectedKeys={['setting:2']} mode="horizontal">
+      <Menu onClick={this.changeSection} onOpenChange={this.onOpenChange} openKeys={[this.state.openKey]} defaultSelectedKeys={['setting:3']} mode="horizontal">
         <Menu.Item key="setting:2">人员管理</Menu.Item>
         <Menu.Item key="setting:3">排班管理</Menu.Item>
         <Menu.Item key="setting:4">排班统计</Menu.Item>

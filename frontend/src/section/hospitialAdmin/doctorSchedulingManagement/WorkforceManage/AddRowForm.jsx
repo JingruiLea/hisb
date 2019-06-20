@@ -49,12 +49,14 @@ componentDidMount = ()=>{
   handleInputChange = (e) =>{
     let value = e.target.value;
     (this.props.getAddTableInfo(value)).then(res=>{
+      console.log('res',res);
       window.res = res;
       if(res.length!=0){
       this.props.form.setFieldsValue({
         //department_name: `${res[0].department_name}`,
+        id:`${res[0].id}`,
         residue:`${res[0].residue}`,
-        valid:`${res[0].valid}`,
+        valid:"有效",
         department_name:`${res[0].department_name}`,
         shift:`${res[0].shift}`,
         registration_Level:`${res[0].registration_Level}`
@@ -101,8 +103,13 @@ componentDidMount = ()=>{
          <Input onChange={this.handleInputChange} />,
        )}
      </Form.Item>
-     
-
+     <Form.Item label="ID">
+       {getFieldDecorator('id', {
+         rules: [{ required: true, message: '输入ID' }],
+       })(
+         <Input onChange={this.handleInputChange} />,
+       )}
+     </Form.Item>     
      <Form.Item label="排班时间">
      {getFieldDecorator('schedule_date', config)(
      <DatePicker
