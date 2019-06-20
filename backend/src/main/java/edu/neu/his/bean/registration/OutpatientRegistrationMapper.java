@@ -50,4 +50,7 @@ public interface OutpatientRegistrationMapper {
 
     @Select("SELECT medical_record_id FROM registration WHERE patient_name = #{patient_name}")
     List<Integer> findMedicalRecordIdByName(@Param("patient_name") String patient_name);
+
+    @Select("SELECT * FROM registration WHERE patient_name LIKE #{patient_name}")
+    List<Registration> findMedicalRecordLikeName(@Param("patient_name") String patient_name);
 }

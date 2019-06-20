@@ -30,7 +30,7 @@ public class PrescriptionTemplateController {
     private DrugService drugService;
 
     @PostMapping("/create")
-    public Map create(Map req){
+    public Map create(@RequestBody Map req){
         List<Map> drugList = (List)req.get("prescription_item_list");
         String name = (String)req.get("template_name");
         User user = Utils.getSystemUser(req);
@@ -40,7 +40,7 @@ public class PrescriptionTemplateController {
     }
 
     @PostMapping("/delete")
-    public Map delete(Map req){
+    public Map delete(@RequestBody Map req){
         List<Integer> prescriptionIds = (List<Integer>) req.get("id");
         for (Integer prescriptionId : prescriptionIds) {
             PrescriptionTemplate prescriptionTemplate = prescriptionTemplateService.selectById(prescriptionId);
@@ -52,7 +52,7 @@ public class PrescriptionTemplateController {
         return Response.ok(prescriptionTemplateService.findAll(Utils.getSystemUser(req)));
     }
 
-    public Map addItem(Map req){
+    public Map addItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_template_id");
         List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
@@ -62,7 +62,7 @@ public class PrescriptionTemplateController {
         return Response.ok();
     }
 
-    public Map deleteItem(Map req){
+    public Map deleteItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_template_id");
         List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
@@ -72,7 +72,7 @@ public class PrescriptionTemplateController {
         return Response.ok();
     }
 
-    public Map updateItem(Map req){
+    public Map updateItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_template_id");
         List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
@@ -83,7 +83,7 @@ public class PrescriptionTemplateController {
     }
 
     @PostMapping("/update")
-    public Map update(Map req){
+    public Map update(@RequestBody Map req){
         int prescriptionId = (int)req.get("id");
         String name = (String)req.get("template_name");
         PrescriptionTemplate prescriptionTemplate = Utils.fromMap(req, PrescriptionTemplate.class);

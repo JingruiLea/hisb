@@ -70,7 +70,7 @@ public class PrescriptionTemplateService {
         for(Map i:drugInfos){
             PrescriptionTemplateItem prescriptionItem = new PrescriptionTemplateItem();
             prescriptionItem = Utils.fromMap(i, PrescriptionTemplateItem.class);
-            prescriptionItem.setDrug_id((Integer)i.get("id"));
+            prescriptionItem.setDrug_id((Integer)i.get("drug_id"));
             prescriptionItem.setPrescription_template_id(prescriptionId);
             itemMapper.insert(prescriptionItem);
         }
