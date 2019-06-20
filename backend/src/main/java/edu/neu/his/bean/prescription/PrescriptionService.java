@@ -186,8 +186,8 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public boolean allCanReturn(List ids){
-        for (Object id : ids) {
+    public boolean allCanReturn(List<Integer> ids){
+        for (Integer id : ids) {
             PrescriptionItem prescriptionItem = findPrescriptionItemById((int)id);
             if(prescriptionItem==null || prescriptionItem.getStatus().equals(PrescriptionStatus.PrescriptionItemReturned))
                 return false;
@@ -245,6 +245,7 @@ public class PrescriptionService {
             return false;
         }
         prescription.setStatus(Common.YIZUOFEI);
+        autoPrescriptionMapper.updateByPrimaryKey(prescription);
         return true;
     }
 

@@ -35,7 +35,7 @@ public class DrugDispenseController {
     @PostMapping("/submit")
     @ResponseBody
     public Map submit(@RequestBody Map req){
-        List ids = (List)req.get("prescription_item_id");
+        List<Integer> ids = (List)req.get("prescription_item_id");
         if(!prescriptionService.allCanTake(ids))
             return Response.error("错误，有id不存在或库存不足");
 

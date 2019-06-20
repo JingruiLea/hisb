@@ -49,7 +49,7 @@ public class DrugWithdrawControllerTest {
                 post("/drugWithdrawal/submit")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "  \"prescription_item_id \" :[1]\n" +
+                        "  \"prescription_item_id\" :[1]\n" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
