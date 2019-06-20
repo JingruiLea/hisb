@@ -1,0 +1,8 @@
+[{
+  "medical_record_id" :10000002
+},
+  {
+    "prescription_item_id" :[2,3,4]
+  }
+
+]

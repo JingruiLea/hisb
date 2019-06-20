@@ -12,7 +12,6 @@ import edu.neu.his.auto.AutoDrugMapper;
 import edu.neu.his.auto.OutpatientChargesRecordMapper;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -197,7 +196,7 @@ public class PrescriptionService {
             else{
                 Drug drug = drugService.selectDrugById(prescriptionItem.getDrug_id());
                 int stock = drug.getStock()-prescriptionItem.getAmount();
-                if(stock<0)
+                if(stock < 0)
                     cannotReturn.add((int)id);
             }
         });
@@ -210,7 +209,7 @@ public class PrescriptionService {
 
         ids.forEach(id->{
             PrescriptionItem prescriptionItem = findPrescriptionItemById((int)id);
-            if(prescriptionItem==null && prescriptionItem.getStatus().equals(PrescriptionStatus.PrescriptionItemReturned))
+            if(prescriptionItem==null || prescriptionItem.getStatus().equals(PrescriptionStatus.PrescriptionItemReturned))
                 cannotTake.add((int)id);
         });
         return cannotTake.size()==0;
@@ -233,8 +232,11 @@ public class PrescriptionService {
         return autoPrescriptionMapper.selectAll();
     }
 
-    public void removeAllItems(int prescriptionId) {
+    @Transactional
+    public boolean removeAllItems(int prescriptionId) {
+        if(autoPrescriptionMapper.selectByPrimaryKey(prescriptionId)==null){return false;}
         prescriptionMapper.removeAllItems(prescriptionId);
+        return true;
     }
 
     public int delete(Integer id) {

@@ -62,14 +62,16 @@ public class PrescriptionController {
         return Response.ok();
     }
 
-    @PostMapping("/updateItem")
+    @PostMapping("/update")
     public Map updateItem(@RequestBody Map req){
-        int prescriptionId = (int)req.get("prescription_id");
+        int prescriptionId = (int)req.get("id");
         List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
         }
-        prescriptionService.removeAllItems(prescriptionId);
+        if(prescriptionService.removeAllItems(prescriptionId)){
+            return Response.error("没有该处方!");
+        }
         prescriptionService.addItems(prescriptionId, drugList);
         return Response.ok();
     }
@@ -98,11 +100,11 @@ public class PrescriptionController {
     public Map allDrugs(@RequestBody Map req){
         int type = (int) req.get("type");
         List res = drugService.selectAllDrug().stream().filter(item->{
-            if(type == 0 && item.getDosage_form().equals(Common.ZHONGCHENGYAOTYPE)){
+            if(type == 0 && item.getType().equals(Common.ZHONGCHENGYAOTYPE)){
                 return true;
-            }else if(type == 0 && item.getDosage_form().equals(Common.XIYAOTYPE)){
+            }else if(type == 0 && item.getType().equals(Common.XIYAOTYPE)){
                 return true;
-            }else if(type == 1 && item.getDosage_form().equals(Common.ZHONGCAOYAOTYPE)){
+            }else if(type == 1 && item.getType().equals(Common.ZHONGCAOYAOTYPE)){
                 return true;
             }
             return false;
