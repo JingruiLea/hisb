@@ -189,7 +189,7 @@ public class PrescriptionService {
     public boolean allCanReturn(List ids){
         for (Object id : ids) {
             PrescriptionItem prescriptionItem = findPrescriptionItemById((int)id);
-            if(prescriptionItem==null)
+            if(prescriptionItem==null || prescriptionItem.getStatus().equals(PrescriptionStatus.PrescriptionItemReturned))
                 return false;
         }
         return true;

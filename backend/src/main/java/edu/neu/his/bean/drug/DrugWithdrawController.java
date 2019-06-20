@@ -49,6 +49,7 @@ public class DrugWithdrawController {
                 Drug drug = drugService.selectDrugById(prescriptionItem.getDrug_id());
                 int stock = drug.getStock() + prescriptionItem.getAmount();
                 drug.setStock(stock);
+                drugService.updateDrug(drug);
             }
         });
 
