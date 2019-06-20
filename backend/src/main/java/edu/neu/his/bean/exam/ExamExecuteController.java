@@ -1,6 +1,7 @@
 package edu.neu.his.bean.exam;
 
 import edu.neu.his.bean.registration.OutpatientRegistrationMapper;
+import edu.neu.his.bean.registration.Registration;
 import edu.neu.his.config.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,20 +31,26 @@ public class ExamExecuteController {
     public Map searchRegistration(@RequestBody Map req){
         int type = (int) req.get("type");
         String input = (String) req.get("input");
+        List res = new ArrayList();
+        Registration registration = null;
         switch (type){
             case 0:
-                outpatientRegistrationMapper.findMedicalRecordLikeName(input);
+                res = outpatientRegistrationMapper.findMedicalRecordLikeName(input);
                 break;
             case 1:
-                outpatientRegistrationMapper.findRegistrationByIdNumber(input);
+                res = outpatientRegistrationMapper.findRegistrationByIdNumber(input);
                 break;
             case 2:
-                outpatientRegistrationMapper.findRegistrationByMedicalCertificateNumber(input);
+                res = outpatientRegistrationMapper.findRegistrationByMedicalCertificateNumber(input);
                 break;
             case 3:
+                registration = outpatientRegistrationMapper.findRegistrationById(Integer.parseInt(input));
                 break;
         }
-        return null;
+        if(registration != null){
+            res.add(registration);
+        }
+        return Response.ok(res);
     }
 
     @PostMapping("register")

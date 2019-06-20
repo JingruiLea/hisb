@@ -39,7 +39,7 @@ public class ExpenseClassificationController {
             expenseClassificationService.insertExpenseClass(expenseClassification);
             return Response.ok();
         }else
-            return Response.error("错误，该ID或名称已存在");
+            return Response.error("错误, 该ID或名称已存在");
     }
 
     @PostMapping("/delete")

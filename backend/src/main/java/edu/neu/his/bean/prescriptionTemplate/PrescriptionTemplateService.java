@@ -4,6 +4,7 @@ import edu.neu.his.auto.AutoDrugMapper;
 import edu.neu.his.auto.OutpatientChargesRecordMapper;
 import edu.neu.his.auto.PrescriptionTemplateItemMapper;
 import edu.neu.his.auto.PrescriptionTemplateMapper;
+import edu.neu.his.bean.drug.Drug;
 import edu.neu.his.bean.drug.DrugService;
 import edu.neu.his.bean.user.User;
 import edu.neu.his.bean.medicalRecord.MedicalRecordService;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.rmi.CORBA.Util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -101,19 +103,25 @@ public class PrescriptionTemplateService {
     }
 
     @Transactional
-    public List<Map> detail(int prescriptionId){
+    public List<Map> items(int prescriptionId){
         List<PrescriptionTemplateItem> items = itemMapper.selectByPrescriptionId(prescriptionId);
         List<Map> res = new ArrayList<>();
         for(PrescriptionTemplateItem item:items){
-            HashMap map = new HashMap();
-            map.put("id", item.getId());
-            map.put("amount", item.getAmount());
-            map.put("note", item.getNote());
+            Map map = Utils.objectToMap(item);
+            Drug drug = drugMapper.selectByPrimaryKey(item.getDrug_id());
+            map.put("drug_item", Utils.objectToMap(drug));
             res.add(map);
         }
         return res;
     }
 
+    @Transactional
+    public Map detail(int prescriptionId){
+        PrescriptionTemplate prescriptionTemplate = prescriptionTemplateMapper.selectByPrimaryKey(prescriptionId);
+        Map res = Utils.objectToMap(prescriptionTemplate);
+        res.put("items", items(prescriptionId));
+        return res;
+    }
 
     @Transactional
     public List<PrescriptionTemplate> findAll(User user){

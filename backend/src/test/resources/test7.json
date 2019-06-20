@@ -4,5 +4,10 @@
   {
     "prescription_item_id" :[2,3,4]
   }
-
+,
+  {
+    "id":1,
+    "pinyin":"XYF",
+    "fee_name":"西药费"
+  }
 ]

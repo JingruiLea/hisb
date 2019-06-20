@@ -5,6 +5,7 @@ import edu.neu.his.bean.user.User;
 import edu.neu.his.config.Response;
 import edu.neu.his.bean.drug.DrugService;
 import edu.neu.his.util.Utils;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -118,6 +119,16 @@ public class PrescriptionTemplateController {
         res.put("department", department);
         res.put("hospital", hospital);
         return Response.ok(res);
+    }
+
+    @PostMapping("/detail")
+    public Map detail(@RequestBody Map req){
+        int templateId = (int) req.get("id");
+        PrescriptionTemplate originPrescriptionTemplate = prescriptionTemplateService.selectById(templateId);
+        if(originPrescriptionTemplate == null){
+            return Response.error("该组套不存在!");
+        }
+        return Response.ok(prescriptionTemplateService.detail(templateId));
     }
 
 }
