@@ -19,4 +19,7 @@ public interface ChargeAndRefundMapper {
     @Select("SELECT * from outpatient_charges_record where medical_record_id = #{medical_record_id} and creat_time > #{start_time} and creat_time < #{end_time}")
     List<OutpatientChargesRecord> findByMedicalRecordIdAndTime(@Param("medical_record_id") int medical_record_id,
                                                                @Param("start_time") String start_time, @Param("end_time") String end_time);
+
+    @Select("SELECT * from outpatient_charges_record where item_id = #{item_id}")
+    OutpatientChargesRecord findByItemId(@Param("item_id ") int item_id);
 }

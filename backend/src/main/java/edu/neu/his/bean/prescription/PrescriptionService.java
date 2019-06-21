@@ -2,10 +2,14 @@ package edu.neu.his.bean.prescription;
 
 import edu.neu.his.auto.AutoPrescriptionMapper;
 import edu.neu.his.bean.drug.Drug;
+import edu.neu.his.bean.outpatientCharges.ChargeAndRefundMapper;
+import edu.neu.his.bean.outpatientCharges.ChargeAndRefundService;
 import edu.neu.his.bean.outpatientCharges.OutpatientChargesRecord;
 import edu.neu.his.bean.drug.DrugService;
+import edu.neu.his.bean.outpatientCharges.OutpatientChargesRecordStatus;
 import edu.neu.his.bean.user.User;
 import edu.neu.his.bean.medicalRecord.MedicalRecordService;
+import edu.neu.his.config.Auth;
 import edu.neu.his.util.Common;
 import edu.neu.his.auto.AutoPrescriptionItemMapper;
 import edu.neu.his.auto.AutoDrugMapper;
@@ -28,22 +32,25 @@ public class PrescriptionService {
     private PrescriptionItemMapper prescriptionItemMapper;
 
     @Autowired
-    MedicalRecordService medicalRecordService;
+    private MedicalRecordService medicalRecordService;
 
     @Autowired
-    AutoPrescriptionMapper autoPrescriptionMapper;
+    private AutoPrescriptionMapper autoPrescriptionMapper;
 
     @Autowired
-    AutoPrescriptionItemMapper itemMapper;
+    private AutoPrescriptionItemMapper itemMapper;
 
     @Autowired
-    AutoDrugMapper drugMapper;
+    private AutoDrugMapper drugMapper;
 
     @Autowired
-    DrugService drugService;
+    private DrugService drugService;
 
     @Autowired
-    OutpatientChargesRecordMapper outpatientChargesRecordMapper;
+    private OutpatientChargesRecordMapper outpatientChargesRecordMapper;
+
+    @Autowired
+    private ChargeAndRefundMapper chargeAndRefundMapper;
 
 
     @Transactional
@@ -186,9 +193,10 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public boolean allCanReturn(List<Integer> ids){
-        for (Integer id : ids) {
-            PrescriptionItem prescriptionItem = findPrescriptionItemById((int)id);
+    public boolean allCanReturn(List<Map> maps){
+        for (Map map : maps) {
+            int id = (int)map.get("id");
+            PrescriptionItem prescriptionItem = findPrescriptionItemById(id);
             if(prescriptionItem==null || prescriptionItem.getStatus().equals(PrescriptionStatus.PrescriptionItemReturned))
                 return false;
         }
@@ -213,10 +221,17 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public int returnDrug(PrescriptionItem prescriptionItem){
+    public int returnDrug(PrescriptionItem prescriptionItem, int amount){
         //修改处方详情
+        int new_amount = prescriptionItem.getAmount()-amount;
+        prescriptionItem.setAmount(amount);
         prescriptionItem.setStatus(PrescriptionStatus.PrescriptionItemReturned);
-        return autoPrescriptionItemMapper.updateByPrimaryKey(prescriptionItem);
+        autoPrescriptionItemMapper.updateByPrimaryKey(prescriptionItem);
+
+        PrescriptionItem new_prescriptionItem = prescriptionItem;
+        new_prescriptionItem.setAmount(new_amount);
+        new_prescriptionItem.setStatus(PrescriptionStatus.PrescriptionItemTaken);
+        return insert(prescriptionItem);
     }
 
     @Transactional
@@ -229,6 +244,23 @@ public class PrescriptionService {
         if(autoPrescriptionMapper.selectByPrimaryKey(prescriptionId)==null){return false;}
         prescriptionMapper.removeAllItems(prescriptionId);
         return true;
+    }
+
+    @Transactional
+    public void modifyChargeRecord(int item_id, float cost, Map req, int new_item_id){
+        OutpatientChargesRecord outpatientChargesRecord = chargeAndRefundMapper.findByItemId(item_id);
+        float new_cost = outpatientChargesRecord.getCost()-cost;
+        OutpatientChargesRecord newOutpatientChargesRecord = outpatientChargesRecord;
+        newOutpatientChargesRecord.setCost(new_cost);
+        newOutpatientChargesRecord.setItem_id(new_item_id);
+        outpatientChargesRecordMapper.insert(newOutpatientChargesRecord);
+
+        outpatientChargesRecord.setCost(cost);
+        outpatientChargesRecord.setItem_id(item_id);
+        outpatientChargesRecord.setStatus(OutpatientChargesRecordStatus.Refunded);
+        outpatientChargesRecord.setReturn_time(Utils.getSystemTime());
+        outpatientChargesRecord.setReturn_user_id(Auth.uid(req));
+        outpatientChargesRecordMapper.updateByPrimaryKey(outpatientChargesRecord);
     }
 
     public int delete(Integer id) {
@@ -249,7 +281,9 @@ public class PrescriptionService {
         return true;
     }
 
-    public Prescription selectById(int prescriptionId) {
-        return autoPrescriptionMapper.selectByPrimaryKey(prescriptionId);
+    @Transactional
+    public int insert(PrescriptionItem prescriptionItem){
+        autoPrescriptionItemMapper.insert(prescriptionItem);
+        return prescriptionItem.getId();
     }
 }
