@@ -146,9 +146,9 @@ public class DoctorWorkforceController {
     @PostMapping("/time")
     @ResponseBody
     public Map findTimeConflict(@RequestBody Map req){
-        System.out.println("time req:"+req);
+//        System.out.println("time req:"+req);
         List<String> times = (List<String>) req.get("data");
-        System.out.println("TIMES:"+times);
+//        System.out.println("TIMES:"+times);
         return Response.ok(doctorWorkforceService.findTimeConflict(times));
     }
 

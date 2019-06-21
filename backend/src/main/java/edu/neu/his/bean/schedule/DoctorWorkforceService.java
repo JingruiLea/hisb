@@ -153,7 +153,7 @@ public class DoctorWorkforceService {
     //查找时间冲突
     @Transactional
     public List<AllSchedule> findTimeConflict(List<String> schedule_date) {
-        System.out.println("server-timeConflict:" + schedule_date);
+//        System.out.println("server-timeConflict:" + schedule_date);
         List<AllSchedule> currTimes = new ArrayList<AllSchedule>();
         List<AllSchedule> temp = new ArrayList<AllSchedule>();
 
@@ -168,9 +168,9 @@ public class DoctorWorkforceService {
 
 
         for(LocalDate localDate = LocalDate.parse(dateStr1, DateTimeFormatter.ofPattern("yyyy-MM-dd"));!localDate.toString().equals(dateStr2);localDate = localDate.minusDays(-1)) {
-            System.out.println("day+1:" + localDate.toString());
+//            System.out.println("day+1:" + localDate.toString());
             temp = doctorWorkforceMapper.findTimeConflict(localDate.toString());
-            System.out.println("TEMP:" + temp);
+//            System.out.println("TEMP:" + temp);
 
             if (!temp.isEmpty()) {
                 for (AllSchedule t : temp) {
@@ -184,7 +184,7 @@ public class DoctorWorkforceService {
                 currTimes.add(t);
             }
         }
-        System.out.println("return currtimes");
+//        System.out.println("return currtimes");
         return currTimes;
     }
 
@@ -517,10 +517,6 @@ public class DoctorWorkforceService {
 
     //计算是否有效
     public Boolean expiry_date2valid(Date date) {
-        System.out.println("date"+date);
-        System.out.println("local date"+UDate2LocalDate(date));
-        System.out.println("currentLocalDate"+currentLocalDate);
-        System.out.println("Valid local date:"+UDate2LocalDate(date).compareTo(currentLocalDate));
         return  UDate2LocalDate(date).compareTo(currentLocalDate)>0;
     }
 
@@ -531,9 +527,6 @@ public class DoctorWorkforceService {
         pos = new ParsePosition(0);
         Date date1 = formatter.parse(dateStr1, pos);
         startDate = LocalDateToUdate(LocalDate.parse(dateStr1, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        System.out.println("startDate:"+startDate);
-        System.out.println("dateStr1:"+dateStr1);
-        System.out.println("dateStr2:"+dateStr2);
         return (int)(LocalDate.parse(dateStr1, DateTimeFormatter.ofPattern("yyyy-MM-dd")).until(LocalDate.parse(dateStr2, DateTimeFormatter.ofPattern("yyyy-MM-dd")), ChronoUnit.DAYS)+1)*2;
 
     }

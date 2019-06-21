@@ -78,6 +78,6 @@ public interface DoctorWorkforceMapper {
 
     @Select("SELECT user_info.real_name as name, scheduling_limit as reg_limit, residue as residue "+
             "FROM user_info, doctor_scheduling_info "+
-            "WHERE user_info.uid=doctor_scheduling_info.uid")
+            "WHERE user_info.uid=doctor_scheduling_info.uid and user_info.uid=#{id}")
     List<Schedule> injectDoctorWorkforce(Schedule schedule);
 }
