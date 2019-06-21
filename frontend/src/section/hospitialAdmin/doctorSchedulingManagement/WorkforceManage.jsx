@@ -121,15 +121,16 @@ onNumberChange = (value) =>{
           }
           this.setState({
             //schedules:schedules,
-              loading:false
+            loading:false
           });
-          this.addSchedule(schedules);
-          this.setSchedule();
+          _this.addSchedule(schedules);
+          _this.setSchedule();
     }).submit();
 }
 
 setSchedule = ()=>{
     const _this = this;
+    this.setState({loading:true})
     API.request(API.bacisInfoManagement.schedulingInfoManagement.getAllScheduleInfo,{})
     .ok((data)=>{
         var schedules = data;
@@ -138,7 +139,7 @@ setSchedule = ()=>{
         }
         this.setState({
           schedules:schedules,
-            loading:false
+          loading:false
         });
     }).submit();
 }
@@ -318,6 +319,7 @@ overwriteInfo=(data)=>{
                 inputDate={this.state.inputDate}
                 num={this.state.num}
                 toAddSchedule={this.state.toAddddSchedule}
+                setSchedule={this.setSchedule.bind(this)}
               />
                 </div>
             </div>

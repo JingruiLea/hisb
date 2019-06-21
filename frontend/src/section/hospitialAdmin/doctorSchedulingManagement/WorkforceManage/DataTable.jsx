@@ -6,7 +6,7 @@ const {Content} = Layout;
 
 const paginationProps = {
     showQuickJumper: false,
-    defaultPageSize:2,
+    defaultPageSize:3,
   };
 
 class DataTable extends React.Component {
