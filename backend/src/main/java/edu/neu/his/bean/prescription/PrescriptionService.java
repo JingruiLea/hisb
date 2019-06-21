@@ -259,9 +259,7 @@ public class PrescriptionService {
 
         outpatientChargesRecord.setCost(cost);
         outpatientChargesRecord.setItem_id(item_id);
-        outpatientChargesRecord.setStatus(OutpatientChargesRecordStatus.Refunded);
-        outpatientChargesRecord.setReturn_time(Utils.getSystemTime());
-        outpatientChargesRecord.setReturn_user_id(Auth.uid(req));
+        outpatientChargesRecord.setStatus(OutpatientChargesRecordStatus.Charged);
         outpatientChargesRecordMapper.updateByPrimaryKey(outpatientChargesRecord);
     }
 
