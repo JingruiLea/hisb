@@ -11,7 +11,8 @@ public class DailyCheck {
     private Integer toll_collector_id;
     private Float classificationTotal;
     private  Float registrationTotal;
-    Map<String,Float> classifitationFees;//每个费用科目的费用
+    List<ClassificationFee> classifitationFees;//每个费用科目的费用
+
     List<Integer> init_bill_record_id;
     List<Integer> invalid_bill_record_id;
     List<Integer> reprint_bill_record_id;
@@ -20,7 +21,7 @@ public class DailyCheck {
     int reprint_bill_record_num = 0;
 
     public DailyCheck(Integer toll_collector_id, Float classificationTotal, Float registrationTotal,
-                      Map<String, Float> classifitationFees, List<Integer> init_bill_record_id,
+                      List<ClassificationFee> classifitationFees, List<Integer> init_bill_record_id,
                       List<Integer> invalid_bill_record_id, List<Integer> reprint_bill_record_id,
                       int init_bill_record_num,int invalid_bill_record_num,int reprint_bill_record_num) {
         this.toll_collector_id = toll_collector_id;
@@ -59,11 +60,11 @@ public class DailyCheck {
         this.registrationTotal = registrationTotal;
     }
 
-    public Map<String, Float> getClassifitationFees() {
+    public List<ClassificationFee> getClassifitationFees() {
         return classifitationFees;
     }
 
-    public void setClassifitationFees(Map<String, Float> classifitationFees) {
+    public void setClassifitationFees(List<ClassificationFee> classifitationFees) {
         this.classifitationFees = classifitationFees;
     }
 
