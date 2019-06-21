@@ -1,6 +1,6 @@
 import React from 'react';
 import {Tree,Button, Table,Divider} from 'antd'
-import Message from '../../../global/Message';
+import Message from '../../../../global/Message';
 
 const { TreeNode, DirectoryTree } = Tree;
 
@@ -34,6 +34,7 @@ class TemplateSelector extends React.Component {
 
     if(selectedTemplate){
       //console.warn(selectedTemplate.detail)
+      console.warn(selectedTemplate)
       selectedTemplate.items.forEach(x=>x.key=x.drug_item.id)
     }
 

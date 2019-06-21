@@ -1,6 +1,6 @@
 import React from 'react';
 import {Table, Collapse, Select, Button, Input,Radio} from 'antd'
-import Message from '../../../global/Message';
+import Message from '../../../../global/Message';
 
 const {Option} = Select;
 const {Panel} = Collapse;

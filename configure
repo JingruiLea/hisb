@@ -38,7 +38,8 @@ DEFAULT_INJECT_UID=${env.DEFAULT_INJECT_UID}`
 
 fs.writeFile('./frontend/src/global/Config.jsx',
 `export default {
-  server:'${env.MIDDLEWARE_PROTOCAL+'://'+env.MIDDLEWARE_DOMAIN+':'+env.MIDDLEWARE_PORT}'
+  apiServer:'${env.MIDDLEWARE_PROTOCAL+'://'+env.MIDDLEWARE_DOMAIN+':'+env.MIDDLEWARE_PORT}',
+  fileUploadServer:'${env.FILE_SERVER_PROTOCAL+'://'+env.FILE_SERVER_DOMAIN+':'+env.FILE_SERVER_PORT}'
 }`
   ,(err)=>{
     if(err)

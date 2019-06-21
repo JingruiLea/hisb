@@ -1,72 +1,74 @@
 import React from 'react';
 import ReactToPrint from 'react-to-print';
 
-import {Card,Typography, Divider, Row,Col,Upload,Icon,Modal} from 'antd';
+import {Card,Typography, Divider, Row,Col,Upload,Icon,Modal, Button} from 'antd';
 const { Title } = Typography;
  
 class Demo extends React.Component{
-  state = {
-    previewVisible: false,
-    previewImage: '',
-    fileList: [],
-    /**{
-        uid: '-1',
-        name: 'xxx.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-      }, */
-  };
+  state={
+    report:{
+      result:`wjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkj
+      webfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkjwe
+      bfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkjw
+      ebfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkj
+      webfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkj
+      webfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkj
+      webfkjwebfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkj
+      webfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkek
+      dbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkjwebfkjwbfkwefwjekdbwjed`,
+      advice:`wjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkj
+      webfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkjwe
+      bfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwbfkjwbfk
+      wefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkjwebfkjwbfkwef
+      wjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkjwebfkjwbfkwefwjek
+      dbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkjwebfkjwbfkwefwjekdbwjed`,
+      images:[
 
-  getBase64=(file)=> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-    });
-  }
-
-  handleCancel = () => this.setState({ previewVisible: false });
-
-  handlePreview = async file => {
-    if (!file.url && !file.preview) {
-      file.preview = await this.getBase64(file.originFileObj);
+        {name:'wedwdew',url:'http://localhost:8082/files/a8d042f4b223c1ebe0eadbea4e546289.jpeg'},
+        {name:'23e23e2',url:'http://localhost:8082/files/a8d042f4b223c1ebe0eadbea4e546289.jpeg'},
+        {name:'23e23e2',url:'http://localhost:8082/files/a8d042f4b223c1ebe0eadbea4e546289.jpeg'},
+        {name:'23e23e2',url:'http://localhost:8082/files/a8d042f4b223c1ebe0eadbea4e546289.jpeg'}
+      ]
     }
-    this.setState({
-      previewImage: file.url || file.preview,
-      previewVisible: true,
-    });
-  };
-
-  handleChange = ({ fileList }) => this.setState({ fileList });
+  }
 
   render() {
-    const { previewVisible, previewImage, fileList } = this.state;
-    const uploadButton = (
+    const {report} = this.state;
+    return(
       <div>
-        <Icon type="plus" />
-        <div className="ant-upload-text">上传</div>
+        <Card style={{width:'800px'}}>
+          <div style={{textAlign:"center"}}>
+            <Typography.Title level={2}>XXX检查报告</Typography.Title>
+            <Divider/>
+            <span style={{marginRight:'20px'}}>操作员工号：<b>{3423}</b></span>
+            <span style={{marginRight:'20px'}}>日期：<b>{"2020-2-2"}</b></span>
+            <span>患者：<b>{"CXK"}</b></span>
+          </div>
+
+          <Typography.Title level={4}>检查结果：</Typography.Title>
+          <Typography.Paragraph>{report.result}</Typography.Paragraph>
+          {report.images.map(image=>(
+            <img src={image.url} alt={image.name} key={image.url} style={{width:'50%',padding:'5px'}}></img>
+          ))}
+
+          <Typography.Title level={4}>建议：</Typography.Title>
+          <Typography.Paragraph>{report.advice}</Typography.Paragraph>
+        
+        </Card>
       </div>
-    );
-    return (
-      <div className="clearfix">
-        <Upload
-          action="http://localhost:8082/upload"
-          listType="picture-card"
-          fileList={fileList}
-          onPreview={this.handlePreview}
-          onChange={this.handleChange}
-        >
-          {fileList.length >= 3 ? null : uploadButton}
-        </Upload>
-        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
-        </Modal>
-      </div>
-    );
+    )
   }
 }
- 
+
+
+
+
+
+
+
+
+
+
 class Demo2 extends React.Component {
   state = {
     settlement_category: '自费',

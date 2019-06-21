@@ -86,9 +86,9 @@ prescription_item_list:[
 
   apply=(template)=>{
     //console.warn(template)
-    var drug_codes = template.detail.map(x=>x.drug_item).map(x=>x.code);
-    var drug_ids = template.detail.map(x=>x.drug_item).map(x=>x.id);
-    var drug_names = template.detail.map(x=>x.drug_item).map(x=>x.name);
+    var drug_codes = template.items.map(x=>x.drug_item).map(x=>x.code);
+    var drug_ids = template.items.map(x=>x.drug_item).map(x=>x.id);
+    var drug_names = template.items.map(x=>x.drug_item).map(x=>x.name);
     var prescription_item_list = [];
     for(var i=0;i<drug_ids.length;i++) 
       prescription_item_list.push({
@@ -105,7 +105,7 @@ prescription_item_list:[
         times:1
       })
     this.setState({
-      id:template.template.id,
+      id:template.id,
       prescription_item_list
     })
   }

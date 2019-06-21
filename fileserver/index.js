@@ -30,7 +30,7 @@ server.all('*',(req,res,next)=>{
 
 server.post('/upload',upload.single('file'),(req,res)=>{
     if(!req.file) { //没有文件
-        res.json({msg:'没有选择文件！',success:false}).end();
+        res.json({msg:'没有选择文件！',status:"failed"}).end();
     } else {
         var file = req.file;
         console.log('====================================================');
@@ -51,13 +51,13 @@ server.post('/upload',upload.single('file'),(req,res)=>{
             if(err) {
                 console.log(err);
                 res.json({
-                  success:false,
+                  status:"failed",
                   msg:'internal error'
                 }).end();
             } else {
                 res.json({
-                    success:true,
-                    originName:file.originalname,
+                    status:"done",
+                    name:file.originalname,
                     url:urlPrefix+file.filename + fileObj.ext,
                 }).end();
             }

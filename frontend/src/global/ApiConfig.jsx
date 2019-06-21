@@ -1,15 +1,15 @@
 import Request from "./Request";
 import Config  from './Config'
 
-const server = Config.server;
-const apiServerPrefix = server+'/api'
-
+const fileUploadServer = Config.fileUploadServer;
+const apiServer = Config.apiServer;
+const apiServerPrefix = apiServer+'/api'
 
 const API = {
     //登录
-    login:{method:'post',url:server+'/login'},
+    login:{method:'post',url:apiServer+'/login'},
     //退出
-    logout:{method:'post',url:server+'/logout'},
+    logout:{method:'post',url:apiServer+'/logout'},
     //个人中心
     me:{
         myInfo:{ //获取我的个人信息
@@ -378,7 +378,7 @@ const API = {
                 method:'post'
             },//组套详情
             detail:{
-                url:'http://www.mocky.io/v2/5d08b4313400007a005d997c',//apiServerPrefix+'/prescription/detail',
+                url:'http://www.mocky.io/v2/5d0b481e2f00007300e3ef49',//apiServerPrefix+'/prescription/detail',
                 method:'post'
             },//删除组套
             delete:{
@@ -404,7 +404,15 @@ const API = {
         //其他见上文 处方管理 
         //执行检查 检验 处置
         IADExcute:{
-            //登记
+            //根据姓名/身份证/医保/病例号 获取挂号列表 
+            searchRegistration:{
+                url:'http://www.mocky.io/v2/5d0aedb92f00002800e3ed41',//apiServerPrefix+'/examExcute/searchRegistration',
+                method:'post'
+            },//获取可执行项目列表（包含未缴费）
+            allExcuteProject:{
+                url:'http://www.mocky.io/v2/5d0b32e82f00007000e3ee82',//apiServerPrefix+'/examExcute/allExam',
+                method:'post'
+            },//登记
             register:{
                 url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/examExcute/register',
                 method:'post'
@@ -493,7 +501,10 @@ const API = {
     //请求
     request:(api,reqData={})=>{
         return new Request(api,reqData);
-    }
+    },
+
+    //文件服务器地址
+    fileUploadServer:fileUploadServer
 }
 
 export default API;

@@ -34,7 +34,7 @@ class TemplateSelector extends React.Component {
 
     if(selectedTemplate){
       //console.warn(selectedTemplate.detail)
-      selectedTemplate.detail.forEach(x=>x.key=x.drug_item.id)
+      selectedTemplate.items.forEach(x=>x.key=x.drug_item.id)
     }
 
     return(
@@ -68,7 +68,7 @@ class TemplateSelector extends React.Component {
         <Button 
           style={{float:'right',marginRight:'10px'}} 
           icon="edit" type="danger" size="small"
-          onClick={()=>this.props.openEditor("updateTemplate",selectedTemplate.items.map(x=>x.non_drug_item),selectedTemplate.display_type,selectedTemplate.template_name)} 
+          onClick={()=>this.props.openEditor("updateTemplate",selectedTemplate.items.map(x=>x.drug_item),selectedTemplate.display_type,selectedTemplate.template_name)} 
           disabled={toolBarDisabled}>修改</Button>
         <Button 
           style={{float:'right',marginRight:'10px'}} 
@@ -84,7 +84,7 @@ class TemplateSelector extends React.Component {
       {selectedTemplate?<Table 
         pagination={false}
         size="small"
-        dataSource={selectedTemplate.detail}
+        dataSource={selectedTemplate.items}
         columns={[
           {title:"药品编码",dataIndex:"drug_item.code"},
           {title:"药品名称",dataIndex:"drug_item.name"}
