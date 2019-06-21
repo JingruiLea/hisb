@@ -120,7 +120,7 @@ public class PrescriptionService {
         autoPrescriptionMapper.updateByPrimaryKey(prescription);
         List<PrescriptionItem> drugList = itemMapper.selectByPrescriptionId(prescriptionId);
         drugList.forEach(item->{
-            Drug drug = drugMapper.selectByPrimaryKey(item.getId());
+            Drug drug = drugMapper.selectByPrimaryKey(item.getDrug_id());
             OutpatientChargesRecord record = new OutpatientChargesRecord();
             record.setCreate_time(Utils.getSystemTime());
             record.setMedical_record_id(prescription.getMedical_record_id());

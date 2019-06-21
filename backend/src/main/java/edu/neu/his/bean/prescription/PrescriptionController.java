@@ -80,7 +80,7 @@ public class PrescriptionController {
     public Map submit(@RequestBody Map req){
         List<Integer> prescriptionIds = (List<Integer>) req.get("id");
         for (Integer prescriptionId : prescriptionIds) {
-            if(prescriptionService.selectById(prescriptionId) == null){
+            if(prescriptionService.findById(prescriptionId) == null){
                 return Response.error("没有该处方!");
             }
             prescriptionService.submit(Utils.getSystemUser(req), prescriptionId);
