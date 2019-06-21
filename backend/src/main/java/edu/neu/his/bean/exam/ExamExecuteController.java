@@ -3,6 +3,7 @@ package edu.neu.his.bean.exam;
 import edu.neu.his.bean.registration.OutpatientRegistrationMapper;
 import edu.neu.his.bean.registration.Registration;
 import edu.neu.his.config.Response;
+import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,5 +62,12 @@ public class ExamExecuteController {
         }else {
             return Response.error("列表错误!");
         }
+    }
+
+    @PostMapping("/allExam")
+    public Map allExam(@RequestBody Map req){
+        int medicalRecordId = (int) req.get("medical_record_id");
+        List res = examService.list(medicalRecordId, Utils.getSystemUser(req));
+        return Response.ok(res);
     }
 }

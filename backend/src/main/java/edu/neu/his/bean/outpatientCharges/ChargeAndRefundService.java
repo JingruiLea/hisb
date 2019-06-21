@@ -1,5 +1,9 @@
 package edu.neu.his.bean.outpatientCharges;
 
+import edu.neu.his.auto.AutoDrugMapper;
+import edu.neu.his.bean.department.DepartmentMapper;
+import edu.neu.his.bean.drug.Drug;
+import edu.neu.his.bean.drug.DrugMapper;
 import edu.neu.his.bean.exam.ExamItem;
 import edu.neu.his.bean.prescription.PrescriptionItem;
 import edu.neu.his.bean.exam.ExamStatus;
@@ -7,12 +11,16 @@ import edu.neu.his.bean.prescription.PrescriptionStatus;
 import edu.neu.his.bean.exam.ExamItemMapper;
 import edu.neu.his.auto.AutoPrescriptionItemMapper;
 import edu.neu.his.auto.OutpatientChargesRecordMapper;
+import edu.neu.his.config.Auth;
+import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.rmi.CORBA.Util;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ChargeAndRefundService {
@@ -27,6 +35,12 @@ public class ChargeAndRefundService {
 
     @Autowired
     private ExamItemMapper examItemMapper;
+
+    @Autowired
+    DepartmentMapper departmentMapper;
+
+    @Autowired
+    AutoDrugMapper drugMapper;
 
     @Transactional
     public List<OutpatientChargesRecord> findByMedicalRecordIdAndStatus(int medical_record_id,String status){
@@ -52,6 +66,25 @@ public class ChargeAndRefundService {
     @Transactional
     public int update (OutpatientChargesRecord outpatientChargesRecord){
         return outpatientChargesRecordMapper.updateByPrimaryKey(outpatientChargesRecord);
+    }
+
+    @Transactional
+    public Map outpatientChargesRecordToMap(OutpatientChargesRecord record){
+        Map res = Utils.objectToMap(record);
+        res.put("excute_department", departmentMapper.selectById(record.getExecute_department_id()).getName());
+        String itemName = "";
+        if(record.getType() == 0){
+            PrescriptionItem item = autoPrescriptionItemMapper.selectByPrimaryKey(record.getId());
+            res.putAll(Utils.objectToMap(item));
+            res.put("fee", res.get("cost"));
+            res.put("amount", res.get("mount"));
+            Drug drug = drugMapper.selectByPrimaryKey(item.getDrug_id());
+            itemName = drug.getName();
+            res.putAll(Utils.objectToMap(drug));
+        }
+        res.put("status", record.getStatus());
+        res.put("item_name", itemName);
+        return res;
     }
 
     @Transactional

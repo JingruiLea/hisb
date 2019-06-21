@@ -96,7 +96,7 @@ public class ExamService {
                     itemList.add(examItemMap);
                 }
             }
-            examMap.put("exam_item", itemList);
+            examMap.put("items", itemList);
             res.add(examMap);
         }
         return res;
