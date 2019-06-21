@@ -1,64 +1,40 @@
 import React from 'react';
 import ReactToPrint from 'react-to-print';
 
-import {Card,Typography, Divider, Row,Col,Upload,Icon,Modal, Button} from 'antd';
+import {Card,Typography, Divider, Row,Col,Upload,Icon,Input, Button, Form, InputNumber} from 'antd';
 const { Title } = Typography;
- 
-class Demo extends React.Component{
-  state={
-    report:{
-      result:`wjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkj
-      webfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkjwe
-      bfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkjw
-      ebfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkj
-      webfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkj
-      webfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkj
-      webfkjwebfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkj
-      webfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkek
-      dbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkjwebfkjwbfkwefwjekdbwjed`,
-      advice:`wjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkj
-      webfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkjwe
-      bfkjwbfkwefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwbfkjwbfk
-      wefwjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkjwebfkjwbfkwef
-      wjekdbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkjwebfkjwbfkwefwjek
-      dbwjedbwkedbwekjdbwekjdbkjewbfjkwebfkwejbfkjwebfkjwebfkjwbfkwefwjekdbwjed`,
-      images:[
 
-        {name:'wedwdew',url:'http://localhost:8082/files/a8d042f4b223c1ebe0eadbea4e546289.jpeg'},
-        {name:'23e23e2',url:'http://localhost:8082/files/a8d042f4b223c1ebe0eadbea4e546289.jpeg'},
-        {name:'23e23e2',url:'http://localhost:8082/files/a8d042f4b223c1ebe0eadbea4e546289.jpeg'},
-        {name:'23e23e2',url:'http://localhost:8082/files/a8d042f4b223c1ebe0eadbea4e546289.jpeg'}
-      ]
-    }
-  }
+class Demo extends React.Component {
 
-  render() {
-    const {report} = this.state;
-    return(
-      <div>
-        <Card style={{width:'800px'}}>
-          <div style={{textAlign:"center"}}>
-            <Typography.Title level={2}>XXX检查报告</Typography.Title>
-            <Divider/>
-            <span style={{marginRight:'20px'}}>操作员工号：<b>{3423}</b></span>
-            <span style={{marginRight:'20px'}}>日期：<b>{"2020-2-2"}</b></span>
-            <span>患者：<b>{"CXK"}</b></span>
-          </div>
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log(values)
+      }
+    });
+  };
 
-          <Typography.Title level={4}>检查结果：</Typography.Title>
-          <Typography.Paragraph>{report.result}</Typography.Paragraph>
-          {report.images.map(image=>(
-            <img src={image.url} alt={image.name} key={image.url} style={{width:'50%',padding:'5px'}}></img>
-          ))}
+  render(){
+    const { getFieldDecorator } = this.props.form;
 
-          <Typography.Title level={4}>建议：</Typography.Title>
-          <Typography.Paragraph>{report.advice}</Typography.Paragraph>
-        
-        </Card>
-      </div>
-    )
+    return (<Form onSubmit={this.handleSubmit.bind(this)}>
+       <Form.Item label="科室编号">
+        {getFieldDecorator('id', {
+          rules: [{ required: true, message: '输入科室编号' }]
+        })(
+          <InputNumber
+            prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder="重要字段 请谨慎填写"
+          />
+        )}
+      </Form.Item>
+      <Button type="primary" htmlType="submit">submit</Button>
+    </Form>)
   }
 }
+
+
 
 
 
@@ -268,4 +244,4 @@ class Demo2 extends React.Component {
   }
 }
 
-export default Demo
+export default Form.create({name:'ss22ss3'})(Demo)
