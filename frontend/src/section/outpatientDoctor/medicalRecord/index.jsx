@@ -52,6 +52,7 @@ class MedicalRecordHome extends React.Component {
     API.request(API.outpatientDoctor.medicalRecord.update,medicalRecord)
     .ok(data=>{
       //this.props.refreshPatientMedicalRecord();
+      this.props.refreshPatientMedicalRecord();
       Message.success('病历已暂存')
     }).submit();
   }

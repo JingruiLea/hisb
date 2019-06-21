@@ -9,6 +9,13 @@ class Request {
     this.reqData = reqData;
   }
 
+  //如果是mocky的api就警告
+  checkMocky=()=>{
+    const url = this.api.url;
+    if(url.startsWith('http://www.mocky.io'))
+      console.warn(`mocky url: ${this.api.url}!`)
+  }
+
   onOk = (data)=>{}
 
   onPermissionDenied = (msg)=>Message.showAuthExpiredMessage();
@@ -28,6 +35,7 @@ class Request {
 
   submit=()=>{
     const _this = this;
+    this.checkMocky();
     axios({
       method: _this.api.method,
       url: _this.api.url,

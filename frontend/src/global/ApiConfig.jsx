@@ -215,7 +215,7 @@ const API = {
             },//获取（创建）病历
             get:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5d037b2530000024001f4d42',//apiServerPrefix+'/medicalRecord/getMedicalRecord'
+                url:'http://www.mocky.io/v2/5d0ccd313500006200b89b05',//apiServerPrefix+'/medicalRecord/getMedicalRecord'
             },//更新(暂存)病历
             update:{
                 method:'post',
@@ -307,7 +307,7 @@ const API = {
                 method:'post'
             },//获取当前开具的列表
             list:{
-                url:'http://www.mocky.io/v2/5d0794253400007c005d937e',//apiServerPrefix+'/exam/list',
+                url:'http://www.mocky.io/v2/5d0cd0013500005b00b89b18',//apiServerPrefix+'/exam/list',
                 method:'post'
             }
         },
@@ -422,7 +422,7 @@ const API = {
                 method:'post'
             },//获取结果
             getResult:{
-                url:'http://www.mocky.io/v2/5d09f14f3400001129d8313d',//apiServerPrefix+'/examExcute/getResult',
+                url:'http://www.mocky.io/v2/5d0cd6ec3500000d00b89b37',//apiServerPrefix+'/examExcute/getResult',
                 method:'post'
             }
         }
@@ -495,6 +495,32 @@ const API = {
                 method:'post',url:'http://www.mocky.io/v2/5d09dca13400005e29d83040',//apiServerPrefix+'/expenseClassificationManage/update'
             }
         },
+        //日结核对
+        dailyReportCheck:{
+            //初始化，加载基本数据(收费员名单)
+            init:{
+                method:'post',url:'http://www.mocky.io/v2/5d0c37233500004a00b896f6',//apiServerPrefix+'/outpatientDailyReportCheck/init',
+            },//获取报告
+            getReport:{
+                method:'post',url:'http://www.mocky.io/v2/5d0c37d93500004a00b896f9',//apiServerPrefix+'/outpatientDailyReportCheck/getReport'
+            },//财务入库
+            confirmCheck:{
+                method:'post',url:'http://www.mocky.io/v2/5d0c38b23500002d00b896fe',//apiServerPrefi+'/outpatientDailyReportCheck/confirmCheck'
+            },//历史日结
+            history:{
+                method:'post',url:'http://www.mocky.io/v2/5d0c394e3500005100b89700',//apiServerPrefix+'/outpatientDailyReportCheck/history'
+            }
+        },
+        workloadStatistic:{
+            //部门工作量统计
+            department:{
+                method:'post',url:'http://www.mocky.io/v2/5d0c42803500002d00b8971c',//apiServerPrefix+'/outpatientDailyReportCheck/departmentCheck'
+            },
+            //个人工作量统计
+            personal:{
+                method:'post',url:'http://www.mocky.io/v2/5d0c41913500002d00b89716',//apiServerPrefix+'/outpatientDailyReportCheck/userCheck'
+            }
+        }
     },
 
 
