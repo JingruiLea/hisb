@@ -234,7 +234,7 @@ public class PrescriptionService {
         new_prescriptionItem.setAmount(new_amount);
         new_prescriptionItem.setStatus(PrescriptionStatus.PrescriptionItemTaken);
         int new_item_id = insert(new_prescriptionItem);
-        modifyChargeRecord(item_id,cost,req,new_item_id);
+        modifyChargeRecord(item_id,cost,new_item_id);
     }
 
     @Transactional
@@ -249,14 +249,17 @@ public class PrescriptionService {
         return true;
     }
 
-    private void modifyChargeRecord(int item_id, float cost, Map req, int new_item_id){
+    private void modifyChargeRecord(int item_id, float cost, int new_item_id){
         OutpatientChargesRecord outpatientChargesRecord = chargeAndRefundMapper.findByItemId(item_id);
         float new_cost = outpatientChargesRecord.getCost()-cost;
+        int id = outpatientChargesRecord.getId();
+
         OutpatientChargesRecord newOutpatientChargesRecord = outpatientChargesRecord;
         newOutpatientChargesRecord.setCost(new_cost);
         newOutpatientChargesRecord.setItem_id(new_item_id);
         outpatientChargesRecordMapper.insert(newOutpatientChargesRecord);
 
+        outpatientChargesRecord.setId(id);
         outpatientChargesRecord.setCost(cost);
         outpatientChargesRecord.setItem_id(item_id);
         outpatientChargesRecord.setStatus(OutpatientChargesRecordStatus.Charged);
