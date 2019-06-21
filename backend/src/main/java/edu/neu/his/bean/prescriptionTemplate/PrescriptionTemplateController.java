@@ -5,7 +5,6 @@ import edu.neu.his.bean.user.User;
 import edu.neu.his.config.Response;
 import edu.neu.his.bean.drug.DrugService;
 import edu.neu.his.util.Utils;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -95,10 +94,11 @@ public class PrescriptionTemplateController {
         prescriptionTemplate.setId(originPrescriptionTemplate.getId());
         if(!name.equals(originPrescriptionTemplate.getTemplate_name())){
             name = prescriptionTemplateService.rename(name);
-            prescriptionTemplate.setTemplate_name(name);
+            originPrescriptionTemplate.setTemplate_name(name);
         }
-
-        prescriptionTemplateMapper.updateByPrimaryKey(prescriptionTemplate);
+        originPrescriptionTemplate.setDisplay_type(prescriptionTemplate.getDisplay_type());
+        originPrescriptionTemplate.setType(prescriptionTemplate.getType());
+        prescriptionTemplateMapper.updateByPrimaryKey(originPrescriptionTemplate);
         List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
@@ -110,10 +110,11 @@ public class PrescriptionTemplateController {
 
     @PostMapping("/list")
     public Map list(@RequestBody Map req){
+        int type = (int) req.get("type");
         List<PrescriptionTemplate> list = prescriptionTemplateService.findAll(Utils.getSystemUser(req));
-        List personal = list.stream().filter(item->item.getType()==0).collect(Collectors.toList());
-        List department = list.stream().filter(item->item.getType()==0).collect(Collectors.toList());
-        List hospital = list.stream().filter(item->item.getType()==0).collect(Collectors.toList());
+        List personal = list.stream().filter(item->item.getType()==type).collect(Collectors.toList());
+        List department = list.stream().filter(item->item.getType()==type).collect(Collectors.toList());
+        List hospital = list.stream().filter(item->item.getType()==type).collect(Collectors.toList());
         Map res = new HashMap();
         res.put("personal",personal);
         res.put("department", department);

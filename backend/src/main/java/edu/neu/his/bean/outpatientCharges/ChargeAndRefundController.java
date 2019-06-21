@@ -58,7 +58,9 @@ public class ChargeAndRefundController {
     public Map getHistoryChargeItems5(@RequestBody Map req){
         if(req.get("medical_record_id")!=null && (int)req.get("medical_record_id")!=0){
             int medical_record_id = (int)req.get("medical_record_id");
-            return Response.ok(chargeAndRefundService.findByMedicalRecordIdAndStatus(medical_record_id, OutpatientChargesRecordStatus.Charged));
+            List res = chargeAndRefundService.findByMedicalRecordIdAndStatus(medical_record_id, OutpatientChargesRecordStatus.Charged);
+
+            return Response.ok();
         }else{
             String name = (String)req.get("name");
             List<Integer> medical_record_ids = outpatientRegistrationService.findMedicalRecordIdByName(name);
