@@ -1,7 +1,6 @@
 package edu.neu.his.bean.drug;
 
 import edu.neu.his.bean.outpatientCharges.ChargeAndRefundService;
-import edu.neu.his.bean.outpatientCharges.OutpatientChargesRecord;
 import edu.neu.his.bean.prescription.PrescriptionItem;
 import edu.neu.his.bean.outpatientCharges.OutpatientChargesRecordStatus;
 import edu.neu.his.bean.prescription.PrescriptionStatus;
@@ -10,7 +9,6 @@ import edu.neu.his.bean.prescription.PrescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -58,10 +56,8 @@ public class DrugWithdrawController {
                 int stock = drug.getStock() + amount;
                 drug.setStock(stock);
                 drugService.updateDrug(drug);
-                int new_item_id = prescriptionService.returnDrug(prescriptionItem,amount);
-                int item_id = prescriptionItem.getId();
                 float cost = drug.getPrice()*amount;
-                prescriptionService.modifyChargeRecord(item_id,cost,req,new_item_id);
+                prescriptionService.returnDrug(prescriptionItem,amount,cost,req);
             }
         });
 
