@@ -112,9 +112,9 @@ public class PrescriptionTemplateController {
     public Map list(@RequestBody Map req){
         int type = (int) req.get("type");
         List<PrescriptionTemplate> list = prescriptionTemplateService.findAll(Utils.getSystemUser(req));
-        List personal = list.stream().filter(item->item.getType()==type).collect(Collectors.toList());
-        List department = list.stream().filter(item->item.getType()==type).collect(Collectors.toList());
-        List hospital = list.stream().filter(item->item.getType()==type).collect(Collectors.toList());
+        List personal = list.stream().filter(item->item.getType()==type && item.getDisplay_type() == 0).collect(Collectors.toList());
+        List department = list.stream().filter(item->item.getType()==type && item.getDisplay_type() == 1).collect(Collectors.toList());
+        List hospital = list.stream().filter(item->item.getType()==type && item.getDisplay_type() == 2).collect(Collectors.toList());
         Map res = new HashMap();
         res.put("personal",personal);
         res.put("department", department);

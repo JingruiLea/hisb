@@ -11,6 +11,7 @@
     "fee_name":"西药费"
   },
   {
+    "_uid":10005,
     "prescription_items":[
       {"id":1, "amount":3},
       {"id":2, "amount":2}

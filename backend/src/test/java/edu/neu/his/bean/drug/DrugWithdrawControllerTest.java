@@ -49,9 +49,9 @@ public class DrugWithdrawControllerTest {
                 post("/drugWithdrawal/submit")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
+                        "    \"_uid\":10005,\n" +
                         "    \"prescription_items\":[\n" +
                         "      {\"id\":1, \"amount\":3}\n" +
-                        "      \n" +
                         "    ]\n" +
                         "  }")
                 .accept(MediaType.APPLICATION_JSON))
