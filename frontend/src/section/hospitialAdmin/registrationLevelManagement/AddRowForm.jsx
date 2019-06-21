@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radio, Button,Input,Form,Icon,Select} from 'antd';
+import { Button,Input,Form,Icon,Select} from 'antd';
 import Roles from '../../../global/RolesGroup';
 
 const Option = Select.Option
@@ -13,7 +13,6 @@ class AddRowForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const form = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received addRow values of form: ', values);

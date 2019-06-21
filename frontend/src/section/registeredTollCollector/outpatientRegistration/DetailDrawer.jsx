@@ -20,7 +20,6 @@ class DetailDrawer extends React.Component {
           title="挂号详情信息"
           placement="right"
           closable={true}
-          onClose={this.onClose}
           visible={this.props.visible}
           onClose={this.props.onClose}
           width={800}

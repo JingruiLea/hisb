@@ -9,7 +9,6 @@ import AnalysisSection from './analysis';
 import DisposalSection from './disposal';
 import PatentMedcinePrescription from './patentMedicinePrescription';
 import HerbalMedcinePrescription from './herbalMedcinePrescription';
-import patientFee from './patientFee';
 import PatientFee from './patientFee';
 
 const {Content} = Layout;
@@ -136,7 +135,7 @@ class DiagnoseSection extends React.Component {
                     currentPatient={state.currentPatient} /> 
                 </Tabs.TabPane>
 
-                <Tabs.TabPane tab="费用查询" key="7">
+                <Tabs.TabPane tab="费用查询" key="7" disabled={disabled}> 
                   <PatientFee
                       onRef={(ref)=>{this.PatientFee=ref}}
                       currentPatient={state.currentPatient} /> 

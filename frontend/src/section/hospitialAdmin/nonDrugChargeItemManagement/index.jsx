@@ -1,9 +1,7 @@
 import React from 'react';
 import { Layout, Divider,Spin,Typography} from 'antd';
-import axios from 'axios';
 import ToolBar from './ToolBar';
 import API from '../../../global/ApiConfig';
-import Status from '../../../global/Status';
 import Message from '../../../global/Message';
 import DataTable from './DataTable'
 const {Content} = Layout;

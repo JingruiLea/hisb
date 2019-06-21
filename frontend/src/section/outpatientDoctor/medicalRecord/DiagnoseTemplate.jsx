@@ -1,5 +1,5 @@
 import React from 'react';
-import {Layout, Tabs,Tree, Modal, Form,Table,Card,Button,Spin} from 'antd'
+import {Tree, Modal,Table,Card,Button,Spin} from 'antd'
 import Message from '../../../global/Message';
 import DiagnoseTemplateEdit from './DiagnoseTemplateEdit'
 
@@ -23,7 +23,7 @@ class DiagnoseTemplate extends React.Component {
     const id = parseInt(selectkeys[0]);
     for(var type of ["personal","department","hospital"]) {
       var templates = allDiagnoseTemplate[type].filter(x=>x.id===id);
-      if(templates.length==1) {
+      if(templates.length===1) {
         this.setState({selectedTemplate:templates[0]})
         return;
       }
@@ -80,22 +80,6 @@ class DiagnoseTemplate extends React.Component {
       department = allDiagnoseTemplate.department;
       hospital = allDiagnoseTemplate.hospital;
     }
-  
-    const { getFieldDecorator } = this.props.form;
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 4 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 19 },
-      },
-    };
-    const rules=[{
-        required:true,
-        message:'字段不能为空'
-    }]
 
     return (
     <div >
@@ -190,4 +174,4 @@ class DiagnoseTemplate extends React.Component {
   }
 }
 
-export default Form.create({name:"template_update"})(DiagnoseTemplate);
+export default DiagnoseTemplate;

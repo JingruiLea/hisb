@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button,Tabs,Col,Row,Card,Table,Layout,DatePicker,Form,Spin,Modal} from 'antd';
+import {Button,Col,Row,Card,Table,Layout,DatePicker,Form,Spin,Modal} from 'antd';
 import API from '../../../global/ApiConfig';
 import moment from 'moment';
 import Message from '../../../global/Message';
@@ -109,7 +109,7 @@ class DailyCollectSection extends React.Component {
   render() {
     const state = this.state;
     const getFieldDecorator = this.props.form.getFieldDecorator;
-    const me = this.props.me;
+    //const me = this.props.me;
     return (<Content style={{ margin: '0 16px',paddingTop:5 }}>
       <Row>
         <Col span={8}>

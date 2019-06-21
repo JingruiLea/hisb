@@ -1,8 +1,8 @@
 import React from 'react';
-import {Row,Col,Layout,Card,Typography,Pagination, Form, Table, DatePicker, Button, Spin} from 'antd'
+import {Layout,Typography, Form, Table, DatePicker, Button, Spin} from 'antd'
 
-const { RangePicker, MonthPicker } = DatePicker;
-const {Content, Footer} = Layout;
+const { RangePicker } = DatePicker;
+const {Content} = Layout;
 
 
 /************* 加载数据 ****************** */

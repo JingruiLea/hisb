@@ -50,7 +50,7 @@ class OutpatientRegistration extends React.Component {
   outPatientDoctorId2Name(id) {
     for(var i=0;i<this.state.outPatientDoctors.length;i++) {
       console.log(this.state.outPatientDoctors[i].uid,id)
-      if(this.state.outPatientDoctors[i].uid==id)
+      if(this.state.outPatientDoctors[i].uid===id)
          return this.state.outPatientDoctors[i].real_name;
     }
   }
@@ -159,7 +159,6 @@ class OutpatientRegistration extends React.Component {
           cost={this.state.cost}
           payMode={this.state.payMode}
           syncDoctorList={this.syncDoctorList.bind(this)}
-          calculateFee={this.calculateFee.bind(this)}
           calculateFee={this.calculateFee.bind(this)}
           setPaymentMode={this.setPaymentMode.bind(this)}
           submitRegistration={this.submitRegistration.bind(this)}

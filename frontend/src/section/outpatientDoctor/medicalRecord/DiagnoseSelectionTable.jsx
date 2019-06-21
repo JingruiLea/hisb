@@ -1,5 +1,5 @@
 import React from 'react';
-import {Input,Table,Radio,Checkbox,Select} from 'antd'
+import {Input,Table,Radio,Checkbox,Select,Button} from 'antd'
 import Message from "../../../global/Message";
 const {Option} = Select;
 
@@ -46,13 +46,13 @@ class DiagnoseSelectionTable extends React.Component {
       title: '操作',
       key:'operate',
       render:(text,record,index)=>(<span>
-        <a onClick={()=>{
+        <Button type="link" onClick={()=>{
             const {patientDiagnose} = this.state;
             const key = record.key;
             var newData = patientDiagnose;
             newData.chinese_diagnose =  newData.chinese_diagnose.filter(x=>x.key!==key);
             this.setPatientDiagnose(newData)
-          }}>删除</a>
+          }}>删除</Button>
         </span>)
     }
   ];
@@ -106,13 +106,13 @@ class DiagnoseSelectionTable extends React.Component {
       title: '操作',
       key:'operate',
       render:(text,record,index)=>(<span>
-        <a onClick={()=>{
+        <Button type="link" onClick={()=>{
             const key = record.key;
             const {patientDiagnose} = this.state;
             var newData = patientDiagnose;
             newData.western_diagnose = newData.western_diagnose.filter(x=>x.key!==key);
             this.setPatientDiagnose(newData)
-          }}>删除</a>
+          }}>删除</Button>
         </span>)
     }
   ];

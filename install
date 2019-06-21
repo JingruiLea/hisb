@@ -2,8 +2,10 @@
 echo 'ready to install HIS frontend ...'
 echo '[1] installing dotenv config parser...'
 yarn install
-echo '[2] installing middleware dependencies...'
-cd frontend && yarn install
-echo '[3] installing middleware dependencies...'
-cd middleware && yarn install
+echo '[2] installing file server dependencies...'
+cd fileserver && yarn install && cd ..
+echo '[3] installing frontend dependencies...'
+cd frontend && yarn install && cd ..
+echo '[4] installing middleware dependencies...'
+cd middleware && yarn install && cd ..
 echo 'OK!'

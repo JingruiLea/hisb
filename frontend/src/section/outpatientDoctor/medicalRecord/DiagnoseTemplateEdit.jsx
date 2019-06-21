@@ -1,8 +1,6 @@
 import React from 'react';
-import {Form,Input,Collapse,Radio,Divider,Button} from 'antd';
+import {Form,Input,Radio,Divider,Button} from 'antd';
 import DiagnoseSelectionTable from './DiagnoseSelectionTable'
-
-const {Panel} = Collapse;
 
 class DiagnoseTemplateEdit extends React.Component {
 

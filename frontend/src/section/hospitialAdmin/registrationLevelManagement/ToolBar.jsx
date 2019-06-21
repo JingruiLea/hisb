@@ -74,7 +74,7 @@ class ToolBar extends React.Component {
       const editButtonDisbbled = selectedRows.length!==1 || this.props.disabled;
       const deleteButtonDisabled = selectedRows.length===0 || this.props.disabled;
       const addButtonDisabled = this.props.disabled;
-      const importButtonDisabled = this.props.disabled;
+      //const importButtonDisabled = this.props.disabled;
       const deleteNum = selectedRows.length===0?null:selectedRows.length+"条记录"
 
       return (
@@ -141,8 +141,7 @@ class ToolBar extends React.Component {
           onCancel={this.hideEditModal.bind(this)}
           footer={null}
         >
-          <EditRowForm
-            updateRow={this.props.updateRow.bind(this)} 
+          <EditRowForm 
             data={this.props.selectedRows[0]}  
             updateRow={this.props.updateRow.bind(this)}
             exit={this.hideEditModal.bind(this)}

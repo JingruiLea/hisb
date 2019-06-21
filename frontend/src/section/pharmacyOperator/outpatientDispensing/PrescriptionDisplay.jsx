@@ -1,17 +1,18 @@
 import React from 'react';
-import {Row,Collapse,Layout,Card,Typography, Tabs, Table, Divider} from 'antd';
-import Sider from './sider';
+import {Collapse,Card,Typography, Tabs, Table, Divider} from 'antd';
+//import Sider from './sider';
 import { Descriptions } from 'antd';
 
-import API from '../../../global/ApiConfig';
-import Message from '../../../global/Message';
+//import API from '../../../global/ApiConfig';
+//import Message from '../../../global/Message';
 
 const {Panel} = Collapse;
 
 class PrescriptionDisplay extends React.Component {
 
   render() {
-    const {dispenseList,withdrawableList,withdrawedList,registration} = this.props;
+    const {dispenseList,registration} = this.props;
+    //const {withdrawableList,withdrawedList} = this.props;
     return (
     <Card title="用户处方明细" style={{minHeight:'800px'}}>
       {registration===null?null:
