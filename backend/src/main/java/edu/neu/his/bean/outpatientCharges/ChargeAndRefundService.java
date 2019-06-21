@@ -1,10 +1,12 @@
 package edu.neu.his.bean.outpatientCharges;
 
 import edu.neu.his.auto.AutoDrugMapper;
+import edu.neu.his.auto.NonDrugChargeItemMapper;
 import edu.neu.his.bean.department.DepartmentMapper;
 import edu.neu.his.bean.drug.Drug;
 import edu.neu.his.bean.drug.DrugMapper;
 import edu.neu.his.bean.exam.ExamItem;
+import edu.neu.his.bean.nondrug.NonDrugChargeItem;
 import edu.neu.his.bean.prescription.PrescriptionItem;
 import edu.neu.his.bean.exam.ExamStatus;
 import edu.neu.his.bean.prescription.PrescriptionStatus;
@@ -42,6 +44,9 @@ public class ChargeAndRefundService {
     @Autowired
     AutoDrugMapper drugMapper;
 
+    @Autowired
+    NonDrugChargeItemMapper nonDrugChargeItemMapper;
+
     @Transactional
     public List<OutpatientChargesRecord> findByMedicalRecordIdAndStatus(int medical_record_id,String status){
         List<OutpatientChargesRecord> list = chargeAndRefundMapper.findByMedicalRecordId(medical_record_id);
@@ -77,8 +82,16 @@ public class ChargeAndRefundService {
             PrescriptionItem item = autoPrescriptionItemMapper.selectByPrimaryKey(record.getId());
             res.putAll(Utils.objectToMap(item));
             res.put("fee", res.get("cost"));
-            res.put("amount", res.get("mount"));
+            res.put("mount", res.get("amount"));
             Drug drug = drugMapper.selectByPrimaryKey(item.getDrug_id());
+            itemName = drug.getName();
+            res.putAll(Utils.objectToMap(drug));
+        }else if(record.getType() == 1){
+            ExamItem item = examItemMapper.selectByPrimaryKey(record.getId());
+            res.putAll(Utils.objectToMap(item));
+            res.put("fee", res.get("cost"));
+            res.put("mount", res.get("amount"));
+            NonDrugChargeItem drug = nonDrugChargeItemMapper.selectByPrimaryKey(item.getNon_drug_item_id());
             itemName = drug.getName();
             res.putAll(Utils.objectToMap(drug));
         }
