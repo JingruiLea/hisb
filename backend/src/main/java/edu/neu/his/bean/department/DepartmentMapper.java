@@ -90,4 +90,12 @@ public interface DepartmentMapper extends Importable<Department> {
      */
     @Select("SELECT count(*) FROM department_classification WHERE id = #{id}")
     int checkClassificationExists(@Param("id") int id);
+
+    /**
+     *检查数据库中是否存在该科室分类
+     * @param id 科室分类id
+     * @return 返回该科室分类id在department_classification表中存在的数量
+     */
+    @Select("SELECT * FROM department WHERE id = #{id}")
+    Department selectById(@Param("id") int id);
 }

@@ -30,11 +30,11 @@ public class DrugService {
     @Transactional
     public int getExpenseClassificationId(Drug drug){
         switch (drug.getType()){
-            case "103":
+            case Common.ZHONGCAOYAOTYPE:
                 return 15;
-            case "101":
+            case Common.XIYAOTYPE:
                 return 13;
-            case "102":
+            case Common.ZHONGCHENGYAOTYPE:
                 return 14;
         }
         return 0;

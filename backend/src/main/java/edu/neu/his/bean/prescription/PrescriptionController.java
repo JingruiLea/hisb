@@ -69,7 +69,7 @@ public class PrescriptionController {
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
         }
-        if(prescriptionService.removeAllItems(prescriptionId)){
+        if(!prescriptionService.removeAllItems(prescriptionId)){
             return Response.error("没有该处方!");
         }
         prescriptionService.addItems(prescriptionId, drugList);
@@ -78,14 +78,13 @@ public class PrescriptionController {
 
     @PostMapping("/submit")
     public Map submit(@RequestBody Map req){
-        int prescriptionId = (int)req.get("prescription_id ");
-        List<Map> drugList = (List)req.get("prescription_item_list");
-        if(!drugService.allItemValid(drugList)){
-            return Response.error("该药品不存在!");
+        List<Integer> prescriptionIds = (List<Integer>) req.get("id");
+        for (Integer prescriptionId : prescriptionIds) {
+            if(prescriptionService.findById(prescriptionId) == null){
+                return Response.error("没有该处方!");
+            }
+            prescriptionService.submit(Utils.getSystemUser(req), prescriptionId);
         }
-        prescriptionService.removeAllItems(prescriptionId);
-        prescriptionService.addItems(prescriptionId, drugList);
-        prescriptionService.submit(Utils.getSystemUser(req), prescriptionId);
         return Response.ok();
     }
 

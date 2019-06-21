@@ -47,7 +47,7 @@ public class ExamItemService {
         if(item == null)
             return false;
 
-        if (Common.YIJIAOFEI.equals(item.getStatus())){
+        if (Common.WEIDENGJI.equals(item.getStatus())){
             return true;
         }
 

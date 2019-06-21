@@ -60,13 +60,13 @@ public class ExamController {
     @Autowired
     ExamItemResultService examItemResultMapper;
 
-    @PostMapping("allItems")
+    @PostMapping("/allItems")
     public Map allItemsByType(@RequestBody Map req){
         List res = examService.allItemsByType((Integer) req.get("type"));
         return Response.ok(res);
     }
 
-    @PostMapping("cancel")
+    @PostMapping("/cancel")
     public Map cancel(@RequestBody Map req){
         List<Integer> ids = (List<Integer>) req.get("id");
         for (Integer id : ids) {
@@ -240,8 +240,16 @@ public class ExamController {
         return Response.ok(res);
     }
 
-    @PostMapping("list")
+    @PostMapping("/list")
     public Map list(@RequestBody Map req){
+        int medicalRecordId = (int) req.get("medical_record_id");
+        int type = (int)req.get("type");
+        List res = examService.listByType(type, medicalRecordId, Utils.getSystemUser(req));
+        return Response.ok(res);
+    }
+
+    @PostMapping("/allExam")
+    public Map allExam(@RequestBody Map req){
         int medicalRecordId = (int) req.get("medical_record_id");
         List res = examService.list(medicalRecordId, Utils.getSystemUser(req));
         return Response.ok(res);

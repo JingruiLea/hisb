@@ -49,8 +49,13 @@ public class ChargeAndRefundController {
         String create_time = Utils.getSystemTime();
         if(start_time.compareTo(end_time)>=0 || end_time.compareTo(create_time)>0)
             return Response.error("错误，开始时间不小于结束时间或结束时间大于当前时间");
-
-        return Response.ok(chargeAndRefundService.findByMedicalRecordIdAndTime(medical_record_id,start_time,end_time));
+        List<OutpatientChargesRecord> list = chargeAndRefundService.findByMedicalRecordIdAndTime(medical_record_id,start_time,end_time);
+        List res = new ArrayList();
+        for (OutpatientChargesRecord o : list) {
+            Map m = chargeAndRefundService.outpatientChargesRecordToMap(o);
+            res.add(m);
+        }
+        return Response.ok(res);
     }
 
     @RequestMapping("/historyChargeItems")
@@ -58,7 +63,13 @@ public class ChargeAndRefundController {
     public Map getHistoryChargeItems5(@RequestBody Map req){
         if(req.get("medical_record_id")!=null && (int)req.get("medical_record_id")!=0){
             int medical_record_id = (int)req.get("medical_record_id");
-            return Response.ok(chargeAndRefundService.findByMedicalRecordIdAndStatus(medical_record_id, OutpatientChargesRecordStatus.Charged));
+            List<OutpatientChargesRecord> list = chargeAndRefundService.findByMedicalRecordIdAndStatus(medical_record_id, OutpatientChargesRecordStatus.Charged);
+            List res = new ArrayList();
+            for (OutpatientChargesRecord o : list) {
+                Map m = chargeAndRefundService.outpatientChargesRecordToMap(o);
+                res.add(m);
+            }
+            return Response.ok(res);
         }else{
             String name = (String)req.get("name");
             List<Integer> medical_record_ids = outpatientRegistrationService.findMedicalRecordIdByName(name);

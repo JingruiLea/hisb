@@ -30,8 +30,8 @@ public interface PrescriptionMapper {
 
     @Delete({
             "delete",
-            "from prescription_template_item",
-            "where prescription_template_id = #{prescriptionId,jdbcType=INTEGER}"
+            "from prescription_item",
+            "where prescription_id = #{prescriptionId,jdbcType=INTEGER}"
     })
     void removeAllItems(int prescriptionId);
 }

@@ -30,22 +30,29 @@ public class PrescriptionTemplateController {
     private DrugService drugService;
 
     @PostMapping("/create")
-    public Map create(Map req){
+    public Map create(@RequestBody Map req){
         List<Map> drugList = (List)req.get("prescription_item_list");
         String name = (String)req.get("template_name");
         User user = Utils.getSystemUser(req);
         name = prescriptionTemplateService.rename(name);
-        prescriptionTemplateService.create(user, name, drugList);
+        prescriptionTemplateService.create(req ,user, name, drugList);
         return Response.ok(prescriptionTemplateService.findAll(user));
     }
 
     @PostMapping("/delete")
-    public Map delete(Map req){
-        prescriptionTemplateService.delete((Integer) req.get("prescription_template_id"));
+    public Map delete(@RequestBody Map req){
+        List<Integer> prescriptionIds = (List<Integer>) req.get("id");
+        for (Integer prescriptionId : prescriptionIds) {
+            PrescriptionTemplate prescriptionTemplate = prescriptionTemplateService.selectById(prescriptionId);
+            if(prescriptionTemplate == null){
+                return Response.error("该组套不存在!");
+            }
+            prescriptionTemplateService.delete(prescriptionId);
+        }
         return Response.ok(prescriptionTemplateService.findAll(Utils.getSystemUser(req)));
     }
 
-    public Map addItem(Map req){
+    public Map addItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_template_id");
         List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
@@ -55,7 +62,7 @@ public class PrescriptionTemplateController {
         return Response.ok();
     }
 
-    public Map deleteItem(Map req){
+    public Map deleteItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_template_id");
         List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
@@ -65,7 +72,7 @@ public class PrescriptionTemplateController {
         return Response.ok();
     }
 
-    public Map updateItem(Map req){
+    public Map updateItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_template_id");
         List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
@@ -76,7 +83,7 @@ public class PrescriptionTemplateController {
     }
 
     @PostMapping("/update")
-    public Map update(Map req){
+    public Map update(@RequestBody Map req){
         int prescriptionId = (int)req.get("id");
         String name = (String)req.get("template_name");
         PrescriptionTemplate prescriptionTemplate = Utils.fromMap(req, PrescriptionTemplate.class);
@@ -87,10 +94,11 @@ public class PrescriptionTemplateController {
         prescriptionTemplate.setId(originPrescriptionTemplate.getId());
         if(!name.equals(originPrescriptionTemplate.getTemplate_name())){
             name = prescriptionTemplateService.rename(name);
-            prescriptionTemplate.setTemplate_name(name);
+            originPrescriptionTemplate.setTemplate_name(name);
         }
-
-        prescriptionTemplateMapper.updateByPrimaryKey(prescriptionTemplate);
+        originPrescriptionTemplate.setDisplay_type(prescriptionTemplate.getDisplay_type());
+        originPrescriptionTemplate.setType(prescriptionTemplate.getType());
+        prescriptionTemplateMapper.updateByPrimaryKey(originPrescriptionTemplate);
         List<Map> drugList = (List)req.get("prescription_item_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
@@ -102,15 +110,26 @@ public class PrescriptionTemplateController {
 
     @PostMapping("/list")
     public Map list(@RequestBody Map req){
+        int type = (int) req.get("type");
         List<PrescriptionTemplate> list = prescriptionTemplateService.findAll(Utils.getSystemUser(req));
-        List personal = list.stream().filter(item->item.getType()==0).collect(Collectors.toList());
-        List department = list.stream().filter(item->item.getType()==0).collect(Collectors.toList());
-        List hospital = list.stream().filter(item->item.getType()==0).collect(Collectors.toList());
+        List personal = list.stream().filter(item->item.getType()==type && item.getDisplay_type() == 0).collect(Collectors.toList());
+        List department = list.stream().filter(item->item.getType()==type && item.getDisplay_type() == 1).collect(Collectors.toList());
+        List hospital = list.stream().filter(item->item.getType()==type && item.getDisplay_type() == 2).collect(Collectors.toList());
         Map res = new HashMap();
         res.put("personal",personal);
         res.put("department", department);
         res.put("hospital", hospital);
         return Response.ok(res);
+    }
+
+    @PostMapping("/detail")
+    public Map detail(@RequestBody Map req){
+        int templateId = (int) req.get("id");
+        PrescriptionTemplate originPrescriptionTemplate = prescriptionTemplateService.selectById(templateId);
+        if(originPrescriptionTemplate == null){
+            return Response.error("该组套不存在!");
+        }
+        return Response.ok(prescriptionTemplateService.detail(templateId));
     }
 
 }
