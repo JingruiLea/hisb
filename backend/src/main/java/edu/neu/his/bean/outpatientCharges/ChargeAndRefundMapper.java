@@ -21,5 +21,5 @@ public interface ChargeAndRefundMapper {
                                                                @Param("start_time") String start_time, @Param("end_time") String end_time);
 
     @Select("SELECT * from outpatient_charges_record where item_id = #{item_id}")
-    OutpatientChargesRecord findByItemId(@Param("item_id ") int item_id);
+    OutpatientChargesRecord findByItemId(@Param("item_id") int item_id);
 }

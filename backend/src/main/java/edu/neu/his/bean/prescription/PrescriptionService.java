@@ -221,7 +221,7 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public int returnDrug(PrescriptionItem prescriptionItem, int amount){
+    public void returnDrug(PrescriptionItem prescriptionItem, int amount, float cost, Map req){
         //修改处方详情
         int new_amount = prescriptionItem.getAmount()-amount;
         prescriptionItem.setAmount(amount);
@@ -229,9 +229,12 @@ public class PrescriptionService {
         autoPrescriptionItemMapper.updateByPrimaryKey(prescriptionItem);
 
         PrescriptionItem new_prescriptionItem = prescriptionItem;
+        new_prescriptionItem.setId(null);
         new_prescriptionItem.setAmount(new_amount);
         new_prescriptionItem.setStatus(PrescriptionStatus.PrescriptionItemTaken);
-        return insert(prescriptionItem);
+        int new_item_id = insert(prescriptionItem);
+        int item_id = prescriptionItem.getId();
+        modifyChargeRecord(item_id,cost,req,new_item_id);
     }
 
     @Transactional
