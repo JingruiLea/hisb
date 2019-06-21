@@ -1,27 +1,16 @@
 import React from 'react';
-import { Layout, Button,Input,Icon, Table, Divider, Tag,Spin,Typography} from 'antd';
-import axios from 'axios';
+import { Layout, Divider,Spin,Typography} from 'antd';
 import ToolBar from './ToolBar';
 import API from '../../../global/ApiConfig';
-import Status from '../../../global/Status';
 import Message from '../../../global/Message';
 import DataTable from './DataTable'
 const {Content} = Layout;
 
-class RegistrationLevelManagement extends React.Component {
+class ExpenseClassificationManagement extends React.Component {
     state = {
         selectedRows:[],//选中项
-        registrationLevels:[],//表格数据
+        allExpenseClassification:[],//表格数据
         loading:true,//加载状态
-        columns:[
-            {
-                title: '编号',
-                dataIndex: 'id'
-            },{
-                title: '名称',
-                dataIndex: 'name'
-            }
-        ]
     };
 
     //设置表格选中的数据
@@ -32,109 +21,39 @@ class RegistrationLevelManagement extends React.Component {
 
     /***************************************  数据交互   ******************************************* */
     //上传数据后 重置数据
-    reloadData = ()=>{
-        const _this = this;
-        this.setState({loading:true});
-        axios({
-            method: API.bacisInfoManagement.registrationLevel.all.method,
-            url: API.bacisInfoManagement.registrationLevel.all.url,
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            //console.log('receive',data)
-            if(data.code===Status.Ok) {
-                var registrationLevels = data.data;
-                for(var d of registrationLevels) {d.key = d.id;}
-                this.setState({
-                    registrationLevels:registrationLevels,
-                    loading:false
-                });
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-            Message.showNetworkErrorMessage();
-        });
+    reloadData = async ()=>{
+        await this.setState({loading:true});
+        API.request(API.financialAdmin.expenseClassification.all)
+        .ok(allExpenseClassification=>{
+            allExpenseClassification.forEach(x=>x.key = x.id)
+            this.setState({allExpenseClassification,loading:false})
+        }).submit();
     }
 
     updateRow=(data)=>{
-        const _this = this;
-        axios({
-            method: API.bacisInfoManagement.registrationLevel.update.method,
-            url: API.bacisInfoManagement.registrationLevel.update.url,
-            data: data,
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            console.log('receive',data)
-            if(data.code===Status.Ok) {
-                _this.setState({selectedRows:[]})
-                this.reloadData();
-                Message.success("修改成功")
-                //this.setState({tableData:data.data,loading:true})
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-            Message.showNetworkErrorMessage();
-        });
+        API.request(API.financialAdmin.expenseClassification.update,data)
+        .ok(data=>{
+            this.setState({selectedRows:[]})
+            this.reloadData();
+            Message.success("修改成功")
+        }).submit();
     }
 
     newRow=(data)=>{
-        const _this = this;
-        axios({
-            method: API.bacisInfoManagement.registrationLevel.add.method,
-            url: API.bacisInfoManagement.registrationLevel.add.url,
-            data: data,
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            console.log('receive',data)
-            if(data.code===Status.Ok) {
-                this.reloadData();
-                Message.success("添加数据成功");
-               // this.setState({tableData:data.data,loading:false})
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-           Message.showNetworkErrorMessage();
-        });
+        API.request(API.financialAdmin.expenseClassification.add,data)
+        .ok(data=>{
+            this.reloadData();
+            Message.success("添加数据成功");
+        }).submit();
     }
 
-    deleteRow=(data)=>{
-        const _this = this;
-        axios({
-            method: API.bacisInfoManagement.registrationLevel.delete.method,
-            url: API.bacisInfoManagement.registrationLevel.delete.url,
-            data: {data},
-            crossDomain: true,
-            withCredentials:true
-          }).then((res)=>{
-            const data = res.data;
-            console.log('receive',data)
-            if(data.code===Status.Ok) {
-                _this.setState({selectedRows:[]})
-                _this.reloadData();
-                Message.success("删除数据成功","")
-               // this.setState({tableData:data.data,loading:false})
-            } else if(data.code===Status.PermissionDenied) {
-                Message.showAuthExpiredMessage();
-            } else {
-                Message.showConfirm('错误',data.msg)
-            }
-        }).catch((err)=>{
-           Message.showNetworkErrorMessage();
-        });
+    deleteRow=(idArr)=>{
+        API.request(API.financialAdmin.expenseClassification.delete,{idArr})
+        .ok(data=>{
+            this.setState({selectedRows:[]})
+            this.reloadData();
+            Message.success("删除数据成功","")
+        }).submit();
     }
     
 
@@ -156,8 +75,7 @@ class RegistrationLevelManagement extends React.Component {
                 <Typography.Paragraph>加载中...</Typography.Paragraph>
             </div>
             :<DataTable
-                columns={this.state.columns}
-                data={this.state.registrationLevels} 
+                data={this.state.allExpenseClassification} 
                 rowSelection={this.state.rowSelection}
                 reloadData={this.reloadData.bind(this)}
                 setSelected={this.setSelected.bind(this)}
@@ -167,4 +85,4 @@ class RegistrationLevelManagement extends React.Component {
     }
 }
 
-export default RegistrationLevelManagement;
+export default ExpenseClassificationManagement;

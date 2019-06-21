@@ -1,19 +1,15 @@
 import React from 'react';
-import { Radio, Button,Input,Form,Icon,Select} from 'antd';
+import {Button,Input,Form,Icon,Select} from 'antd';
 import  Roles from '../../../global/RolesGroup';
-
-const Option = Select.Option
-const RadioGroup = Radio.Group;
 
 class EditRowForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const form = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received editRow values of form: ', values);
-        values.uid = form.props.data.key;
+        values.uid = this.form.props.data.key;
         this.props.updateRow(values);
         this.props.exit();
       }

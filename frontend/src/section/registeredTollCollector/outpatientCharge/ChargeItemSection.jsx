@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card,Modal,Tabs,Input,Button,Form, Table} from 'antd';
+import {Modal,Tabs,Input,Button, Table} from 'antd';
 
 const { TabPane } = Tabs;
 const confirm=Modal.confirm;

@@ -1,12 +1,11 @@
 import React from 'react';
-import { Radio, Button,Input,Modal,Breadcrumb,Form,Icon,Select} from 'antd';
+import { Button,Input,Form,Icon} from 'antd';
 
 
 class EditRowForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const form = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received editRow values of form: ', values);
@@ -46,11 +45,22 @@ class EditRowForm extends React.Component {
         <Form.Item label="名称">
           {getFieldDecorator('name', {
             rules: [{ required: true, message: '输入名称' }],
-            initialValue:data.name
+            initialValue:data.fee_name
           })(
             <Input
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="名称不可重复"
+            />
+          )}
+        </Form.Item>
+        <Form.Item label="拼音">
+          {getFieldDecorator('pinyin', {
+            rules: [{ required: true, message: '输入拼音' }],
+            initialValue:data.pinyin
+          })(
+            <Input
+              prefix={<Icon type="number" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="输入拼音"
             />
           )}
         </Form.Item>

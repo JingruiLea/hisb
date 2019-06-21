@@ -1,9 +1,18 @@
 import React from 'react';
-import {Row,Input,Table,Radio,Checkbox,Select, Button} from 'antd'
+import {Input,Table,Radio,Checkbox,Select,Button} from 'antd'
 import Message from "../../../global/Message";
 const {Option} = Select;
 
 class DiagnoseSelectionTable extends React.Component {
+
+  componentDidMount=()=>{this.props.onRef(this)}
+
+  state={
+    patientDiagnose:{
+      western_diagnose:[],
+      chinese_diagnose:[]
+    }
+  }
 
   chineseDiagnoseColumns = [
     {
@@ -23,13 +32,13 @@ class DiagnoseSelectionTable extends React.Component {
         <Input
           value={syndrome_differentiation}
           onChange={(e)=>{
-            const {primaryDiagnose} = this.props;
+            const {patientDiagnose} = this.state;
             const input = e.target.value;
             var editedRecord = record;
             editedRecord.syndrome_differentiation = input;
-            var newData = primaryDiagnose;
-            newData.chineseDiagnoseData[index] = editedRecord;
-            this.props.setPrimaryDiagnose(newData)
+            var newData = patientDiagnose;
+            newData.chinese_diagnose[index] = editedRecord;
+            this.setPatientDiagnose(newData)
           }}
         />)
       }
@@ -37,13 +46,13 @@ class DiagnoseSelectionTable extends React.Component {
       title: '操作',
       key:'operate',
       render:(text,record,index)=>(<span>
-        <a onClick={()=>{
-            const {primaryDiagnose} = this.props;
+        <Button type="link" onClick={()=>{
+            const {patientDiagnose} = this.state;
             const key = record.key;
-            var newData = primaryDiagnose;
-            newData.chineseDiagnoseData =  newData.chineseDiagnoseData.filter(x=>x.key!==key);
-            this.props.setPrimaryDiagnose(newData)
-          }}>删除</a>
+            var newData = patientDiagnose;
+            newData.chinese_diagnose =  newData.chinese_diagnose.filter(x=>x.key!==key);
+            this.setPatientDiagnose(newData)
+          }}>删除</Button>
         </span>)
     }
   ];
@@ -66,12 +75,12 @@ class DiagnoseSelectionTable extends React.Component {
         <Radio 
           checked={main_symptom}
           onClick={()=>{
-            const {primaryDiagnose} = this.props;
+            const {patientDiagnose} = this.state;
             var newValue = !main_symptom;
-            var newData = primaryDiagnose;
-            newData.westernDiagnoseData.forEach(ele=>ele.main_symptom=false)
-            newData.westernDiagnoseData[index].main_symptom = newValue;
-            this.props.setPrimaryDiagnose(newData)
+            var newData = patientDiagnose;
+            newData.western_diagnose.forEach(ele=>ele.main_symptom=false)
+            newData.western_diagnose[index].main_symptom = newValue;
+            this.setPatientDiagnose(newData)
           }}
         />)
       }
@@ -84,12 +93,12 @@ class DiagnoseSelectionTable extends React.Component {
         <Checkbox 
           checked={suspect}
           onClick={()=>{
-            const {primaryDiagnose} = this.props;
+            const {patientDiagnose} = this.state;
             var editedRecord = record;
             editedRecord.suspect = !suspect;
-            var newData = primaryDiagnose;
-            newData.westernDiagnoseData[index] = editedRecord;
-            this.props.setPrimaryDiagnose(newData)
+            var newData = patientDiagnose;
+            newData.western_diagnose[index] = editedRecord;
+            this.setPatientDiagnose(newData)
           }}
           />)
       }
@@ -97,23 +106,47 @@ class DiagnoseSelectionTable extends React.Component {
       title: '操作',
       key:'operate',
       render:(text,record,index)=>(<span>
-        <a onClick={()=>{
+        <Button type="link" onClick={()=>{
             const key = record.key;
-            const {primaryDiagnose} = this.props;
-            var newData = primaryDiagnose;
-            newData.westernDiagnoseData = newData.westernDiagnoseData.filter(x=>x.key!==key);
-            this.props.setPrimaryDiagnose(newData)
-          }}>删除</a>
+            const {patientDiagnose} = this.state;
+            var newData = patientDiagnose;
+            newData.western_diagnose = newData.western_diagnose.filter(x=>x.key!==key);
+            this.setPatientDiagnose(newData)
+          }}>删除</Button>
         </span>)
     }
   ];
   
+  checkAndResolveKey=(diagnose)=>{
+    diagnose.chinese_diagnose.forEach(x=>x.key=x.disease_id);
+    diagnose.western_diagnose.forEach(x=>x.key=x.disease_id);
+    return diagnose;
+  }
+
+  applyDiagnose=(patientDiagnose)=>{
+    this.setState({patientDiagnose:this.checkAndResolveKey(patientDiagnose)})
+  }
+
+  setPatientDiagnose=(patientDiagnose)=>{
+    this.setState({patientDiagnose:this.checkAndResolveKey(patientDiagnose)})
+  }
+
+  clear=()=>{
+    this.setState({
+      patientDiagnose:{
+        western_diagnose:[],
+        chinese_diagnose:[]
+      }
+    });
+  }
+
+  patientDiagnoseData=()=>{return this.state.patientDiagnose}
 
   addNewWesternDiagnoseRow=(disease_id)=>{
-    const {primaryDiagnose} = this.props;
-    const {westernDiagnoseData} = primaryDiagnose;
+    const {patientDiagnose} = this.state;
+    const {western_diagnose} = patientDiagnose;
     const {westernDiagnoseDiseases} = this.props.diagnoses;
-    if(westernDiagnoseData.filter(x=>x.disease_id===disease_id).length>0) {
+    if(western_diagnose.filter(x=>x.disease_id===disease_id).length>0) {
       Message.error('该诊断已经存在！')
       return;
     }
@@ -126,17 +159,17 @@ class DiagnoseSelectionTable extends React.Component {
       main_symptom:false,
       suspect:false
     }
-    if(westernDiagnoseData.length===0) newRow.main_symptom = true;
-    var newData = primaryDiagnose;
-    newData.westernDiagnoseData.push(newRow);
-    this.props.setPrimaryDiagnose(newData);
+    if(western_diagnose.length===0) newRow.main_symptom = true;
+    var newData = patientDiagnose;
+    newData.western_diagnose.push(newRow);
+    this.setPatientDiagnose(newData);
   }
 
   addNewChineseDiagnoseRow=(disease_id)=>{
-    const {primaryDiagnose} = this.props;
-    const {chineseDiagnoseData} = primaryDiagnose;
+    const {patientDiagnose} = this.state;
+    const {chinese_diagnose} = patientDiagnose;
     const {chineseDiagnoseDiseases} = this.props.diagnoses;
-    if(chineseDiagnoseData.filter(x=>x.disease_id===disease_id).length>0) {
+    if(chinese_diagnose.filter(x=>x.disease_id===disease_id).length>0) {
       Message.error('该诊断已经存在！')
       return;
     }
@@ -148,14 +181,14 @@ class DiagnoseSelectionTable extends React.Component {
       disease_code:disease.code,
       syndrome_differentiation:''
     }
-    var newData = primaryDiagnose;
-    newData.chineseDiagnoseData.push(newRow);
-    this.props.setPrimaryDiagnose(newData);
+    var newData = patientDiagnose;
+    newData.chinese_diagnose.push(newRow);
+    this.setPatientDiagnose(newData);
   }
 
   render() {
-    const {primaryDiagnose} = this.props;
-    const {westernDiagnoseData,chineseDiagnoseData} = primaryDiagnose;
+    const {patientDiagnose} = this.state;
+    const {western_diagnose,chinese_diagnose} = patientDiagnose;
     const {westernDiagnoseDiseases,chineseDiagnoseDiseases} = this.props.diagnoses;
     return (
       <div>
@@ -179,7 +212,7 @@ class DiagnoseSelectionTable extends React.Component {
               </Select>
             </div>)}
             columns={this.westernDiagnoseColumns}
-            dataSource={westernDiagnoseData}
+            dataSource={western_diagnose}
             pagination={false}
         />
 
@@ -203,7 +236,7 @@ class DiagnoseSelectionTable extends React.Component {
               </Select>
             </div>)}
           columns={this.chineseDiagnoseColumns}
-          dataSource={chineseDiagnoseData}
+          dataSource={chinese_diagnose}
           pagination={false}
         />
       </div>

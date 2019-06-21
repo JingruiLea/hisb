@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button,Input,Modal,Form,Icon,Select} from 'antd';
+import {Button,Input,Form,Icon,Select} from 'antd';
 
 const Option = Select.Option
 
@@ -7,7 +7,6 @@ class AddRowForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const form = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values.id = parseInt(values.id);

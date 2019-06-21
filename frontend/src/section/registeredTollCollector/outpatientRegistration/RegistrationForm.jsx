@@ -46,7 +46,6 @@ class RegistrationForm extends React.Component {
   //同步医生列表
   syncDoctorList=async()=>{
     console.log(this.state.departmentId,this.state.registrationLevelId)
-    var registrationLevelId = 0;
     if(this.props.defaultRegistrationLevel!==null) 
       await this.setState({registrationLevelId:this.props.defaultRegistrationLevel.id})
     if(this.state.departmentId===undefined || this.state.registrationLevelId===undefined)
@@ -76,8 +75,6 @@ class RegistrationForm extends React.Component {
   //表单提交
   handleSubmit =async e => {
     e.preventDefault();
-    const _this = this;
-    const form = this.props.form;
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         const birthday = values.birthday.format('YYYY-MM-DD hh:mm:ss');
@@ -107,9 +104,8 @@ class RegistrationForm extends React.Component {
 
   render() {
     //年龄列表
-    const form = this;
     var ageArr = [];for(var i=0;i<150;i++) ageArr.push(i);
-    const {getFieldDecorator,setFieldsValue} = this.props.form;
+    const {getFieldDecorator} = this.props.form;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -276,7 +272,7 @@ class RegistrationForm extends React.Component {
             {getFieldDecorator('outpatient_doctor_id', {
               rules: [{ required: true, message: '选择门诊医生' }],
             })(
-              <Select disabled={this.props.outPatientDoctors.length===0} disabled={this.props.payMode}>
+              <Select disabled={this.props.outPatientDoctors.length===0 || this.props.payMode}>
                 {this.props.outPatientDoctors.map((x)=>
                   (<Option key={x.uid} value={x.uid}>{x.real_name}</Option>)
                 )}

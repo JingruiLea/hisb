@@ -18,12 +18,16 @@ class LoginPage extends React.Component {
                 <Typography.Title>登录</Typography.Title>
                 <LoginFrom/>
             </Card>
-            <Typography.Paragraph>
+            
+        </div>);
+    }
+
+    /**
+     * <Typography.Paragraph>
                     初始用户 HospitialAdmin RegisteredTollCollector FinancialAdmin 
                     PharmacyOperator OutpatientDoctor DoctorOfTechnology，密码12345
             </Typography.Paragraph>
-        </div>);
-    }
+     */
 }
 
 

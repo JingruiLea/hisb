@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Button,Input,Modal,Breadcrumb,Form,Icon} from 'antd';
+import {Button,Modal,Breadcrumb,Icon} from 'antd';
 import AddRowForm from './AddRowForm';
 import EditRowForm from './EditRowForm';
 
@@ -42,7 +42,7 @@ class ToolBar extends React.Component {
       cancelText: '取消',
       onOk() {
         const selectedRows = _this.props.selectedRows;
-        _this.props.deleteRow(selectedRows);
+        _this.props.deleteRow(selectedRows.map(x=>x.id));
       },
       onCancel() {
         console.log('Cancel clicked');
@@ -125,7 +125,6 @@ class ToolBar extends React.Component {
           footer={null}
         >
           <EditRowForm
-            updateRow={this.props.updateRow.bind(this)} 
             data={this.props.selectedRows[0]}  
             updateRow={this.props.updateRow.bind(this)}
             exit={this.hideEditModal.bind(this)}

@@ -1,17 +1,17 @@
 import React from 'react';
-import {Layout, Divider, Input, Modal} from 'antd'
-import {Row,Col,Table,Card,Typography,Pagination} from 'antd'
-import { Tabs } from 'antd';
-import { Tree } from 'antd';
+import {Row,Col,Layout,Card,Tabs} from 'antd'
 
-import MedicalRecord from './medicalRecord';
-import SiderPatientSelector from './SiderPatientSelector';
 import API from '../../global/ApiConfig';
+import SiderPatientSelector from './SiderPatientSelector';
+import MedicalRecordHome from './medicalRecord';
+import InspectionSection from './inspection';
+import AnalysisSection from './analysis';
+import DisposalSection from './disposal';
+import PatentMedcinePrescription from './patentMedicinePrescription';
+import HerbalMedcinePrescription from './herbalMedcinePrescription';
+import PatientFee from './patientFee';
 
-const DirectoryTree = Tree.DirectoryTree;
-const { TreeNode } = Tree;
-const TabPane = Tabs.TabPane;
-const {Content,Header} = Layout;
+const {Content} = Layout;
 
 class DiagnoseSection extends React.Component {
 
@@ -23,11 +23,12 @@ class DiagnoseSection extends React.Component {
   } */
   state = {
     currentPatient:{},
+    //currentPatient:{medicalRecord:{id:1},registration:{}},//used to debug
     patientList:{waiting:[],pending:[]},
     siderLoading:true
   }
 
-  componentDidMount=()=>{this.initPatientsList()}
+  componentDidMount=()=>{console.log('mounted');this.initPatientsList()}
 
   //选择当前操作的病人挂号信息
   selectPatient=(registration)=>{
@@ -42,17 +43,29 @@ class DiagnoseSection extends React.Component {
         currentPatient:currentPatient,
         siderLoading:false
       })
+      this.MedicalRecordHome.syncAllHistoryMedicalRecord();
+      this.MedicalRecordHome.applyMedialRecordData(currentPatient.medicalRecord)
       this.initPatientsList();
     })
   }
 
+  //刷新病人的信息
+  refreshPatientMedicalRecord=()=>{
+    const {currentPatient} = this.state;
+    this.selectPatient(currentPatient.registration)
+  }
+
+  //（创建）获取挂号对应的病历信息
   getMedicalRecord=(medical_record_id,callback)=>{
     API.request(API.outpatientDoctor.medicalRecord.get,{medical_record_id})
     .ok(medicalRecord=>{
+      medicalRecord.diagnose.western_diagnose.forEach(x=>x.key=x.disease_id)
+      medicalRecord.diagnose.chinese_diagnose.forEach(x=>x.key=x.disease_id)
       callback(medicalRecord)
     }).submit()
   }
 
+  //初始化患者列表
   initPatientsList=()=>{
     console.log('loading patient list...')
     API.request(API.outpatientDoctor.medicalRecord.getPatientList)
@@ -68,6 +81,9 @@ class DiagnoseSection extends React.Component {
 
   render() {
     const {state} = this;
+    const {currentPatient} = state;
+    const disabled = currentPatient.registration===null || currentPatient.registration===undefined;
+  
     return (
       <Content style={{ margin: '0 16px',paddingTop:3}}>
         <Row>
@@ -81,15 +97,48 @@ class DiagnoseSection extends React.Component {
 
           <Col span={19}>
             <Card>
-              <Tabs size="small">
-                <Tabs.TabPane tab="门诊病历" key="1">
-                  <MedicalRecord currentPatient={state.currentPatient} />
+              <Tabs size="small" defaultActiveKey={'1'}>
+                <Tabs.TabPane tab="门诊病历" key="1" forceRender>
+                  <MedicalRecordHome  
+                    onRef={(ref)=>{this.MedicalRecordHome=ref}}
+                    currentPatient={state.currentPatient}
+                    refreshPatientMedicalRecord={this.refreshPatientMedicalRecord.bind(this)} />
                 </Tabs.TabPane>
-                <Tabs.TabPane tab="成药处方" key="2">
-                  
+
+                <Tabs.TabPane tab="检查申请" key="2" disabled={disabled}>
+                  <InspectionSection
+                    onRef={(ref)=>{this.InspectionSection=ref}}
+                    currentPatient={state.currentPatient} />
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab="检验申请" key="3" disabled={disabled}>
+                  <AnalysisSection
+                    onRef={(ref)=>{this.InspectionSection=ref}}
+                    currentPatient={state.currentPatient} />  
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab="处置申请" key="4" disabled={disabled}>
+                  <DisposalSection
+                    onRef={(ref)=>{this.InspectionSection=ref}}
+                    currentPatient={state.currentPatient} />  
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab="成药处方" key="5" disabled={disabled}>
+                  <PatentMedcinePrescription
+                    onRef={(ref)=>{this.PatentMedcinePrescription=ref}}
+                    currentPatient={state.currentPatient} />  
                 </Tabs.TabPane> 
-                <Tabs.TabPane tab="检验申请" key="3">
-                  
+
+                <Tabs.TabPane tab="草药处方" key="6" disabled={disabled}>
+                  <HerbalMedcinePrescription
+                    onRef={(ref)=>{this.PatentMedcinePrescription=ref}}
+                    currentPatient={state.currentPatient} /> 
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab="费用查询" key="7" disabled={disabled}> 
+                  <PatientFee
+                      onRef={(ref)=>{this.PatientFee=ref}}
+                      currentPatient={state.currentPatient} /> 
                 </Tabs.TabPane>
               </Tabs>
             </Card>

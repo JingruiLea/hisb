@@ -1,18 +1,8 @@
 import React from 'react';
-import {Card,Modal,Typography,Badge,Table, Button, Icon,Input,Select, Spin} from 'antd';
-import API from '../../global/ApiConfig';
+import {Card,Badge,Table, Button, Icon,Input, Spin} from 'antd';
 import Message from '../../global/Message';
 import Highlighter from 'react-highlight-words';
 
-
-var data = [];
-for(var i=0;i<40;i++) {
-  data.push({
-    name:'wxx'+i,
-    medical_record_id:i,
-    key:i
-  })
-}
 
 class SiderPatientSelector extends React.Component {
 
@@ -113,7 +103,6 @@ class SiderPatientSelector extends React.Component {
   }
 
   render() {
-    const {state} = this;
     //变量
     const {patientList,currentPatient,loading} = this.props;
     //方法
@@ -157,7 +146,7 @@ class SiderPatientSelector extends React.Component {
           }}
           title={()=>`暂存（共${pending.length}名患者)`}
           columns={this.columns} dataSource={pending} 
-          pagination={true} pagination={{pageSize:6}} 
+          pagination={{pageSize:6}} 
           size="small" />
       </Card>
     )

@@ -1,132 +1,101 @@
 import React from 'react';
-import {Layout, Divider} from 'antd'
-import {Row,Col,Table,Spin,Typography,Collapse} from 'antd'
-import { Tabs } from 'antd';
-import { Tree } from 'antd';
-import {
-  Form,
-  Input,
-  Tooltip,
-  Icon,
-  Cascader,
-  Select,
-  Checkbox,
-  Button,
-  Radio,
-} from 'antd';
+import {Typography,Collapse,Button} from 'antd'
 import Message from '../../../global/Message';
 import DiagnoseSelectionTable from './DiagnoseSelectionTable'
-const {Panel} = Collapse;
+import MedicalRecordBasicForm from './MedicalRecordBasicForm';
+import MedicalRecordPrint from './MedicalRecordPrint'
 
+const {Panel} = Collapse;
 
 class MedicalRecordForm extends React.Component {
 
-  state = {
-    primaryDiagnose:{
-      westernDiagnoseData:[{
-        disease_id:1,
-        disease_code:"A02.004",
-        disease_name:"鼠伤寒肠炎",
-        main_symptom:false,
-        suspect:false,
-        key:1
-      },{
-        disease_id:2,
-        disease_code:"A02.003",
-        disease_name:"鼠伤肠",
-        main_symptom:false,
-        suspect:true,
-        key:2
-      }],
-      chineseDiagnoseData:[{
-        disease_id:3,
-        disease_code:"A02.004",
-        disease_name:"鼠伤寒肠炎",
-        syndrome_differentiation:'肾虚',
-        key:3
-      },{
-        disease_id:4,
-        disease_code:"A02.104",
-        disease_name:"伤寒肠炎",
-        syndrome_differentiation:'肾虚',
-        key:4
-      }],
-    },
-    diagnoses:{
-      chineseDiagnoseDiseases:[
-        {id:10,name:"脑残1",key:10,code:"A1029"},
-        {id:11,name:"脑残2",key:11,code:"A1039"},
-      ],
-      westernDiagnoseDiseases:[
-        {id:12,name:"脑残1",key:12,code:"A1049"},
-        {id:13,name:"脑残2",key:13,code:"A1059"},
-      ]
-    }
+  state={
+    printModalVisible:false,
+    printData:null
   }
 
   componentDidMount=()=>{this.props.onRef(this)}
 
-  setPrimaryDiagnose=(primaryDiagnose)=>{this.setState({primaryDiagnose})}
+  clearMedicalRecord=()=>{
+    this.DiagnoseSelectionTable.clear();
+    this.MedicalRecordBasicForm.clear();
+  }
 
-  applyTemplate=(template)=>{
-    console.log('dom apply',template)
-    setTimeout(()=>{
-      this.props.form.setFieldsValue(template)
-    },1) //我觉得这个是官方的bug
+  //应用病历模板（不带诊断）
+  applyMedicalRecordTemplate=(template)=>{
+    this.MedicalRecordBasicForm.applyMedicalRecordData(template)
+  }
+
+  //应用诊断模板
+  applyDiagnoseTemplate=(template)=>{
+    this.DiagnoseSelectionTable.applyDiagnose(template)
+  }
+
+  //应用数据(用户的病例，诊断信息)
+  applyMedialRecordData=(data)=>{
+    this.MedicalRecordBasicForm.applyMedicalRecordData(data)
+    this.DiagnoseSelectionTable.applyDiagnose(data.diagnose)
   }
 
   handleSubmit = (mode) => {
-    const form = this.props.form;
-    const values = form.getFieldsValue();
-    values.primaryDiagnose = this.state.primaryDiagnose;
-    console.log(values);
+    const values = this.MedicalRecordBasicForm.formValues();
+    values.diagnose = this.DiagnoseSelectionTable.state.patientDiagnose;
+    console.log('form operate mode:',mode);
 
     switch(mode) {
       case "clear":{
-        Message.showConfirm('清空','你确认要清空病历吗？',()=>{form.resetFields()},()=>{})
+        Message.showConfirm('清空','你确认要清空病历吗？',
+        ()=>{
+          this.clearMedicalRecord();
+        },()=>{})
         break;
       }
       case "store":{
-        
+        console.log('save store record: ', values);
+        this.props.updateMedicalRecord(values)
+        break;
+      }
+      case "print":{
+        console.log('print record: ', values);
+        //this.props.updateMedicalRecord(values)
+        const {currentPatient} = this.props;
+        const {registration} = currentPatient;
+        this.setState({
+          printModalVisible:true,
+          printData:{
+            registration:registration,
+            medicalRecord:values,
+          }
+        })
         break;
       }
       case "save":{
-        form.validateFields((err, values) => {
+        this.MedicalRecordBasicForm.submit((err,values) =>{
+          console.warn(err,values)
           if (!err) {
-            values.primaryDiagnose = this.state.primaryDiagnose;
-            console.log('Received login values of form: ', values);
+            values.patientDiagnose = this.DiagnoseSelectionTable.patientDiagnoseData();
+            console.log('save medial record: ', values);
+            this.props.saveMedicalRecord(values)
           }
         });
         break;
       }
       case "saveAsTemplate":{
-
+        console.log('save medical template', values);
+        this.props.openMedicalRecordTemplateEditor("new",values)
+        break;
+      }
+      default:{
+        console.error('known mode');
         break;
       }
     }
-
   };
+  
 
   render() {
-    const {state} = this;
-    const {medicalRecord,registration} = this.props.currentPatient;
-    const disabled = medicalRecord === undefined;
-    const { getFieldDecorator } = this.props.form;
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 4 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 19 },
-      },
-    };
-    const rules = {
-      rules:[{
-        required:true,
-        message:'字段不能为空'
-    }]}
+    const {allDiagnoses,disabled} = this.props;
+    const {printModalVisible,printData} = this.state;
 
     return (
       <div style={{minHeight:'870px',marginRight:'10px'}} >
@@ -135,49 +104,36 @@ class MedicalRecordForm extends React.Component {
           <Button icon="save" disabled={disabled} type="primary" style={{float:'right',marginRight:'10px'}} onClick={()=>{this.handleSubmit("store")}}>暂存</Button>
           <Button icon="save" disabled={disabled} type="primary" style={{float:'right',marginRight:'10px'}} onClick={()=>{this.handleSubmit("save")}}>保存</Button>
           <Button icon="delete" disabled={disabled} type="danger" style={{float:'right',marginRight:'10px'}} onClick={()=>{this.handleSubmit("clear")}}>清空</Button>
-          <Button icon="delete" disabled={disabled} type="danger" style={{float:'right',marginRight:'10px'}} onClick={()=>{this.handleSubmit("saveAsTemplate")}}>存为模板</Button>
+          <Button icon="save" disabled={disabled} type="danger" style={{float:'right',marginRight:'10px'}} onClick={()=>{this.handleSubmit("saveAsTemplate")}}>存为模板</Button>
+          <Button icon="printer" disabled={disabled} type="dashed" style={{float:'right',marginRight:'10px'}} onClick={()=>{this.handleSubmit("print")}}>打印</Button>
+          <MedicalRecordPrint 
+            visible={printModalVisible}
+            data={printData}
+            onCancel={()=>{this.setState({printModalVisible:false})}}
+          />
         </div><br/><br/>
 
-        <Form {...formItemLayout} onSubmit={this.handleSubmit} >
-        <Collapse defaultActiveKey={['3']}>
-          <Panel header="病史内容" key="1">
-            <Form.Item label="主诉">
-              {getFieldDecorator('chief_complaint',rules)(<Input/>)}
-            </Form.Item>
-            <Form.Item label="现病史">
-              {getFieldDecorator('current_medical_history',rules)(<Input.TextArea/>)}
-            </Form.Item>
-            <Form.Item label="现病治疗情况">
-              {getFieldDecorator('current_treatment_situation',rules)(<Input.TextArea/>)}
-            </Form.Item>
-            <Form.Item label="既往史">
-              {getFieldDecorator('past_history',rules)(<Input.TextArea/>)}
-            </Form.Item>
-            <Form.Item label="过敏史">
-              {getFieldDecorator('allergy_history',rules)(<Input.TextArea/>)}
-            </Form.Item>
+        <Collapse defaultActiveKey={['1']} accordion >
+          <Panel header="基本信息" key="1" disabled={disabled} forceRender>
+            <MedicalRecordBasicForm
+              disabled={disabled}
+              onRef={(ref)=>{this.MedicalRecordBasicForm = ref}}
+            />
           </Panel>
 
-          <Panel header="检查及结果" key="2">
-            <Form.Item label="体格检查">
-              {getFieldDecorator('physical_examination',rules)(<Input.TextArea/>)}
-            </Form.Item>
-          </Panel>
-
-          <Panel header="初步诊断" key="3">
+          <Panel header="初步诊断" key="2" disabled={disabled} forceRender>
             <DiagnoseSelectionTable 
-              diagnoses={this.state.diagnoses}
-              primaryDiagnose={this.state.primaryDiagnose}
-              setPrimaryDiagnose={this.setPrimaryDiagnose.bind(this)}
+              diagnoses={allDiagnoses}
+              disabled={disabled}
+              onRef={(ref)=>{this.DiagnoseSelectionTable = ref}}
             />
           </Panel>
         </Collapse>
 
-        </Form>
       </div>
     );
   }
  
 }
 
-export default Form.create({ name: 'medical-record' })(MedicalRecordForm);
+export default MedicalRecordForm;

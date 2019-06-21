@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card,Form,Layout,Modal,Drawer, Table, Input, Typography, Button, Col} from 'antd';
+import {Layout} from 'antd';
 import RegistrationInfoDisplay from "./RegistrationInfoDisplay";
 import ChargeItemSection from './ChargeItemSection';
 import API from '../../../global/ApiConfig';
