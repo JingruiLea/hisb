@@ -1,7 +1,0 @@
-#!/usr/bin/sh
-echo 'ready to run middleware...'
-cd middleware && node index.js&
-echo 'started.'
-echo 'ready to run webpack dev server...'
-cd frontend && yarn start
-echo 'started.'

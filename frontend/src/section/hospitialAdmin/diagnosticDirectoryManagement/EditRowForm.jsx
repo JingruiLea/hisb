@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radio, Button,Input,Form,Icon,Select} from 'antd';
+import { Button,Input,Form,Icon,Select, InputNumber} from 'antd';
 import  Roles from '../../../global/RolesGroup';
 
 const Option = Select.Option
@@ -66,7 +66,7 @@ class EditRowForm extends React.Component {
               rules: [{ required: true, message: '国际统一编码' }],
               initialValue:data.code
             })(
-              <Input
+              <InputNumber
                 prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                 placeholder="编号不能重复"
               />

@@ -1,7 +1,6 @@
 import React from 'react';
-import {Row,Col,Layout} from 'antd'
+import {Row,Col} from 'antd'
 import { Tabs } from 'antd';
-import { Tree } from 'antd';
 
 import MedicalRecordForm from './MedicalRecordForm'
 import MedicalRecordTemplate from './MedicalRecordTemplate' 
@@ -10,10 +9,7 @@ import HistoryMedicalRecord from './HistoryMedicalRecord';
 import API from '../../../global/ApiConfig'
 import Message from '../../../global/Message';
 
-const DirectoryTree = Tree.DirectoryTree;
-const { TreeNode } = Tree;
 const TabPane = Tabs.TabPane;
-const {Content,Header} = Layout;
 
 class MedicalRecordHome extends React.Component {
 
@@ -56,6 +52,7 @@ class MedicalRecordHome extends React.Component {
     API.request(API.outpatientDoctor.medicalRecord.update,medicalRecord)
     .ok(data=>{
       //this.props.refreshPatientMedicalRecord();
+      this.props.refreshPatientMedicalRecord();
       Message.success('病历已暂存')
     }).submit();
   }

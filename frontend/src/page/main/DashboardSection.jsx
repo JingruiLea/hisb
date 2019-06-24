@@ -1,5 +1,7 @@
 import React from 'react';
 
+import LogoDisplay from '../../global/LogoDisplay';
+
 //3 hospitalAdmin
 import DepartmentManagement from '../../section/hospitialAdmin/departmentManagement'
 import UserManagement from '../../section/hospitialAdmin/userManagement'
@@ -23,6 +25,7 @@ import OutpatientDispensingSection from '../../section/pharmacyOperator/outpatie
 import DrugCatalogueManagement from '../../section/pharmacyOperator/drugCatalogueManagement'
 
 //7 doctorOfTechnology
+import DoctorOfTechnologyMainWorkStation from '../../section/doctorOfTechnology/mainWorkStation'
 import PersonalWorkloadStatistic from '../../section/doctorOfTechnology/personalWorkloadStatistic'
 
 //8 financialAdmin
@@ -41,7 +44,7 @@ class DashboardSection extends React.Component {
       const {sectionKey} = this.props;
       return (
         <div>
-          {sectionKey==="0"?<OutpatientDoctorWorkspace me={this.props.me}/>:null}
+          {sectionKey==="0"?<LogoDisplay me={this.props.me}/>:null}
 
           {sectionKey==="3-1"?<DepartmentManagement me={this.props.me}/>:null}
           {sectionKey==="3-2"?<UserManagement me={this.props.me}/>:null}
@@ -58,7 +61,7 @@ class DashboardSection extends React.Component {
           {sectionKey==="5-1"?<OutpatientDoctorWorkspace/>:null}
           {sectionKey==="5-15"?<div>ToBeImplement</div>:null}
 
-          {sectionKey==="6-1"?<div>ToBeImplement</div>:null}
+          {sectionKey==="6-1"?<DoctorOfTechnologyMainWorkStation/>:null}
           {sectionKey==="6-2"?<div>ToBeImplement</div>:null}
           {sectionKey==="6-3"?<PersonalWorkloadStatistic me={this.props.me}/>:null}
 

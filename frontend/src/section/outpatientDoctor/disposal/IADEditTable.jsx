@@ -119,6 +119,9 @@ class IADEditTable extends React.Component {
         this.props.updateTemplate(id,templateDisplayType,templateName,non_drug_id_list)
         break;
       }
+      default:{
+        console.error('unknown mode')
+      }
     }
   }
 
@@ -126,10 +129,10 @@ class IADEditTable extends React.Component {
     const {allItems} = this.props;
     const {visible,non_drug_items,mode,activeKey} = this.state;
     var modeName = "编辑器";
-    if(mode=="new") modeName="创建";
-    else if(mode=="update") modeName="修改";
-    else if(mode=="newTemplate") modeName="创建组套";
-    else if(mode=="updateTemplate") modeName="修改组套";
+    if(mode==="new") modeName="创建";
+    else if(mode==="update") modeName="修改";
+    else if(mode==="newTemplate") modeName="创建组套";
+    else if(mode==="updateTemplate") modeName="修改组套";
 
     return(
       <Collapse activeKey={activeKey} destroyInactivePanel bordered={false}>
@@ -182,7 +185,7 @@ class IADEditTable extends React.Component {
               {title:"规格",dataIndex:"format"},
               {title:"费用",dataIndex:"fee"},
               {title:"操作",dataIndex:"id",
-                render:(text,record,index)=>(<a href="javascript:;" onClick={()=>{this.deleteRow(index)}}>删除</a>)
+                render:(text,record,index)=>(<Button type="link" onClick={()=>{this.deleteRow(index)}}>删除</Button>)
               }
             ]}
           />

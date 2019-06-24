@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radio, Button,Input,Form,Icon,Select} from 'antd';
+import {Button,Input,Form,Icon,Select, InputNumber} from 'antd';
 import Roles from '../../../global/RolesGroup';
 
 const Option = Select.Option;
@@ -13,7 +13,6 @@ class AddRowForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const form = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values.fee = parseFloat(values.fee)
@@ -54,13 +53,23 @@ class AddRowForm extends React.Component {
       },
     };
     return(<Form onSubmit={this.handleSubmit} {...formItemLayout}>
-       <Form.Item label="统一编号">
+       <Form.Item label="编号">
         {getFieldDecorator('id', {
           rules: [{ required: true, message: '输入编号' }],
         })(
-          <Input
+          <InputNumber
             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="编号不得重复"
+          />
+        )}
+      </Form.Item>
+      <Form.Item label="统一编码">
+        {getFieldDecorator('code', {
+          rules: [{ required: true, message: '统一编码' }],
+        })(
+          <Input
+            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder="编码不得重复"
           />
         )}
       </Form.Item>

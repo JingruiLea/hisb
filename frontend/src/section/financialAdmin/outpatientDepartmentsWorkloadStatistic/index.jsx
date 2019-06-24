@@ -1,7 +1,8 @@
 import React from 'react';
-import {Row,Col,Layout,Card,Typography,Pagination, Form, Table, Divider, Button, Spin} from 'antd'
-import { Tree,Input,DatePicker } from 'antd';
+import {Layout,Typography, Form, Table, Button, Spin,DatePicker} from 'antd'
 import { Chart,Geom,Axis,Tooltip} from "bizcharts";
+import moment from 'moment';
+import API from '../../../global/ApiConfig';
 
 const cols = {
   sales: {
@@ -9,11 +10,12 @@ const cols = {
   }
 };
 
-const { RangePicker, MonthPicker } = DatePicker;
-const {Content, Footer} = Layout;
+const { RangePicker } = DatePicker;
+const {Content} = Layout;
 
 
 /************* 加载数据 ****************** */
+/*
 const columns = [
     {"title":"科室名称/费用名称","dataIndex":"col0"},
     {"title":"中药费","dataIndex":"col1"},
@@ -32,12 +34,36 @@ const chartsData = [
   {"name":"骨科",sum:300},
   {"name":"牙科",sum:300},
 ];
-
+*/
 /************************************************************/
 
 class OutpatientDepartmentsWorkloadStatisticSection extends React.Component {
 
-  state = {};//null
+  state={
+    loading:true,
+    tableData:[],
+    chartsData:[],
+    columns:[]
+  }
+
+  componentDidMount=()=>{
+    const start_date = moment().format('YYYY-MM-DD');
+    const end_date = start_date;
+    this.loadStatistic(start_date,end_date);
+  }
+
+  loadStatistic=(start_date,end_date)=>{
+    API.request(API.financialAdmin.workloadStatistic.department,{
+      start_date,end_date
+    }).ok(data=>{
+      this.setState({
+        columns:data.columns,
+        tableData:data.tableData,
+        chartsData:data.chartsData,
+        loading:false
+      })
+    }).submit();
+  }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -47,13 +73,15 @@ class OutpatientDepartmentsWorkloadStatisticSection extends React.Component {
         console.log(range);
         const start_date = range[0].format('YYYY-MM-DD');
         const end_date = range[1].format('YYYY-MM-DD');
-        console.log('Received values of form: ', start_date,end_date);
+        this.loadStatistic(start_date,end_date)
       }
     });
   };
 
   render() {
+    const {tableData,columns,chartsData,loading} = this.state;
     const { getFieldDecorator } = this.props.form;
+    
     return(
       <Content style={{ margin: '0 16px',paddingTop:30 }}>
         <Typography.Title style={{textAlign:'center'}} level={3}>门诊科室工作量统计</Typography.Title>
@@ -73,7 +101,7 @@ class OutpatientDepartmentsWorkloadStatisticSection extends React.Component {
         </Form>
 
 
-        {this.state===null?<Spin style={{textAlign:'center',paddingTop:300,paddingLeft:'49%'}}/>:
+        {loading?<Spin style={{textAlign:'center',paddingTop:300,paddingLeft:'49%'}}/>:
         <div>
           <br/>
           <Table columns={columns} dataSource={tableData} pagination={false}></Table>

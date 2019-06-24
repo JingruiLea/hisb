@@ -1,5 +1,5 @@
 import React from 'react';
-import {Radio,Input,Card,Icon,DatePicker, Form, Table, Button} from 'antd'
+import {Input,Card,Icon, Form, Table, Button} from 'antd'
 
 
 
@@ -56,7 +56,7 @@ class Sider extends React.Component {
                   />
                 )}
               </Form.Item>
-              <Table columns={this.siderColumn} dataSource={registrationList} pagination={false}/>
+              <Table size="small" columns={this.siderColumn} dataSource={registrationList} pagination={false}/>
             </Card>
           </Form>
           

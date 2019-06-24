@@ -24,8 +24,8 @@ class PatientFee extends React.Component {
   }
 
   render() {
-    const {currentPatient} = this.props;
-    const disabled = (currentPatient.registration===null || currentPatient.registration===undefined);
+    //const {currentPatient} = this.props;
+    //const disabled = (currentPatient.registration===null || currentPatient.registration===undefined);
    
     const {data} = this.state;
     data.forEach(x=>x.key = x.id);

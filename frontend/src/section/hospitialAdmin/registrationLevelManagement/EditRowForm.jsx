@@ -1,9 +1,8 @@
 import React from 'react';
-import { Radio, Button,Input,Modal,Breadcrumb,Form,Icon,Select} from 'antd';
+import {Button,Input,Form,Icon,Select, InputNumber} from 'antd';
 import  Roles from '../../../global/RolesGroup';
 
-const Option = Select.Option
-const RadioGroup = Radio.Group;
+const Option = Select.Option;
 
 class EditRowForm extends React.Component {
 
@@ -61,7 +60,7 @@ class EditRowForm extends React.Component {
         {getFieldDecorator('id', {
           initialValue:data.id
         })(
-          <Input
+          <InputNumber
             disabled
             prefix={<Icon type="number" style={{ color: 'rgba(0,0,0,.25)' }} />}
           />,

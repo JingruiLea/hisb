@@ -1,11 +1,10 @@
 import React from 'react';
-import {Button,Input,Form,Icon} from 'antd';
+import {Button,Input,Form,Icon, InputNumber} from 'antd';
 
 class AddRowForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const form = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values.id = parseInt(values.id);
@@ -33,7 +32,7 @@ class AddRowForm extends React.Component {
         {getFieldDecorator('id', {
           rules: [{ required: true, message: '输入编号' }],
         })(
-          <Input
+          <InputNumber
             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="编号不得重复"
           />,

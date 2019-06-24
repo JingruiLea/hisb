@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radio, Button,Input,Form,Icon,Select} from 'antd';
+import { Radio, Button,Input,Form,Icon,Select, InputNumber} from 'antd';
 import  Roles from '../../../global/RolesGroup';
 
 const Option = Select.Option
@@ -14,7 +14,6 @@ class AddRowForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const form = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received addRow values of form: ', values);
@@ -54,6 +53,16 @@ class AddRowForm extends React.Component {
       },
     };
     return(<Form onSubmit={this.handleSubmit} {...formItemLayout}>
+      <Form.Item label="UID">
+        {getFieldDecorator('uid', {
+          rules: [{ required: true, message: '输入UID' }],
+        })(
+          <InputNumber
+            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder="输入UID"
+          />,
+        )}
+      </Form.Item>
        <Form.Item label="用户名">
         {getFieldDecorator('username', {
           rules: [{ required: true, message: '输入用户名' }],

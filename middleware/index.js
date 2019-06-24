@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const cors = require('./cors')
 const auth = require('./auth')
-const apiProxy = require('./proxy')
+const proxy = require('./proxy')
 const inject = require('./uidInject')
 
 const DB = mysql.createConnection({
@@ -73,10 +73,11 @@ server.all('*',auth)
 //uid inject
 server.all('*',inject)
 //reverse Proxy
-server.use('/api', apiProxy);
-
+server.use('/api', proxy.apiProxy);
+//fileserver proxy
+server.use('/imagesUpload/',proxy.fileProxy)
 //error api
-server.all('*',(req,res)=>{res.json({code:404,msg:'uknown api'}).end()})
+server.all('*',(req,res)=>{res.json({code:404,msg:'his middleware:uknown api'}).end()})
 
 console.log('======== Node Auth Procy Server Running ========');
 console.log('DB_HOST: ',process.env.DB_HOST)

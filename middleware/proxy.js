@@ -12,7 +12,7 @@ var restream = (proxyReq, req, res, options)=>{
   }
 }
 
-const proxyOptions = {
+const apiProxyOptions = {
   target: process.env.API_SERVER, // 目标主机
   changeOrigin: true,               // 需要虚拟主机站点
   ws:true,
@@ -21,6 +21,21 @@ const proxyOptions = {
   },
   onProxyReq:restream,
 };
-const apiProxy = proxy(proxyOptions);  //开启代理功能，并加载配置
 
-module.exports=apiProxy
+const fileProxyOptions = {
+  target: process.env.FILE_SERVER, // 目标主机
+  changeOrigin: true,               // 需要虚拟主机站点
+  ws:true,
+  pathRewrite: {
+    '^/imagesUpload' : '/upload'
+  },
+  onProxyReq:restream,
+};
+
+const apiProxy = proxy(apiProxyOptions);  //开启代理功能，并加载配置
+const fileProxy = proxy(fileProxyOptions);
+
+module.exports={
+  apiProxy,
+  fileProxy
+}
