@@ -4,6 +4,7 @@ import Config  from './Config'
 const server = Config.server;
 const apiServer = server+'/api'
 const fileUploadServer = server+'/imagesUpload';
+const apiServerPrefix = apiServer
 
 const API = {
     //登录
@@ -101,6 +102,124 @@ const API = {
                 method:'post',url:apiServer+'/nonDrugChargeItemManagement/import'
             }
         },
+        //医生排班管理
+    schedulingInfoManagement:{
+        //获取班次信息
+        getShiftInfo:{
+            method:'get',
+            url:apiServerPrefix+'/doctorSchedulingShiftManagement/all'
+        },
+        //添加班次信息
+        addShiftInfo:{
+            method:'post',
+            url:apiServerPrefix+'/doctorSchedulingShiftManagement/add'
+        },
+        //删除班次信息
+        deleteShiftInfo:{
+            method:'post',
+            url:apiServerPrefix+'/doctorSchedulingShiftManagement/delete'
+        },
+        //更新班次信息
+        updateShiftInfo:{
+            method:'post',
+            url:apiServerPrefix+'/doctorSchedulingShiftManagement/update'
+        },
+        //获取人员信息
+        getPersonnelInfo:{
+            method:'get',
+            url:apiServerPrefix+'/doctorSchedulingManagement/all'
+        },
+        //添加人员信息
+        addPersonnelInfo:{
+            method:'post',
+            url:apiServerPrefix+'/doctorSchedulingManagement/add'
+        },
+        //删除人员信息
+        deletePersonnelInfo:{
+            method:'post',
+            url:apiServerPrefix+'/doctorSchedulingManagement/delete'
+        },
+        //更新人员信息
+        updatePersonnelInfo:{
+            method:'post',
+            url:apiServerPrefix+'/doctorSchedulingManagement/update'
+        },
+        //查找AddForm信息
+        getPersonnelAddInfo:{
+            method:'post',
+            url:apiServerPrefix+'/doctorSchedulingManagement/addPersonnelTable'
+        },
+        //查找AddForm信息
+        getPersonnelAddNameInfo:{
+            method:'post',
+            url:apiServerPrefix+'/doctorSchedulingManagement/addNamePersonnelTable'
+        },
+        //选择排班人员
+        chooseDoctor:{
+            method:'post',
+            url:apiServerPrefix+'/doctorWorkforceManagement/choose'
+        },
+        //获取排班信息
+        getScheduleInfo:{
+            method:'get',
+            url:apiServerPrefix+'/doctorWorkforceManagement/all'
+        },
+        //更新排班信息
+        updateScheduleInfo:{
+            method:'get',
+            url:apiServerPrefix+'/doctorWorkforceManagement/update'
+        },
+        //添加排班信息
+        addScheduleInfo:{
+            method:'post',
+            url:apiServerPrefix+'/doctorWorkforceManagement/add'
+        },
+        //获取全部排班
+        getAllScheduleInfo:{
+            method:'get',
+            url:apiServerPrefix+'/doctorWorkforceManagement/getAll'
+        },
+        //查找时间冲突
+        findTimeConflict:{
+            method:'post',
+            url:apiServerPrefix+'/doctorWorkforceManagement/time'
+        },
+        //添加一行排班信息
+        addScheduleRowInfo:{
+            method:'post',
+            url:apiServerPrefix+'/doctorWorkforceManagement/addRow'
+        },
+        //查找addRow冲突
+        findAddRowConflict:{
+            method:'post',
+            url:apiServerPrefix+'/doctorWorkforceManagement/addRowConflict'
+        },
+        //删除人员信息
+        deleteScheduleRowInfo:{
+            method:'post',
+            url:apiServerPrefix+'/doctorWorkforceManagement/delete'
+        },
+        //查找AddForm信息
+        getAddInfo:{
+            method:'post',
+            url:apiServerPrefix+'/doctorWorkforceManagement/addTable'
+        },
+        //查找AddForm信息
+        getAddInfoByID:{
+            method:'post',
+            url:apiServerPrefix+'/doctorWorkforceManagement/addTableByID'
+        },
+        //覆盖排班信息
+        overwriteScheduleInfo:{
+            method:'post',
+            url:apiServerPrefix+'/doctorWorkforceManagement/overwrite'
+        },
+        //删除覆盖的排班信息
+        deleteOverwriteInfo:{
+            method:'post',
+            url:apiServerPrefix+'/doctorWorkforceManagement/deleteOverwrite'
+        }
+    },
         //诊断目录管理
         diagnoseDirectory: {
             allClassification:{//获得全部的分类
@@ -143,7 +262,7 @@ const API = {
             confirmRegistration:{
                 method:'post',
                 url:apiServer+'/outpatientRegistration/confirm',
-                mocky:"http://www.mocky.io/v2/5cfb42df300000f6030a8afb"
+                //mocky:"http://www.mocky.io/v2/5cfb42df300000f6030a8afb"
             },//退号
             withdrawNumber:{
                 method:'post',
@@ -151,7 +270,7 @@ const API = {
             },//搜索用户挂号信息
             searchRegistration:{
                 method:'post',
-                mocky:'http://www.mocky.io/v2/5cfcbea13200007800ccd406',
+                //mocky:'http://www.mocky.io/v2/5cfcbea13200007800ccd406',
                 url:apiServer+'/outpatientCharge/registrationByRecordId'
             }
         },

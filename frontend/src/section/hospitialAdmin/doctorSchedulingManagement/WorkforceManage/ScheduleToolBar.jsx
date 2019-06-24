@@ -91,6 +91,7 @@ class ScheduleToolBar extends React.Component {
             findRowConflict={this.props.findRowConflict.bind(this)}
             addRowConflict={this.props.addRowConflict.bind(this)}
             getAddTableInfo={this.props.getAddTableInfo.bind(this)} 
+            getAddTableInfoByID={this.props.getAddTableInfoByID.bind(this)}
             exit={this.hideAddRowModal.bind(this)}
             roles={this.props.roles}
             conflict={this.props.conflict}/>

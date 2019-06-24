@@ -65,7 +65,7 @@ public class OutpatientRegistrationController {
         if(title==null)
             return Response.error("错误 挂号等级不存在");
         else {
-            List<User> users = outpatientRegistrationService.findByDepartmentAndRegistrationLevel(department_id,title);
+            List<User> users = outpatientRegistrationService.findByDepartmentAndRegistrationLevel(department_id,registration_level_id);
             for(int i=0; i<users.size(); i++)
                 users.get(i).setPassword(null);
             return Response.ok(users);
