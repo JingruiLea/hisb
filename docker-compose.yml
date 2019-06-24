@@ -1,0 +1,14 @@
+
+version: '3'
+services:
+  frontend:
+    container_name: his-frontend
+    build: 
+      context: ./frontend/
+      args: 
+        apiServerURL: "http://127.0.0.1:8081"
+        fileServerURL: "http://127.0.0.1:8082"
+    volumes:
+      - '.:/home/his'
+    ports:
+     - "80:80"

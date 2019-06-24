@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button,Input,Form,Icon,Select} from 'antd';
+import {Button,Input,Form,Icon,Select, InputNumber} from 'antd';
 import  Roles from '../../../global/RolesGroup';
 
 class EditRowForm extends React.Component {
@@ -54,7 +54,7 @@ class EditRowForm extends React.Component {
           rules: [{ required: true, message: '输入职称' }],
           initialValue:data.id
         })(
-          <Input
+          <InputNumber
             disabled
             prefix={<Icon type="number" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="编号"
@@ -149,7 +149,7 @@ class EditRowForm extends React.Component {
           rules: [{ required: true, message: '输入药品计型' }],
           initialValue:data.price
         })(
-          <Input
+          <InputNumber
             prefix={<Icon type="number" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="药品价格"
           />

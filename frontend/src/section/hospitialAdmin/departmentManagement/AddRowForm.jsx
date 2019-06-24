@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button,Input,Form,Icon,Select} from 'antd';
+import {Button,Input,Form,Icon,Select,InputNumber} from 'antd';
 
 const Option = Select.Option
 
@@ -35,7 +35,7 @@ class AddRowForm extends React.Component {
         {getFieldDecorator('id', {
           rules: [{ required: true, message: '输入科室编号' }],
         })(
-          <Input
+          <InputNumber
             prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="重要字段 请谨慎填写"
           />,

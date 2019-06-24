@@ -2,6 +2,7 @@ import React from 'react';
 import {Row,Col,Layout} from 'antd';
 import Sider from './sider';
 import API from '../../../global/ApiConfig';
+import LogoDisplay from '../../../global/LogoDisplay';
 import Message from '../../../global/Message';
 import PrescriptionDisplay from './PrescriptionDisplay';
 
@@ -17,7 +18,7 @@ class OutpatientDispensingSection extends React.Component {
       name:'刘金星'
     }*/
     dispenseList:[
-          {
+         /* {
               "id":1,
               "medical_record_id" :1,
               "type":"成药", 
@@ -52,18 +53,31 @@ class OutpatientDispensingSection extends React.Component {
                       "status":"已取药"
                   }
               ]
-          }
+          }*/
       ]
     ,
-    withdrawableList:null,
-    withdrawedList:null,
+    withdrawableList:[],
+    withdrawedList:[],
     selectedRegistration:null
   }
 
-  componentDidMount=()=>{
-    API.request(API.pharmacyWorkStation.drugDispatcher.dispenseList,{})
+  //取药
+  dispensePrescription=(prescription_item_ids)=>{
+    API.request(API.pharmacyWorkStation.drugDispatcher.dispenseSubmit,prescription_item_ids)
     .ok(data=>{
-      console.log('wxxxxx',data)
+      Message.success('已取药！')
+      this.refreshPrescription();
+    }).submit();
+  }
+
+  //退药
+  withdrawPrescripton=(prescription_items)=>{
+    /**{id:1, amount:3}
+        {id:2, amount:2} */
+    API.request(API.pharmacyWorkStation.drugDispatcher.withdrawSubmit,prescription_items)
+    .ok(data=>{
+      Message.success('已退药！')
+      this.refreshPrescription();
     }).submit();
   }
 
@@ -84,19 +98,23 @@ class OutpatientDispensingSection extends React.Component {
     API.request(API.pharmacyWorkStation.drugDispatcher.dispenseList,{medical_record_id:registration.medical_record_id})
     .ok(dispenseList=>{
       this.setState({dispenseList})
-    })
+    }).submit();
     API.request(API.pharmacyWorkStation.drugDispatcher.withdrawableList,{medical_record_id:registration.medical_record_id})
     .ok(withdrawableList=>{
       this.setState({withdrawableList})
-    })
+    }).submit();
     API.request(API.pharmacyWorkStation.drugDispatcher.withdrawedList,{medical_record_id:registration.medical_record_id})
     .ok(withdrawedList=>{
       this.setState({withdrawedList})
-    })
+    }).submit();
+  }
+
+  refreshPrescription=()=>{
+    this.searchPrescription(this.state.selectedRegistration)
   }
 
   render() {
-    const {registrationList} = this.state;
+    const {registrationList,selectedRegistration} = this.state;
     return(
       <Content style={{ margin: '0 16px',paddingTop:5 }}>
         <Row>
@@ -108,11 +126,15 @@ class OutpatientDispensingSection extends React.Component {
           </Col>
 
           <Col span={18}>
-           <PrescriptionDisplay 
-            registration={this.state.selectedRegistration}
-            withdrawableList={this.state.withdrawableList}
-            withdrawedList={this.state.withdrawedList}
-            dispenseList={this.state.dispenseList}/>
+            {selectedRegistration?
+              <PrescriptionDisplay 
+                withdrawPrescripton={this.withdrawPrescripton.bind(this)}
+                dispensePrescription={this.dispensePrescription.bind(this)}
+                registration={selectedRegistration}
+                withdrawableList={this.state.withdrawableList}
+                withdrawedList={this.state.withdrawedList}
+                dispenseList={this.state.dispenseList}/>
+            :<LogoDisplay/>}
           </Col>
         </Row>
       </Content>)

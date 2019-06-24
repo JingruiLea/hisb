@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button,Input,Form,Icon} from 'antd';
+import { Button,Input,Form,Icon, InputNumber} from 'antd';
 
 
 class EditRowForm extends React.Component {
@@ -36,7 +36,7 @@ class EditRowForm extends React.Component {
             rules: [{ required: true, message: '输入编号' }],
             initialValue:data.id
           })(
-            <Input
+            <InputNumber
               prefix={<Icon type="password" style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="编号不可重复" disabled
             />

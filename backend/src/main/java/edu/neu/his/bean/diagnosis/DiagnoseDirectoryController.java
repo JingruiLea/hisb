@@ -75,7 +75,7 @@ public class DiagnoseDirectoryController {
     @PostMapping("/delete")
     @ResponseBody
     public Map  deleteDisease(@RequestBody Map req){
-        List<String > disease_ids = (List<String>) req.get("data");
+        List<Integer> disease_ids = (List<Integer>) req.get("data");
         disease_ids.forEach(id->diagnoseDirectoryService.deleteDisease(id));
         return Response.ok();
     }

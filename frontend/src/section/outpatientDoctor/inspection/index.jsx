@@ -25,9 +25,16 @@ class InspectionSection extends React.Component {
     this.setState({loading:false})
   }
 
+  reload=async()=>{
+    await this.asyncAllTemplates();
+    await this.syncCurrentList();
+    Message.success('已刷新')
+  }
+
   applyTemplate=(template)=>{
     this.IADEditTable.apply(template.items.map(x=>x.non_drug_item))
   }
+  
 
   //加载所有项目
   loadAllItems=async()=>{
@@ -45,6 +52,14 @@ class InspectionSection extends React.Component {
       medical_record_id
     }).ok(currentList=>{
       this.setState({currentList})
+    }).submit();
+  }
+
+  //查看结果
+  getIADResult=(exam_item_id,callback)=>{
+    API.request(API.doctorOfTechnology.IADExcute.getResult,{exam_item_id})
+    .ok(result=>{
+      callback(result)
     }).submit();
   }
 
@@ -193,6 +208,7 @@ class InspectionSection extends React.Component {
               <Divider/>
 
               <IADDisplay 
+                getIADResult={this.getIADResult.bind(this)}
                 deleteIAD={this.deleteIAD.bind(this)}
                 updateIAD={this.updateIAD.bind(this)}
                 cancelIAD={this.cancelIAD.bind(this)}

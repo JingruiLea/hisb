@@ -32,7 +32,7 @@ public interface DiseaseMapper extends Importable<Disease> {
                 @Param("pinyin") String pinyin,@Param("custom_name") String custom_name,@Param("custom_pinyin") String custom_pinyin);
 
     @Delete("DELETE FROM disease WHERE id=#{id}")
-    void deleteDisease(String id);
+    void deleteDisease(int id);
 
     @Insert("INSERT INTO disease_classification(id, name) VALUES(#{id}, #{name})")
     void insertDiseaseClassification(DiseaseClassification diseaseClassification);
