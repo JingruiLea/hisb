@@ -63,11 +63,7 @@ public class DoctorWorkforceController {
         return Response.ok();
     }
 
-<<<<<<< HEAD
-    @RequestMapping("/update")
-=======
  /*   @GetMapping("/update")
->>>>>>> zy
     @ResponseBody
     public Map updateDoctorWorkforce() {
         System.out.println("doctorWorkforceService.getDoctorWorkforces()"+doctorWorkforceService.getDoctorWorkforces());
