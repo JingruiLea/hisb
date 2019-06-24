@@ -226,7 +226,8 @@ public class ChargeAndRefundController {
 
     @RequestMapping("/registrationByRecordId")
     @ResponseBody
-    public Map registrationByRecordId(int medical_record_id){
+    public Map registrationByRecordId(@RequestBody Map req){
+        int medical_record_id = (int) req.get("medical_record_id");
         Registration registration = outpatientRegistrationService.findRegistrationById(medical_record_id);
         if(registration==null)
             return Response.error("错误，该挂号信息不存在");

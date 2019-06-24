@@ -160,12 +160,12 @@ const API = {
             //通过病历号, 获取收费项目列表（待缴费）,
             getChargeItems:{
                 method:'post',
-                mocky:'http://www.mocky.io/v2/5cfe6431320000660045f07a',
+                //mocky:'http://www.mocky.io/v2/5cfe6431320000660045f07a',
                 url:apiServer+'/outpatientCharge/getChargeItems'
             },//根据病历号，获得挂号信息(同上)
             getRegistrationInfo:{
                 method:'post',
-                mocky:'http://www.mocky.io/v2/5cfcbea13200007800ccd406',
+                //mocky:'http://www.mocky.io/v2/5cfcbea13200007800ccd406',
                 url:apiServer+'/outpatientCharge/registrationByRecordId'
             },//交费
             charge:{
