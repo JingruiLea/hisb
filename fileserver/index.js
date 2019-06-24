@@ -5,28 +5,20 @@ const bodyParser = require('body-parser');
 const pathObj = require('path');
 const multer = require('multer')
 
-const protocal = process.env.FILE_SERVER_PROTOCAL;
-const domain = process.env.FILE_SERVER_DOMAIN;
-const port = process.env.FILE_SERVER_PORT;
+const listenPort = process.env.FILE_SERVER_PORT;
+
+const protocal = process.env.MIDDLEWARE_SERVER_PROTOCAL;
+const domain = process.env.MIDDLEWARE_SERVER_DOMAIN;
+const port = process.env.MIDDLEWARE_SERVER_PORT;
 const dest = process.env.STORE_DIR;
 const limit = process.env.SIZE_LIMIT;
 
-const urlPrefix = `${protocal}://${domain}:${port}/files/`;
+const urlPrefix = `${protocal}://${domain}:${port}/imageUploads/files/`;
 const upload = multer({dest})
 const server = express();
 
 server.use(bodyParser.json({limit}));
 server.use(bodyParser.urlencoded({limit, extended: true}));
-
-server.all('*',(req,res,next)=>{
-  var origin = req.get('origin');
-  if(!origin) origin="*";
-  res.header("Access-Control-Allow-Origin",origin);
-  res.header("Access-Control-Allow-Headers","Content-Type,x-requested-with"); 
-  res.header('Access-Control-Allow-Credentials','true');
-  res.header("Access-Control-Allow-Methods","DELETE,PUT,POST,GET,OPTIONS");
-  next();
-});
 
 server.post('/upload',upload.single('file'),(req,res)=>{
     if(!req.file) { //没有文件
@@ -66,7 +58,12 @@ server.post('/upload',upload.single('file'),(req,res)=>{
 });
 
 server.use('/files', express.static(dest));
-server.listen(port);
+
+server.get('/',(req,res)=>{
+    res.json({msg:"fileserver start success!"})
+})
+
+server.listen(listenPort);
 console.log('file server starting...');
 
 //console.log(urlPrefix,limit,dest)

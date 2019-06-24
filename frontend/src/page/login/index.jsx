@@ -6,7 +6,7 @@ import LoginFrom from './LoginForm'
 class LoginPage extends React.Component {
     
     componentDidMount() {
-        document.getElementsByTagName("title")[0].innerHTML="登录"
+        document.getElementsByTagName("title")[0].innerHTML="HIS-登录"
         document.getElementsByTagName("body")[0].setAttribute("background","/bg.png")
         document.getElementsByTagName("body")[0].setAttribute("style",'background-size:cover')
     }

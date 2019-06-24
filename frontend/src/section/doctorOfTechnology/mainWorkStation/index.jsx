@@ -1,6 +1,7 @@
 import React from 'react'
 import {Row,Col, Tabs, Button,Card, Divider} from 'antd'
 import API from '../../../global/ApiConfig'
+import LogoDisplay from '../../../global/LogoDisplay'
 import PatientSelector from './PatientSelector'
 import CurrentProjectDisplay from './CurrentProjectDisplay'
 
@@ -101,6 +102,7 @@ class MainWorkStation extends React.Component {
     //const {me} = this.props;
     //console.warn(me);
     const {currentRegistrationInfo,currentProject} = this.state;
+    const disabled = currentRegistrationInfo===null || currentRegistrationInfo===undefined;
 
     return(
     <div>
@@ -119,8 +121,20 @@ class MainWorkStation extends React.Component {
               project={currentProject}
             />
           </Card>
+
+          <PatientSelector
+            onRef={(ref)=>this.PatientSelector=ref}
+            searchRegistration={this.searchRegistration.bind(this)}
+            searchExcuteProject={this.searchExcuteProject.bind(this)}
+            register={this.register.bind(this)}
+            selectCurrentRegistrationInfo={this.selectCurrentRegistrationInfo.bind(this)}
+            startLog={this.startLog.bind(this)}
+            currentRegistrationInfo={currentRegistrationInfo}
+          />
         </Col>
+
         <Col span={21}>
+          {disabled?<LogoDisplay/>:
           <Card style={{margin:'5px',minHeight:'900px'}}>
             <Tabs defaultActiveKey="1">
               <TabPane tab="结果录入" key="1">
@@ -135,19 +149,10 @@ class MainWorkStation extends React.Component {
                   currentRegistration={currentRegistrationInfo} /> 
               </TabPane>
             </Tabs>
-          </Card>
+          </Card>}
         </Col>
       </Row>
 
-       <PatientSelector
-          onRef={(ref)=>this.PatientSelector=ref}
-          searchRegistration={this.searchRegistration.bind(this)}
-          searchExcuteProject={this.searchExcuteProject.bind(this)}
-          register={this.register.bind(this)}
-          selectCurrentRegistrationInfo={this.selectCurrentRegistrationInfo.bind(this)}
-          startLog={this.startLog.bind(this)}
-          currentRegistrationInfo={currentRegistrationInfo}
-          />
     </div>)
   }
 }

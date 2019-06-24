@@ -21,8 +21,10 @@ class HistoryMedicalRecord extends React.Component {
   }
 
   render() {
-    const {allHistoryMedicalRecord} = this.props;
+    var {allHistoryMedicalRecord} = this.props;
     const {displayRecord,displayModalVisible} = this.state;
+    //容错
+    if(allHistoryMedicalRecord===null) allHistoryMedicalRecord = [];
     allHistoryMedicalRecord.forEach(x=>x.key = x.id)
     if(displayRecord) {
       displayRecord.diagnose = this.checkAndResolveKey(displayRecord.diagnose)

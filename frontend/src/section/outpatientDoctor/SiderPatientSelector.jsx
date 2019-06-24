@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card,Badge,Table, Button, Icon,Input, Spin} from 'antd';
+import {Card,Badge,Table, Button, Icon,Input, Spin,Descriptions, Divider} from 'antd';
 import Message from '../../global/Message';
 import Highlighter from 'react-highlight-words';
 
@@ -110,12 +110,22 @@ class SiderPatientSelector extends React.Component {
     const {waiting,pending} = patientList;
 
     return (
-      <Card style={{height:'870px'}}>
+      <Card style={{minHeight:'870px'}}>
         <div>
           {loading?<Spin style={{float:'right'}}/>:null}
-          <p style={{float:'left'}}>当前诊断患者：<b>{currentPatient.registration?currentPatient.registration.patient_name:"未选择"}</b></p>
+          {currentPatient.registration?
+            <Descriptions title="当前患者信息" column={1} size="small">
+              <Descriptions.Item label="姓名">{currentPatient.registration.patient_name}</Descriptions.Item>
+              <Descriptions.Item label="性别">{currentPatient.registration.gender==='male'?'男':'女'}</Descriptions.Item>
+              <Descriptions.Item label="年龄">{currentPatient.registration.age}</Descriptions.Item>
+              <Descriptions.Item label="病历号">{currentPatient.registration.medical_record_id}</Descriptions.Item>
+              <Descriptions.Item label="病历状态">{currentPatient.medicalRecord.status}</Descriptions.Item>
+            </Descriptions>
+            :"请选择患者"}
         </div>
-
+        
+        <Divider/>
+        
         <Table
           onRow={registraion=>{
             return {

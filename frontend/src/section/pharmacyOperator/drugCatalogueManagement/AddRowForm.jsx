@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button,Input,Form,Icon,Select} from 'antd';
+import {Button,Input,Form,Icon,Select, InputNumber} from 'antd';
 
 class AddRowForm extends React.Component {
 
@@ -32,7 +32,7 @@ class AddRowForm extends React.Component {
         {getFieldDecorator('id', {
           rules: [{ required: true, message: '输入职称' }],
         })(
-          <Input
+          <InputNumber
             prefix={<Icon type="number" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="编号"
           />
@@ -118,7 +118,7 @@ class AddRowForm extends React.Component {
         {getFieldDecorator('price', {
           rules: [{ required: true, message: '输入药品计型' }],
         })(
-          <Input
+          <InputNumber
             prefix={<Icon type="number" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="药品价格"
           />

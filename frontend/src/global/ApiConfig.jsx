@@ -1,104 +1,104 @@
 import Request from "./Request";
 import Config  from './Config'
 
-const fileUploadServer = Config.fileUploadServer;
-const apiServer = Config.apiServer;
-const apiServerPrefix = apiServer+'/api'
+const server = Config.server;
+const apiServer = server+'/api'
+const fileUploadServer = server+'/imagesUpload';
 
 const API = {
     //登录
-    login:{method:'post',url:apiServer+'/login'},
+    login:{method:'post',url:server+'/login'},
     //退出
-    logout:{method:'post',url:apiServer+'/logout'},
+    logout:{method:'post',url:server+'/logout'},
     //个人中心
     me:{
         myInfo:{ //获取我的个人信息
-            method:'post',url:apiServerPrefix+'/user/info'
+            method:'post',url:apiServer+'/user/info'
         },
         updateInfo:{//更新我的个人信息
-            method:'get',url:apiServerPrefix+'/user/updateInfo'
+            method:'get',url:apiServer+'/user/updateInfo'
         }   
     },
-    //基本信息管理
+    //医院管理员（基本信息管理）
     bacisInfoManagement:{
             //科室管理
         department:{
             all:{//获得全部的科室信息
-                method:'get', url:apiServerPrefix+'/departmentManage/getAll'
+                method:'get', url:apiServer+'/departmentManage/getAll'
             },
             add:{//添加科室
-                method:'post',url:apiServerPrefix+'/departmentManage/add'
+                method:'post',url:apiServer+'/departmentManage/add'
             },
             delete:{//删除科室
-                method:'post',url:apiServerPrefix+'/departmentManage/delete'
+                method:'post',url:apiServer+'/departmentManage/delete'
             },
             update:{//更新科室
-                method:'post',url:apiServerPrefix+'/departmentManage/update'
+                method:'post',url:apiServer+'/departmentManage/update'
             },
             import:{//批量导入
-                method:'post',url:apiServerPrefix+'/departmentManage/import'
+                method:'post',url:apiServer+'/departmentManage/import'
             }
         }, //用户管理
         user:{
             add:{ //添加用户
-                method:'post',url:apiServerPrefix+'/userManagement/add'
+                method:'post',url:apiServer+'/userManagement/add'
             },
             delete:{ //删除用户
-                method:'post',url:apiServerPrefix+'/userManagement/delete'
+                method:'post',url:apiServer+'/userManagement/delete'
             },
             update:{ //更新用户
-                method:'post',url:apiServerPrefix+'/userManagement/update'
+                method:'post',url:apiServer+'/userManagement/update'
             },
             all:{ //获取全部用户
-                method:'get', url:apiServerPrefix+'/userManagement/all'
+                method:'get', url:apiServer+'/userManagement/all'
             },
             import:{//批量导入
-                method:'post',url:apiServerPrefix+'/userManagement/import'
+                method:'post',url:apiServer+'/userManagement/import'
             }
         }, //结算方式管理
         settlement: {
             all:{ //获取结算方式
-                method:'get', url:apiServerPrefix+'/settlementCategoryManagement/all'
+                method:'get', url:apiServer+'/settlementCategoryManagement/all'
             },
             add:{ //增加结算方式
-                method:'post',url:apiServerPrefix+'/settlementCategoryManagement/add'
+                method:'post',url:apiServer+'/settlementCategoryManagement/add'
             },
             delete:{ //删除结算方式
-                method:'post',url:apiServerPrefix+'/settlementCategoryManagement/delete'
+                method:'post',url:apiServer+'/settlementCategoryManagement/delete'
             },
             update:{ //修改结算方式
-                method:'post',url:apiServerPrefix+'/settlementCategoryManagement/update'
+                method:'post',url:apiServer+'/settlementCategoryManagement/update'
             },
         },//挂号等级管理
         registrationLevel: {
             all:{  //获取所有挂号等级
-                method:'get', url:apiServerPrefix+'/registrationLevelManagement/all'
+                method:'get', url:apiServer+'/registrationLevelManagement/all'
             },
             add:{  //增加挂号等级
-                method:'post',url:apiServerPrefix+'/registrationLevelManagement/add'
+                method:'post',url:apiServer+'/registrationLevelManagement/add'
             },
             delete:{  //删除挂号等级
-                method:'post',url:apiServerPrefix+'/registrationLevelManagement/delete'
+                method:'post',url:apiServer+'/registrationLevelManagement/delete'
             },
             update:{ //修改挂号等级
-                method:'post',url:apiServerPrefix+'/registrationLevelManagement/update'
+                method:'post',url:apiServer+'/registrationLevelManagement/update'
             }
         },//非药品项目管理
         nonDrugItem: {
             all:{ //获得所有的非药品项目
-                method:'get', url:apiServerPrefix+'/nonDrugChargeItemManagement/all'
+                method:'get', url:apiServer+'/nonDrugChargeItemManagement/all'
             },
             add:{  //增加非药品项目
-                method:'post',url:apiServerPrefix+'/nonDrugChargeItemManagement/add'
+                method:'post',url:apiServer+'/nonDrugChargeItemManagement/add'
             },
             delete:{  //删除非药品项目
-                method:'post',url:apiServerPrefix+'/nonDrugChargeItemManagement/delete'
+                method:'post',url:apiServer+'/nonDrugChargeItemManagement/delete'
             },
             update:{ //修改非药品项目
-                method:'post',url:apiServerPrefix+'/nonDrugChargeItemManagement/update'
+                method:'post',url:apiServer+'/nonDrugChargeItemManagement/update'
             },
             import:{//批量导入
-                method:'post',url:apiServerPrefix+'/nonDrugChargeItemManagement/import'
+                method:'post',url:apiServer+'/nonDrugChargeItemManagement/import'
             }
         },
         //医生排班管理
@@ -217,53 +217,53 @@ const API = {
         //诊断目录管理
         diagnoseDirectory: {
             allClassification:{//获得全部的分类
-                method:'get',url:apiServerPrefix+'/diagnoseDirectoryManagement/allClassification'
+                method:'get',url:apiServer+'/diagnoseDirectoryManagement/allClassification'
             },
             searchAllByClassificationId:{//根据分类的id获取所有疾病
-                method:'post',url:apiServerPrefix+'/diagnoseDirectoryManagement/searchAllByClassificationId'
+                method:'post',url:apiServer+'/diagnoseDirectoryManagement/searchAllByClassificationId'
             },
             update:{//更新
-                method:'post',url:apiServerPrefix+'/diagnoseDirectoryManagement/update'
+                method:'post',url:apiServer+'/diagnoseDirectoryManagement/update'
             },
             add:{//添加
-                method:'post',url:apiServerPrefix+'/diagnoseDirectoryManagement/add'
+                method:'post',url:apiServer+'/diagnoseDirectoryManagement/add'
             },
             delete:{//删除
-                method:'post',url:apiServerPrefix+'/diagnoseDirectoryManagement/delete'
+                method:'post',url:apiServer+'/diagnoseDirectoryManagement/delete'
             },
             import:{//批量导入
-                method:'post',url:apiServerPrefix+'/diagnoseDirectoryManagement/import'
+                method:'post',url:apiServer+'/diagnoseDirectoryManagement/import'
             }
         }
     },
-    //门诊缴费挂号工作站
+    //医院收费员（门诊缴费挂号工作站）
     outpatientWorkstation:{
         //门诊挂号
         registration:{
             //初始化面板信息
             init:{
                 method:'get',
-                url:apiServerPrefix+"/outpatientRegistration/init"
+                url:apiServer+"/outpatientRegistration/init"
             },//同步医生信息
             syncDoctorList:{
                 method:'post',
-                url:apiServerPrefix+'/outpatientRegistration/syncDoctorList'
+                url:apiServer+'/outpatientRegistration/syncDoctorList'
             },//计算费用
             calculateFee:{
                 method:'post',
-                url:apiServerPrefix+'/outpatientRegistration/calculateFee'
+                url:apiServer+'/outpatientRegistration/calculateFee'
             },//确认挂号
             confirmRegistration:{
                 method:'post',
-                url:apiServerPrefix+'/outpatientRegistration/confirm'//"http://www.mocky.io/v2/5cfb42df300000f6030a8afb"
+                url:apiServer+'/outpatientRegistration/confirm'//"http://www.mocky.io/v2/5cfb42df300000f6030a8afb"
             },//退号
             withdrawNumber:{
                 method:'post',
-                url:apiServerPrefix+'/outpatientRegistration/withdrawNumber'
+                url:apiServer+'/outpatientRegistration/withdrawNumber'
             },//搜索用户挂号信息
             searchRegistration:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfcbea13200007800ccd406'//apiServerPrefix+'/outpatientCharge/registrationByRecordId'
+                url:'http://www.mocky.io/v2/5cfcbea13200007800ccd406'//apiServer+'/outpatientCharge/registrationByRecordId'
             }
         },
         //门诊收费
@@ -271,23 +271,23 @@ const API = {
             //通过病历号, 获取收费项目列表（待缴费）,
             getChargeItems:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfe6431320000660045f07a',//apiServerPrefix+'/outpatientCharge/getChargeItems'
+                url:'http://www.mocky.io/v2/5cfe6431320000660045f07a',//apiServer+'/outpatientCharge/getChargeItems'
             },//根据病例号，获得挂号信息(同上)
             getRegistrationInfo:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfcbea13200007800ccd406'//apiServerPrefix+'/outpatientCharge/registrationByRecordId'
+                url:'http://www.mocky.io/v2/5cfcbea13200007800ccd406'//apiServer+'/outpatientCharge/registrationByRecordId'
             },//交费
             charge:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a',//apiServerPrefix+'/outpatientCharge/charge'
+                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a',//apiServer+'/outpatientCharge/charge'
             },//退费
             withdraw:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a',//apiServerPrefix+'/outpatientCharge/withdraw'
+                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a',//apiServer+'/outpatientCharge/withdraw'
             },//通过病历号, 获取收费项目列表（已缴费）,
             getChargedItems:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfe6431320000660045f07a',//apiServerPrefix+'/outpatientCharge/getHistoryChargeItems'
+                url:'http://www.mocky.io/v2/5cfe6431320000660045f07a',//apiServer+'/outpatientCharge/getHistoryChargeItems'
             }
         },
         //门诊日结
@@ -295,17 +295,17 @@ const API = {
             //初始化面板
             getHistoryList:{
                 method:'get',
-                url:'http://www.mocky.io/v2/5cfe7ce9320000660045f137',////apiServerPrefix+'/dailyCollect/list'
+                url:'http://www.mocky.io/v2/5cfe7ce9320000660045f137',////apiServer+'/dailyCollect/list'
             },
             //日结详细信息
             dailyCollectDetail:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfe5bfc3200004f0045f047',//apiServerPrefix+'/dailyCollect/detail'
+                url:'http://www.mocky.io/v2/5cfe5bfc3200004f0045f047',//apiServer+'/dailyCollect/detail'
             },
             //日结请求
             dailyCollectRequest:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfe5c3c320000660045f04b',//apiServerPrefix+'/dailyCollect/collect'
+                url:'http://www.mocky.io/v2/5cfe5c3c320000660045f04b',//apiServer+'/dailyCollect/collect'
             }
         },
     },
@@ -315,55 +315,55 @@ const API = {
         medicalRecord:{
             //同步病人列表
             getPatientList:{
-                url:'http://www.mocky.io/v2/5d008c143200005f00f9d582',//apiServerPrefix+'/medicalRecord/getPatientList',
+                url:'http://www.mocky.io/v2/5d008c143200005f00f9d582',//apiServer+'/medicalRecord/getPatientList',
                 method:'post'
             },//搜索一个病人的挂号信息
             registrationInfo:{
-                url:'http://www.mocky.io/v2/5cffbab83200006100eac96a',//apiServerPrefix+'/medicalRecord/medicalRecordHistory',
+                url:'http://www.mocky.io/v2/5cffbab83200006100eac96a',//apiServer+'/medicalRecord/medicalRecordHistory',
                 method:'post'
             },//历史病历
             historyMedicalRecordList:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5d03185330000051001f4a44',//apiServerPrefix+'/medicalRecord/allHisMedicalRecord'
+                url:'http://www.mocky.io/v2/5d03185330000051001f4a44',//apiServer+'/medicalRecord/allHisMedicalRecord'
             },//获取（创建）病历
             get:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5d037b2530000024001f4d42',//apiServerPrefix+'/medicalRecord/getMedicalRecord'
+                url:'http://www.mocky.io/v2/5d0ccd313500006200b89b05',//apiServer+'/medicalRecord/getMedicalRecord'
             },//更新(暂存)病历
             update:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a',//apiServerPrefix+'/medicalRecord/updateMedicalRecord'
+                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a',//apiServer+'/medicalRecord/updateMedicalRecord'
             },//保存病历
             save:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a',//apiServerPrefix+'/medicalRecord/saveMedicalRecord'
+                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a',//apiServer+'/medicalRecord/saveMedicalRecord'
             },//确诊提交病历
             confirm:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a',//apiServerPrefix+'/medicalRecord/confirmMedicalRecord'
+                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a',//apiServer+'/medicalRecord/confirmMedicalRecord'
             }
         },
         //病历模板
         medicalRecordTemplate:{
             //获取全部病历模板
             list:{
-                url:'http://www.mocky.io/v2/5d030d5c30000055001f4a1f',//apiServerPrefix+'/medicalRecordTemplate/list'
+                url:'http://www.mocky.io/v2/5d030d5c30000055001f4a1f',//apiServer+'/medicalRecordTemplate/list'
                 method:'post'
             },//获得模板详细
             detail:{
-                url:'http://www.mocky.io/v2/5d030bc630000060001f4a1e',//apiServerPrefix+'/medicalRecordTemplate/detail'
+                url:'http://www.mocky.io/v2/5d030bc630000060001f4a1e',//apiServer+'/medicalRecordTemplate/detail'
                 method:'post'
             },//创建模板
             create:{
-                url:'http://www.mocky.io/v2/5cfe5c3c320000660045f04b',//apiServerPrefix+'/medicalRecordTemplate/create'
+                url:'http://www.mocky.io/v2/5cfe5c3c320000660045f04b',//apiServer+'/medicalRecordTemplate/create'
                 method:'post'
             },//更新模板
             update:{
-                url:'http://www.mocky.io/v2/5cfe5c3c320000660045f04b',//apiServerPrefix+'/medicalRecordTemplate/update'
+                url:'http://www.mocky.io/v2/5cfe5c3c320000660045f04b',//apiServer+'/medicalRecordTemplate/update'
                 method:'post'
             },//删除模板
             delete:{
-                url:'http://www.mocky.io/v2/5cfe5c3c320000660045f04b',//apiServerPrefix+'/medicalRecordTemplate/delete'
+                url:'http://www.mocky.io/v2/5cfe5c3c320000660045f04b',//apiServer+'/medicalRecordTemplate/delete'
                 method:'post'
             }
         },
@@ -371,23 +371,23 @@ const API = {
         diagnoseTemplate:{
             //获取全部诊断模板
             list:{
-                url:'http://www.mocky.io/v2/5d05088d3200004b00d78c1b',//apiServerPrefix+'/diagnoseTemplate/list'
+                url:'http://www.mocky.io/v2/5d05088d3200004b00d78c1b',//apiServer+'/diagnoseTemplate/list'
                 method:'post'
             },//获得模板详细
             detail:{
-                url:'http://www.mocky.io/v2/5d0506743200001400d78c18',//apiServerPrefix+'/diagnoseTemplate/detail'
+                url:'http://www.mocky.io/v2/5d0506743200001400d78c18',//apiServer+'/diagnoseTemplate/detail'
                 method:'post'
             },//创建模板
             create:{
-                url:'http://www.mocky.io/v2/5cfe5c3c320000660045f04b',//apiServerPrefix+'/diagnoseTemplate/create'
+                url:'http://www.mocky.io/v2/5cfe5c3c320000660045f04b',//apiServer+'/diagnoseTemplate/create'
                 method:'post'
             },//更新模板
             update:{
-                url:'http://www.mocky.io/v2/5cfe5c3c320000660045f04b',//apiServerPrefix+'/diagnoseTemplate/update'
+                url:'http://www.mocky.io/v2/5cfe5c3c320000660045f04b',//apiServer+'/diagnoseTemplate/update'
                 method:'post'
             },//删除模板
             delete:{
-                url:'http://www.mocky.io/v2/5cfe5c3c320000660045f04b',//apiServerPrefix+'/diagnoseTemplate/delete'
+                url:'http://www.mocky.io/v2/5cfe5c3c320000660045f04b',//apiServer+'/diagnoseTemplate/delete'
                 method:'post'
             }
         },
@@ -395,32 +395,32 @@ const API = {
         IAD:{
             //根据类型获取所有的可选项目
             allItems:{
-                url:' http://www.mocky.io/v2/5d078bcb30000086000521a5',//apiServerPrefix+'/exam/all',
+                url:' http://www.mocky.io/v2/5d078bcb30000086000521a5',//apiServer+'/exam/all',
                 method:'post'
             },//创建
             create:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/exam/create',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/exam/create',
                 method:'post'
             },//删除
             delete:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/exam/delete',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/exam/delete',
                 method:'post'
             },//更新
             update:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/exam/update',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/exam/update',
                 method:'post'
             },//发送
             send:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/exam/update',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/exam/update',
                 method:'post'
             },
             //作废
             cancel:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/exam/cancel',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/exam/cancel',
                 method:'post'
             },//获取当前开具的列表
             list:{
-                url:'http://www.mocky.io/v2/5d0794253400007c005d937e',//apiServerPrefix+'/exam/list',
+                url:'http://www.mocky.io/v2/5d0cd0013500005b00b89b18',//apiServer+'/exam/list',
                 method:'post'
             }
         },
@@ -428,23 +428,23 @@ const API = {
         IADTemplate:{
             //创建
             create:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/exam/create',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/exam/create',
                 method:'post'
             },//删除
             delete:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/exam/delete',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/exam/delete',
                 method:'post'
             },//更新
             update:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/exam/update',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/exam/update',
                 method:'post'
             },//获取当前全部组套
             all:{
-                url:'http://www.mocky.io/v2/5d0795f13400000e005d938a',//apiServerPrefix+'/exam/list',
+                url:'http://www.mocky.io/v2/5d0795f13400000e005d938a',//apiServer+'/exam/list',
                 method:'post'
             },//获取详细信息
             detail:{
-                url:'http://www.mocky.io/v2/5d0885a73400004d005d978f',//apiServerPrefix+'/exam/detail',
+                url:'http://www.mocky.io/v2/5d0885a73400004d005d978f',//apiServer+'/exam/detail',
                 method:'post'
             }
         },
@@ -452,54 +452,54 @@ const API = {
         prescription:{
             //获取所有的药品
             allDrugs:{
-                url:'http://www.mocky.io/v2/5d089c6d34000059005d989d',//apiServerPrefix+'prescription/allDrugs'
+                url:'http://www.mocky.io/v2/5d089c6d34000059005d989d',//apiServer+'prescription/allDrugs'
                 method:'post',
             },//获取全部的处方
             allPrescription:{
-                url:'http://www.mocky.io/v2/5d08f5a43400000e00d82cb6',//apiServerPrefix+'/prescription/allPrescription',
+                url:'http://www.mocky.io/v2/5d08f5a43400000e00d82cb6',//apiServer+'/prescription/allPrescription',
                 method:'post'
             },//创建处方
             create:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescription/create',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/prescription/create',
                 method:'post'
             },//暂存（更新）处方
             update:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescription/create',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/prescription/create',
                 method:'post'
             },//发送处方
             send:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescription/submit',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/prescription/submit',
                 method:'post'
             },//删除处方
             delete:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescription/delete',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/prescription/delete',
                 method:'post'
             },//作废处方
             cancel:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescription/cancel',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/prescription/cancel',
                 method:'post'
             }
         },
         prescriptionTemplate:{
             //获取全部的组套
             list:{
-                url:'http://www.mocky.io/v2/5d08b2e434000064985d996e',//apiServerPrefix+'/prescriptionTemplate/list',
+                url:'http://www.mocky.io/v2/5d08b2e434000064985d996e',//apiServer+'/prescriptionTemplate/list',
                 method:'post'
             },//创建组套
             create:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescriptionTemplate/create',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/prescriptionTemplate/create',
                 method:'post'
             },//组套详情
             detail:{
-                url:'http://www.mocky.io/v2/5d0b481e2f00007300e3ef49',//apiServerPrefix+'/prescription/detail',
+                url:'http://www.mocky.io/v2/5d0b481e2f00007300e3ef49',//apiServer+'/prescription/detail',
                 method:'post'
             },//删除组套
             delete:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescription/delete',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/prescription/delete',
                 method:'post'
             },//更新组套
             update:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/prescriptionTemplate/update',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/prescriptionTemplate/update',
                 method:'post'
             }
         },
@@ -507,7 +507,7 @@ const API = {
         patientFee:{
             //获取全部费用
             historyChargeItems:{
-                url:'http://www.mocky.io/v2/5d099fe53400005e29d82f11',//apiServerPrefix+'/outpatientCharge/historyChargeItems',
+                url:'http://www.mocky.io/v2/5d099fe53400005e29d82f11',//apiServer+'/outpatientCharge/historyChargeItems',
                 method:'post'
             }
         }
@@ -519,23 +519,23 @@ const API = {
         IADExcute:{
             //根据姓名/身份证/医保/病例号 获取挂号列表 
             searchRegistration:{
-                url:'http://www.mocky.io/v2/5d0aedb92f00002800e3ed41',//apiServerPrefix+'/examExcute/searchRegistration',
+                url:'http://www.mocky.io/v2/5d0aedb92f00002800e3ed41',//apiServer+'/examExcute/searchRegistration',
                 method:'post'
             },//获取可执行项目列表（包含未缴费）
             allExcuteProject:{
-                url:'http://www.mocky.io/v2/5d0b32e82f00007000e3ee82',//apiServerPrefix+'/examExcute/allExam',
+                url:'http://www.mocky.io/v2/5d0b32e82f00007000e3ee82',//apiServer+'/examExcute/allExam',
                 method:'post'
             },//登记
             register:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/examExcute/register',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/examExcute/register',
                 method:'post'
             },//录入结果
             submitResult:{
-                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServerPrefix+'/examExcute/submitResult',
+                url:'http://www.mocky.io/v2/5d078c1f300000a1530521a7',//apiServer+'/examExcute/submitResult',
                 method:'post'
             },//获取结果
             getResult:{
-                url:'http://www.mocky.io/v2/5d09f14f3400001129d8313d',//apiServerPrefix+'/examExcute/getResult',
+                url:'http://www.mocky.io/v2/5d0cd6ec3500000d00b89b37',//apiServer+'/examExcute/getResult',
                 method:'post'
             }
         }
@@ -547,23 +547,23 @@ const API = {
             //增加药品信息
             add:{
                 method:'post',
-                url:' http://www.mocky.io/v2/5cff0e4b3200004d0045f2d5',//apiServerPrefix+'/drugInfoManagement/post'
+                url:' http://www.mocky.io/v2/5cff0e4b3200004d0045f2d5',//apiServer+'/drugInfoManagement/post'
             },//删除药品信息
             delete:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cff0e4b3200004d0045f2d5'//apiServerPrefix+'/drugInfoManagement/delete'
+                url:'http://www.mocky.io/v2/5cff0e4b3200004d0045f2d5'//apiServer+'/drugInfoManagement/delete'
             },//更新药品信息
             update:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cff0e4b3200004d0045f2d5'//apiServerPrefix+'/drugInfoManagement/update'
+                url:'http://www.mocky.io/v2/5cff0e4b3200004d0045f2d5'//apiServer+'/drugInfoManagement/update'
             },//全部药品信息
             all:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cff0f0a3200004e0045f2d9'//:apiServerPrefix+'/drugInfoManagement/all'
+                url:'http://www.mocky.io/v2/5cff0f0a3200004e0045f2d9'//:apiServer+'/drugInfoManagement/all'
             },//根据药品名字模糊搜索药品
             getDrugInfoByName:{
                 method:'post',
-                url:apiServerPrefix+'/drugInfoManagement/getDrugInfoByName'
+                url:apiServer+'/drugInfoManagement/getDrugInfoByName'
             }
         },
         //收发药
@@ -571,23 +571,23 @@ const API = {
             //可发药表
             dispenseList:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5d021de03100003400ab2c85'//apiServerPrefix+'/drugDispense/list'
+                url:'http://www.mocky.io/v2/5d021de03100003400ab2c85'//apiServer+'/drugDispense/list'
             },//可退药表
             withdrawableList:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5d021de03100003400ab2c85'//apiServerPrefix+'/drugWithdrawal/list'
+                url:'http://www.mocky.io/v2/5d021de03100003400ab2c85'//apiServer+'/drugWithdrawal/list'
             },//已经退药表
             withdrawedList:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5d021de03100003400ab2c85'//apiServerPrefix+'/drugWithdrawal/list'
+                url:'http://www.mocky.io/v2/5d021de03100003400ab2c85'//apiServer+'/drugWithdrawal/list'
             },//发药
             dispenseSubmit:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a'//apiServerPrefix+'/drugDispense/submit'
+                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a'//apiServer+'/drugDispense/submit'
             },//退药
             withdrawSubmit:{
                 method:'post',
-                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a'//apiServerPrefix+'/drugWithdrawal/submit'
+                url:'http://www.mocky.io/v2/5cfcbf4b3200005900ccd40a'//apiServer+'/drugWithdrawal/submit'
             }
         }
     },
@@ -596,26 +596,50 @@ const API = {
         //收费项目管理
         expenseClassification:{
             all:{//获得全部的收费项目
-                method:'get', url:'http://www.mocky.io/v2/5d09dc833400001229d8303f',//apiServerPrefix+'/expenseClassificationManage/all'
+                method:'get', url:'http://www.mocky.io/v2/5d09dc833400001229d8303f',//apiServer+'/expenseClassificationManage/all'
             },
             add:{//添加收费项目
-                method:'post',url:'http://www.mocky.io/v2/5d09dca13400005e29d83040',//apiServerPrefix+'/expenseClassificationManage/add'
+                method:'post',url:'http://www.mocky.io/v2/5d09dca13400005e29d83040',//apiServer+'/expenseClassificationManage/add'
             },
             delete:{//删除收费项目
-                method:'post',url:'http://www.mocky.io/v2/5d09dca13400005e29d83040',//apiServerPrefix+'/expenseClassificationManage/delete'
+                method:'post',url:'http://www.mocky.io/v2/5d09dca13400005e29d83040',//apiServer+'/expenseClassificationManage/delete'
             },
             update:{//更新收费项目
-                method:'post',url:'http://www.mocky.io/v2/5d09dca13400005e29d83040',//apiServerPrefix+'/expenseClassificationManage/update'
+                method:'post',url:'http://www.mocky.io/v2/5d09dca13400005e29d83040',//apiServer+'/expenseClassificationManage/update'
             }
         },
+        //日结核对
+        dailyReportCheck:{
+            //初始化，加载基本数据(收费员名单)
+            init:{
+                method:'post',url:'http://www.mocky.io/v2/5d0c37233500004a00b896f6',//apiServer+'/outpatientDailyReportCheck/init',
+            },//获取报告
+            getReport:{
+                method:'post',url:'http://www.mocky.io/v2/5d0c37d93500004a00b896f9',//apiServer+'/outpatientDailyReportCheck/getReport'
+            },//财务入库
+            confirmCheck:{
+                method:'post',url:'http://www.mocky.io/v2/5d0c38b23500002d00b896fe',//apiServerPrefi+'/outpatientDailyReportCheck/confirmCheck'
+            },//历史日结
+            history:{
+                method:'post',url:'http://www.mocky.io/v2/5d0c394e3500005100b89700',//apiServer+'/outpatientDailyReportCheck/history'
+            }
+        },
+        workloadStatistic:{
+            //部门工作量统计
+            department:{
+                method:'post',url:'http://www.mocky.io/v2/5d0c42803500002d00b8971c',//apiServer+'/outpatientDailyReportCheck/departmentCheck'
+            },
+            //个人工作量统计
+            personal:{
+                method:'post',url:'http://www.mocky.io/v2/5d0c41913500002d00b89716',//apiServer+'/outpatientDailyReportCheck/userCheck'
+            }
+        }
     },
 
 
+    
     //请求
-    request:(api,reqData={})=>{
-        return new Request(api,reqData);
-    },
-
+    request:(api,reqData={})=>{return new Request(api,reqData);},
     //文件服务器地址
     fileUploadServer:fileUploadServer
 }

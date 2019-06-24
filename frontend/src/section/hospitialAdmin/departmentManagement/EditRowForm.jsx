@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button,Input,Form,Icon,Select} from 'antd';
+import {Button,Input,Form,Icon,Select, InputNumber} from 'antd';
 const Option = Select.Option
 
 class EditRowForm extends React.Component {
@@ -36,7 +36,7 @@ class EditRowForm extends React.Component {
           rules: [{ required: true, message: '输入科室编号' }],
           initialValue:data.id,
         })(
-          <Input
+          <InputNumber
             disabled
             prefix={<Icon type="bank" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="重要字段 请谨慎填写"

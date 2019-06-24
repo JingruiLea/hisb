@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button,Input,Form,Icon,Select} from 'antd';
+import { Button,Input,Form,Icon,Select, InputNumber} from 'antd';
 import Roles from '../../../global/RolesGroup';
 
 const Option = Select.Option
@@ -56,7 +56,7 @@ class AddRowForm extends React.Component {
         {getFieldDecorator('id', {
           rules: [{ required: true, message: '输入编号' }],
         })(
-          <Input
+          <InputNumber
             prefix={<Icon type="password" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="编号不可重复"
           />,

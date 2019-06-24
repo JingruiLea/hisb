@@ -72,6 +72,11 @@ class DataTable extends React.Component {
 
     columns = [
         {
+            title: 'UID',
+            dataIndex: 'uid',
+            ...this.getColumnSearchProps('uid'),
+        },
+        {
             title: '用户名',
             dataIndex: 'username',
             ...this.getColumnSearchProps('username'),
