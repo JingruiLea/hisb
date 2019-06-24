@@ -22,7 +22,7 @@ class OutpatientCharge extends React.Component {
 
   handleSearch=(medical_record_number)=>{
     this.setState({loading:true})
-    API.request(API.outpatientWorkstation.outpatientCharge.getRegistrationInfo,{medical_record_number})
+    API.request(API.outpatientWorkstation.outpatientCharge.getRegistrationInfo,{medical_record_id:medical_record_number})
     .ok((medicalRecord)=>{
       if(medicalRecord!==null) {
         this.setState({
