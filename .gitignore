@@ -1,11 +1,13 @@
-/test
 template.txt
 migrate.sql
 words.txt
+*.bak
 /frontend/node_modules
 /frontend/build
-/backend
+/backend/.idea
+node_modules/
 node_modules
 *.bak
 *lock
+.vscode/
 .env
