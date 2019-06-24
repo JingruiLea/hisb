@@ -23,7 +23,7 @@ public class DoctorSchedulingController {
     SimpleDateFormat formatter = new SimpleDateFormat(("yyyy-mm-dd"));
     ParsePosition pos = new ParsePosition(0);
 
-    @GetMapping("/all")
+    @RequestMapping("/all")
     @ResponseBody
     public Map getAllDoctorScheduling() {
         return Response.ok(doctorSchedulingService.findAll());
@@ -49,9 +49,15 @@ public class DoctorSchedulingController {
 
         //查找id是否存在
         List<DoctorSchedulingInfo> ids = doctorSchedulingService.getId(doctorSchedulingInfo.getId());
-        System.out.println("size:"+ids.size());
+        //System.out.println("size:"+ids.size());
         if(ids.isEmpty()){
-            return Response.error("");
+            return Response.error("用户列表中找不到该用户");
+        }
+
+        //查找ID是否以添加
+        List<Integer> addedIds = doctorSchedulingService.getAddedId(doctorSchedulingInfo.getId());
+        if(!addedIds.isEmpty()){
+            return Response.error("该用户已添加至可排班人员列表");
         }
 
         doctorSchedulingService.addDoctorScheduling(doctorSchedulingInfo);

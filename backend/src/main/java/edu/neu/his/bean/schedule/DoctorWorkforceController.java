@@ -16,7 +16,7 @@ public class DoctorWorkforceController {
     @Autowired
     DoctorWorkforceService doctorWorkforceService;
 
-    @GetMapping("/all")
+    @RequestMapping("/all")
     @ResponseBody
     public Map getAllDoctorWorkforce() {
         List<Schedule> getSchedules = doctorWorkforceService.getDoctorWorkforces();
@@ -31,7 +31,7 @@ public class DoctorWorkforceController {
         return Response.ok(doctorWorkforceService.getDoctorWorkforces());
     }
 
-    @GetMapping("/getAll")
+    @RequestMapping("/getAll")
     @ResponseBody
     public Map getAllSchedule() {
         //System.out.println("doctorWorkforceService.findAllSchedule()"+doctorWorkforceService.findAllSchedule());

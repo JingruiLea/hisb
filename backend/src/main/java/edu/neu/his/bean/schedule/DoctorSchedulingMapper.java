@@ -48,4 +48,7 @@ public interface DoctorSchedulingMapper {
     @Select("SELECT id FROM registration_level WHERE name = #{name}")
     int levelName2ID(@Param("name") String name);
 
+    @Select("SELECT uid FROM doctor_scheduling_info WHERE uid=#{uid}")
+    List<Integer> getAddedId(@Param("uid") int uid);
+
 }
