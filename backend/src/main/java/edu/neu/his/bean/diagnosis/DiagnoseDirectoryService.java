@@ -34,7 +34,7 @@ public class DiagnoseDirectoryService {
     }
 
     @Transactional
-    public void deleteDisease(String id) {
+    public void deleteDisease(int id) {
         diseaseMapper.deleteDisease(id);
     }
 

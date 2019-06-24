@@ -1,1 +1,1 @@
-export default {server:'http://localhost:8081'}
+export default {server:'http://10.25.52.136:8081'}
