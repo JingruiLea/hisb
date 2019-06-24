@@ -97,7 +97,7 @@ class OutpatientRegistration extends React.Component {
   }
   
   submitRegistration=async(values)=>{
-    API.request(API.outpatientWorkstation.registration.confirmRegistration,{data:values})
+    API.request(API.outpatientWorkstation.registration.confirmRegistration,values)
     .ok((data=>{
       var bill = values;
       console.log('enter',values)///---------------------

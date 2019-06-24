@@ -32,14 +32,16 @@ class RegistrationForm extends React.Component {
   }
 
   selectDepartment = async(value)=>{
-    console.log('select',value)
+    //console.log('select',value)
+    this.props.form.resetFields(["outpatient_doctor_id"])
     await this.setState({departmentId:value})
     this.syncDoctorList();
   }
 
   handleRegistrationLevelChange = async (registrationLevelId) =>{
+    this.props.form.resetFields(["outpatient_doctor_id"])
     await this.setState({registrationLevelId})
-    console.log('registrationLevelId',registrationLevelId)
+    //console.log('registrationLevelId',registrationLevelId)
     this.syncDoctorList()
   }
 
