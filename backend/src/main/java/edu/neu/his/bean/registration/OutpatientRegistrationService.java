@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -15,8 +17,11 @@ public class OutpatientRegistrationService {
     private OutpatientRegistrationMapper outpatientRegistrationMapper;
 
     @Transactional
-    public List<User> findByDepartmentAndRegistrationLevel(int department_id, String title){
-        return outpatientRegistrationMapper.findByDepartmentAndTitle(department_id,title);
+    public List<User> findByDepartmentAndRegistrationLevel(int department_id, int registration_level_id){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+        //System.out.println(df.format(new Date()));
+        String curr_date = df.format(new Date());
+        return outpatientRegistrationMapper.findByDepartmentAndTitle(department_id,registration_level_id,curr_date);
     }
 
     @Transactional

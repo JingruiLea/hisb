@@ -10,11 +10,11 @@ import java.util.List;
 @Mapper
 @Component(value = "OutpatientRegistrationMapper")
 public interface OutpatientRegistrationMapper {
-    @Select("SELECT uid, username, password, real_name, department_id,department.name as department_name,role_id, role.name as role_name, title, participate_in_scheduling " +
-            "FROM user,user_info,role,department " +
+    @Select("SELECT DISTINCT user_info.uid, username, password, real_name, department_id,department.name as department_name,role_id, role.name as role_name, title, participate_in_scheduling " +
+            "FROM user,user_info,role,department, doctor_scheduling " +
             "WHERE user.id = user_info.uid and department.id = user_info.department_id and user_info.role_id=role.id " +
-            "and user_info.department_id = #{department_id} and user_info.title = #{title}")
-    List<User> findByDepartmentAndTitle(@Param("department_id") int department_id, @Param("title") String title);
+            "and user_info.department_id = #{department_id} and doctor_scheduling.registration_level_id = #{registration_level_id} and doctor_scheduling.uid = user.id and schedule_date=#{curr_date}")
+    List<User> findByDepartmentAndTitle(@Param("department_id") int department_id, @Param("registration_level_id") int registration_level_id, @Param("curr_date") String curr_date);
 
     @Insert("INSERT INTO registration (address,age,birthday,consultation_date,medical_category,patient_name," +
             "outpatient_doctor_id,registration_department_id,settlement_category_id,registration_source,gender," +
