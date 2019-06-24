@@ -46,7 +46,6 @@ class DoctorSchedulingManagement extends React.Component {
       <Menu onClick={this.changeSection} onOpenChange={this.onOpenChange} openKeys={[this.state.openKey]} defaultSelectedKeys={['setting:3']} mode="horizontal">
         <Menu.Item key="setting:2">人员管理</Menu.Item>
         <Menu.Item key="setting:3">排班管理</Menu.Item>
-        <Menu.Item key="setting:4">排班统计</Menu.Item>
    
       </Menu>
 
