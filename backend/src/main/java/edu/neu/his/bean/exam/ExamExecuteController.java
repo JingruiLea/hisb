@@ -95,7 +95,7 @@ public class ExamExecuteController {
         }
         examItemResult.setFile(DBFile);
         examItemResultMapper.insertOrUpdate(examItemResult);
-        examItem.setStatus("已完成");
+        examItem.setStatus(Common.YIWANCHENG);
         examItemService.update(examItem);
         return Response.ok();
     }
@@ -104,6 +104,7 @@ public class ExamExecuteController {
     public Map getResult(@RequestBody Map req){
         int examItemId = (int)req.get("exam_item_id");
         ExamItemResult examItemResult = examItemResultMapper.selectByExamItemId(examItemId);
+        if(examItemResult == null)return Response.error("该检查结果尚未录入!");
         Map res = Utils.objectToMap(examItemResult);
         String files = examItemResult.getFile();
         String[] filenames = files.split(";");
