@@ -123,7 +123,7 @@ class RegistrationForm extends React.Component {
       <Row style={{textAlign:'center'}}>
         <Col span={6}>
           <Form.Item label="姓名" {...formItemLayout}>
-            {getFieldDecorator('name', {
+            {getFieldDecorator('patient_name', {
               rules: [{ required: true, message: '输入姓名' }],
             })(
               <Input
