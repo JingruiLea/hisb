@@ -4,6 +4,11 @@ public class ClassificationFee {
     private String name;
     private Float fee;
 
+    public ClassificationFee(String name, Float fee) {
+        this.name = name;
+        this.fee = fee;
+    }
+
     public String getName() {
         return name;
     }

@@ -52,4 +52,9 @@ public class DoctorSchedulingService {
     public List<DoctorSchedulingInfo> getId(int uid){
         return doctorSchedulingMapper.getId(uid);
     }
+
+    @Transactional
+    public List<Integer> getAddedId(int uid){
+        return doctorSchedulingMapper.getAddedId(uid);
+    }
 }

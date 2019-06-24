@@ -20,103 +20,11 @@ const confirm = Modal.confirm;
 var dateRange = '';
 var dataConflict = null;
 
-
-const mainColumn = [
-  {
-    title:'姓名',
-    key:1,
-    dataIndex:'name'
-  },{
-    title:'电话',
-    key:2,
-    dataIndex:'phone'
-  },{
-    title:'职称',
-    key:3,
-    dataIndex:'title'
-  }
-  ,{
-    title:'班次',
-    key:4,
-    dataIndex:'shift'
-  }
-  ,{
-    title:'状态',
-    key:5,
-    dataIndex:'state'
-  }
-]
-
-const data2=[{
-  name:'a1',
-  phone:135,
-  title:'主任医师',
-  shift:'全天',
-  state:'有效',
-},{
-    name:'a2',
-    phone:136,
-    title:'副主任医师',
-    shift:'上午',
-    state:'有效',
-}]
-
-const userColumn = [
-  {
-    title:'用户',
-    key:1,
-    dataIndex:'user'
-  },{
-    title:'全天',
-    key:2,
-    dataIndex:'all'
-  },{
-      title:'工作日',
-      key:2,
-      dataIndex:'weekday'
-    }
-    ,{
-      title:'周末',
-      key:2,
-      dataIndex:'weekend'
-    }
-]
-
-const data1=[{
-  user:'user1',
-  all:5,
-  weekday:0,
-  weekend:0,
-},{
-  user:'user2',
-  all:2,
-  weekday:0,
-  weekend:0,
-}]
-
 const { Option } = Select;
-
-
-
-function onChange(value) {
-  console.log(`selected ${value}`);
-}
-
-function onBlur() {
-  console.log('blur');
-}
-
-function onFocus() {
-  console.log('focus');
-}
-
-function onSearch(val) {
-  console.log('search:', val);
-}
 
 function disabledDate(current) {
   // Can not select days before today and today
-  return current && current < moment().endOf('day');
+  return current && current < moment().startOf('day');
 }
 
 class WorkforceManage extends React.Component {
@@ -127,6 +35,7 @@ class WorkforceManage extends React.Component {
     shifts:[],//表格数据
     schedules:[],//排班数据
     loading:true,//加载状态
+    scheduleLoading:true,
     overwrite:false,//是否需要覆盖
     overwriteIds:[],//需覆盖的ID
     inputDate:true,//是否选择好了日期->排班按钮的disable属性
@@ -165,10 +74,11 @@ onNumberChange = (value) =>{
       title: '选择的时间段已排班,请重新选择时间！',
       content: '如果想要覆盖已生成的排班信息，点击覆盖按钮',
       onOk() {
-        console.log('覆盖');
+        console.log('覆盖',data);
+        window.did = data;
         _this.setState({
           overwrite:true,
-          overwriteIds:data.data,
+          overwriteIds:data,
           inputDate:false
       });
       },
@@ -203,7 +113,7 @@ onNumberChange = (value) =>{
   //schedule
   reloadSchedule = ()=>{
     const _this = this;
-    this.setState({loading:true})
+    this.setState({scheduleLoading:true})
     API.request(API.bacisInfoManagement.schedulingInfoManagement.getScheduleInfo,{})
     .ok((data)=>{
         var schedules = data;
@@ -212,15 +122,16 @@ onNumberChange = (value) =>{
           }
           this.setState({
             //schedules:schedules,
-              loading:false
+            scheduleLoading:false
           });
-          this.addSchedule(schedules);
-          this.setSchedule();
+          _this.addSchedule(schedules);
+          _this.setSchedule();
     }).submit();
 }
 
 setSchedule = ()=>{
     const _this = this;
+    this.setState({scheduleLoading:true})
     API.request(API.bacisInfoManagement.schedulingInfoManagement.getAllScheduleInfo,{})
     .ok((data)=>{
         var schedules = data;
@@ -229,7 +140,7 @@ setSchedule = ()=>{
         }
         this.setState({
           schedules:schedules,
-            loading:false
+          scheduleLoading:false
         });
     }).submit();
 }
@@ -350,26 +261,26 @@ getAddTableInfo=(data)=>{
 overwriteInfo=(data)=>{
     API.request(API.bacisInfoManagement.schedulingInfoManagement.overwriteScheduleInfo,{data})
     .ok((data)=>{
-        this.deleteOverwriteInfo();
-        Message.success("覆盖数据成功");
+        //this.deleteOverwriteInfo();
+        Message.success("删除覆盖数据成功");
     }).submit();
   }
 
 //删除覆盖的排班信息
-deleteOverwriteInfo=(data)=>{
+/*deleteOverwriteInfo=(data)=>{
     API.request(API.bacisInfoManagement.schedulingInfoManagement.deleteOverwriteScheduleInfo,{data})
     .ok((data)=>{
         this.reloadSchedule();
         Message.success("删除覆盖数据成功");
     }).submit();
-  }
+  }*/
 
     render() {
         return(
           <Content style={{ margin: '0 16px',paddingTop:5 }}>
             <Row>
           <Col span={6} style={{minWidth:'100px'}}>
-            <Card title="循环策略" style={{overflow:'scroll',minWidth:'100px',height:'300px'}} >
+            <Card title="循环策略" style={{overflow:'scroll',minWidth:'100px',height:'410px'}} >
 
             选择每日值班人数   
             <InputNumber 
@@ -409,10 +320,11 @@ deleteOverwriteInfo=(data)=>{
                 inputDate={this.state.inputDate}
                 num={this.state.num}
                 toAddSchedule={this.state.toAddddSchedule}
+                setSchedule={this.setSchedule.bind(this)}
               />
                 </div>
             </div>
-            } style={{overflow:'scroll',minWidth:'100px',height:'300px'}} >        
+            } style={{overflow:'scroll',minWidth:'100px',height:'410px'}} bodyStyle={{paddingTop:'5px',paddingBottom:'0px'}}>        
             {this.state.loading?
             <div style={{textAlign:'center',paddingTop:100}}>
                 <Spin/><br/>
@@ -436,7 +348,7 @@ deleteOverwriteInfo=(data)=>{
           </div>
           <div style={{float:'right'}}>
           <ScheduleToolBar
-                disabled={this.state.loading}
+                disabled={this.state.scheduleLoading}
                 selectedScheduleRows={this.state.selectedScheduleRows}
                 reloadSchedule={this.reloadSchedule.bind(this)}
                 getAddTableInfo={this.getAddTableInfo.bind(this)} 
@@ -452,8 +364,8 @@ deleteOverwriteInfo=(data)=>{
             />
           </div>
       </div>
-        } style={{overflow:'scroll',minWidth:'100px',height:'500px'}} >
-                {this.state.loading?
+        } style={{overflow:'scroll',minWidth:'100px',height:'650px'}} >
+                {this.state.scheduleLoading?
             <div style={{textAlign:'center',paddingTop:100}}>
                 <Spin/><br/>
                 <Typography.Paragraph>加载中...</Typography.Paragraph>

@@ -22,16 +22,18 @@ public class DoctorWorkforceService {
     private LocalDate currentLocalDate = LocalDate.now();
     private int numberPerDay = 3;
     private float days = 2;
-    //排班表格中每一项的name
-    private String[][] schedule;
+    //排班表格中每一项的id
+    private int[][] schedule;
     //剩余号数
-    private int[][] residue;
+    private int[][] needToSche;
     //号别
     private String[][] registration_Level;
     //有效状态
     private boolean[][] valids;
     //限号数量
-    private int[][] reg_limits;
+    //private int[][] reg_limits;
+    //id
+    //private int[][] ids;
     private int index = 0;
     //存放排班时间中的i，j
     private int[][] put;
@@ -56,7 +58,7 @@ public class DoctorWorkforceService {
     int aveNumOfRegister = 10;
 
     int posi = 0;
-    SimpleDateFormat formatter = new SimpleDateFormat(("yyyy-mm-dd"));
+    SimpleDateFormat formatter = new SimpleDateFormat(("yyyy-MM-dd"));
     ParsePosition pos = new ParsePosition(0);
 
 
@@ -68,28 +70,32 @@ public class DoctorWorkforceService {
         this.numberPerDay = numberPerDay;
         System.out.println("numberPerDay:"+numberPerDay);
         //排班表格中每一项的name
-        schedule = new String[(int) days][numberPerDay];
+        schedule = new int[(int) days][numberPerDay];
         //剩余号数
-        residue = new int[(int) days][numberPerDay];
+        needToSche = new int[(int) days][numberPerDay];
         //号别
         registration_Level = new String[(int) days][numberPerDay];
         //有效状态
         valids = new boolean[(int) days][numberPerDay];
         //限号数量
-        reg_limits = new int[(int) days][numberPerDay];
+        //reg_limits = new int[(int) days][numberPerDay];
+        //id
+        //ids = new int[(int) days][numberPerDay];
     }
 
     @Transactional
-    public void addDoctorWorkforce(Schedule schedule) {
+    public boolean addDoctorWorkforce(Schedule schedule) {
         if (schedule.getName() != null) {
-            int uid = doctorWorkforceMapper.name2ID(schedule.getName());
+            //int uid = doctorWorkforceMapper.name2ID(schedule.getName());
+            int uid = schedule.getId();
             int registration_level_id = doctorWorkforceMapper.registrationLevel2ID(schedule.getRegistration_Level());
+            doctorWorkforceMapper.addDoctorWorkforce(schedule, uid, registration_level_id);
 
-            doctorWorkforceMapper.addDoctorWorkforce(schedule,uid,registration_level_id);
 
         } else {
             System.out.println("Name is null");
         }
+        return true;
     }
 
 
@@ -97,7 +103,8 @@ public class DoctorWorkforceService {
     @Transactional
     public void addOneDoctorWorkforce(Schedule schedule) {
         int registration_level_id = doctorWorkforceMapper.registrationLevel2ID(schedule.getRegistration_Level());
-        int uid = doctorWorkforceMapper.name2ID(schedule.getName());
+        //int uid = doctorWorkforceMapper.name2ID(schedule.getName());
+        int uid = schedule.getId();
         doctorWorkforceMapper.addOneDoctorWorkforce(schedule,registration_level_id,uid);
     }
 
@@ -138,15 +145,15 @@ public class DoctorWorkforceService {
 
     //新增行时查找行冲突
     @Transactional
-    public List<AllSchedule> findAddRowConflict(String name,String schedule_date,String shift) {
-        int uid = doctorWorkforceMapper.name2ID(name);
+    public List<AllSchedule> findAddRowConflict(int uid,String schedule_date,String shift) {
+        //int uid = doctorWorkforceMapper.name2ID(name);
         return doctorWorkforceMapper.findAddRowConflict(uid,schedule_date,shift);
     }
 
     //查找时间冲突
     @Transactional
     public List<AllSchedule> findTimeConflict(List<String> schedule_date) {
-        System.out.println("server-timeConflict:" + schedule_date);
+//        System.out.println("server-timeConflict:" + schedule_date);
         List<AllSchedule> currTimes = new ArrayList<AllSchedule>();
         List<AllSchedule> temp = new ArrayList<AllSchedule>();
 
@@ -161,9 +168,9 @@ public class DoctorWorkforceService {
 
 
         for(LocalDate localDate = LocalDate.parse(dateStr1, DateTimeFormatter.ofPattern("yyyy-MM-dd"));!localDate.toString().equals(dateStr2);localDate = localDate.minusDays(-1)) {
-            System.out.println("day+1:" + localDate.toString());
+//            System.out.println("day+1:" + localDate.toString());
             temp = doctorWorkforceMapper.findTimeConflict(localDate.toString());
-            System.out.println("TEMP:" + temp);
+//            System.out.println("TEMP:" + temp);
 
             if (!temp.isEmpty()) {
                 for (AllSchedule t : temp) {
@@ -177,28 +184,44 @@ public class DoctorWorkforceService {
                 currTimes.add(t);
             }
         }
-        System.out.println("return currtimes");
+//        System.out.println("return currtimes");
         return currTimes;
     }
 
     //输入选择的排班人员的已知信息
     @Transactional
-    public void chooseDoctorWorkforceByName(String name, String shift, String expiry_date, Integer limit,String registration_Level) {
+    public void chooseDoctorWorkforceByName(int id,String name, String shift, String expiry_date, Integer limit,String registration_Level) {
         pos = new ParsePosition(0);
-        DoctorWorkforce doctorWorkforce = new DoctorWorkforce(name, shift, formatter.parse(expiry_date, pos), limit,registration_Level);
-        System.out.println(doctorWorkforce.getName() + " " + formatter.format(doctorWorkforce.getExpiry_date()) + " " + doctorWorkforce.getLimit());
+        DoctorWorkforce doctorWorkforce = new DoctorWorkforce(id,name, shift, formatter.parse(expiry_date, pos), limit,registration_Level);
         doctorWorkforces.add(doctorWorkforce);
     }
 
     //根据排班限额计算比例
     public void calLimitRatio() {
-        for (DoctorWorkforce doctorWorkforce : doctorWorkforces) {
+        /*   for (DoctorWorkforce doctorWorkforce : doctorWorkforces) {
             doctorWorkforce.setValid((expiry_date2valid(doctorWorkforce.getExpiry_date())));
             System.out.println("d "+doctorWorkforce.getName()+" set ratio:"+Math.round((days * numberPerDay / (totalLimits))));
             doctorWorkforce.setLimitRatio(Math.round((days * numberPerDay / (totalLimits))));
             doctorWorkforce.setScheduled(doctorWorkforce.getLimitRatio());
             System.out.println(doctorWorkforce.getName() + " scheduled=" + doctorWorkforce.getScheduled());
+            if(doctorWorkforce.getValid()==false){
+                doctorWorkforces.remove(doctorWorkforce);
+            }
+        }*/
 
+        Iterator<DoctorWorkforce> it = doctorWorkforces.iterator();
+        while(it.hasNext()){
+            DoctorWorkforce doctorWorkforce = it.next();
+            doctorWorkforce.setValid((expiry_date2valid(doctorWorkforce.getExpiry_date())));
+            System.out.println("d "+doctorWorkforce.getName()+" set ratio:"+Math.round((days * numberPerDay / (totalLimits))));
+            doctorWorkforce.setLimitRatio(Math.round((days * numberPerDay / (totalLimits))));
+            doctorWorkforce.setScheduled(doctorWorkforce.getLimitRatio());
+            System.out.println(doctorWorkforce.getName() + " scheduled=" + doctorWorkforce.getScheduled()+" valid="+doctorWorkforce.getValid());
+
+            if(doctorWorkforce.getValid()==false){
+                System.out.println("remove:"+doctorWorkforce.getName());
+                it.remove();
+            }
         }
     }
 
@@ -282,11 +305,12 @@ public class DoctorWorkforceService {
         days = calcuDays(dateRange);
         System.out.println("days=" + days);
 
-        schedule = new String[(int) days][numberPerDay];
-        residue = new int[(int) days][numberPerDay];
+        schedule = new int[(int) days][numberPerDay];
+        needToSche = new int[(int) days][numberPerDay];
         registration_Level = new String[(int)days][numberPerDay];
         valids = new boolean[(int) days][numberPerDay];
-        reg_limits = new int[(int) days][numberPerDay];
+        //reg_limits = new int[(int) days][numberPerDay];
+        //ids = new int[(int) days][numberPerDay];
 
         calLimitRatio();
         for (DoctorWorkforce doctorWorkforce : doctorWorkforces) {
@@ -313,12 +337,13 @@ public class DoctorWorkforceService {
             if (doctorWorkforce.getShift().equals("全天")) {
                 for (int i = schedule.length - 1; i >= 0; i--) {
                     for (int j = schedule[0].length - 1; j >= 0; j--) {
-                        if (doctorWorkforce.getScheduled() > 0 && schedule[i][j] == null) {
-                            schedule[i][j] = doctorWorkforce.getName();
-                            residue[i][j] = doctorWorkforce.getScheduled();
+                        if (doctorWorkforce.getScheduled() > 0 && schedule[i][j] == 0) {
+                            schedule[i][j] = doctorWorkforce.getId();
+                            needToSche[i][j] = doctorWorkforce.getScheduled();
                             registration_Level[i][j] = doctorWorkforce.getRegistration_Level();
                             valids[i][j] = doctorWorkforce.getValid();
-                            reg_limits[i][j] = doctorWorkforce.getLimit();
+                            //reg_limits[i][j] = doctorWorkforce.getLimit();
+                            //ids[i][j] = doctorWorkforce.getId();
                             doctorWorkforce.setScheduled(doctorWorkforce.getScheduled() - 1);
 
                             put = new int[1][2];
@@ -346,7 +371,7 @@ public class DoctorWorkforceService {
         for (int i = 0; i < schedule.length; i++) {
             for (int j = 0; j < schedule[0].length; j++) {
                 System.out.print(schedule[i][j] + "   ");
-                if (schedule[i][j] == null) {
+                if (schedule[i][j] == 0) {
                     empty = new int[1][2];
                     empty[0][0] = i;
                     empty[0][1] = j;
@@ -388,14 +413,14 @@ public class DoctorWorkforceService {
                             i = e[0][0];
                             //排除医生b在空位置行已排班的情况
                             for (int j = 0; j < schedule[0].length; j++) {
-                                if (schedule[e[0][0]][j] != null && schedule[e[0][0]][j].equals(doctorWorkforceR.getName())) {
+                                if (schedule[e[0][0]][j] != 0 && schedule[e[0][0]][j]==doctorWorkforceR.getId()) {
                                     R = false;
                                     break;
                                 }
                             }
                             if (R == true) {
-                                schedule[e[0][0]][e[0][1]] = doctorWorkforceR.getName();
-                                residue[e[0][0]][e[0][1]] = doctorWorkforceR.getScheduled();
+                                schedule[e[0][0]][e[0][1]] = doctorWorkforceR.getId();
+                                needToSche[e[0][0]][e[0][1]] = doctorWorkforceR.getScheduled();
                                 registration_Level[e[0][0]][e[0][1]] = doctorWorkforceR.getRegistration_Level();
                                 valids[e[0][0]][e[0][1]] = doctorWorkforceR.getValid();
 
@@ -412,13 +437,13 @@ public class DoctorWorkforceService {
                                     //int[][] p = puts.get(0);
                                     R1 = true;
                                     for (int s = 0; s < schedule[0].length; s++) {
-                                        if (schedule[p[0][0]][s].equals(doctorWorkforce.getName())) {
+                                        if (schedule[p[0][0]][s]==doctorWorkforce.getId()) {
                                             R1 = false;
                                         }
                                     }
                                     if (R1) {
-                                        schedule[p[0][0]][p[0][1]] = doctorWorkforce.getName();
-                                        residue[p[0][0]][p[0][1]] = doctorWorkforce.getScheduled();
+                                        schedule[p[0][0]][p[0][1]] = doctorWorkforce.getId();
+                                        needToSche[p[0][0]][p[0][1]] = doctorWorkforce.getScheduled();
                                         registration_Level[p[0][0]][p[0][1]] = doctorWorkforce.getRegistration_Level();
                                         valids[p[0][0]][p[0][1]] = doctorWorkforce.getValid();
 
@@ -457,7 +482,7 @@ public class DoctorWorkforceService {
             for (int j = 0; j < schedule[0].length; j++) {
                 System.out.print(schedule[i][j] + "   ");
                 //Schedule s = new Schedule(schedule[i][j],i,j);
-                if (schedule[i][j] != null) {
+                if (schedule[i][j] != 0) {
                     if (i % 2 == 0) {
                         currentShift = "上午";
                     } else {
@@ -470,7 +495,7 @@ public class DoctorWorkforceService {
                     } else {
                         System.out.println("valid is null");
                     }
-                    getSchedules.add(new Schedule(schedule[i][j], i, j, addDates(i, j), currentShift, date2Week(addDates(i, j)), reg_limits[i][j], valid, reg_limits[i][j],registration_Level[i][j]));
+                    getSchedules.add(new Schedule(schedule[i][j], addDates(i, j), currentShift, date2Week(addDates(i, j)), valid,registration_Level[i][j]));
 
                 }
             }
@@ -492,8 +517,7 @@ public class DoctorWorkforceService {
 
     //计算是否有效
     public Boolean expiry_date2valid(Date date) {
-        System.out.println("Valid local date:"+UDate2LocalDate(date).compareTo(currentLocalDate));
-        return  UDate2LocalDate(date).compareTo(currentLocalDate)<0;
+        return  UDate2LocalDate(date).compareTo(currentLocalDate)>0;
     }
 
     //计算选择范围内的天数
@@ -503,9 +527,6 @@ public class DoctorWorkforceService {
         pos = new ParsePosition(0);
         Date date1 = formatter.parse(dateStr1, pos);
         startDate = LocalDateToUdate(LocalDate.parse(dateStr1, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        System.out.println("startDate:"+startDate);
-        System.out.println("dateStr1:"+dateStr1);
-        System.out.println("dateStr2:"+dateStr2);
         return (int)(LocalDate.parse(dateStr1, DateTimeFormatter.ofPattern("yyyy-MM-dd")).until(LocalDate.parse(dateStr2, DateTimeFormatter.ofPattern("yyyy-MM-dd")), ChronoUnit.DAYS)+1)*2;
 
     }
@@ -541,12 +562,11 @@ public class DoctorWorkforceService {
             return -1;
         }
         //当前位置为空->放入
-        if (schedule[i][j] == null) {
-            schedule[i][j] = doctorWorkforce.getName();
-            residue[i][j] = doctorWorkforce.getScheduled();
+        if (schedule[i][j] == 0) {
+            schedule[i][j] = doctorWorkforce.getId();
+            needToSche[i][j] = doctorWorkforce.getScheduled();
             registration_Level[i][j] = doctorWorkforce.getRegistration_Level();
             valids[i][j] = doctorWorkforce.getValid();
-            reg_limits[i][j] = doctorWorkforce.getLimit();
             doctorWorkforce.setScheduled(doctorWorkforce.getScheduled() - 1);
 
             //将排班位置存入医生对象
@@ -581,6 +601,11 @@ public class DoctorWorkforceService {
         doctorWorkforces = new ArrayList<DoctorWorkforce>();
         totalLimits = 0;
         return getSchedules;
+    }
+
+    @Transactional
+    public Schedule injectDoctoeWorkforce(Schedule schedule){
+        return (doctorWorkforceMapper.injectDoctorWorkforce(schedule)).get(0);
     }
 
     //Date类型转LocalDate

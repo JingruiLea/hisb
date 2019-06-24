@@ -1,6 +1,7 @@
 package edu.neu.his.bean.dailyCheck;
 
 import edu.neu.his.bean.expenseClassification.ExpenseClassification;
+import edu.neu.his.util.Utils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @RestController
 @RequestMapping("/outpatientDailyReportCheck")
@@ -47,30 +49,32 @@ public class DailyCheckController {
         List<Report> reports = dailyCheckService.getReport(start_date,end_date,toll_collector_id);
 
         getBillRecord(reports);
-        getRegistrationFee(reports);
-        classificationTotal = dailyCheckService.getTotal();
+        //getRegistrationFee(reports);
+        classificationTotal = dailyCheckService.getTotal(start_date,end_date,toll_collector_id);
 
         //得到所有费用科目
         expenseClassifications = getAllClassifitation();
         //total = new Float[expenseClassifications.size()];
         //得到每个费用科目的总额
-        Map<String,Float> classifitationFees = getClassifitationFee(expenseClassifications,toll_collector_id,start_date,end_date);
+        List<ClassificationFee> classifitationFees = getClassifitationFee(expenseClassifications,toll_collector_id,start_date,end_date);
+
         dailyCheck = new DailyCheck(toll_collector_id,classificationTotal[0],classificationTotal[1],classifitationFees,
                 init_bill_record_id, invalid_bill_record_id, reprint_bill_record_id, init_bill_record_num, invalid_bill_record_num,reprint_bill_record_num);
         return Response.ok(dailyCheck);
     }
 
-    public void getRegistrationFee(List<Report> reports){
+    /*public void getRegistrationFee(List<Report> reports){
         reports.forEach(report -> {
+            System.out.println("reg fee:"+report.getMedical_record_id());
             dailyCheckService.getRegistrationFee(report.getMedical_record_id());
         });
-    }
+    }*/
 
     public List<ExpenseClassification> getAllClassifitation(){
         return dailyCheckService.getAllClassifitation();
     }
 
-    public Map<String,Float> getClassifitationFee(List<ExpenseClassification> expenseClassifications,int toll_collector_id,String start_date,String end_date){
+    public List<ClassificationFee> getClassifitationFee(List<ExpenseClassification> expenseClassifications,int toll_collector_id,String start_date,String end_date){
         return dailyCheckService.getClassifitationFee(expenseClassifications,toll_collector_id,start_date,end_date);
 
      /*   Map<String,Float> classifitationFees = new HashMap<String,Float>();
@@ -108,7 +112,8 @@ public class DailyCheckController {
         String start_date = (String)req.get("start_date");
         String end_date = (String)req.get("end_date");
         int toll_collector_id = (Integer)req.get("toll_collector_id");
-        int checker_id = (Integer)req.get("checker_id");
+        int checker_id = Utils.getSystemUser(req).getUid();
+        //int checker_id = (Integer)req.get("checker_id");
 
         if (canUpdate(start_date,end_date,toll_collector_id,checker_id)) {
             dailyCheckService.confirmCheck(start_date,end_date,toll_collector_id,checker_id);

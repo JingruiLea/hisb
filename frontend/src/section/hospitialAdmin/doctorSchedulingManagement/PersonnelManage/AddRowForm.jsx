@@ -8,7 +8,7 @@ const dateFormat = 'YYYY-MM-DD';
 
 function disabledDate(current) {
   // Can not select days before today and today
-  return current && current < moment().endOf('day');
+  return current && current < moment().startOf('day');
 }
 
 class AddRowForm extends React.Component {
@@ -26,13 +26,13 @@ class AddRowForm extends React.Component {
   };
 
   handleIDChange = (e) =>{
-    let value = e.target.value;
+    let value = e/*.target.value*/;
     (this.props.getAddTableInfo(value)).then(res=>{
       window.res = res;
-      if(res.length!=0){
+      if(/*res.length!=0*/res.name!=undefined){
       this.props.form.setFieldsValue({
-        name:`${res[0].name}`,
-        department_name:`${res[0].department_name}`
+        name:`${res.name}`,
+        department_name:`${res.department_name}`
       });
     }
     },error=>{
@@ -45,10 +45,10 @@ class AddRowForm extends React.Component {
     let value = e.target.value;
     (this.props.getAddNameTableInfo(value)).then(res=>{
       window.res = res;
-      if(res.length!=0){
+      if(/*res.length!=0*/res.id!=undefined){
       this.props.form.setFieldsValue({
-        id:`${res[0].id}`,
-        department_name:`${res[0].department_name}`
+        id:`${res.id}`,
+        department_name:`${res.department_name}`
       });
     }
     },error=>{
@@ -75,13 +75,16 @@ class AddRowForm extends React.Component {
     };
 
     return(<Form onSubmit={this.handleSubmit} {...formItemLayout}>
-      <Form.Item label="ID">
+     <Form.Item label="ID">
        {getFieldDecorator('id', {
          rules: [{ required: true, message: '输入id' }],
        })(
-         <Input
-           onChange={this.handleIDChange}
-         />,
+        <InputNumber 
+        min={1} 
+        max={20000} 
+        onChange={this.handleIDChange}
+        style={{ width: 360 }}
+        />,
        )}
      </Form.Item>
         
@@ -106,7 +109,7 @@ class AddRowForm extends React.Component {
        {getFieldDecorator('shift', {
          rules: [{ required: true, message: '输入班次' }],
        })(
-        <Select initialValue="全天" style={{ width: 120 }}>
+        <Select initialValue="全天" style={{ width: 360 }}>
           <Option value="全天">全天</Option>
         <Option value="上午">上午</Option>
         <Option value="下午">下午</Option>
@@ -119,13 +122,14 @@ class AddRowForm extends React.Component {
      <DatePicker
       format={dateFormat} 
       disabledDate={disabledDate}
+      style={{ width: 360 }}
       />)}
         </Form.Item>
         <Form.Item label="挂号级别">
        {getFieldDecorator('registration_Level', {
          rules: [{ required: true, message: '输入挂号级别' }],
        })(
-        <Select initialValue="专家号" style={{ width: 120 }}>
+        <Select initialValue="专家号" style={{ width: 360 }}>
           <Option value="专家号">专家号</Option>
         <Option value="普通号">普通号</Option>
         </Select>,
@@ -139,6 +143,7 @@ class AddRowForm extends React.Component {
         min={1} 
         max={200} 
         initialValue={10}
+        style={{ width: 360 }}
         />,
        )}
      </Form.Item>

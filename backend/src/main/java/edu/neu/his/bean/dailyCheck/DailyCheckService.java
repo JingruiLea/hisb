@@ -47,15 +47,16 @@ public class DailyCheckService {
     }
 
     @Transactional
-    public Float[] getTotal(){
-        Float[] t= new Float[]{total,registrationFee};
+    public Float[] getTotal(String start_date,String end_date,int toll_collector_id){
+        Float[] t= new Float[]{total,getRegistrationFee(start_date,end_date,toll_collector_id)};
         return t;
     }
 
-    @Transactional
-    public Float getRegistrationFee(int medical_record_id){
-        Float fee = dailyCheckMapper.getRegistrationFee(medical_record_id);
-        registrationFee += fee;
+    public Float getRegistrationFee(String start_date,String end_date,int toll_collector_id){
+        List<Float> fees = dailyCheckMapper.getRegistrationFees(start_date,end_date,toll_collector_id);
+        for(Float fee:fees) {
+            registrationFee += fee;
+        }
         return registrationFee;
     }
 
@@ -65,18 +66,18 @@ public class DailyCheckService {
     }
 
     @Transactional
-    public Map<String,Float> getClassifitationFee(List<ExpenseClassification> expenseClassifications, int toll_collector_id,String start_date,String end_date){
-        Map<String,Float> classifitationFees = new HashMap<String,Float>();
+    public List<ClassificationFee> getClassifitationFee(List<ExpenseClassification> expenseClassifications, int toll_collector_id,String start_date,String end_date){
+        List<ClassificationFee> classifitationFees = new ArrayList<ClassificationFee>();
         classtotal = new float[expenseClassifications.size()];
 
         expenseClassifications.forEach(expenseClassification-> {
-            List<Integer> classificationCosts = dailyCheckMapper.getClassifitationFee(start_date,end_date,expenseClassification.getId(), toll_collector_id);
-
+            List<Float> classificationCosts = dailyCheckMapper.getClassifitationFee(start_date,end_date,expenseClassification.getId(), toll_collector_id);
             if (!classificationCosts.isEmpty()) {
                 classificationCosts.forEach(classificationCost -> {
                     classtotal[expenseClassifications.indexOf(expenseClassification)] += classificationCost;
                 });
-                classifitationFees.put(expenseClassification.getFee_name(), classtotal[expenseClassifications.indexOf(expenseClassification)]);
+                //classifitationFees.put(expenseClassification.getFee_name(), classtotal[expenseClassifications.indexOf(expenseClassification)]);
+                classifitationFees.add(new ClassificationFee(expenseClassification.getFee_name(),classtotal[expenseClassifications.indexOf(expenseClassification)]));
             }
         });
         return classifitationFees;

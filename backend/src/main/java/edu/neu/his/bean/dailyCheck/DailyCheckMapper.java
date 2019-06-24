@@ -18,24 +18,31 @@ public interface DailyCheckMapper {
 
     @Select("SELECT medical_record_id, cost, bill_record.id, bill_record.print_status "+
             "FROM daily_collect, daily_detail,bill_record "+
-            "WHERE CAST(start_time AS DATETIME) > CAST(#{start_date} AS DATETIME) and CAST(end_time AS DATETIME) < CAST(#{end_date} AS DATETIME) "+
+            "WHERE CAST(start_time AS DATETIME) >= CAST(#{start_date} AS DATETIME) and CAST(end_time AS DATETIME) <= CAST(#{end_date} AS DATETIME) "+
             "and bill_record.user_id=#{toll_collector_id} and daily_collect.id=daily_detail.daily_collect_id "+
-            "and daily_detail.bill_record_id=bill_record.id and daily_collect.check=0")
+            "and daily_detail.bill_record_id=bill_record.id and daily_collect.checked=0")
     List<Report> getReport(String start_date,String end_date,int toll_collector_id);
 
-    @Select("SELECT cost FROM registration WHERE medical_record_id=#{medical_record_id}")
-    Float getRegistrationFee(int medical_record_id);
+    /*@Select("SELECT cost FROM registration WHERE medical_record_id=#{medical_record_id}")
+    Float getRegistrationFee(int medical_record_id);*/
+
+    @Select("SELECT cost " +
+            "FROM daily_collect, daily_detail,bill_record, operate_log " +
+            "WHERE CAST(start_time AS DATETIME) >= CAST(#{start_date} AS DATETIME) and CAST(end_time AS DATETIME) <= CAST(#{end_date} AS DATETIME) " +
+            "and bill_record.user_id=#{toll_collector_id} and daily_collect.id=daily_detail.daily_collect_id " +
+            "and daily_detail.bill_record_id=bill_record.id and daily_collect.checked=0 and bill_record.id=operate_log.bill_record_id and operate_log.type=\"挂号\"")
+    List<Float> getRegistrationFees(String start_date,String end_date,int toll_collector_id);
 
     @Select("SELECT * FROM expense_classification")
     List<ExpenseClassification> getAllClassifitation();
 
-    @Select("SELECT outpatient_charges_record.cost "+
-            "FROM daily_collect, daily_detail, bill_record, user_info, outpatient_charges_record "+
+    @Select("SELECT DISTINCT outpatient_charges_record.cost "+
+            "FROM daily_collect, daily_detail, bill_record, outpatient_charges_record "+
             "WHERE CAST(start_time AS DATETIME) > CAST(#{start_date} AS DATETIME) and CAST(end_time AS DATETIME) < CAST(#{end_date} AS DATETIME) "+
             "and daily_collect.id=daily_detail.daily_collect_id and daily_detail.bill_record_id=bill_record.id " +
             "and bill_record.medical_record_id=outpatient_charges_record.medical_record_id "+
             "and expense_classification_id=#{expense_classification_id} and outpatient_charges_record.collect_user_id=#{toll_collector_id}")
-    List<Integer> getClassifitationFee(String start_date,String end_date,int expense_classification_id,int toll_collector_id);
+    List<Float> getClassifitationFee(String start_date,String end_date,int expense_classification_id,int toll_collector_id);
 
     //@Update("UPDATE daily_collect SET check = true "+
     //        "FROM daily_detail,bill_record "+
@@ -46,7 +53,7 @@ public interface DailyCheckMapper {
             "ON dc.id=dd.daily_collect_id and dc.user_id=#{checker_id} and CAST(dc.start_time AS DATETIME) > CAST(#{start_date} AS DATETIME) and CAST(dc.end_time AS DATETIME) < CAST(#{end_date} AS DATETIME)" +
             "JOIN bill_record br " +
             "ON dd.bill_record_id=br.id and br.user_id=#{toll_collector_id} " +
-            "SET dc.check = true ")
+            "SET dc.checked = true ")
     void confirmCheck(String start_date,String end_date,int toll_collector_id,int checker_id);
 
     @Select("SELECT count(*) "+

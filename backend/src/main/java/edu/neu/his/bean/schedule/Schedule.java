@@ -3,6 +3,7 @@ package edu.neu.his.bean.schedule;
 import java.util.Date;
 
 public class Schedule {
+    private int id;
     private String name;
     private int i;
     private int j;
@@ -16,17 +17,29 @@ public class Schedule {
 
     public Schedule(){}
 
-    public Schedule(String name,int i,int j,String scheduleDate,String shift,int week,int residue,String valid,int reg_limit,String registration_Level){
-        this.name = name;
-        this.i = i;
-        this.j = j;
+    public Schedule(int id,String scheduleDate,String shift,int week,String valid,String registration_Level){
+        this.id = id;
+        //this.i = i;
+        //this.j = j;
         this.scheduleDate = scheduleDate;
         this.shift = shift;
         this.week = week;
-        this.residue = residue;
         this.valid = valid;
-        this.reg_limit = reg_limit;
         this.registration_Level = registration_Level;
+    }
+
+    public Schedule(String name,int reg_limit,int residue){
+        this.name = name;
+        this.reg_limit = reg_limit;
+        this.residue = residue;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -109,10 +122,12 @@ public class Schedule {
         this.registration_Level = registration_Level;
     }
 
+
     @Override
     public String toString() {
         return "Schedule{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ",name='" + name + '\'' +
                 ", i=" + i +
                 ", j=" + j +
                 ", scheduleDate='" + scheduleDate + '\'' +
