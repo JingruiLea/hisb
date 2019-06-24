@@ -10,6 +10,7 @@ import java.util.Date;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -95,21 +96,38 @@ public class DoctorSchedulingController {
     @PostMapping("/addPersonnelTable")
     @ResponseBody
     public Map findAddInfo(@RequestBody Map req){
-        Integer uid = (Integer.parseInt((String) req.get("data")));
-        return Response.ok(doctorSchedulingService.findAddInfo(uid));
+        Integer uid = 0;
+        if(!((Integer) req.get("data")).equals("")) {
+            uid = ((Integer) req.get("data"));
+        }
+
+        Map data = new HashMap();
+        List<DoctorSchedulingInfo> ds = doctorSchedulingService.findAddInfo(uid);
+        if(!ds.isEmpty()) {
+            data.put("name", ds.get(0).getName());
+            data.put("department_name", ds.get(0).getDepartment_name());
+        }
+        return Response.ok(data);
     }
 
     @PostMapping("/addNamePersonnelTable")
     @ResponseBody
     public Map findAddNameInfo(@RequestBody Map req){
         String name = (String) req.get("data");
-        return Response.ok(doctorSchedulingService.findAddNameInfo(name));
+
+        Map data = new HashMap();
+        List<DoctorSchedulingInfo> ds = doctorSchedulingService.findAddNameInfo(name);
+        if(!ds.isEmpty()) {
+            data.put("id", ds.get(0).getId());
+            data.put("department_name", ds.get(0).getDepartment_name());
+        }
+        return Response.ok(data);
     }
 
     private DoctorSchedulingInfo map2DoctorSchedulingInfo(Map req) throws ParseException {
         Map req1 = req;//(Map)req.get("data");
         DoctorSchedulingInfo doctorSchedulingInfo = new DoctorSchedulingInfo();
-        doctorSchedulingInfo.setId(Integer.parseInt((String)req1.get("id")));
+        doctorSchedulingInfo.setId((Integer)req1.get("id"));
         doctorSchedulingInfo.setName((String) req1.get("name"));
         doctorSchedulingInfo.setDepartment_name((String) req1.get("department_name"));
         doctorSchedulingInfo.setTitle((String) req1.get("title"));

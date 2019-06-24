@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radio, Button,Input,Modal,Form,Icon,Select,DatePicker,message} from 'antd';
+import { Radio, Button,Input,Modal,Form,Icon,Select,DatePicker,message,InputNumber} from 'antd';
 import moment from 'moment';
 
 const Option = Select.Option
@@ -47,6 +47,7 @@ componentDidMount = ()=>{
   };
 
   handleInputChange = (e) =>{
+    window.e = e;
     let value = e.target.value;
     (this.props.getAddTableInfo(value)).then(res=>{
       console.log('res',res);
@@ -105,16 +106,22 @@ componentDidMount = ()=>{
      </Form.Item>
      <Form.Item label="ID">
        {getFieldDecorator('id', {
-         rules: [{ required: true, message: '输入ID' }],
+         rules: [{ required: true, message: '输入id' }],
        })(
-         <Input onChange={this.handleInputChange} />,
+        <InputNumber 
+        min={1} 
+        max={20000} 
+        onChange={this.handleInputChange}
+        style={{ width: 360 }}
+        />,
        )}
-     </Form.Item>     
+     </Form.Item>   
      <Form.Item label="排班时间">
      {getFieldDecorator('schedule_date', config)(
      <DatePicker
       format={dateFormat} 
       disabledDate={disabledDate}
+      style={{ width: 360 }}
       />)}
         </Form.Item>
 
@@ -122,7 +129,7 @@ componentDidMount = ()=>{
        {getFieldDecorator('shift', {
          rules: [{ required: true, message: '输入午别' }],
        })(
-        <Select initialValue="上午" style={{ width: 120 }}>
+        <Select initialValue="上午" style={{ width: 360 }}>
           <Option value="上午">上午</Option>
           <Option value="下午">下午</Option>
           <Option value="全天">全天</Option>
@@ -141,7 +148,7 @@ componentDidMount = ()=>{
        {getFieldDecorator('registration_Level', {
          rules: [{ required: true, message: '输入挂号级别' }],
        })(
-        <Select initialValue="专家号" style={{ width: 120 }}>
+        <Select initialValue="专家号" style={{ width: 360 }}>
           <Option value="专家号">专家号</Option>
         <Option value="普通号">普通号</Option>
         </Select>,
@@ -151,24 +158,34 @@ componentDidMount = ()=>{
        {getFieldDecorator('reg_limit', {
          rules: [{ required: true, message: '输入排班限额' }],
        })(
-         <Input
-           prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-           placeholder="排班限额"
-         />,
+        <InputNumber 
+        min={1} 
+        max={200} 
+        initialValue={10}
+        style={{ width: 360 }}
+        />,
        )}
      </Form.Item>
      <Form.Item label="剩余号数">
        {getFieldDecorator('residue', {
          rules: [{ required: true, message: '输入剩余号数' }],
        })(
-         <Input/>,
+        <InputNumber 
+        min={1} 
+        max={200} 
+        initialValue={10}
+        style={{ width: 360 }}
+        />,
        )}
      </Form.Item>
      <Form.Item label="有效状态">
        {getFieldDecorator('valid', {
          rules: [{ required: true, message: '输入有效状态' }],
        })(
-         <Input/>,
+        <Select initialValue="有效" style={{ width: 360 }}>
+          <Option value="有效">有效</Option>
+          <Option value="无效">无效</Option>
+        </Select>,
        )}
      </Form.Item>
      <Button htmlType="submit" type="primary">提交</Button>

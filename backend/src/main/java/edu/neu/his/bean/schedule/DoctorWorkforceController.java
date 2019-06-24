@@ -239,9 +239,15 @@ public class DoctorWorkforceController {
         schedule.setWeek(date2Week(sche));
 
         schedule.setShift((String) req1.get("shift"));
-        schedule.setResidue(Integer.parseInt((String) req1.get("residue")));
+
+        Object residue = req1.get("residue");
+        if(residue instanceof Integer) {
+            schedule.setResidue((Integer)residue);
+        }else{
+            schedule.setResidue(Integer.valueOf((String)residue));
+        }
         schedule.setValid((String) req1.get("valid"));
-        schedule.setReg_limit(Integer.parseInt((String)  req1.get("reg_limit")));
+        schedule.setReg_limit((Integer)req1.get("reg_limit"));
         schedule.setRegistration_Level((String) req1.get("registration_Level"));
         //System.out.println("map2DoctorWorkforceInfo:    "+schedule.getName()+"  "+schedule.getReg_limit());
         return schedule;

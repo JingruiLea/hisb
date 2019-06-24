@@ -1,7 +1,13 @@
 import React from 'react';
-import {Button,Input,Form,Select,InputNumber} from 'antd';
+import {Button,Input,Form,Select,InputNumber,DatePicker} from 'antd';
+import moment from 'moment';
 
-const Option = Select.Option
+const Option = Select.Option;
+const dateFormat = 'YYYY-MM-DD';
+
+function disabledDate(current) {
+  return current && current < moment().startOf('day');
+}
 
 class EditRowForm extends React.Component {
 
@@ -54,39 +60,45 @@ class EditRowForm extends React.Component {
             <Input disabled={true}/>
           )}
         </Form.Item>
+
         <Form.Item label="挂号级别">
-          {getFieldDecorator('registration_Level', {
-            initialValue:data.registration_Level
-          })(
-            <Input
-              placeholder="输入挂号级别"
-            />,
-          )}
-        </Form.Item>
+       {getFieldDecorator('registration_Level', {
+         rules: [{ required: true, message: '输入挂号级别' }],
+         initialValue:data.registration_Level
+       })(
+        <Select style={{ width: 360 }}>
+          <Option value="专家号">专家号</Option>
+        <Option value="普通号">普通号</Option>
+        <Option value="急诊号">急诊号</Option>
+        </Select>,
+       )}
+     </Form.Item>
 
         <Form.Item label="班次">
        {getFieldDecorator('shift', {
          rules: [{ required: true, message: '输入班次' }],
          initialValue:data.shift
        })(
-        <Select initialValue="全天" style={{ width: 120 }}>
+        <Select style={{ width: 360 }}>
           <Option value="全天">全天</Option>
         <Option value="上午">上午</Option>
         <Option value="下午">下午</Option>
         </Select>,
        )}
      </Form.Item>
-
+        
         <Form.Item label="有效期限">
-          {getFieldDecorator('expiry_date', {
-            rules: [{ required: true, message: '输入有效期限' }],
-            initialValue:data.expiry_date
+       {getFieldDecorator('expiry_date', {
+            initialValue:moment(data.expiry_date, dateFormat)
           })(
-            <Input
-              placeholder="输入有效期限"
-            />,
-          )}
+        <DatePicker
+          format={dateFormat} 
+          disabledDate={disabledDate}
+          initialValue={moment(data.expiry_date, dateFormat)}
+          style={{ width: 360 }}
+        />)}
         </Form.Item>
+
         <Form.Item label="排班限额">
           {getFieldDecorator('scheduling_limit', {
             rules: [{ required: true, message: '输入排班限额' }],
@@ -96,6 +108,7 @@ class EditRowForm extends React.Component {
               min={1} 
               max={200} 
               initialValue={10}
+              style={{ width: 360 }}
               />,
           )}
         </Form.Item>

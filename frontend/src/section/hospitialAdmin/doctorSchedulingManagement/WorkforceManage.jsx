@@ -35,6 +35,7 @@ class WorkforceManage extends React.Component {
     shifts:[],//表格数据
     schedules:[],//排班数据
     loading:true,//加载状态
+    scheduleLoading:true,
     overwrite:false,//是否需要覆盖
     overwriteIds:[],//需覆盖的ID
     inputDate:true,//是否选择好了日期->排班按钮的disable属性
@@ -112,7 +113,7 @@ onNumberChange = (value) =>{
   //schedule
   reloadSchedule = ()=>{
     const _this = this;
-    this.setState({loading:true})
+    this.setState({scheduleLoading:true})
     API.request(API.bacisInfoManagement.schedulingInfoManagement.getScheduleInfo,{})
     .ok((data)=>{
         var schedules = data;
@@ -121,7 +122,7 @@ onNumberChange = (value) =>{
           }
           this.setState({
             //schedules:schedules,
-            loading:false
+            scheduleLoading:false
           });
           _this.addSchedule(schedules);
           _this.setSchedule();
@@ -130,7 +131,7 @@ onNumberChange = (value) =>{
 
 setSchedule = ()=>{
     const _this = this;
-    this.setState({loading:true})
+    this.setState({scheduleLoading:true})
     API.request(API.bacisInfoManagement.schedulingInfoManagement.getAllScheduleInfo,{})
     .ok((data)=>{
         var schedules = data;
@@ -139,7 +140,7 @@ setSchedule = ()=>{
         }
         this.setState({
           schedules:schedules,
-          loading:false
+          scheduleLoading:false
         });
     }).submit();
 }
@@ -347,7 +348,7 @@ overwriteInfo=(data)=>{
           </div>
           <div style={{float:'right'}}>
           <ScheduleToolBar
-                disabled={this.state.loading}
+                disabled={this.state.scheduleLoading}
                 selectedScheduleRows={this.state.selectedScheduleRows}
                 reloadSchedule={this.reloadSchedule.bind(this)}
                 getAddTableInfo={this.getAddTableInfo.bind(this)} 
@@ -364,7 +365,7 @@ overwriteInfo=(data)=>{
           </div>
       </div>
         } style={{overflow:'scroll',minWidth:'100px',height:'650px'}} >
-                {this.state.loading?
+                {this.state.scheduleLoading?
             <div style={{textAlign:'center',paddingTop:100}}>
                 <Spin/><br/>
                 <Typography.Paragraph>加载中...</Typography.Paragraph>
