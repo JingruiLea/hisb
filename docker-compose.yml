@@ -1,14 +1,15 @@
 
 version: '3'
 services:
+  db:
+    image: mariadb
   frontend:
-    container_name: his-frontend
-    build: 
-      context: ./frontend/
-      args: 
-        apiServerURL: "http://127.0.0.1:8081"
-        fileServerURL: "http://127.0.0.1:8082"
+    container_name: his-frontend-nginx
+    restart: always
+    build: ./frontend
     volumes:
-      - '.:/home/his'
+      - .:/home/his
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
      - "80:80"
+  
