@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card,Descriptions,Form,Input,Button,Spin} from 'antd';
+import {Card,Descriptions,Form,Input,Button} from 'antd';
 
 
 class RegistrationInfoDisplay extends React.Component {
@@ -27,7 +27,7 @@ class RegistrationInfoDisplay extends React.Component {
           </Form.Item>
           <Button type="primary" htmlType="submit" icon="search">搜索</Button>
         </Form>}>
-      {this.props.loading?<Spin style={{textAlign:'center'}}>Pending...</Spin>:
+      {this.props.loading?null:
         <Descriptions title={"病历信息 "+medicalRecord.medical_record_id} bordered>
           <Descriptions.Item label="姓名">{medicalRecord.patient_name}</Descriptions.Item>
           <Descriptions.Item label="年龄">{medicalRecord.age}</Descriptions.Item>

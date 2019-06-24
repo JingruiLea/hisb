@@ -13,31 +13,31 @@ class OutpatientCharge extends React.Component {
     medicalRecord:{},
     chargeItems:[],
     chargedItems:[],
-    medical_record_number:0,
+    medical_record_id:0,
     loading:true
   }
 
 
   /**********************     API     ***************************/
 
-  handleSearch=(medical_record_number)=>{
+  handleSearch=(medical_record_id)=>{
     this.setState({loading:true})
-    API.request(API.outpatientWorkstation.outpatientCharge.getRegistrationInfo,{medical_record_number})
+    API.request(API.outpatientWorkstation.outpatientCharge.getRegistrationInfo,{medical_record_id})
     .ok((medicalRecord)=>{
       if(medicalRecord!==null) {
         this.setState({
           medicalRecord:medicalRecord,
           loading:false,
-          medical_record_number
+          medical_record_id
         });
 
-        API.request(API.outpatientWorkstation.outpatientCharge.getChargeItems,{medical_record_number})
+        API.request(API.outpatientWorkstation.outpatientCharge.getChargeItems,{medical_record_id})
         .ok((chargeItems)=>{
           chargeItems.forEach(element => {element.key = element.id;});
           this.setState({chargeItems})
         }).submit();
 
-        API.request(API.outpatientWorkstation.outpatientCharge.getChargedItems,{medical_record_number})
+        API.request(API.outpatientWorkstation.outpatientCharge.getChargedItems,{medical_record_id})
         .ok((chargedItems)=>{
           chargedItems.forEach(element => {element.key = element.id;});
           this.setState({chargedItems})
@@ -85,7 +85,7 @@ class OutpatientCharge extends React.Component {
       <ChargeItemSection 
         charge={this.charge.bind(this)}
         withdraw={this.withdraw.bind(this)}
-        medical_record_id={state.medical_record_number}
+        medical_record_id={state.medical_record_id}
         loading={state.loading}
         chargeItems={state.chargeItems}
         chargedItems={state.chargedItems}/>

@@ -21,7 +21,7 @@ class DashboardPage extends React.Component {
       role_id:1,
       role_name:"Google CEO",
       title:"Fuchsia总设计师"
-    }
+    },
   };
 
   onCollapse = collapsed => {

@@ -224,7 +224,7 @@ class RegistrationForm extends React.Component {
           <Form.Item label="家庭住址" {...formItemLayout}>
             {getFieldDecorator('address', {})(
               <Input
-                prefix={<Icon type="address" style={{ color: 'rgba(0,0,0,.25)'}} />}
+                prefix={<Icon type="home" style={{ color: 'rgba(0,0,0,.25)'}} />}
                 placeholder="家庭住址" disabled={this.props.payMode}
               />
             )}
