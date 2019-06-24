@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -28,7 +30,17 @@ public class RegistrationLevelService {
 
     @Transactional
     public List<RegistrationLevel> findAll() {
-        return registrationLevelMapper.findAll();
+        List<RegistrationLevel> levels = registrationLevelMapper.findAll();
+        Collections.sort(levels, (o1, o2) -> {
+            if(o1.getSeq_num()>o2.getSeq_num()){
+                return 1;
+            }else if(o1.getSeq_num()<o2.getSeq_num()){
+                return -1;
+            }else{
+                return 0;
+            }
+        });
+        return levels;
     }
 
     @Transactional
