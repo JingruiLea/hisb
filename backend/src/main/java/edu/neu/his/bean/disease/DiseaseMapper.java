@@ -17,7 +17,7 @@ public interface DiseaseMapper extends Importable<Disease> {
             "WHERE disease.classification_id = disease_classification.id and disease.name = #{name}")
     Disease findByName(@Param("name") String name);
 
-    @Select("SELECT disease.id, disease.name, classification_id, disease_classification.name as classification_name, pinyin, custom_name, custom_pinyin " +
+    @Select("SELECT disease.id, disease.code, disease.name, classification_id, disease_classification.name as classification_name, pinyin, custom_name, custom_pinyin " +
             "FROM  disease, disease_classification " +
             "WHERE disease.classification_id = disease_classification.id and classification_id = #{classification_id}")
     List<Disease> findAll(@Param("classification_id") int classification_id);

@@ -9,8 +9,7 @@ import SettlementCategoryManagement from '../../section/hospitialAdmin/settlemen
 import DiagnosticDirectoryManagementSection from '../../section/hospitialAdmin/diagnosticDirectoryManagement'
 import RegistrationLevelManagement from '../../section/hospitialAdmin/registrationLevelManagement'
 import NonDrugChargeItemManagement from '../../section/hospitialAdmin/nonDrugChargeItemManagement'
-//import SchedulingManagement from '../../section/hospitialAdmin/schedulingManagement'
-import DoctorSchedulingManagement from '../../section/hospitialAdmin/doctorSchedulingManagement'
+import SchedulingManagement from '../../section/hospitialAdmin/schedulingManagement'
 
 //4 registeredTollCollector
 import OutpatientRegistration from '../../section/registeredTollCollector/outpatientRegistration'
@@ -52,7 +51,7 @@ class DashboardSection extends React.Component {
           {sectionKey==="3-4"?<SettlementCategoryManagement me={this.props.me}/>:null}
           {sectionKey==="3-5"?<DiagnosticDirectoryManagementSection me={this.props.me}/>:null}
           {sectionKey==="3-6"?<NonDrugChargeItemManagement me={this.props.me}/>:null}
-          {sectionKey==="3-7"?<DoctorSchedulingManagement me={this.props.me}/>:null}
+          {sectionKey==="3-7"?<SchedulingManagement me={this.props.me}/>:null}
 
           {sectionKey==="4-1"?<OutpatientRegistration me={this.props.me}/>:null}
           {sectionKey==="4-2"?<OutpatientCharge me={this.props.me}/>:null}
