@@ -72,6 +72,33 @@ componentDidMount = ()=>{
    //   department_name: `Hi, ${value === 'xiaoA' ? 'man' : 'lady'}!`,
    // });
   };
+
+  handleInputChangeByID = (e) =>{
+    window.e = e;
+    let value = e;
+    (this.props.getAddTableInfoByID(value)).then(res=>{
+      console.log('res id',res);
+      window.res = res;
+      if(res.length!=0){
+      this.props.form.setFieldsValue({
+        //department_name: `${res[0].department_name}`,
+        name:`${res[0].name}`,
+        residue:`${res[0].residue}`,
+        valid:"有效",
+        department_name:`${res[0].department_name}`,
+        shift:`${res[0].shift}`,
+        registration_Level:`${res[0].registration_Level}`
+      });
+    }
+    },error=>{
+      console.log(error)
+    })
+    console.log('value',value);
+    //console.log('returnData',returnData);
+   // this.props.form.setFieldsValue({
+   //   department_name: `Hi, ${value === 'xiaoA' ? 'man' : 'lady'}!`,
+   // });
+  };
   
 
 
@@ -111,7 +138,7 @@ componentDidMount = ()=>{
         <InputNumber 
         min={1} 
         max={20000} 
-        onChange={this.handleInputChange}
+        onChange={this.handleInputChangeByID}
         style={{ width: 360 }}
         />,
        )}

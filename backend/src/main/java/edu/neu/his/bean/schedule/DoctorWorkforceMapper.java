@@ -61,6 +61,13 @@ public interface DoctorWorkforceMapper {
             "and registration_level.id=user_info.registration_level_id and user_info.real_name=#{name}")
     List<AllSchedule> findAddInfo(@Param("name") String name);
 
+    @Select("SELECT user_info.uid as id, user_info.real_name as name, department.name as department_name, " +
+            "doctor_scheduling_shift.shift as shift, scheduling_limit as reg_limit, doctor_scheduling_info.residue, registration_level.name as registration_Level " +
+            "FROM doctor_scheduling_info, user_info, department, registration_level, doctor_scheduling_shift " +
+            "WHERE doctor_scheduling_info.uid=user_info.uid and user_info.department_id=department.id and doctor_scheduling_shift.id=doctor_scheduling_info.shift_id " +
+            "and registration_level.id=user_info.registration_level_id and user_info.uid=#{id}")
+    List<AllSchedule> findAddInfoByID(@Param("id") int id);
+
     @Select("SELECT id,schedule_date FROM doctor_scheduling WHERE schedule_date = #{schedule_date} and shift = #{shift} and uid = #{uid}")
     List<AllSchedule> findAddRowConflict(@Param("uid") int uid, @Param("schedule_date") String schedule_date, @Param("shift") String shift);
 

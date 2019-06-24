@@ -139,6 +139,11 @@ public class DoctorWorkforceService {
     }
 
     @Transactional
+    public List<AllSchedule> findAddInfoByID(int id) {
+        return doctorWorkforceMapper.findAddInfoByID(id);
+    }
+
+    @Transactional
     public List<AllSchedule> findAllSchedule() {
         return doctorWorkforceMapper.findAllSchedule();
     }

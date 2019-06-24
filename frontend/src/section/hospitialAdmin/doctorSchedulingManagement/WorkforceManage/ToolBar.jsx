@@ -93,7 +93,7 @@ class ToolBar extends React.Component {
   render() {
       const selectedRows = this.props.selectedRows;
       const chooseButtonDisabled = selectedRows.length===0 || this.props.disabled ||this.props.inputDate;
-      const chooseNum = selectedRows.length===0?null:selectedRows.length+"条记录";
+      const chooseNum = selectedRows.length===0?null:selectedRows.length+"名人员排班";
       const { visible, confirmLoading, ModalText } = this.state;
       return (
         

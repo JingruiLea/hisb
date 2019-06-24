@@ -120,7 +120,14 @@ public class DoctorWorkforceController {
             return Response.error("");
         }
 
-        int uid = Integer.parseInt((String) req.get("id"));
+        int uid = 0;
+        Object id = req.get("id");
+        if(id instanceof Integer) {
+            uid = (Integer)id;
+        }else{
+            uid = Integer.valueOf((String)id);
+        }
+
         String schedule_date = ((String) req.get("schedule_date")).substring(0,10);
         System.out.println("schedule_date="+schedule_date);
         String shift = (String) req.get("shift");
@@ -161,7 +168,13 @@ public class DoctorWorkforceController {
         return Response.ok(doctorWorkforceService.findAddInfo(name));
     }
 
-
+    @PostMapping("/addTableByID")
+    @ResponseBody
+    public Map findAddInfoByID(@RequestBody Map req){
+        int id = (Integer) req.get("data");
+        System.out.println("res:"+doctorWorkforceService.findAddInfoByID(id));
+        return Response.ok(doctorWorkforceService.findAddInfoByID(id));
+    }
 
     //覆盖排班信息
     @PostMapping("/overwrite")
@@ -227,7 +240,14 @@ public class DoctorWorkforceController {
     private Schedule map2DoctorWorkforceInfo(Map req) {
         Map req1 = req;//(Map)req.get("data");
         Schedule schedule = new Schedule();
-        schedule.setId(Integer.parseInt((String) req1.get("id")));
+
+        Object id = req1.get("id");
+        if(id instanceof Integer) {
+            schedule.setId((Integer)id);
+        }else{
+            schedule.setId(Integer.valueOf((String)id));
+        }
+
         schedule.setName((String) req1.get("name"));
 
         String sche = (String) req1.get("schedule_date");

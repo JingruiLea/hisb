@@ -256,6 +256,18 @@ getAddTableInfo=(data)=>{
   })
   }
 
+  //填入AddForm中的数据
+getAddTableInfoByID=(data)=>{
+  const _this = this;
+  return new Promise((resolve,reject)=>{
+  API.request(API.bacisInfoManagement.schedulingInfoManagement.getAddInfoByID,{data:data})
+  .ok((data)=>{
+      _this.setState({selectedScheduleRows:[]})
+      resolve(data);
+}).submit();
+})
+}
+
 
 //覆盖排班信息
 overwriteInfo=(data)=>{
@@ -352,6 +364,7 @@ overwriteInfo=(data)=>{
                 selectedScheduleRows={this.state.selectedScheduleRows}
                 reloadSchedule={this.reloadSchedule.bind(this)}
                 getAddTableInfo={this.getAddTableInfo.bind(this)} 
+                getAddTableInfoByID={this.getAddTableInfoByID.bind(this)} 
                 schedules={this.state.schedules}
                 updateSchedule={this.updateSchedule.bind(this)}
                 deleteScheduleRow={this.deleteScheduleRow.bind(this)}

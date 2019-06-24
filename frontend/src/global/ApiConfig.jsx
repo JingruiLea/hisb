@@ -203,6 +203,11 @@ const API = {
             method:'post',
             url:apiServerPrefix+'/doctorWorkforceManagement/addTable'
         },
+        //查找AddForm信息
+        getAddInfoByID:{
+            method:'post',
+            url:apiServerPrefix+'/doctorWorkforceManagement/addTableByID'
+        },
         //覆盖排班信息
         overwriteScheduleInfo:{
             method:'post',
