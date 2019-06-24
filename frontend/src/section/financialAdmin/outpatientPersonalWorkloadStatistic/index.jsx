@@ -73,6 +73,7 @@ class OutpatientPersonalWorkloadStatictic extends React.Component {
         console.log(range);
         const start_date = range[0].format('YYYY-MM-DD');
         const end_date = range[1].format('YYYY-MM-DD');
+        this.loadStatistic(start_date,end_date)
       }
     });
   };

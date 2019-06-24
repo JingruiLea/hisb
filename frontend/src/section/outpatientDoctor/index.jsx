@@ -12,6 +12,7 @@ import PatentMedcinePrescription from './patentMedicinePrescription';
 import HerbalMedcinePrescription from './herbalMedcinePrescription';
 import PatientFee from './patientFee';
 import CompleteDiagnose from './completeDiagnose'
+import LogoDisplay from '../../global/LogoDisplay';
 
 const {Content} = Layout;
 
@@ -33,7 +34,7 @@ class DiagnoseSection extends React.Component {
 
   handleTabsChange=(key)=>{
     //如果是结束诊断，需要加载处方，因为处方没有做全局绑定，这里需要在点击tab时手动加载处方信息
-    if(key==='8' && this.CompleteDiagnose!=undefined) {
+    if(key==='8' && this.CompleteDiagnose!==undefined) {
       this.CompleteDiagnose.loadPrescription();
     }
   }
@@ -133,8 +134,8 @@ class DiagnoseSection extends React.Component {
           </Col>
 
           <Col span={19}>
+          {!hasSelect?<LogoDisplay/>:
             <Card>
-              {!hasSelect?null:
               <Tabs size="small" defaultActiveKey={completed?'8':'1'} onChange={this.handleTabsChange.bind(this)}>
                 <Tabs.TabPane tab="门诊病历" key="1" disabled={!hasSelect || completed}>
                   <MedicalRecordHome  
@@ -186,8 +187,8 @@ class DiagnoseSection extends React.Component {
                       currentPatient={currentPatient}
                       completeDiagnose={this.completeDiagnose.bind(this)} /> 
                 </Tabs.TabPane>
-              </Tabs>}
-            </Card>
+              </Tabs>
+            </Card>}
           </Col>
         </Row>
       </Content>)

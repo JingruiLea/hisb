@@ -58,6 +58,7 @@ class ImageUpload extends React.Component{
           onPreview={this.handlePreview}
           onChange={this.handleChange}
           disabled={disabled}
+          withCredentials={true}
         >
           {fileList.length >= 5 ? null : uploadButton}
         </Upload>

@@ -12,12 +12,18 @@ echo 'OK!'
 
 echo 'generating config...'
 node configure
+sleep 1
+
 echo 'ready to run middleware...'
 cd middleware && node index.js&
-echo 'started.'
+echo 'middleware started.'
+sleep 1
+
 echo 'ready to run fileserver...'
-cd fileserver && node index.js&
+cd fileserver && node index.js& 
 echo 'started.'
+sleep 1
+
 echo 'ready to run webpack dev server...'
 cd frontend && yarn start
 echo 'started.'
