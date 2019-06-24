@@ -52,7 +52,7 @@ class OutpatientCharge extends React.Component {
     API.request(API.outpatientWorkstation.outpatientCharge.charge,reqData)
     .ok((data)=>{
       Message.success('缴费成功')
-      //重新搜索改病例号
+      //重新搜索改病历号
       this.handleSearch(reqData.medical_record_id)
     }).internalError((data)=>{
       Message.openNotification('缴费失败','非法操作，已缴费或该条目不存在！')
@@ -63,7 +63,7 @@ class OutpatientCharge extends React.Component {
     API.request(API.outpatientWorkstation.outpatientCharge.withdraw,{medical_record_id:medical_record_id,charges_id_list:[id]})
     .ok((data)=>{
       Message.success('退费成功')
-      //重新搜索改病例号
+      //重新搜索改病历号
       this.handleSearch(medical_record_id)
     }).internalError((data)=>{
       Message.openNotification('退费失败','非法操作，或该条目不存在！')

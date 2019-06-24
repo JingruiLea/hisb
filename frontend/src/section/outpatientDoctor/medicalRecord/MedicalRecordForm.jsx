@@ -31,7 +31,7 @@ class MedicalRecordForm extends React.Component {
     this.DiagnoseSelectionTable.applyDiagnose(template)
   }
 
-  //应用数据(用户的病例，诊断信息)
+  //应用数据(用户的病历，诊断信息)
   applyMedialRecordData=(data)=>{
     this.MedicalRecordBasicForm.applyMedicalRecordData(data)
     this.DiagnoseSelectionTable.applyDiagnose(data.diagnose)

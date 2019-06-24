@@ -152,7 +152,7 @@ class RegistrationForm extends React.Component {
                 if(value>150 || value < 0) callback("不合理的年龄")
               }
             })(
-              <Select onChange={this.handleAgeChange.bind(this)} disabled={this.props.payMode}>
+              <Select showSearch onChange={this.handleAgeChange.bind(this)} disabled={this.props.payMode}>
                 {ageArr.map(i=>(<Option value={i} key={i}>{i}</Option>))}
               </Select>
             )}
@@ -323,7 +323,7 @@ class RegistrationForm extends React.Component {
         </Col>
 
         <Col span={6}>
-          <Form.Item label="病例本" {...formItemLayout}>
+          <Form.Item label="病历本" {...formItemLayout}>
             {getFieldDecorator('has_record_book', {
               initialValue:0
             })(

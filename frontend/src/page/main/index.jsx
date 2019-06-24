@@ -101,7 +101,7 @@ class DashboardPage extends React.Component {
                 </span>
               }
             >
-              <Menu.Item key="5-1">门诊病例首页</Menu.Item>
+              <Menu.Item key="5-1">门诊病历首页</Menu.Item>
               <Menu.Item key="5-15">个人工作量统计</Menu.Item>
             </SubMenu>
             

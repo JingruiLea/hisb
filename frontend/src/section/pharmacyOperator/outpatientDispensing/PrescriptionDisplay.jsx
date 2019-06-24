@@ -42,7 +42,7 @@ class PrescriptionDisplay extends React.Component {
     <Card title="用户处方明细" style={{minHeight:'800px'}}>
       {registration===null?null:
       <Descriptions bordered title="基本信息" border >
-        <Descriptions.Item label="病例号">{registration.medical_record_id}</Descriptions.Item>
+        <Descriptions.Item label="病历号">{registration.medical_record_id}</Descriptions.Item>
         <Descriptions.Item label="患者姓名">{registration.patient_name}</Descriptions.Item>
         <Descriptions.Item label="年龄">{registration.age}</Descriptions.Item>
         <Descriptions.Item label="就诊科室">{registration.registration_department}</Descriptions.Item>

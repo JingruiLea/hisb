@@ -22,14 +22,32 @@ class NonDrugChargeItemManagement extends React.Component {
     //初始化加载数据
     componentDidMount = ()=>{this.reloadData();}
 
+    resolveData=(data,department,expense_classification)=>{
+        data.forEach(record=>{
+            record.department_name = this.departmentId2Name(record.department_id,department);
+            record.expense_classification_name = this.expenseId2Name(record.expense_classification_id,expense_classification)
+        })
+        return data;
+    }
+
+    departmentId2Name=(id,department)=>{
+        return department.filter(x=>x.id===id)[0].name;
+    }
+
+    expenseId2Name=(id,expense_classification)=>{
+        return expense_classification.filter(x=>x.id===id)[0].fee_name;
+    }
+
     /***************************************  API   ******************************************* */
     //上传数据后 重置数据
     reloadData = ()=>{
         this.setState({loading:true})
         API.request(API.bacisInfoManagement.nonDrugItem.all,{})
         .ok((data)=>{
-            const tableData = data.non_drug_charge;
-            for(var d of tableData) {d.key = d.id;}
+            var tableData = data.non_drug_charge;
+            tableData.forEach(x=>x.key = x.id);
+            tableData = this.resolveData(tableData,data.department,data.expense_classification)
+            console.warn(tableData)
             this.setState({
                 non_drug_charge:tableData,
                 department:data.department,

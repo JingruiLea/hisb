@@ -36,7 +36,7 @@ class MedicalRecordHome extends React.Component {
     this.getDiagnoseTemplateList();
   }
 
-  //应用数据(用户的病例，诊断信息)
+  //应用数据(用户的病历，诊断信息)
   applyMedialRecordData=(data)=>{
     this.MedicalRecordForm.applyMedialRecordData(data)
   }
@@ -126,7 +126,7 @@ class MedicalRecordHome extends React.Component {
   /**************************************  诊断模板  ***************************************** */
   //使用诊断模板 （获得模板详细）
   applyDiagnoseTemplate=(id)=>{
-    //这个和引用病例不同，不是调用子组建（MedicalRecordForm）而是修改父的state
+    //这个和引用病历不同，不是调用子组建（MedicalRecordForm）而是修改父的state
     API.request(API.outpatientDoctor.diagnoseTemplate.detail,{id:id})
     .ok((data)=>{
       console.log('apply diagnose template:',data);

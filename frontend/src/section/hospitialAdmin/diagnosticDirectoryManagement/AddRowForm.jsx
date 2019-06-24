@@ -100,7 +100,7 @@ class AddRowForm extends React.Component {
           />
         )}
       </Form.Item>
-      <Form.Item label="自定义">
+      <Form.Item label="自定义拼音">
         {getFieldDecorator('custom_pinyin', {})(
           <Input
             prefix={<Icon type="number" style={{ color: 'rgba(0,0,0,.25)' }} />}

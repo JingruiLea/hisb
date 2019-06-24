@@ -27,7 +27,7 @@ class DetailDrawer extends React.Component {
           {data===null?null:
           <div>
             <Descriptions bordered column={2}>
-              <Descriptions.Item label="病例号">{data.medical_record_id}</Descriptions.Item>
+              <Descriptions.Item label="病历号">{data.medical_record_id}</Descriptions.Item>
               <Descriptions.Item label="姓名">{data.name}</Descriptions.Item>
               <Descriptions.Item label="性别">{data.gender==='male'?'男':'女'}</Descriptions.Item>
               <Descriptions.Item label="医保凭证类型：">{data.medical_certificate_number_type==="id"?"身份证":"医保卡"}</Descriptions.Item>

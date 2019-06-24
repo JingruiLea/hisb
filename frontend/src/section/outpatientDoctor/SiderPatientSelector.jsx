@@ -6,7 +6,7 @@ import Highlighter from 'react-highlight-words';
 
 class SiderPatientSelector extends React.Component {
 
-  /*该模块管理当前的看诊病人的病例信息 */
+  /*该模块管理当前的看诊病人的病历信息 */
 
   state = {
     searchText:''

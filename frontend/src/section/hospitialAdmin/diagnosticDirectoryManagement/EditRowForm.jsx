@@ -115,7 +115,7 @@ class EditRowForm extends React.Component {
               />
             )}
           </Form.Item>
-          <Form.Item label="自定义">
+          <Form.Item label="自定义拼音">
             {getFieldDecorator('custom_pinyin', {
               initialValue:data.custom_pinyin
             })(

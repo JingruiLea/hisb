@@ -28,7 +28,7 @@ class HistoryCard extends React.Component {
 
   column = [
     {
-      title:"病例号",
+      title:"病历号",
       dataIndex:"medical_record_id"
     },{
       title:"姓名",

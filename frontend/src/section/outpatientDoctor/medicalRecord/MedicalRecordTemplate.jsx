@@ -35,7 +35,7 @@ class MedicalRecordTemplate extends React.Component {
   handleApplyTemplate=()=>{
     const {selectedTemplate} = this.state;
     if(selectedTemplate===null) return;
-    Message.showConfirm('病例模板','你确定要使用该模板吗?',()=>{
+    Message.showConfirm('病历模板','你确定要使用该模板吗?',()=>{
       this.props.applyTemplate(selectedTemplate.id);
     })
   }
@@ -44,7 +44,7 @@ class MedicalRecordTemplate extends React.Component {
   handleDeleteTemplate=()=>{
     const {selectedTemplate} = this.state;
     if(selectedTemplate===null) return;
-    Message.showConfirm('病例模板','你确定要删除该模板吗?',()=>{
+    Message.showConfirm('病历模板','你确定要删除该模板吗?',()=>{
       const id = selectedTemplate.id;
       this.props.deleteMedicalRecordTemplate(id);
     })

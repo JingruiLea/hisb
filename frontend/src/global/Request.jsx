@@ -12,8 +12,13 @@ class Request {
   //如果是mocky的api就警告
   checkMocky=()=>{
     const url = this.api.url;
-    if(url.startsWith('http://www.mocky.io'))
-      console.warn(`mocky url: ${this.api.url}!`)
+    const mocky = this.api.mocky;
+    if(mocky!==undefined && mocky!==null)
+    {
+      console.warn(`mocky [${this.api.url}] => [${this.api.mocky}] `)
+      return mocky;
+    } else 
+      return url;
   }
 
   onOk = (data)=>{}
@@ -35,10 +40,10 @@ class Request {
 
   submit=()=>{
     const _this = this;
-    this.checkMocky();
+    const url = this.checkMocky();
     axios({
       method: _this.api.method,
-      url: _this.api.url,
+      url: url,
       data: _this.reqData,
       crossDomain: true,
       withCredentials:true

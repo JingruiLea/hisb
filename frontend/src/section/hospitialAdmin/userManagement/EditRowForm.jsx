@@ -1,6 +1,7 @@
 import React from 'react';
 import { Radio, Button,Input,Form,Icon,Select} from 'antd';
 import  Roles from '../../../global/RolesGroup';
+import Message from '../../../global/Message';
 
 const Option = Select.Option
 const RadioGroup = Radio.Group;
@@ -19,8 +20,12 @@ class EditRowForm extends React.Component {
       if (!err) {
         console.log('Received editRow values of form: ', values);
         values.uid = form.props.data.key;
-        this.props.updateRow(values);
-        this.props.exit();
+        Message.showConfirm('警告','该用户是管理员，你确定要修改吗？',()=>{
+          this.props.updateRow(values);
+          this.props.exit();
+        },()=>{
+          this.props.exit();
+        })
       }
     });
   };

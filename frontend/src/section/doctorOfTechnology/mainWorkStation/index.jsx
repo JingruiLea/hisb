@@ -36,7 +36,7 @@ class MainWorkStation extends React.Component {
     /**
      * currentRegistrationInfo:{
      *    medical_record_id :,
-          outpatient_doctor_id:我觉得要加上医生的id，不是自己的病人病例不能修改，只读
+          outpatient_doctor_id:我觉得要加上医生的id，不是自己的病人病历不能修改，只读
           patient_name :,
           age :,
           gender:,
