@@ -21,6 +21,7 @@ class OutpatientCharge extends React.Component {
   /**********************     API     ***************************/
 
   handleSearch=(medical_record_id)=>{
+    medical_record_id=parseInt(medical_record_id)
     this.setState({loading:true})
     API.request(API.outpatientWorkstation.outpatientCharge.getRegistrationInfo,{medical_record_id})
     .ok((medicalRecord)=>{
@@ -60,6 +61,7 @@ class OutpatientCharge extends React.Component {
   }
 
   withdraw=(medical_record_id,id)=>{
+    medical_record_id=parseInt(medical_record_id)
     API.request(API.outpatientWorkstation.outpatientCharge.withdraw,{medical_record_id:medical_record_id,charges_id_list:[id]})
     .ok((data)=>{
       Message.success('退费成功')
