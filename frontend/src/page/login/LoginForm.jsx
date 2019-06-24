@@ -53,9 +53,9 @@ class LoginForm extends React.Component {
             initialValue: true,
           })(<Checkbox>自动登录</Checkbox>)}
           &nbsp;&nbsp;
-          <a className="login-form-forgot" href="">
+          <Button className="login-form-forgot" type="link">
             忘记密码
-          </a>
+          </Button>
           <br/>
           <span style={{color:'red'}}>{this.state.errorMsg}</span>
           <Button type="primary" block htmlType="submit" className="login-form-button">

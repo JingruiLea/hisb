@@ -30,7 +30,7 @@ class DashboardPage extends React.Component {
 
   onOpenChange = selected => {
     for(var key of selected) {
-      if(key!=this.state.openKey) {
+      if(key!==this.state.openKey) {
         this.setState({openKey:key})
         return;
       }

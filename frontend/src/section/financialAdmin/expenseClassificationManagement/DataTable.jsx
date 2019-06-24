@@ -24,7 +24,18 @@ class DataTable extends React.Component {
     render() {
         return (
           <Table 
-            columns={this.props.columns} 
+            columns={[
+                {
+                    title: '编号',
+                    dataIndex: 'id'
+                },{
+                    title: '费用名称',
+                    dataIndex: 'fee_name'
+                },{
+                    title: '拼音',
+                    dataIndex: 'pinyin'
+                }
+            ]} 
             dataSource={this.props.data} 
             rowSelection={this.rowSelection}
             reloadData={this.props.reloadData}

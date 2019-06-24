@@ -1,5 +1,5 @@
 import React from 'react';
-import {Row,Col,Card,Tabs, Typography, Divider} from 'antd'
+import {Row,Col, Divider} from 'antd'
 import PrescriptionDisplay from './PrescriptionDisplay';
 import TemplateSelector from './TemplateSelector'
 import PrescriptionEdit from './PrescriptionEdit'

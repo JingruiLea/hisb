@@ -28,7 +28,8 @@ class TemplateSelector extends React.Component {
   }
 
   render() {
-    const {allTemplates,disabled,editorOpen} = this.props;
+    const {allTemplates,editorOpen} = this.props;
+    //const {disabled} = this.props;
     const {selectedTemplate} = this.state;
     const templates = this.resolveTemplates(allTemplates);
     const toolBarDisabled = selectedTemplate===null || selectedTemplate===undefined;

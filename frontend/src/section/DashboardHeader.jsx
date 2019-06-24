@@ -3,9 +3,6 @@ import {Layout ,Avatar} from 'antd';
 import { Menu, Dropdown, Icon,Modal,Descriptions,Drawer,Button,Input ,Form} from 'antd';
 import axios from 'axios';
 import API from '../global/ApiConfig';
-import Status from '../global/Status';
-import Message from '../global/Message';
-
 const { Header } = Layout;
 const confirm = Modal.confirm;
 
@@ -93,25 +90,24 @@ class DashboardHeader extends React.Component {
   dropdownMenu = (
     <Menu>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="javascript:;" onClick={this.handleDrawerOpen.bind(this)}>
+        <Button target="_blank" rel="noopener noreferrer" type="link" onClick={this.handleDrawerOpen.bind(this)}>
           我的信息
-        </a>
+        </Button> 
       </Menu.Item>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="javascript:;" onClick={this.handleModalOpen.bind(this)}>
+        <Button target="_blank" rel="noopener noreferrer" type="link"  onClick={this.handleModalOpen.bind(this)}>
           修改信息
-        </a>
+        </Button>
       </Menu.Item>
       <Menu.Item>
-        <a style={{color:'red'}} target="_blank" rel="noopener noreferrer" href="javascript:;" onClick={this.showExitConfirm.bind(this)}>
+        <Button style={{color:'red'}} target="_blank" rel="noopener noreferrer" type="link"  onClick={this.showExitConfirm.bind(this)}>
           退出
-        </a>
+        </Button>
       </Menu.Item>
     </Menu>
   );
 
   render() {
-    const state = this.state;
     const me = this.props.me;
     const { getFieldDecorator } = this.props.form;
     const form = this.props.form;
@@ -144,9 +140,9 @@ class DashboardHeader extends React.Component {
         <Avatar style={{ backgroundColor: '#87d068' }}>{me.real_name[0]}</Avatar>
         &nbsp;&nbsp;
         <Dropdown overlay={this.dropdownMenu}>
-          <a className="ant-dropdown-link" href="#">
+          <Button type="link" className="ant-dropdown-link">
             {me.username}<Icon type="down" />
-          </a>
+          </Button>
         </Dropdown>
       </div>
 
@@ -203,7 +199,7 @@ class DashboardHeader extends React.Component {
             validator:(rule, value, callback)=>{
               if(value===null || value==="")
                 callback("输入密码！");
-              if(form.getFieldValue('password1')!=value)
+              if(form.getFieldValue('password1')!==value)
                 callback('两次密码不一致');
               else 
                 callback();

@@ -23,7 +23,7 @@ class MedicalRecordTemplate extends React.Component {
     const id = parseInt(selectkeys[0]);
     for(var type of ["personal","department","hospital"]) {
       var templates = allMedicalRecordTemplate[type].filter(x=>x.id===id);
-      if(templates.length==1) {
+      if(templates.length===1) {
         this.setState({selectedTemplate:templates[0]})
         return;
       }
