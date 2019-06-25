@@ -45,11 +45,11 @@ public class ChargeAndRefundController {
     @ResponseBody
     public Map historyInfo(@RequestBody Map req){
         int medical_record_id = (int)req.get("medical_record_id");
-        String start_time = (String)req.get("start_time");
-        String end_time = (String)req.get("end_time");
+        String start_time = req.get("start_time") == null ? "1970-1-1 00:00:00" : (String)req.get("start_time");
+        String end_time = req.get("end_time") == null ? "9999-12-30 00:00:00" : (String)req.get("end_time");;
         String create_time = Utils.getSystemTime();
-        if(start_time.compareTo(end_time)>=0 || end_time.compareTo(create_time)>0)
-            return Response.error("错误，开始时间不小于结束时间或结束时间大于当前时间");
+        if(start_time.compareTo(end_time)>=0)
+            return Response.error("错误，开始时间不小于结束时间!");
         List<OutpatientChargesRecord> list = chargeAndRefundService.findByMedicalRecordIdAndTime(medical_record_id,start_time,end_time);
         List res = new ArrayList();
         for (OutpatientChargesRecord o : list) {

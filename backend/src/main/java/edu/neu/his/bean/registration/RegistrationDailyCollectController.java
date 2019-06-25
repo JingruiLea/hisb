@@ -30,7 +30,8 @@ public class RegistrationDailyCollectController {
 
     @RequestMapping("/list")
     @ResponseBody
-    public Map list(int _uid){
+    public Map list(@RequestBody Map req){
+        int _uid = Auth.uid(req);
         if(userService.findByUid(_uid)!=null)
             return Response.ok(dailyCollectService.findDailyCollectByUid(_uid));
         else
@@ -39,7 +40,8 @@ public class RegistrationDailyCollectController {
 
     @RequestMapping("/detail")
     @ResponseBody
-    public Map detail(int daily_collect_id){
+    public Map detail(@RequestBody Map req){
+        int daily_collect_id = (int) req.get("daily_collect_id");
         List<DailyDetail> dailyDetailList = dailyCollectService.findDailyDetailByCollectId(daily_collect_id);
         List<BillRecord> billRecordList = new ArrayList<>();
 

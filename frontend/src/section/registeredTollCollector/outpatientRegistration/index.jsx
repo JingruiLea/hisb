@@ -133,7 +133,8 @@ class OutpatientRegistration extends React.Component {
 
   //搜索历史记录
   searchHistory=(id)=>{
-    API.request(API.outpatientWorkstation.registration.searchRegistration,{data:id})
+    //fix 6.25
+    API.request(API.outpatientWorkstation.registration.searchRegistration,{medical_record_id:id})
     .ok((data)=>{
       this.setState({
         history:data
