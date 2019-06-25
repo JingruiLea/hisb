@@ -159,9 +159,10 @@ public class MedicalRecordController {
             return Response.error("错误，该病历已提交或已诊毕");
 
         //更新病历
-        medicalRecord = Utils.fromMap(req,MedicalRecord.class);
-        medicalRecord.setStatus(MedicalRecordStatus.TemporaryStorage);
-        medicalRecordService.updateMedicalRecord(medicalRecord);
+        MedicalRecord newMedicalRecord = Utils.fromMap(req,MedicalRecord.class);
+        newMedicalRecord.setStatus(MedicalRecordStatus.TemporaryStorage);
+        newMedicalRecord.setCreate_time(medicalRecord.getCreate_time());
+        medicalRecordService.updateMedicalRecord(newMedicalRecord);
 
         //更新诊断
         updateDiagnose(req,medical_record_id);
