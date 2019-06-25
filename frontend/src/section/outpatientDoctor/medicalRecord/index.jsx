@@ -34,6 +34,14 @@ class MedicalRecordHome extends React.Component {
     this.props.onRef(this)
     this.getMedicalRecordTemplateList();
     this.getDiagnoseTemplateList();
+    this.loadAllDiagnoseDiseases();
+  }
+
+  loadAllDiagnoseDiseases=()=>{
+    API.request(API.outpatientDoctor.medicalRecord.allDiagnoseDiseases)
+    .ok(allDiagnoses=>{
+      this.setState({allDiagnoses})
+    }).submit();
   }
 
   //应用数据(用户的病历，诊断信息)

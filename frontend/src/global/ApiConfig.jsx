@@ -329,6 +329,11 @@ const API = {
     outpatientDoctor:{
         //门诊病历管理
         medicalRecord:{
+            //获取全部中医诊断和西医诊断
+            allDiagnoseDiseases:{
+                url:'/medicalRecord/allDiagnoseDiseases',
+                method:'post'
+            },
             //同步病人列表
             getPatientList:{
                 ////mocky'http://www.mocky.io/v2/5d008c143200005f00f9d582',
