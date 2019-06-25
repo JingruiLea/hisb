@@ -40,7 +40,7 @@ public class MedicalRecordController {
         list.forEach(registration -> {
             int medical_record_id = registration.getMedical_record_id();
             MedicalRecord medicalRecord = medicalRecordService.findMedicalRecordById(medical_record_id);
-            if(medicalRecord==null)
+            if(medicalRecord==null && registration.getStatus().equals(RegistrationConfig.registrationAvailable))
                 waitList.add(registration);
             else if(medicalRecord.getStatus().equals(MedicalRecordStatus.TemporaryStorage))
                 pendList.add(registration);
