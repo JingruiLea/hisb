@@ -11,3 +11,4 @@ node_modules
 *lock
 .vscode/
 .env
+.DS_Store
