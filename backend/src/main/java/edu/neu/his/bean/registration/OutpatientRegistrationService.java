@@ -66,7 +66,6 @@ public class OutpatientRegistrationService {
     public void cancelRegistration(Registration registration, int uid){
         //退号
         registration.setStatus(RegistrationConfig.registrationCanceled);
-        registration.setRegistration_department_id(userService.findByUid(uid).getDepartment_id());
         updateStatus(registration);
 
         //冲正票据记录
@@ -91,7 +90,6 @@ public class OutpatientRegistrationService {
             return null;
 
         //挂号记录
-        registration.setRegistration_department_id(userService.findByUid(uid).getDepartment_id());
         int medical_record_number = insertRegistration(registration);
         data.put("medical_record_number", medical_record_number);//病历号
 
