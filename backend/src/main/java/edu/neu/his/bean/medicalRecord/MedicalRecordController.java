@@ -109,6 +109,9 @@ public class MedicalRecordController {
             medicalRecord.setStatus(MedicalRecordStatus.TemporaryStorage);
             medicalRecord = init(medicalRecord);
             medicalRecordService.insertMedicalRecord(medicalRecord);
+            Registration registration = outpatientRegistrationService.findRegistrationById(medical_record_id);
+            registration.setStatus(RegistrationConfig.registrationFinished);
+            outpatientRegistrationService.updateStatus(registration);
         }
 
         data = Utils.objectToMap(medicalRecord);

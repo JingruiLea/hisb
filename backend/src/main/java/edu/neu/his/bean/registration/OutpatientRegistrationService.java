@@ -90,6 +90,7 @@ public class OutpatientRegistrationService {
             return null;
 
         //挂号记录
+        registration.setRegistration_department_id((int)req.get("department_id"));
         int medical_record_number = insertRegistration(registration);
         data.put("medical_record_number", medical_record_number);//病历号
 

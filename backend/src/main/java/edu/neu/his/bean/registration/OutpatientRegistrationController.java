@@ -90,6 +90,7 @@ public class OutpatientRegistrationController {
             registration.setMedical_certificate_number((String)req.get("medical_certificate_number"));
             registration.setId_number("");
         }
+
         if(registration.getAddress()==null)
             registration.setAddress("");
         if(registration.getRegistration_source()==null)
