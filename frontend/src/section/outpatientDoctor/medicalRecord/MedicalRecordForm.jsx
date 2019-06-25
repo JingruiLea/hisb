@@ -23,7 +23,7 @@ class MedicalRecordForm extends React.Component {
 
   //应用病历模板（不带诊断）
   applyMedicalRecordTemplate=(template)=>{
-    this.MedicalRecordBasicForm.applyMedicalRecordData(template)
+    this.MedicalRecordBasicForm.applyMedicalRecordTemplateData(template)
   }
 
   //应用诊断模板
