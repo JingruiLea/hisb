@@ -1,8 +1,6 @@
 
 package edu.neu.his.bean.disease;
 
-import edu.neu.his.bean.disease.Disease;
-import edu.neu.his.bean.disease.DiseaseClassification;
 import edu.neu.his.util.Importable;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
@@ -60,6 +58,6 @@ public interface DiseaseMapper extends Importable<Disease> {
 
     @Select("SELECT disease.id, disease.code, disease.name, classification_id, disease_classification.name as classification_name, pinyin, custom_name, custom_pinyin " +
             "FROM  disease, disease_classification ")
-    List<Disease> findAll();
+    List<Disease> findall();
 }
  

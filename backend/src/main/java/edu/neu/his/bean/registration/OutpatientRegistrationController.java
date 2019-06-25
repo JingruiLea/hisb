@@ -47,15 +47,11 @@ public class OutpatientRegistrationController {
     public Map syncDoctorList(@RequestBody Map req){
         int department_id = (int)req.get("department_id");
         int registration_level_id = (int)req.get("registration_level_id");
-        String title = RegistrationConfig.hashToTitle(registration_level_id);
-        if(title==null)
-            return Response.error("错误 挂号等级不存在");
-        else {
-            List<User> users = outpatientRegistrationService.findByDepartmentAndRegistrationLevel(department_id,registration_level_id);
-            for(int i=0; i<users.size(); i++)
-                users.get(i).setPassword(null);
-            return Response.ok(users);
+        List<User> users = outpatientRegistrationService.findByDepartmentAndRegistrationLevel(department_id,registration_level_id);
+        for (User user : users) {
+            user.setPassword(null);
         }
+        return Response.ok(users);
     }
 
     @PostMapping("/calculateFee")

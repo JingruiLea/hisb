@@ -1,5 +1,6 @@
 package edu.neu.his.utils;
 
+import edu.neu.his.auto.DiseaseClassificationMapper;
 import edu.neu.his.bean.department.Department;
 import edu.neu.his.bean.department.DepartmentMapper;
 import edu.neu.his.bean.disease.Disease;
@@ -56,10 +57,13 @@ public class ExcelImportationImportUtilsTest {
     @Autowired
     DiseaseMapper diseaseMapper;
 
+    @Autowired
+    DiseaseClassificationMapper diseaseClassificationMapper;
+
     @Test
     public void diseaseClassificationImport(){
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("disease_classification.xlsx");
-        ExcelImportation excel = new ExcelImportation(inputStream, DiseaseClassification.class, diseaseMapper);
+        ExcelImportation excel = new ExcelImportation(inputStream, DiseaseClassification.class, diseaseClassificationMapper);
         excel.skipLine(1);
         excel.setColumnFields("id", null, "name", null, null);
         //((Map<String, Function<String, ?>>)excel.getPreFunctionMap()).put("classification_id", departmentMapper::findClassificationIdByName);

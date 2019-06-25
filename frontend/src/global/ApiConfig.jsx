@@ -341,9 +341,9 @@ const API = {
                 method:'post'
             },//历史病历
             historyMedicalRecordList:{
-                //method:'post',
+                method:'post',
                //mocky'http://www.mocky.io/v2/5d03185330000051001f4a44',
-                url:apiServer+'/medicalRecord/allHisMedicalRecord'
+                url:apiServer+'/medicalRecord//allHistoryMedicalRecord'
             },//获取（创建）病历
             get:{
                 method:'post',

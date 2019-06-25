@@ -88,7 +88,8 @@ public class MedicalRecordDiagnoseService {
         return medicalRecordDiagnoseItem.getId();
     }
 
+    @Transactional
     public List<Disease> selectAllDisease() {
-        return diseaseMapper.findAll();
+        return diseaseMapper.findall();
     }
 }

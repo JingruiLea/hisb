@@ -133,7 +133,7 @@ public class ExcelImportation<T> {
         if (!field.isAccessible())
             field.setAccessible(true);
         if (cell.getCellType() == CellType.STRING) {
-            logger.warn("Here is a type cast!");
+            //logger.warn("Here is a type cast!");
             isStringType = true;
             strValue = cell.getStringCellValue();
         }
