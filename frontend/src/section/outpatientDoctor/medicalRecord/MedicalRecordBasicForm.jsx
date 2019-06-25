@@ -71,6 +71,10 @@ class MedicalRecordBasicForm extends React.Component {
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit} disabled={disabled} >
+        <Form.Item>
+          {getFieldDecorator('id',
+          {rules,initialValue:formData.id})(<Input hidden/>)}
+        </Form.Item>
         <Form.Item label="主诉">
           {getFieldDecorator('chief_complaint',
           {rules,initialValue:formData.chief_complaint})(<Input/>)}
