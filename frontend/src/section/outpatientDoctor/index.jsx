@@ -60,9 +60,9 @@ class DiagnoseSection extends React.Component {
         currentPatient:currentPatient,
         siderLoading:false
       })
-      console.warn('index 62 syncAllHistoryMedicalRecord no params!')
+      //console.warn('index 62 syncAllHistoryMedicalRecord no params!')
       if(this.MedicalRecordHome) {
-        this.MedicalRecordHome.syncAllHistoryMedicalRecord();
+        this.MedicalRecordHome.syncAllHistoryMedicalRecord(registration.medical_category,registration.medical_certificate_number);
         this.MedicalRecordHome.applyMedialRecordData(currentPatient.medicalRecord)
       }
       this.initPatientsList();
