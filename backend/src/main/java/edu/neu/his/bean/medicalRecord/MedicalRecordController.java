@@ -3,6 +3,8 @@ package edu.neu.his.bean.medicalRecord;
 import edu.neu.his.bean.diagnosis.MedicalRecordDiagnose;
 import edu.neu.his.bean.diagnosis.MedicalRecordDiagnoseItem;
 import edu.neu.his.bean.diagnosis.MedicalRecordDiagnoseService;
+import edu.neu.his.bean.disease.Disease;
+import edu.neu.his.bean.disease.DiseaseMapper;
 import edu.neu.his.bean.registration.Registration;
 import edu.neu.his.config.Auth;
 import edu.neu.his.bean.registration.RegistrationConfig;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/medicalRecord")
@@ -28,6 +31,20 @@ public class MedicalRecordController {
 
     @Autowired
     private MedicalRecordDiagnoseService medicalRecordDiagnoseService;
+
+    @Autowired
+    DiseaseMapper diseaseMapper;
+
+    @RequestMapping("/allDiagnoseDiseases")
+    public Map allDiagnoseDiseases(@RequestBody Map req){
+        Map data = new HashMap();
+        int uid = Auth.uid(req);
+        List<Disease> chineseDiagnoseDiseases = diseaseMapper.findAll(472);
+        List<Disease> westernDiagnoseDiseases = medicalRecordDiagnoseService.selectAllDisease().stream().filter(i->i.getClassification_id() != 472).collect(Collectors.toList());
+        data.put("chineseDiagnoseDiseases", chineseDiagnoseDiseases);
+        data.put("westernDiagnoseDiseases", westernDiagnoseDiseases);
+        return Response.ok(data);
+    }
 
     @PostMapping("/getPatientList")
     @ResponseBody

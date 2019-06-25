@@ -39,7 +39,6 @@ public class ExamController {
     );
      */
 
-    @Value("${web.upload-path}")
     private String filePath;
 
     @Autowired

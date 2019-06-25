@@ -2,6 +2,8 @@ package edu.neu.his.bean.diagnosis;
 
 import edu.neu.his.auto.AutoMedicalRecordDiagnoseItemMapper;
 import edu.neu.his.auto.AutoMedicalRecordDiagnoseMapper;
+import edu.neu.his.bean.disease.Disease;
+import edu.neu.his.bean.disease.DiseaseMapper;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class MedicalRecordDiagnoseService {
 
     @Autowired
     private AutoMedicalRecordDiagnoseItemMapper autoMedicalRecordDiagnoseItemMapper;
+
+    @Autowired
+    DiseaseMapper diseaseMapper;
 
     @Transactional
     public MedicalRecordDiagnose findDiagnoseByMedicalRecordId(int medical_record_id){
@@ -81,5 +86,9 @@ public class MedicalRecordDiagnoseService {
     public int insertDiagnoseItem(MedicalRecordDiagnoseItem medicalRecordDiagnoseItem){
         autoMedicalRecordDiagnoseItemMapper.insert(medicalRecordDiagnoseItem);
         return medicalRecordDiagnoseItem.getId();
+    }
+
+    public List<Disease> selectAllDisease() {
+        return diseaseMapper.findAll();
     }
 }

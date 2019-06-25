@@ -57,5 +57,9 @@ public interface DiseaseMapper extends Importable<Disease> {
 
     @Select("SELECT count(*) FROM disease WHERE id = #{id}")
     int checkIdExist(@Param("id") int id);
+
+    @Select("SELECT disease.id, disease.code, disease.name, classification_id, disease_classification.name as classification_name, pinyin, custom_name, custom_pinyin " +
+            "FROM  disease, disease_classification ")
+    List<Disease> findAll();
 }
  
