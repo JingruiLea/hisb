@@ -331,7 +331,7 @@ const API = {
         medicalRecord:{
             //获取全部中医诊断和西医诊断
             allDiagnoseDiseases:{
-                url:'/medicalRecord/allDiagnoseDiseases',
+                url:apiServer + '/medicalRecord/allDiagnoseDiseases',
                 method:'post'
             },
             //同步病人列表
