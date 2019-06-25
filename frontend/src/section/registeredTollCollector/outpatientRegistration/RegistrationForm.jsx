@@ -216,8 +216,8 @@ class RegistrationForm extends React.Component {
               initialValue:"local"
             })(
               <Select disabled={this.props.payMode}>
-                <Option value="local">窗口挂号</Option>
-                <Option value="net">网路挂号</Option>
+                <Option value="窗口挂号">窗口挂号</Option>
+                <Option value="网路挂号">网路挂号</Option>
               </Select>
             )}
           </Form.Item>
