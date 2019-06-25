@@ -35,6 +35,18 @@ class MedicalRecordBasicForm extends React.Component {
     this.setState({formData:data})
   }
 
+  applyMedicalRecordTemplateData=(data)=>{
+    this.props.form.setFieldsValue({
+      chief_complaint:data.chief_complaint,
+      current_medical_history:data.current_medical_history,
+      current_treatment_situation:data.current_treatment_situation,
+      past_history:data.past_history,
+      allergy_history:data.allergy_history,
+      physical_examination:data.physical_examination
+    });
+    this.setState({formData:data})
+  }
+
   submit = (callback) => {
     this.props.form.validateFields((err, data) => {
       if (err) {
@@ -71,6 +83,10 @@ class MedicalRecordBasicForm extends React.Component {
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit} disabled={disabled} >
+        <Form.Item>
+          {getFieldDecorator('id',
+          {rules,initialValue:formData.id})(<Input hidden/>)}
+        </Form.Item>
         <Form.Item label="主诉">
           {getFieldDecorator('chief_complaint',
           {rules,initialValue:formData.chief_complaint})(<Input/>)}
