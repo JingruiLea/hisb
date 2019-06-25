@@ -7,6 +7,7 @@ import edu.neu.his.bean.operateLog.OperateLog;
 import edu.neu.his.bean.operateLog.OperateLogService;
 import edu.neu.his.bean.operateLog.OperateStatus;
 import edu.neu.his.bean.user.User;
+import edu.neu.his.bean.user.UserService;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ public class OutpatientRegistrationService {
 
     @Autowired
     private OperateLogService operateLogService;
+
+    @Autowired
+    private UserService userService;
 
     @Transactional
     public List<User> findByDepartmentAndRegistrationLevel(int department_id, String title){
@@ -62,6 +66,7 @@ public class OutpatientRegistrationService {
     public void cancelRegistration(Registration registration, int uid){
         //退号
         registration.setStatus(RegistrationConfig.registrationCanceled);
+        registration.setRegistration_department_id(userService.findByUid(uid).getDepartment_id());
         updateStatus(registration);
 
         //冲正票据记录
@@ -86,6 +91,7 @@ public class OutpatientRegistrationService {
             return null;
 
         //挂号记录
+        registration.setRegistration_department_id(userService.findByUid(uid).getDepartment_id());
         int medical_record_number = insertRegistration(registration);
         data.put("medical_record_number", medical_record_number);//病历号
 
