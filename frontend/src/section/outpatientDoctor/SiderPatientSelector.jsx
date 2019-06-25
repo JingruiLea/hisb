@@ -82,17 +82,17 @@ class SiderPatientSelector extends React.Component {
   };
 
   columns = [{
-    title: '#',
+    title: '病历号',
     dataIndex: 'medical_record_id',
     ...this.getColumnSearchProps('medical_record_id'),
   },{
     title: '患者姓名',
     ...this.getColumnSearchProps('patient_name'),
     render:(registraion)=>
-      (<span>
-      {this.isRegistrationCurrent(registraion)?
-      <Badge color="#f50" text={registraion.patient_name} />:
-      <span>{registraion.patient_name}</span>}
+      (<span style={{cursor:'pointer'}}>
+        {this.isRegistrationCurrent(registraion)?
+        <Badge color="#f50" text={registraion.patient_name} />:
+        <span>{registraion.patient_name}</span>}
       </span>)
   }]
 

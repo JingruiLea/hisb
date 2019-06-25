@@ -27,7 +27,10 @@ class Request {
 
   onInternalError = (msg)=>Message.showConfirm('错误',msg)
 
-  onNetworkError = (err)=>{Message.showNetworkErrorMessage();console.log('network Err',err)}; 
+  onNetworkError = (err)=>{
+    Message.showNetworkErrorMessage();
+    console.log('network/render Err',err,`api:${this.api.url}`)
+  }; 
 
   //设置方法
   ok = (ok)=>{this.onOk=ok;return this;}
