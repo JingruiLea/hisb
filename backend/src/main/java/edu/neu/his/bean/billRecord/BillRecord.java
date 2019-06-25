@@ -19,9 +19,9 @@ public class BillRecord implements Serializable {
 
     private Float cost;
 
-    private Float should_pay;
+    private Float should_pay = 0f;
 
-    private Float truely_pay;
+    private Float truely_pay = 0f;
 
     private Float retail_fee;
 

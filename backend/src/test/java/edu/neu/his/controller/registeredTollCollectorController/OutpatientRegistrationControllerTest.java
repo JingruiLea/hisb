@@ -122,7 +122,7 @@ public class OutpatientRegistrationControllerTest {
                 post("/outpatientRegistration/withdrawNumber")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "      \"medical_record_id\" : 1,\n" +
+                        "      \"medical_record_id\" : 10000010,\n" +
                         "      \"_uid\": 10002\n" +
                         "    }")
                 .accept(MediaType.APPLICATION_JSON))

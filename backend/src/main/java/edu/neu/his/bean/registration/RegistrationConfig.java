@@ -3,9 +3,9 @@ package edu.neu.his.bean.registration;
 import java.util.HashMap;
 
 public class RegistrationConfig {
-    public static String registrationAvailable = "available";
-    public static String registrationCanceled = "canceled";
-    public static String registrationFinished = "finished";
+    public static String registrationAvailable = "未看诊";
+    public static String registrationCanceled = "已退号";
+    public static String registrationFinished = "已看诊";
     public static HashMap<Integer, String> titleMap = new HashMap<>();
 
     public static void initTitleMap(){

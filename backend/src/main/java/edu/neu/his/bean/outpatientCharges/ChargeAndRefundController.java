@@ -36,7 +36,8 @@ public class ChargeAndRefundController {
 
     @RequestMapping("/getChargeItems")
     @ResponseBody
-    public Map info(int medical_record_id){
+    public Map info(@RequestBody Map req){
+        int medical_record_id = (int) req.get("medical_record_id");
         return Response.ok(chargeAndRefundService.findByMedicalRecordIdAndStatus(medical_record_id, OutpatientChargesRecordStatus.ToCharge));
     }
 
