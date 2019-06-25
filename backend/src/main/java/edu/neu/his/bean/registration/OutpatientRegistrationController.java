@@ -82,7 +82,11 @@ public class OutpatientRegistrationController {
         if(medical_certificate_number_type.equals("id")){
             registration.setId_number((String)req.get("medical_certificate_number"));
             registration.setMedical_certificate_number("");
+        }else{
+            registration.setMedical_certificate_number((String)req.get("medical_certificate_number"));
+            registration.setId_number("");
         }
+
         if(registration.getAddress()==null)
             registration.setAddress("");
         if(registration.getRegistration_source()==null)

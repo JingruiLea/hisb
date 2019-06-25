@@ -58,9 +58,10 @@ public class MedicalRecordController {
             int medical_record_id = registration.getMedical_record_id();
             MedicalRecord medicalRecord = medicalRecordService.findMedicalRecordById(medical_record_id);
             if(medicalRecord==null) {
-                if (registration.getStatus().equals(RegistrationConfig.registrationAvailable))
+                if(registration.getStatus().equals(RegistrationConfig.registrationAvailable))
                     waitList.add(registration);
-            }else if(medicalRecord.getStatus().equals(MedicalRecordStatus.TemporaryStorage))
+            }
+            else if(medicalRecord.getStatus().equals(MedicalRecordStatus.TemporaryStorage))
                 pendList.add(registration);
         });
 
@@ -125,6 +126,9 @@ public class MedicalRecordController {
             medicalRecord.setStatus(MedicalRecordStatus.TemporaryStorage);
             medicalRecord = init(medicalRecord);
             medicalRecordService.insertMedicalRecord(medicalRecord);
+            Registration registration = outpatientRegistrationService.findRegistrationById(medical_record_id);
+            registration.setStatus(RegistrationConfig.registrationFinished);
+            outpatientRegistrationService.updateStatus(registration);
         }
 
         data = Utils.objectToMap(medicalRecord);
@@ -175,9 +179,10 @@ public class MedicalRecordController {
             return Response.error("错误，该病历已提交或已诊毕");
 
         //更新病历
-        medicalRecord = Utils.fromMap(req,MedicalRecord.class);
-        medicalRecord.setStatus(MedicalRecordStatus.TemporaryStorage);
-        medicalRecordService.updateMedicalRecord(medicalRecord);
+        MedicalRecord newMedicalRecord = Utils.fromMap(req,MedicalRecord.class);
+        newMedicalRecord.setStatus(MedicalRecordStatus.TemporaryStorage);
+        newMedicalRecord.setCreate_time(medicalRecord.getCreate_time());
+        medicalRecordService.updateMedicalRecord(newMedicalRecord);
 
         //更新诊断
         updateDiagnose(req,medical_record_id);
