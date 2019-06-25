@@ -27,7 +27,7 @@ public class ExpenseClassificationController {
             expenseClassificationService.updateExpenseClassification(expenseClassification);
             return Response.ok();
         } else {
-            return Response.error("编号冲突 或 该费用科目!");
+            return Response.error("编号冲突 或 该费用科目不存在!");
         }
     }
 

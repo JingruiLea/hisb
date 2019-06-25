@@ -1,13 +1,8 @@
 package edu.neu.his.bean.registration;
 
-import edu.neu.his.bean.billRecord.BillRecord;
 import edu.neu.his.bean.billRecord.BillRecordService;
-import edu.neu.his.bean.billRecord.BillRecordStatus;
 import edu.neu.his.bean.department.DepartmentService;
-import edu.neu.his.bean.expenseClassification.ExpenseClassificationService;
-import edu.neu.his.bean.operateLog.OperateLog;
 import edu.neu.his.bean.operateLog.OperateLogService;
-import edu.neu.his.bean.operateLog.OperateStatus;
 import edu.neu.his.bean.settlementCategory.SettlementCategoryService;
 import edu.neu.his.bean.user.User;
 import edu.neu.his.config.*;
@@ -35,15 +30,6 @@ public class OutpatientRegistrationController {
 
     @Autowired
     private OutpatientRegistrationService outpatientRegistrationService;
-
-    @Autowired
-    private ExpenseClassificationService expenseClassificationService;
-
-    @Autowired
-    private BillRecordService billRecordService;
-
-    @Autowired
-    private OperateLogService operateLogService;
 
     @RequestMapping("/init")
     @ResponseBody
@@ -93,7 +79,6 @@ public class OutpatientRegistrationController {
     @PostMapping("/confirm")
     @ResponseBody
     public Map confirm(@RequestBody Map req) {
-        Map data = new HashMap();
         int uid = Auth.uid(req);
         Registration registration = Utils.fromMap(req,Registration.class);
         String medical_certificate_number_type = (String)req.get("medical_certificate_number_type");
@@ -121,33 +106,11 @@ public class OutpatientRegistrationController {
         registration.setRegistration_category(registration_category);
         registration.setStatus(RegistrationConfig.registrationAvailable);
 
-        String create_time = Utils.getSystemTime();
-
-        //挂号记录
-        int medical_record_number = outpatientRegistrationService.insertRegistration(registration);
-        data.put("medical_record_number", medical_record_number);//病历号
-
-        //票据记录
-        BillRecord billRecord = Utils.fromMap(req,BillRecord.class);
-
-        if(billRecord==null)
+        Map data = outpatientRegistrationService.createRegistration(registration,req,fee,uid);
+        if(data==null)
             return Response.error("错误，票据记录创建失败");
-
-        billRecord.setType(BillRecordStatus.Charge);
-        billRecord.setCost(fee);
-        billRecord.setMedical_record_id(medical_record_number);
-        billRecord.setCreate_time(create_time);
-        billRecord.setUser_id(uid);
-
-        int bill_record_id = billRecordService.insertBillRecord(billRecord);
-        data.put("bill",billRecord);
-
-        //操作记录
-        String operateType = OperateStatus.Register;
-        OperateLog operateLog = new OperateLog(uid,medical_record_number,operateType,bill_record_id,fee,create_time);
-        operateLogService.insertOperateLog(operateLog);
-
-        return  Response.ok(data);
+        else
+            return Response.ok(data);
     }
 
     @PostMapping("/withdrawNumber")
@@ -160,46 +123,11 @@ public class OutpatientRegistrationController {
         if(registration==null){
             return Response.error("该病历号不存在");
         }else if(registration.getStatus().equals(RegistrationConfig.registrationAvailable)) {
-            //退号
-            registration.setStatus(RegistrationConfig.registrationCanceled);
-            outpatientRegistrationService.updateStatus(registration);
-
-            //票据冲正
-            String billType = BillRecordStatus.Refund;
-            BillRecord billRecord = registrationToWithdrawBill(registration,billType,uid);
-            if(billRecord==null)
-                return Response.error("错误，费用类型不存在");
-            int bill_record_id = billRecordService.insertBillRecord(billRecord);
-
-            //操作冲正
-            String operateType = OperateStatus.Cancel;
-            OperateLog operateLog = registrationToWithdrawOperateLog(registration,operateType,bill_record_id,uid);
-            operateLogService.insertOperateLog(operateLog);
-
+            outpatientRegistrationService.cancelRegistration(registration,uid);
             return Response.ok();
         }else {
             return Response.error("不可退号");
         }
     }
 
-    private BillRecord registrationToWithdrawBill(Registration registration, String type,int uid){
-        BillRecord billRecord = new BillRecord();
-        billRecord.setCost(0-registration.getCost());
-        billRecord.setMedical_record_id(registration.getMedical_record_id());
-        billRecord.setUser_id(uid);
-        billRecord.setType(type);
-        billRecord.setCreate_time(Utils.getSystemTime());
-
-        return billRecord;
-    }
-
-    private OperateLog registrationToWithdrawOperateLog(Registration registration, String type,int bill_record_id, int uid){
-        String create_time = Utils.getSystemTime();
-        int medical_record_number = registration.getMedical_record_id();
-        float fee = 0 - registration.getCost();
-
-        OperateLog operateLog = new OperateLog(uid,medical_record_number,type,bill_record_id,fee,create_time);
-
-        return operateLog;
-    }
 }

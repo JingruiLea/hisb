@@ -95,7 +95,7 @@ public class ChargeAndRefundService {
             ExamItem item = examItemMapper.selectByPrimaryKey(record.getItem_id());
             res.putAll(Utils.objectToMap(item));
             res.put("fee", res.get("cost"));
-            res.put("mount", res.get("amount"));
+            res.put("amount", 1);
             NonDrugChargeItem drug = nonDrugChargeItemMapper.selectByPrimaryKey(item.getNon_drug_item_id());
             itemName = drug.getName();
             Map drugMap = Utils.objectToMap(drug);
