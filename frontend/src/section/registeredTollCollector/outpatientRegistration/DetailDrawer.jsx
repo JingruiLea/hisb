@@ -35,7 +35,7 @@ class DetailDrawer extends React.Component {
               <Descriptions.Item label="挂号类别">{data.registration_category}</Descriptions.Item>
               <Descriptions.Item label="看诊科室">{data.department_name}</Descriptions.Item>
               <Descriptions.Item label="医保凭证类型：">{data.medical_certificate_number_type==="id"?"身份证":"医保卡"}</Descriptions.Item>
-              <Descriptions.Item label="卡号">{data.medical_certificate_number}</Descriptions.Item>
+              <Descriptions.Item label="卡号">{data.medical_certificate_number_type==="id"?data.id_number:data.medical_certificate_number}</Descriptions.Item>
               <Descriptions.Item label="花费">{data.cost}</Descriptions.Item>
             </Descriptions>
             
