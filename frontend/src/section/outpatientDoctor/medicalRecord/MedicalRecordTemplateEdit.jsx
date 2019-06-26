@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form,Input,Radio,Divider,Button} from 'antd';
+import {Form,Input,Radio,Divider,Button, InputNumber} from 'antd';
 
 class MedicalRecordTemplateEdit extends React.Component {
 
@@ -56,7 +56,6 @@ class MedicalRecordTemplateEdit extends React.Component {
         </Form.Item>
         
         <Divider/>
-
         <Form.Item label="主诉">
           {getFieldDecorator('chief_complaint',
           {rules,initialValue:template.chief_complaint})(<Input/>)}
