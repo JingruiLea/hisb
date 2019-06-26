@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form,Input} from 'antd';
+import {Form,Input, InputNumber} from 'antd';
 
 class MedicalRecordBasicForm extends React.Component {
 
@@ -83,9 +83,9 @@ class MedicalRecordBasicForm extends React.Component {
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit} disabled={disabled} >
-        <Form.Item>
+        <Form.Item label="id">
           {getFieldDecorator('id',
-          {rules,initialValue:formData.id})(<Input hidden/>)}
+          {rules,initialValue:formData.id})(<InputNumber disabled/>)}
         </Form.Item>
         <Form.Item label="主诉">
           {getFieldDecorator('chief_complaint',

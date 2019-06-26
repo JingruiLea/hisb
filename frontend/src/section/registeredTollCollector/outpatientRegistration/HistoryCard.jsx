@@ -69,7 +69,7 @@ class HistoryCard extends React.Component {
               onChange={this.handleSearchInputChange.bind(this)}
               value={this.state.searchText}
             ></Input>
-            <Button type="primary" onClick={()=>{this.props.searchHistory(this.state.searchText)}}>搜索</Button>
+            <Button type="primary" onClick={()=>{this.props.searchHistory(parseInt(this.state.searchText))}}>搜索</Button>
           </div>
         </div>
       }>
