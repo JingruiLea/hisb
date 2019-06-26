@@ -213,11 +213,11 @@ class RegistrationForm extends React.Component {
           <Form.Item label="挂号来源" {...formItemLayout}>
             {getFieldDecorator('registration_source', {
               rules: [{ required: true, message: '选择挂号来源' }],
-              initialValue:"local"
+              initialValue:"网络挂号"
             })(
               <Select disabled={this.props.payMode}>
                 <Option value="窗口挂号">窗口挂号</Option>
-                <Option value="网路挂号">网路挂号</Option>
+                <Option value="网络挂号">网络挂号</Option>
               </Select>
             )}
           </Form.Item>

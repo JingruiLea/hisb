@@ -19,14 +19,8 @@ class MedicalRecordHome extends React.Component {
     allHistoryMedicalRecord:null,
     //全部的疾病列表
     allDiagnoses:{
-      chineseDiagnoseDiseases:[
-        {id:10,name:"脑残1",key:10,code:"A1029"},
-        {id:11,name:"脑残2",key:11,code:"A1039"},
-      ],
-      westernDiagnoseDiseases:[
-        {id:12,name:"脑残1",key:12,code:"A1049"},
-        {id:13,name:"脑残2",key:13,code:"A1059"},
-      ]
+      chineseDiagnoseDiseases:[],
+      westernDiagnoseDiseases:[]
     }
   }
 
@@ -37,11 +31,20 @@ class MedicalRecordHome extends React.Component {
     this.loadAllDiagnoseDiseases();
   }
 
+  //全部的诊断信息
   loadAllDiagnoseDiseases=()=>{
     API.request(API.outpatientDoctor.medicalRecord.allDiagnoseDiseases)
     .ok(allDiagnoses=>{
       this.setState({allDiagnoses})
     }).submit();
+    /*this.setState({allDiagnoses:{
+      westernDiagnoseDiseases:[
+        {id:1,name:"23232"}
+      ],
+      chineseDiagnoseDiseases:[
+        {id:2,name:"2323---"}
+      ]
+    }})*/
   }
 
   //应用数据(用户的病历，诊断信息)
@@ -204,7 +207,7 @@ class MedicalRecordHome extends React.Component {
               currentPatient={currentPatient}
               createMedicalRecordTemplate={this.createMedicalRecordTemplate.bind(this)}
               updateMedicalRecord={this.updateMedicalRecord.bind(this)}
-              saveMedicalRecord={this.updateMedicalRecord.bind(this)}
+              saveMedicalRecord={this.saveMedicalRecord.bind(this)}
               openMedicalRecordTemplateEditor={this.openMedicalRecordTemplateEditor.bind(this)}
               allDiagnoses={allDiagnoses}
               disabled={disabled}/>

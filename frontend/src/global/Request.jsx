@@ -7,7 +7,6 @@ class Request {
   constructor(api,reqData) {
     this.api = api;
     this.reqData = reqData;
-    console.log('make request:',api)
   }
 
   //如果是mocky的api就警告
