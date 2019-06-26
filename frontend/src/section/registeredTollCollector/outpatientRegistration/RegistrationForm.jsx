@@ -147,6 +147,19 @@ class RegistrationForm extends React.Component {
           </Form.Item>
         </Col>
         <Col span={6}>
+          <Form.Item label="出生日期" {...formItemLayout}>
+            {getFieldDecorator('birthday', {
+              rules: [{ required: true, message: '输入出生日期' }]
+            })(
+              <DatePicker 
+                disabled={this.props.payMode}
+                onChange={this.handleBirthdayChange.bind(this)}
+                placeholder="出生日期"       
+              />,
+            )}
+          </Form.Item>
+        </Col>
+        <Col span={6}>
           <Form.Item label="年龄" {...formItemLayout}>
             {getFieldDecorator('age', {
               rules: [{ required: true, message: '输入年龄' }],
@@ -157,19 +170,6 @@ class RegistrationForm extends React.Component {
               <Select showSearch onChange={this.handleAgeChange.bind(this)} disabled={this.props.payMode}>
                 {ageArr.map(i=>(<Option value={i} key={i}>{i}</Option>))}
               </Select>
-            )}
-          </Form.Item>
-        </Col>
-        <Col span={6}>
-          <Form.Item label="出生日期" {...formItemLayout}>
-            {getFieldDecorator('birthday', {
-              rules: [{ required: true, message: '输入出生日期' }]
-            })(
-              <DatePicker 
-                disabled={this.props.payMode}
-                onChange={this.handleBirthdayChange.bind(this)}
-                placeholder="出生日期"       
-              />,
             )}
           </Form.Item>
         </Col>
