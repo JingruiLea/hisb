@@ -75,7 +75,7 @@ public class MedicalRecordService {
         if(registration==null)
             return false;
 
-        if(registration.getStatus().equals(RegistrationConfig.registrationAvailable))
+        if(!registration.getStatus().equals(RegistrationConfig.registrationCanceled))
             return true;
         else return false;
     }
