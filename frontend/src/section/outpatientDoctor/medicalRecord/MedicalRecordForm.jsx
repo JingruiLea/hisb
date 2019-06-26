@@ -38,6 +38,10 @@ class MedicalRecordForm extends React.Component {
   }
 
   handleSubmit = (mode) => {
+    const {currentPatient} = this.props;
+    const {medicalRecord} = currentPatient;
+    const medical_record_id = medicalRecord.id;
+    
     const values = this.MedicalRecordBasicForm.formValues();
     values.diagnose = this.DiagnoseSelectionTable.state.patientDiagnose;
     console.log('form operate mode:',mode);
@@ -51,13 +55,11 @@ class MedicalRecordForm extends React.Component {
         break;
       }
       case "store":{
-        console.log('save store record: ', values);
+        values.id = medical_record_id;
         this.props.updateMedicalRecord(values)
         break;
       }
       case "print":{
-        console.log('print record: ', values);
-        //this.props.updateMedicalRecord(values)
         const {currentPatient} = this.props;
         const {registration} = currentPatient;
         this.setState({
@@ -71,17 +73,15 @@ class MedicalRecordForm extends React.Component {
       }
       case "save":{
         this.MedicalRecordBasicForm.submit((err,values) =>{
-          console.warn(err,values)
           if (!err) {
+            values.id = medical_record_id;
             values.patientDiagnose = this.DiagnoseSelectionTable.patientDiagnoseData();
-            console.log('save medial record: ', values);
             this.props.saveMedicalRecord(values)
           }
         });
         break;
       }
       case "saveAsTemplate":{
-        console.log('save medical template', values);
         this.props.openMedicalRecordTemplateEditor("new",values)
         break;
       }

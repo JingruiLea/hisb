@@ -137,7 +137,7 @@ class OutpatientRegistration extends React.Component {
     API.request(API.outpatientWorkstation.registration.searchRegistration,{medical_record_id:id})
     .ok((data)=>{
       this.setState({
-        history:data
+        history:[data]
       })
     }).submit();
   }
