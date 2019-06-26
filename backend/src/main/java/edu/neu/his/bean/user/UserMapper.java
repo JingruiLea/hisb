@@ -20,8 +20,11 @@ public interface UserMapper {
             "WHERE uid = #{uid} and user.id = user_info.uid and department.id = user_info.department_id and role.id = user_info.role_id")
     User find(@Param("uid") int uid);
 
-    @Select("SELECT username ,password, real_name, FROM user,user_info WHERE username = #{username} and user.id = user_info.uid")
+    @Select("SELECT username ,password, real_name FROM user,user_info WHERE username = #{username} and user.id = user_info.uid")
     List<User> findByName(@Param("username") String username);
+
+    @Select("SELECT uid, username ,password, real_name FROM user,user_info WHERE username = #{username} and user.id = user_info.uid")
+    User findOneByName(@Param("username") String username);
 
     @Select("SELECT uid, username, password, real_name, department_id,department.name as department_name,role_id, role.name as role_name, title, participate_in_scheduling " +
             "FROM user,user_info,role,department " +
