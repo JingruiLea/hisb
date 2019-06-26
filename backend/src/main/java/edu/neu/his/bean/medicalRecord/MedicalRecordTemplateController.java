@@ -63,10 +63,12 @@ public class MedicalRecordTemplateController {
 
         req = Utils.initMap(req);
         String time = medicalRecordTemplate.getCreate_time();
-        medicalRecordTemplate = Utils.fromMap(req,MedicalRecordTemplate.class);
-        medicalRecordTemplate.setCreate_time(time);
+        MedicalRecordTemplate newMedicalRecordTemplate = Utils.fromMap(req,MedicalRecordTemplate.class);
+        newMedicalRecordTemplate.setCreate_time(time);
+        newMedicalRecordTemplate.setDepartment_id(medicalRecordTemplate.getDepartment_id());
+        newMedicalRecordTemplate.setUser_id(medicalRecordTemplate.getUser_id());
 
-        String title = updateCheckTitle(medicalRecordTemplate);
+        String title = updateCheckTitle(newMedicalRecordTemplate);
         medicalRecordTemplate.setTitle(title);
 
         medicalRecordTemplateService.update(medicalRecordTemplate);
