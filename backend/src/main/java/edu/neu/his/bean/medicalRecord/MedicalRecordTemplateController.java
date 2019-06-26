@@ -71,7 +71,7 @@ public class MedicalRecordTemplateController {
         String title = updateCheckTitle(newMedicalRecordTemplate);
         medicalRecordTemplate.setTitle(title);
 
-        medicalRecordTemplateService.update(medicalRecordTemplate);
+        medicalRecordTemplateService.update(newMedicalRecordTemplate);
 
         return Response.ok(returnList(req));
     }

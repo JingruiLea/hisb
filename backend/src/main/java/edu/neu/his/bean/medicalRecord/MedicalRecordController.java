@@ -1,5 +1,6 @@
 package edu.neu.his.bean.medicalRecord;
 
+import edu.neu.his.bean.diagnosis.DiagnoseItemType;
 import edu.neu.his.bean.diagnosis.MedicalRecordDiagnose;
 import edu.neu.his.bean.diagnosis.MedicalRecordDiagnoseItem;
 import edu.neu.his.bean.diagnosis.MedicalRecordDiagnoseService;
@@ -158,9 +159,10 @@ public class MedicalRecordController {
             return Response.error("错误，该病历已诊毕");
 
         //更新病历
-        medicalRecord = Utils.fromMap(req,MedicalRecord.class);
-        medicalRecord.setStatus(MedicalRecordStatus.Committed);
-        medicalRecordService.updateMedicalRecord(medicalRecord);
+        MedicalRecord newMedicalRecord = Utils.fromMap(req,MedicalRecord.class);
+        newMedicalRecord.setStatus(MedicalRecordStatus.Committed);
+        newMedicalRecord.setCreate_time(medicalRecord.getCreate_time());
+        medicalRecordService.updateMedicalRecord(newMedicalRecord);
 
         //更新诊断
         updateDiagnose(req,medical_record_id);
@@ -239,6 +241,7 @@ public class MedicalRecordController {
             Utils.initMap(itemMap);
             MedicalRecordDiagnoseItem medicalRecordDiagnoseItem = Utils.fromMap(itemMap,MedicalRecordDiagnoseItem.class);
             medicalRecordDiagnoseItem.setMedical_record_diagnose_id(diagnose_id);
+            medicalRecordDiagnoseItem.setDiagnose_type(DiagnoseItemType.Western);
             medicalRecordDiagnoseService.insertDiagnoseItem(medicalRecordDiagnoseItem);
         });
         chineseList.forEach(object->{
@@ -246,6 +249,7 @@ public class MedicalRecordController {
             Utils.initMap(itemMap);
             MedicalRecordDiagnoseItem medicalRecordDiagnoseItem = Utils.fromMap(itemMap,MedicalRecordDiagnoseItem.class);
             medicalRecordDiagnoseItem.setMedical_record_diagnose_id(diagnose_id);
+            medicalRecordDiagnoseItem.setDiagnose_type(DiagnoseItemType.Chinese);
             medicalRecordDiagnoseService.insertDiagnoseItem(medicalRecordDiagnoseItem);
         });
     }
