@@ -1,12 +1,17 @@
 package edu.neu.his.bean.outpatientCharges;
 
 import edu.neu.his.bean.billRecord.BillRecord;
+import edu.neu.his.bean.department.DepartmentMapper;
+import edu.neu.his.bean.department.DepartmentService;
 import edu.neu.his.bean.operateLog.OperateLog;
 import edu.neu.his.bean.operateLog.OperateStatus;
 import edu.neu.his.bean.outpatientCharges.OutpatientChargesRecord;
 import edu.neu.his.bean.outpatientCharges.OutpatientChargesRecordStatus;
 import edu.neu.his.bean.registration.Registration;
 import edu.neu.his.bean.billRecord.BillRecordStatus;
+import edu.neu.his.bean.registration.RegistrationLevel;
+import edu.neu.his.bean.registration.RegistrationLevelService;
+import edu.neu.his.bean.user.UserService;
 import edu.neu.his.config.*;
 import edu.neu.his.bean.billRecord.BillRecordService;
 import edu.neu.his.bean.outpatientCharges.ChargeAndRefundService;
@@ -33,6 +38,12 @@ public class ChargeAndRefundController {
 
     @Autowired
     private OutpatientRegistrationService outpatientRegistrationService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private DepartmentMapper departmentMapper;
 
     @RequestMapping("/getChargeItems")
     @ResponseBody
@@ -232,7 +243,13 @@ public class ChargeAndRefundController {
         Registration registration = outpatientRegistrationService.findRegistrationById(medical_record_id);
         if(registration==null)
             return Response.error("错误，该挂号信息不存在");
-        else
-            return Response.ok(registration);
+        else {
+            Map data = Utils.objectToMap(registration);
+            String outpatient_doctor_name = userService.findByUid(registration.getOutpatient_doctor_id()).getReal_name();
+            String department_name = departmentMapper.selectById(registration.getRegistration_department_id()).getName();
+            data.put("outpatient_doctor_name",outpatient_doctor_name);
+            data.put("department_name",department_name);
+            return Response.ok(data);
+        }
     }
 }
