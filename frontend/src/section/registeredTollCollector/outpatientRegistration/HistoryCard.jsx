@@ -32,20 +32,20 @@ class HistoryCard extends React.Component {
       dataIndex:"medical_record_id"
     },{
       title:"姓名",
-      dataIndex:"name"
+      dataIndex:"patient_name"
     },{
       title:"性别",
       dataIndex:"gender",
       render:(str)=>(str==="male"?<span>男性</span>:<span>女性</span>)
     },{
       title:"日期",
-      dataIndex:"create_time"
+      dataIndex:"consultation_date"
     },{
       title:"医生",
       dataIndex:"outpatient_doctor_name"
     },{
-      title:"等级",
-      dataIndex:"registration_level_name"
+      title:"类别",
+      dataIndex:"registration_category"
     },{
       title:"看诊科室",
       dataIndex:"department_name"
@@ -78,7 +78,12 @@ class HistoryCard extends React.Component {
           visible={this.state.drawerVisible}
           data={this.state.drawerData}
           onClose={this.hideDrawer.bind(this)}
-          withdrawNumber={this.props.withdrawNumber.bind(this)}
+          withdrawNumber={
+            (id)=>{this.props.withdrawNumber(id,(succ)=>{
+              if(succ) 
+                this.setState({drawerVisible:false})
+            })}
+          }
         />
       </Card>)
   }
