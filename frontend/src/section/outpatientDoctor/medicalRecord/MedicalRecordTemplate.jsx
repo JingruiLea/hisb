@@ -135,7 +135,7 @@ class MedicalRecordTemplate extends React.Component {
       }>
         {selectedTemplate===null?null:
         <div>
-            <Row><Col span={10}><b>主诉：</b></Col><Col span={14}>{selectedTemplate.chief_complain}</Col></Row>
+            <Row><Col span={10}><b>主诉：</b></Col><Col span={14}>{selectedTemplate.chief_complaint}</Col></Row>
             <Row><Col span={10}><b>现病史：</b></Col><Col span={14}>{selectedTemplate.current_medical_history}</Col></Row>
             <Row><Col span={10}><b>现病治疗情况：</b></Col><Col span={14}>{selectedTemplate.current_treatment_situation}</Col></Row>
             <Row><Col span={10}><b>既往史：</b></Col><Col span={14}>{selectedTemplate.past_history}</Col></Row>

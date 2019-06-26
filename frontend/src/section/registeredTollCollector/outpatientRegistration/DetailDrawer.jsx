@@ -17,6 +17,7 @@ class DetailDrawer extends React.Component {
     const data = this.props.data;
     return(
       <Drawer
+          destroyOnClose
           title="挂号详情信息"
           placement="right"
           closable={true}
@@ -30,8 +31,11 @@ class DetailDrawer extends React.Component {
               <Descriptions.Item label="病历号">{data.medical_record_id}</Descriptions.Item>
               <Descriptions.Item label="姓名">{data.patient_name}</Descriptions.Item>
               <Descriptions.Item label="性别">{data.gender==='male'?'男':'女'}</Descriptions.Item>
+              <Descriptions.Item label="医生">{data.outpatient_doctor_name}</Descriptions.Item>
+              <Descriptions.Item label="挂号类别">{data.registration_category}</Descriptions.Item>
+              <Descriptions.Item label="看诊科室">{data.department_name}</Descriptions.Item>
               <Descriptions.Item label="医保凭证类型：">{data.medical_certificate_number_type==="id"?"身份证":"医保卡"}</Descriptions.Item>
-              <Descriptions.Item label="卡号">{data.medical_certificate_number}</Descriptions.Item>
+              <Descriptions.Item label="卡号">{data.medical_certificate_number_type==="id"?data.id_number:data.medical_certificate_number}</Descriptions.Item>
               <Descriptions.Item label="花费">{data.cost}</Descriptions.Item>
             </Descriptions>
             

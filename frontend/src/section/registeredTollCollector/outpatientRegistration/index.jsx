@@ -123,11 +123,12 @@ class OutpatientRegistration extends React.Component {
   }
 
   //退号
-  withdrawNumber=(medical_record_id)=>{
+  withdrawNumber=(medical_record_id,callback)=>{
     API.request(API.outpatientWorkstation.registration.withdrawNumber,{medical_record_id})
     .ok((data)=>{
       Message.success('退号成功！');
       this.init();
+      callback(true)
     }).submit();
   }
 

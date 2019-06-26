@@ -36,6 +36,7 @@ class MedicalRecordHome extends React.Component {
     API.request(API.outpatientDoctor.medicalRecord.allDiagnoseDiseases)
     .ok(allDiagnoses=>{
       this.setState({allDiagnoses})
+      console.warn('看到了没，这个是我接受到的诊断数据',allDiagnoses)
     }).submit();
     /*this.setState({allDiagnoses:{
       westernDiagnoseDiseases:[

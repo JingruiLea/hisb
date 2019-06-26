@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form,Input, InputNumber} from 'antd';
+import {Form,Input} from 'antd';
 
 class MedicalRecordBasicForm extends React.Component {
 
