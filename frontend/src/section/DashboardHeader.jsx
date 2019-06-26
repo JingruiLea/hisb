@@ -115,7 +115,7 @@ class DashboardHeader extends React.Component {
     <Header style={{ background: '#fff', padding: 0 }} >
 
       <div style={{float:'left',paddingLeft:10}}>
-        <h1>Version 6.26.1</h1>
+        <h1>Version 6.26.2</h1>
       </div>
 
       <div style={{float:'left',paddingLeft:10}}>
