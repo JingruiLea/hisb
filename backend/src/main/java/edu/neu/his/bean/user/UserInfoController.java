@@ -52,6 +52,12 @@ public class UserInfoController {
         }else{
             return Response.error("用户名或密码错误");
         }
+    }
 
+    @PostMapping("/logout")
+    @ResponseBody
+    public Map logout(@RequestBody Map req) {
+        //System.out.println(req);
+        return Response.ok();
     }
 }
