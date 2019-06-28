@@ -5,6 +5,7 @@ import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -58,5 +59,19 @@ public class DrugManageController {
     public Map getDrugInfoByName(@RequestBody Map req){
         String name = (String)req.get("input");
         return Response.ok(drugService.selectDrugByName(name));
+    }
+
+    @PostMapping("/getDrugByPage")
+    @ResponseBody
+    public Map getDrugByPage(@RequestBody Map req){
+        int pageNo = (int)req.get("page");
+        int pageSize = (int)req.get("limit");
+        return Response.ok(drugService.selectDrugByPage(pageNo,pageSize));
+    }
+
+    @PostMapping("/getDrugSize")
+    @ResponseBody
+    public Map getDrugSize(){
+        return Response.ok(drugService.findSize());
     }
 }

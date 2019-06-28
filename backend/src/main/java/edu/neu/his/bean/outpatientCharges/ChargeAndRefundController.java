@@ -187,7 +187,7 @@ public class ChargeAndRefundController {
                 IDsNotHave.add(id);
             }else if(!outpatientChargesRecord.getStatus().equals(OutpatientChargesRecordStatus.Charged)){
                 IDsNotCharged.add(id);
-            }else if(!chargeAndRefundService.itemHasReturn(outpatientChargesRecord)){
+            }else if(chargeAndRefundService.itemHasReturn(outpatientChargesRecord)){
                 IDsNotReturn.add(id);
             }
             else {

@@ -1,6 +1,5 @@
 package edu.neu.his.bean.drug;
 
-import edu.neu.his.bean.drug.Drug;
 import edu.neu.his.util.Importable;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
@@ -43,4 +42,27 @@ public interface DrugMapper extends Importable<Drug> {
             @Result(column="stock", property="stock", jdbcType=JdbcType.INTEGER)
     })
     List<Drug> selectByName(String name);
+
+    @Select({
+            "select",
+            "id, code, `name`, format, unit, manufacturer, dosage_form, `type`, price, pinyin, stock ",
+            "from drug limit #{index},#{pageSize}"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType= JdbcType.INTEGER, id=true),
+            @Result(column="code", property="code", jdbcType=JdbcType.VARCHAR),
+            @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
+            @Result(column="format", property="format", jdbcType=JdbcType.VARCHAR),
+            @Result(column="unit", property="unit", jdbcType=JdbcType.VARCHAR),
+            @Result(column="manufacturer", property="manufacturer", jdbcType=JdbcType.VARCHAR),
+            @Result(column="dosage_form", property="dosage_form", jdbcType=JdbcType.VARCHAR),
+            @Result(column="type", property="type", jdbcType=JdbcType.VARCHAR),
+            @Result(column="price", property="price", jdbcType=JdbcType.REAL),
+            @Result(column="pinyin", property="pinyin", jdbcType=JdbcType.VARCHAR),
+            @Result(column="stock", property="stock", jdbcType=JdbcType.INTEGER)
+    })
+    List<Drug> selectByPage(int index, int pageSize);
+
+    @Select("SELECT count(*) from drug")
+    int findSize();
 }

@@ -28,6 +28,12 @@ public class DrugService {
     }
 
     @Transactional
+    public List<Drug> selectDrugByPage(int pageNo, int pageSize){
+        int index = (pageNo-1)*pageSize;
+        return drugMapper.selectByPage(index,pageSize);
+    }
+
+    @Transactional
     public int getExpenseClassificationId(Drug drug){
         switch (drug.getType()){
             case Common.ZHONGCAOYAOTYPE:
@@ -103,7 +109,13 @@ public class DrugService {
         }
 
     }
-    
+
+    @Transactional
+    public int findSize(){
+        return drugMapper.findSize();
+    }
+
+
     public Drug selectDrugById(int id){
         return autoDrugMapper.selectByPrimaryKey(id);
     }
