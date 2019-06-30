@@ -1,9 +1,7 @@
 package edu.neu.his.bean.diagnosis;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import com.sun.org.glassfish.gmbal.ParameterNames;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
@@ -29,7 +27,7 @@ public interface MedicalRecordDiagnoseTemplateItemMapper {
             @Result(column="suspect", property="suspect", jdbcType=JdbcType.BIT),
             @Result(column="syndrome_differentiation", property="syndrome_differentiation", jdbcType=JdbcType.LONGVARCHAR)
     })
-    List<MedicalRecordDiagnoseTemplateItem> selectByDiagnoseTemplateIdAndType(Integer medical_record_diagnose_template_id, String diagnose_type);
+    List<MedicalRecordDiagnoseTemplateItem> selectByDiagnoseTemplateIdAndType(@Param("medical_record_diagnose_template_id") Integer medical_record_diagnose_template_id, @Param("diagnose_type") String diagnose_type);
 
     @Select({
             "select",
@@ -49,5 +47,5 @@ public interface MedicalRecordDiagnoseTemplateItemMapper {
             @Result(column="suspect", property="suspect", jdbcType=JdbcType.BIT),
             @Result(column="syndrome_differentiation", property="syndrome_differentiation", jdbcType=JdbcType.LONGVARCHAR)
     })
-    List<MedicalRecordDiagnoseTemplateItem> selectByDiagnoseTemplateId(Integer medical_record_diagnose_template_id);
+    List<MedicalRecordDiagnoseTemplateItem> selectByDiagnoseTemplateId(@Param("medical_record_diagnose_template_id") Integer medical_record_diagnose_template_id);
 }

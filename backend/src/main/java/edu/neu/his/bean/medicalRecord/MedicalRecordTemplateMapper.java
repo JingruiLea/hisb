@@ -30,7 +30,7 @@ public interface MedicalRecordTemplateMapper {
             @Result(column="allergy_history", property="allergy_history", jdbcType=JdbcType.LONGVARCHAR),
             @Result(column="physical_examination", property="physical_examination", jdbcType=JdbcType.LONGVARCHAR)
     })
-    List<MedicalRecordTemplate> selectByUserId(int user_id, int type);
+    List<MedicalRecordTemplate> selectByUserId(@Param("user_id") int user_id, @Param("type") int type);
 
     @Select({
             "select",
@@ -54,7 +54,7 @@ public interface MedicalRecordTemplateMapper {
             @Result(column="allergy_history", property="allergy_history", jdbcType=JdbcType.LONGVARCHAR),
             @Result(column="physical_examination", property="physical_examination", jdbcType=JdbcType.LONGVARCHAR)
     })
-    List<MedicalRecordTemplate> selectByDepartmentId(int department_id, int type);
+    List<MedicalRecordTemplate> selectByDepartmentId(@Param("department_id")int department_id, @Param("type")int type);
 
     @Select({
             "select",
@@ -78,7 +78,7 @@ public interface MedicalRecordTemplateMapper {
             @Result(column="allergy_history", property="allergy_history", jdbcType=JdbcType.LONGVARCHAR),
             @Result(column="physical_examination", property="physical_examination", jdbcType=JdbcType.LONGVARCHAR)
     })
-    List<MedicalRecordTemplate> selectByTitle(String title);
+    List<MedicalRecordTemplate> selectByTitle(@Param("title")String title);
 
     @Select({
             "select",
@@ -102,13 +102,13 @@ public interface MedicalRecordTemplateMapper {
             @Result(column="allergy_history", property="allergy_history", jdbcType=JdbcType.LONGVARCHAR),
             @Result(column="physical_examination", property="physical_examination", jdbcType=JdbcType.LONGVARCHAR)
     })
-    List<MedicalRecordTemplate> selectByType(int type);
+    List<MedicalRecordTemplate> selectByType(@Param("type")int type);
 
     @Delete({
             "delete from medical_record_template",
             "where id = #{id,jdbcType=INTEGER}"
     })
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(@Param("id")Integer id);
 
     @Insert({
             "insert into medical_record_template (`title`, `type`, ",

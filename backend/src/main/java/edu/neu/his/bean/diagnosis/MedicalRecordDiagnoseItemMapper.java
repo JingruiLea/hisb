@@ -1,9 +1,6 @@
 package edu.neu.his.bean.diagnosis;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
@@ -49,5 +46,5 @@ public interface MedicalRecordDiagnoseItemMapper {
             @Result(column="suspect", property="suspect", jdbcType=JdbcType.BIT),
             @Result(column="syndrome_differentiation", property="syndrome_differentiation", jdbcType=JdbcType.LONGVARCHAR)
     })
-    List<MedicalRecordDiagnoseItem> selectByDiagnoseIdAndType(Integer medical_record_diagnose_id, String diagnose_type);
+    List<MedicalRecordDiagnoseItem> selectByDiagnoseIdAndType(@Param("medical_record_diagnose_id") Integer medical_record_diagnose_id, @Param("diagnose_type") String diagnose_type);
 }

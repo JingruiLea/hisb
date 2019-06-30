@@ -45,15 +45,14 @@ public class MedicalRecordDiagnoseTemplateController {
     @PostMapping("/create")
     @ResponseBody
     public Map create(@RequestBody Map req){
-        MedicalRecordDiagnoseTemplate medicalRecordDiagnoseTemplate = Utils.fromMap(req,MedicalRecordDiagnoseTemplate.class);
+        MedicalRecordDiagnoseTemplate medicalRecordDiagnoseTemplate = Utils.fromMap(req, MedicalRecordDiagnoseTemplate.class);
         medicalRecordDiagnoseTemplate = initDiagnoseTemplate(medicalRecordDiagnoseTemplate,req);
         int diagnose_template_id = medicalRecordDiagnoseTemplateService.insertDiagnoseTemplate(medicalRecordDiagnoseTemplate);
 
-        Map map = (Map)req.get("diagnose");
-        List westernList = (List)map.get("western_diagnose");
+        List westernList = (List)req.get("western_diagnose");
         insertItemList(westernList,diagnose_template_id,DiagnoseItemType.Western);
 
-        List chineseList = (List)map.get("chinese_diagnose");
+        List chineseList = (List)req.get("chinese_diagnose");
         insertItemList(chineseList,diagnose_template_id,DiagnoseItemType.Chinese);
 
         return Response.ok();
@@ -74,11 +73,10 @@ public class MedicalRecordDiagnoseTemplateController {
 
         medicalRecordDiagnoseTemplateService.deleteAllItem(diagnose_template_id);
 
-        Map map = (Map)req.get("diagnose");
-        List westernList = (List)map.get("western_diagnose");
+        List westernList = (List)req.get("western_diagnose");
         insertItemList(westernList,diagnose_template_id,DiagnoseItemType.Western);
 
-        List chineseList = (List)map.get("chinese_diagnose");
+        List chineseList = (List)req.get("chinese_diagnose");
         insertItemList(chineseList,diagnose_template_id,DiagnoseItemType.Chinese);
 
         return Response.ok();

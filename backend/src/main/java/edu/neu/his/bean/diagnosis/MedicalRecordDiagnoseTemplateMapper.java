@@ -1,9 +1,6 @@
 package edu.neu.his.bean.diagnosis;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
@@ -25,7 +22,7 @@ public interface MedicalRecordDiagnoseTemplateMapper {
             @Result(column="type", property="type", jdbcType=JdbcType.INTEGER),
             @Result(column="create_time", property="create_time", jdbcType=JdbcType.VARCHAR)
     })
-    List<MedicalRecordDiagnoseTemplate> selectByUserId(Integer user_id, Integer type);
+    List<MedicalRecordDiagnoseTemplate> selectByUserId(@Param("user_id") Integer user_id, @Param("type") Integer type);
 
     @Select({
             "select",
@@ -42,7 +39,7 @@ public interface MedicalRecordDiagnoseTemplateMapper {
             @Result(column="type", property="type", jdbcType=JdbcType.INTEGER),
             @Result(column="create_time", property="create_time", jdbcType=JdbcType.VARCHAR)
     })
-    List<MedicalRecordDiagnoseTemplate> selectByDepartmentId(Integer department_id, Integer type);
+    List<MedicalRecordDiagnoseTemplate> selectByDepartmentId(@Param("department_id")Integer department_id, @Param("type")Integer type);
 
     @Select({
             "select",
@@ -58,7 +55,7 @@ public interface MedicalRecordDiagnoseTemplateMapper {
             @Result(column="type", property="type", jdbcType=JdbcType.INTEGER),
             @Result(column="create_time", property="create_time", jdbcType=JdbcType.VARCHAR)
     })
-    List<MedicalRecordDiagnoseTemplate> selectByType(Integer type);
+    List<MedicalRecordDiagnoseTemplate> selectByType(@Param("type")Integer type);
 
     @Select({
             "select",
@@ -74,5 +71,5 @@ public interface MedicalRecordDiagnoseTemplateMapper {
             @Result(column="type", property="type", jdbcType=JdbcType.INTEGER),
             @Result(column="create_time", property="create_time", jdbcType=JdbcType.VARCHAR)
     })
-    List<MedicalRecordDiagnoseTemplate> selectByTitle(String title);
+    List<MedicalRecordDiagnoseTemplate> selectByTitle(@Param("title")String title);
 }
