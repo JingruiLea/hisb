@@ -61,8 +61,7 @@ public class MedicalRecordController {
             if(medicalRecord==null) {
                 if(registration.getStatus().equals(RegistrationConfig.registrationAvailable))
                     waitList.add(registration);
-            }
-            else if(medicalRecord.getStatus().equals(MedicalRecordStatus.TemporaryStorage))
+            } else if(medicalRecord.getStatus().equals(MedicalRecordStatus.TemporaryStorage) || medicalRecord.getStatus().equals(MedicalRecordStatus.Committed))
                 pendList.add(registration);
         });
 
@@ -165,7 +164,6 @@ public class MedicalRecordController {
         medicalRecordService.updateMedicalRecord(newMedicalRecord);
 
         //更新诊断
-        updateDiagnose(req,medical_record_id);
 
         return Response.ok();
     }
@@ -186,9 +184,6 @@ public class MedicalRecordController {
         newMedicalRecord.setCreate_time(medicalRecord.getCreate_time());
         medicalRecordService.updateMedicalRecord(newMedicalRecord);
 
-        //更新诊断
-        updateDiagnose(req,medical_record_id);
-
         return Response.ok();
     }
 
@@ -207,9 +202,6 @@ public class MedicalRecordController {
         medicalRecord.setStatus(MedicalRecordStatus.Finished);
         medicalRecordService.updateMedicalRecord(medicalRecord);
 
-        //更新诊断
-        updateDiagnose(req,medical_record_id);
-
         return Response.ok();
     }
 
@@ -224,7 +216,10 @@ public class MedicalRecordController {
         return medicalRecord;
     }
 
-    private void updateDiagnose(Map req, int medical_record_id){
+    @RequestMapping("/updateDiagnose")
+    public Map updateDiagnose(@RequestBody Map req){
+
+        int medical_record_id = (int) req.get("medical_record_id");
         //获得诊断ID
         int diagnose_id = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id).getId();
 
@@ -252,5 +247,6 @@ public class MedicalRecordController {
             medicalRecordDiagnoseItem.setDiagnose_type(DiagnoseItemType.Chinese);
             medicalRecordDiagnoseService.insertDiagnoseItem(medicalRecordDiagnoseItem);
         });
+        return Response.ok();
     }
 }

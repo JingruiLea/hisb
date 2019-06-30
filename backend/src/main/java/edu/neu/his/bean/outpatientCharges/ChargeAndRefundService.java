@@ -104,6 +104,7 @@ public class ChargeAndRefundService {
         }
         res.put("status", record.getStatus());
         res.put("item_name", itemName);
+        res.put("charge_id", record.getId());
         return res;
     }
 
@@ -124,7 +125,7 @@ public class ChargeAndRefundService {
         }
         else {
             ExamItem examItem = examItemMapper.selectByPrimaryKey(item_id);
-            if(examItem.getStatus().equals(ExamStatus.Cancelled))
+            if(examItem.getStatus().equals(ExamStatus.ToRegister))
                 return true;
             else return false;
         }
