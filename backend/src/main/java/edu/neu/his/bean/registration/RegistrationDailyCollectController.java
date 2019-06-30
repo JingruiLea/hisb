@@ -85,4 +85,12 @@ public class RegistrationDailyCollectController {
 
         return Response.ok(dailyCollectService.findDailyCollectById(daily_collect_id));
     }
+
+    @PostMapping("/update")
+    @ResponseBody
+    public Map update(@RequestBody Map req){
+        int id = (int)req.get("id");
+        dailyCollectService.updateCollectStatus(id);
+        return Response.ok();
+    }
 }

@@ -1,6 +1,8 @@
 package edu.neu.his.bean.dailyCheck;
 
 import edu.neu.his.bean.billRecord.BillRecord;
+import edu.neu.his.bean.daily.DailyCollect;
+import edu.neu.his.bean.daily.DailyCollectMapper;
 import edu.neu.his.bean.expenseClassification.ExpenseClassification;
 import edu.neu.his.bean.outpatientCharges.OutpatientChargesRecord;
 import edu.neu.his.bean.user.User;
@@ -275,4 +277,5 @@ public class DailyCheckService {
         }
         return tableDatas;
     }
+
 }

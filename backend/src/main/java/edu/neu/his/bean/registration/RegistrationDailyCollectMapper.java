@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 @Component(value = "RegistrationDailyCollectMapper")
 public interface RegistrationDailyCollectMapper {
-    @Select("SELECT id, start_time, end_time, user_id FROM daily_collect WHERE user_id = #{uid}")
+    @Select("SELECT * FROM daily_collect WHERE user_id = #{uid}")
     List<DailyCollect> findDailyCollectByUid(@Param("uid") int uid);
 
     @Select("select * from daily_detail where daily_collect_id = #{daily_collect_id}")

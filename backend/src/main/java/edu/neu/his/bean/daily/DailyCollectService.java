@@ -75,4 +75,11 @@ public class DailyCollectService {
     public DailyCollect findDailyCollectById(int id){
         return dailyCollectMapper.selectByPrimaryKey(id);
     }
+
+    @Transactional
+    public int updateCollectStatus(int collect_id){
+        DailyCollect dailyCollect = dailyCollectMapper.selectByPrimaryKey(collect_id);
+        dailyCollect.setChecked(true);
+        return dailyCollectMapper.updateByPrimaryKey(dailyCollect);
+    }
 }

@@ -54,12 +54,14 @@ public class DrugManageController {
         return Response.ok(drugService.selectAllDrug());
     }
 
+    /*
     @PostMapping("/getDrugInfoByName")
     @ResponseBody
     public Map getDrugInfoByName(@RequestBody Map req){
         String name = (String)req.get("input");
         return Response.ok(drugService.selectDrugByName(name));
     }
+    */
 
     @PostMapping("/getDrugByPage")
     @ResponseBody
@@ -73,5 +75,16 @@ public class DrugManageController {
     @ResponseBody
     public Map getDrugSize(){
         return Response.ok(drugService.findSize());
+    }
+
+    @PostMapping("/search")
+    @ResponseBody
+    public Map search(@RequestBody Map req){
+        int id = (int)req.get("id");
+        String code = (String)req.get("code");
+        String name = (String)req.get("name");
+        String type = (String)req.get("type");
+        List<Drug> list = drugService.search(id,code,name,type);
+        return Response.ok(list);
     }
 }

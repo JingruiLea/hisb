@@ -1,6 +1,10 @@
 package edu.neu.his.bean.dailyCheck;
 
+import edu.neu.his.bean.daily.DailyCollectMapper;
+import edu.neu.his.bean.daily.DailyCollectService;
 import edu.neu.his.bean.expenseClassification.ExpenseClassification;
+import edu.neu.his.bean.user.UserService;
+import edu.neu.his.config.Auth;
 import edu.neu.his.util.Utils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +20,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/outpatientDailyReportCheck")
+@RequestMapping("/dailyCheck")
 public class DailyCheckController {
     @Autowired
     private DailyCheckService dailyCheckService;
@@ -33,12 +37,27 @@ public class DailyCheckController {
     int init_bill_record_num = 0;
     int invalid_bill_record_num = 0;
     int reprint_bill_record_num = 0;
+    @Autowired
+     UserService userService;
+    @Autowired
+    DailyCollectMapper dailyCollectMapper;
 
     @RequestMapping("/init")
     @ResponseBody
     public Map init(){
         return Response.ok(dailyCheckService.getTollCollector());
     }
+
+    @RequestMapping("/list")
+    @ResponseBody
+    public Map list(@RequestBody Map req){
+        int _uid = Auth.uid(req);
+        if(userService.findByUid(_uid)!=null)
+            return Response.ok(dailyCollectMapper.selectAll());
+        else
+            return Response.error("错误，该用户ID不存在");
+    }
+
 
     @PostMapping("/getReport")
     @ResponseBody

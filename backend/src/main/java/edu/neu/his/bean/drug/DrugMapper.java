@@ -22,11 +22,10 @@ public interface DrugMapper extends Importable<Drug> {
     int insert(Drug record);
 
     @Select({
-            "select",
-            "id, code, `name`, format, unit, manufacturer, dosage_form, `type`, price, pinyin, ",
-            "stock",
-            "from drug",
-            "where name like concat('%',#{name,jdbcType=VARCHAR},'%')"
+            "select * from drug",
+            "where name like concat('%',#{name,jdbcType=VARCHAR},'%') " +
+                    "and code like concat('%',#{code,jdbcType=VARCHAR},'%') " +
+                    "and type like concat('%',#{type,jdbcType=VARCHAR},'%')"
     })
     @Results({
             @Result(column="id", property="id", jdbcType= JdbcType.INTEGER, id=true),
@@ -41,7 +40,9 @@ public interface DrugMapper extends Importable<Drug> {
             @Result(column="pinyin", property="pinyin", jdbcType=JdbcType.VARCHAR),
             @Result(column="stock", property="stock", jdbcType=JdbcType.INTEGER)
     })
-    List<Drug> selectByName(String name);
+    List<Drug> search(@Param("name") String name,
+                            @Param("code") String code,
+                            @Param("type") String type);
 
     @Select({
             "select",
@@ -61,7 +62,7 @@ public interface DrugMapper extends Importable<Drug> {
             @Result(column="pinyin", property="pinyin", jdbcType=JdbcType.VARCHAR),
             @Result(column="stock", property="stock", jdbcType=JdbcType.INTEGER)
     })
-    List<Drug> selectByPage(int index, int pageSize);
+    List<Drug> selectByPage(@Param("index")int index,@Param("pageSize")int pageSize);
 
     @Select("SELECT count(*) from drug")
     int findSize();

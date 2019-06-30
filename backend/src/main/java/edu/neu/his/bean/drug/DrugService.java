@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -78,11 +79,6 @@ public class DrugService {
     }
 
     @Transactional
-    public List<Drug> selectDrugByName(String name){
-        return drugMapper.selectByName(name);
-    }
-
-    @Transactional
     public boolean importFromFile(InputStream inputStream) {
         try {
             ExcelImportation excel = new ExcelImportation(inputStream, Drug.class, drugMapper);
@@ -118,5 +114,18 @@ public class DrugService {
 
     public Drug selectDrugById(int id){
         return autoDrugMapper.selectByPrimaryKey(id);
+    }
+
+    @Transactional
+    public List<Drug> search(int id, String code, String name, String type){
+        if(id==0) {
+            return drugMapper.search(code, name, type);
+        }
+        else {
+            Drug drug = autoDrugMapper.selectByPrimaryKey(id);
+            List<Drug> list = new ArrayList<>();
+            list.add(drug);
+            return list;
+        }
     }
 }
