@@ -6,6 +6,7 @@ import edu.neu.his.bean.department.DepartmentMapper;
 import edu.neu.his.bean.disease.Disease;
 import edu.neu.his.bean.disease.DiseaseClassification;
 import edu.neu.his.bean.disease.DiseaseMapper;
+import edu.neu.his.bean.drug.DrugMapper;
 import edu.neu.his.bean.nondrug.NonDrugChargeItem;
 import edu.neu.his.bean.nondrug.NonDrugChargeItemMapper;
 import edu.neu.his.util.ExcelImportation;
@@ -92,5 +93,12 @@ public class ExcelImportationImportUtilsTest {
 //        //((Map<String, Function<String, ?>>)excel.getPreFunctionMap()).put("classification_id", departmentMapper::findClassificationIdByName);
 //        excel.exec();
 //    }
+
+    @Autowired
+    DrugMapper drugMapper;
+    @Test
+    public void testMapperSearch(){
+        System.out.println(drugMapper.search("","86979474000208","",0,20));
+    }
 
 }

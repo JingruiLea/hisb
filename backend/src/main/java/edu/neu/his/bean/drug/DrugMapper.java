@@ -25,7 +25,8 @@ public interface DrugMapper extends Importable<Drug> {
             "select * from drug",
             "where name like concat('%',#{name,jdbcType=VARCHAR},'%') " +
                     "and code like concat('%',#{code,jdbcType=VARCHAR},'%') " +
-                    "and type like concat('%',#{type,jdbcType=VARCHAR},'%')"
+                    "and type like concat('%',#{type,jdbcType=VARCHAR},'%') " +
+                    "limit #{index},#{limit}"
     })
     @Results({
             @Result(column="id", property="id", jdbcType= JdbcType.INTEGER, id=true),
@@ -40,9 +41,11 @@ public interface DrugMapper extends Importable<Drug> {
             @Result(column="pinyin", property="pinyin", jdbcType=JdbcType.VARCHAR),
             @Result(column="stock", property="stock", jdbcType=JdbcType.INTEGER)
     })
-    List<Drug> search(@Param("name") String name,
-                            @Param("code") String code,
-                            @Param("type") String type);
+    List<Drug> search(@Param("code") String code,
+                      @Param("name") String name,
+                      @Param("type") String type,
+                      @Param("index") int index,
+                      @Param("limit") int limit);
 
     @Select({
             "select",
@@ -66,4 +69,12 @@ public interface DrugMapper extends Importable<Drug> {
 
     @Select("SELECT count(*) from drug")
     int findSize();
+
+    @Select("SELECT count(*) from drug " +
+            "where name like concat('%',#{name,jdbcType=VARCHAR},'%') " +
+            "and code like concat('%',#{code,jdbcType=VARCHAR},'%') " +
+            "and type like concat('%',#{type,jdbcType=VARCHAR},'%')")
+    int searchSize(@Param("code") String code,
+                   @Param("name") String name,
+                   @Param("type") String type);
 }

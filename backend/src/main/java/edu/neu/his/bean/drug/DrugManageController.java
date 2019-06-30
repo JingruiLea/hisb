@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,11 +81,24 @@ public class DrugManageController {
     @PostMapping("/search")
     @ResponseBody
     public Map search(@RequestBody Map req){
-        int id = (int)req.get("id");
+        Integer id = (Integer) req.get("id");
         String code = (String)req.get("code");
         String name = (String)req.get("name");
         String type = (String)req.get("type");
-        List<Drug> list = drugService.search(id,code,name,type);
-        return Response.ok(list);
+        int limit = (int)req.get("limit");
+        int page = (int)req.get("page");
+        List<Drug> list = drugService.search(id,code,name,type,page,limit);
+        int total = 0;
+        if(list.size()<20){
+            total = list.size();
+        }else{
+            total = drugService.searchSize(code,name,type);
+        }
+
+        Map data = new HashMap();
+        data.put("list",list);
+        data.put("total",total);
+
+        return Response.ok(data);
     }
 }

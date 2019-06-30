@@ -117,9 +117,10 @@ public class DrugService {
     }
 
     @Transactional
-    public List<Drug> search(int id, String code, String name, String type){
-        if(id==0) {
-            return drugMapper.search(code, name, type);
+    public List<Drug> search(Integer id, String code, String name, String type,int page,int limit){
+        int index = (page-1)*limit;
+        if(id == null) {
+            return drugMapper.search(code, name, type, index,limit);
         }
         else {
             Drug drug = autoDrugMapper.selectByPrimaryKey(id);
@@ -127,5 +128,10 @@ public class DrugService {
             list.add(drug);
             return list;
         }
+    }
+
+    @Transactional
+    public int searchSize(String code, String name, String type){
+        return drugMapper.searchSize(code, name, type);
     }
 }
