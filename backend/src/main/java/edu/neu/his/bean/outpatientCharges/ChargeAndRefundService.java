@@ -119,9 +119,11 @@ public class ChargeAndRefundService {
         int item_id = record.getItem_id();
         if((int)record.getType()==OutpatientChargesRecordStatus.Prescription){
             PrescriptionItem prescriptionItem = autoPrescriptionItemMapper.selectByPrimaryKey(item_id);
-            if(prescriptionItem.getStatus().equals(PrescriptionStatus.PrescriptionItemReturned))
+            if(prescriptionItem.getStatus().equals(PrescriptionStatus.PrescriptionItemTaken)){
+                return false;
+            }else{
                 return true;
-            else return false;
+            }
         }
         else {
             ExamItem examItem = examItemMapper.selectByPrimaryKey(item_id);

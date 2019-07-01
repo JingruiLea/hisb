@@ -1,5 +1,6 @@
 package edu.neu.his.bean.prescription;
 
+import edu.neu.his.auto.AutoPrescriptionMapper;
 import edu.neu.his.config.Response;
 import edu.neu.his.bean.drug.DrugService;
 import edu.neu.his.util.Common;
@@ -27,6 +28,9 @@ public class PrescriptionController {
 
     @Autowired
     DrugService drugService;
+
+    @Autowired
+    AutoPrescriptionMapper autoPrescriptionMapper;
 
     @PostMapping("/create")
     public Map create(@RequestBody Map req){
@@ -134,7 +138,10 @@ public class PrescriptionController {
         }
         return Response.ok();
     }
-
+    @RequestMapping("/all")
+    public Map all(@RequestBody Map req){
+        return Response.ok(autoPrescriptionMapper.selectAll().stream().filter(e->e.getStatus().equals(Common.YITIJIAO)).collect(Collectors.toList()));
+    }
 
     @RequestMapping("/cancel")
     public Map cancel(@RequestBody Map req){

@@ -5,6 +5,7 @@ import edu.neu.his.bean.department.DepartmentService;
 import edu.neu.his.bean.operateLog.OperateLogService;
 import edu.neu.his.bean.settlementCategory.SettlementCategoryService;
 import edu.neu.his.bean.user.User;
+import edu.neu.his.bean.user.UserMapper;
 import edu.neu.his.config.*;
 import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ public class OutpatientRegistrationController {
 
     @Autowired
     private OutpatientRegistrationService outpatientRegistrationService;
+    @Autowired
+    private UserMapper userMapper;
 
     @RequestMapping("/init")
     @ResponseBody
@@ -44,6 +47,17 @@ public class OutpatientRegistrationController {
 
     @PostMapping("/syncDoctorList")
     @ResponseBody
+    public Map syncDoctorList2(@RequestBody Map req){
+        int department_id = (int)req.get("department_id");
+        int registration_level_id = (int)req.get("registration_level_id");
+        List<User> users = userMapper.findAll();
+        for (User user : users) {
+            user.setPassword(null);
+        }
+        return Response.ok(users);
+    }
+
+    @ResponseBody
     public Map syncDoctorList(@RequestBody Map req){
         int department_id = (int)req.get("department_id");
         int registration_level_id = (int)req.get("registration_level_id");
@@ -52,6 +66,14 @@ public class OutpatientRegistrationController {
             user.setPassword(null);
         }
         return Response.ok(users);
+    }
+
+    @Autowired
+    OutpatientRegistrationMapper outpatientRegistrationMapper;
+    @PostMapping("/selectById")
+    @ResponseBody
+    public Map selectById(@RequestBody Map req){
+        return Response.ok(outpatientRegistrationMapper.findRegistrationById((Integer) req.get("id")));
     }
 
     @PostMapping("/calculateFee")

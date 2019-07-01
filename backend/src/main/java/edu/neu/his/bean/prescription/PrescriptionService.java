@@ -130,7 +130,7 @@ public class PrescriptionService {
             record.setMedical_record_id(prescription.getMedical_record_id());
             record.setBill_record_id(0);
             record.setItem_id(item.getId());
-            record.setType(Common.RECORD_TYPE_JIANCHA);
+            record.setType(Common.RECORD_TYPE_CHUFANG);
             record.setExpense_classification_id(drugService.getExpenseClassificationId(drug));
             record.setStatus(Common.WEIJIAOFEI);
             record.setQuantity(item.getAmount());
@@ -180,11 +180,11 @@ public class PrescriptionService {
                 Map prescriptionItemMap = Utils.objectToMap(prescriptionItem);
                 int drug_id = prescriptionItem.getDrug_id();
                 Drug drug = autoDrugMapper.selectByPrimaryKey(drug_id);
-                prescriptionItemMap.put("drug_item",drug);
+                prescriptionItemMap.put("drug",drug);
                 prescriptionItemResult.add(prescriptionItemMap);
             });
             Map prescriptionMap = Utils.objectToMap(prescription);
-            prescriptionMap.put("prescription_item_list",prescriptionItemResult);
+            prescriptionMap.put("items",prescriptionItemResult);
             result.add(prescriptionMap);
         });
 
@@ -227,7 +227,12 @@ public class PrescriptionService {
     @Transactional
     public void returnDrug(PrescriptionItem prescriptionItem, int amount, float cost, Map req){
         //修改处方详情
-        int new_amount = prescriptionItem.getAmount()-amount;
+        int new_amount = prescriptionItem.getAmount() - amount;
+        if(new_amount <= 0){
+            prescriptionItem.setStatus(PrescriptionStatus.PrescriptionItemTaken);
+            autoPrescriptionItemMapper.updateByPrimaryKey(prescriptionItem);
+            return;
+        }
         prescriptionItem.setAmount(amount);
         prescriptionItem.setStatus(PrescriptionStatus.PrescriptionItemReturned);
         autoPrescriptionItemMapper.updateByPrimaryKey(prescriptionItem);

@@ -5,6 +5,7 @@ import edu.neu.his.bean.registration.RegistrationLevelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 
 import java.util.List;
 
@@ -33,6 +34,9 @@ public class UserService {
     @Transactional
     public void updateUser(User user) {
         userMapper.updateUserInfo(user);
+        if(user.getPassword()!=null){
+            user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+        }
         userMapper.updateUser(user);
     }
 
