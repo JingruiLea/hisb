@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现诊断模版管理
+ */
 @RestController
 @RequestMapping("/diagnoseTemplate")
 public class MedicalRecordDiagnoseTemplateController {
@@ -22,6 +25,11 @@ public class MedicalRecordDiagnoseTemplateController {
     @Autowired
     DiagnoseDirectoryService diagnoseDirectoryService;
 
+    /**
+     *获得常用诊断模板列表
+     * @param req  前端传递的request，当前登录用户User类的各个字段
+     * @return 返回查找到的诊断模板列表和状态码等信息
+     */
     @PostMapping("/list")
     @ResponseBody
     public Map list(@RequestBody Map req){
@@ -42,6 +50,11 @@ public class MedicalRecordDiagnoseTemplateController {
         return Response.ok(data);
     }
 
+    /**
+     *创建诊断模板
+     * @param req  前端传递的request，包含medicalRecordDiagnoseTemplate类中的各个字段
+     * @return 返回response，表示是否成功
+     */
     @PostMapping("/create")
     @ResponseBody
     public Map create(@RequestBody Map req){
@@ -59,6 +72,11 @@ public class MedicalRecordDiagnoseTemplateController {
         return Response.ok();
     }
 
+    /**
+     *更新诊断模板
+     * @param req  前端传递的request，包含medicalRecordDiagnoseTemplate类中的各个字段
+     * @return 返回response，表示是否成功
+     */
     @PostMapping("/update")
     @ResponseBody
     public Map update(@RequestBody Map req){
@@ -84,6 +102,11 @@ public class MedicalRecordDiagnoseTemplateController {
         return Response.ok();
     }
 
+    /**
+     *删除诊断模板
+     * @param req 前端传递的request，要删除的诊断模版id的列表
+     * @return 返回response，表示是否成功
+     */
     @PostMapping("/delete")
     @ResponseBody
     public Map delete(@RequestBody Map req){
@@ -98,6 +121,11 @@ public class MedicalRecordDiagnoseTemplateController {
         return Response.ok();
     }
 
+    /**
+     *获得诊断模板详情
+     * @param req 前端传递的request，包含诊断模版id
+     * @return 返回查找到的诊断模板详情和状态码等信息
+     */
     @PostMapping("/detail")
     @ResponseBody
     public Map detail(@RequestBody Map req){

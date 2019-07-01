@@ -2,6 +2,9 @@ package edu.neu.his.bean.drug;
 
 import java.io.Serializable;
 
+/**
+ * 该类代表药品
+ */
 public class Drug implements Serializable {
     private Integer id;
 

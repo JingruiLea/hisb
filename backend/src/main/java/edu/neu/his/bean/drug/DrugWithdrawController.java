@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现退药管理的相关功能
+ */
 @RestController
 @RequestMapping("/drugWithdrawal")
 public class DrugWithdrawController {
@@ -24,6 +27,11 @@ public class DrugWithdrawController {
     @Autowired
     ChargeAndRefundService chargeAndRefundService;
 
+    /**
+     * 获得所有可退药清单
+     * @param req 病历号
+     * @return 处方列表
+     */
     @PostMapping("/list")
     @ResponseBody
     public Map list(@RequestBody Map req){
@@ -39,6 +47,11 @@ public class DrugWithdrawController {
         return Response.ok(toTakeList);
     }
 
+    /**
+     * 门诊退药
+     * @param req 处方详情子目
+     * @return 状态码
+     */
     @PostMapping("/submit")
     @ResponseBody
     public Map submit(@RequestBody Map req){

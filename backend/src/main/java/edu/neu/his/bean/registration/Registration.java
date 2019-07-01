@@ -1,5 +1,8 @@
 package edu.neu.his.bean.registration;
 
+/**
+ * 该类代表挂号
+ */
 public class Registration {
     private int medical_record_id;
     private String address;

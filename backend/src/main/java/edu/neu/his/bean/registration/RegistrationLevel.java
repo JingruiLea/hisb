@@ -1,5 +1,8 @@
 package edu.neu.his.bean.registration;
 
+/**
+ * 该类代表挂号等级
+ */
 public class RegistrationLevel {
     private int id;
     private String name;

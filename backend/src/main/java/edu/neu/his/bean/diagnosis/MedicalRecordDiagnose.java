@@ -2,6 +2,9 @@ package edu.neu.his.bean.diagnosis;
 
 import java.io.Serializable;
 
+/**
+ * 该类代表门诊诊断，对应多个诊断子目
+ */
 public class MedicalRecordDiagnose implements Serializable {
     private Integer id;
 

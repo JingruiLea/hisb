@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现挂号的相关功能
+ */
 //4.1 挂号
 @RestController
 @RequestMapping("/outpatientRegistration")
@@ -31,6 +34,10 @@ public class OutpatientRegistrationController {
     @Autowired
     private OutpatientRegistrationService outpatientRegistrationService;
 
+    /**
+     * 初始化挂号面板信息
+     * @return 科室、默认挂号登记、所有挂号等级和所有支付方式信息
+     */
     @RequestMapping("/init")
     @ResponseBody
     public Map init(){
@@ -42,6 +49,11 @@ public class OutpatientRegistrationController {
         return Response.ok(data);
     }
 
+    /**
+     * 根据选择的科室id和号别信息拉取符合条件的医生信息
+     * @param req 前端传递的request，包含科室id和挂号等级id
+     * @return 查询到的医生信息列表
+     */
     @PostMapping("/syncDoctorList")
     @ResponseBody
     public Map syncDoctorList(@RequestBody Map req){
@@ -54,6 +66,11 @@ public class OutpatientRegistrationController {
         return Response.ok(users);
     }
 
+    /**
+     * 提交挂号信息，计算费用
+     * @param req 前端传递的request，包含挂号级别、挂号类别和结算类别
+     * @return 挂号费用
+     */
     @PostMapping("/calculateFee")
     @ResponseBody
     public Map calulateFee(@RequestBody Map req){
@@ -72,6 +89,11 @@ public class OutpatientRegistrationController {
             return Response.error("错误，挂号类别不存在");
     }
 
+    /**
+     * 挂号确认/收费
+     * @param req 前端传递的request，包含Registration类中的各个字段
+     * @return 病历号和票据记录信息
+     */
     @PostMapping("/confirm")
     @ResponseBody
     public Map confirm(@RequestBody Map req) {
@@ -113,6 +135,11 @@ public class OutpatientRegistrationController {
             return Response.ok(data);
     }
 
+    /**
+     * 输入病历号，退号
+     * @param req 前端传递的request，包含病历号
+     * @return 状态码
+     */
     @PostMapping("/withdrawNumber")
     @ResponseBody
     public Map withdrawNumber(@RequestBody Map req){

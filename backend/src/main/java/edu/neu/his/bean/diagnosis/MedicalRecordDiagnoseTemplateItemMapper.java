@@ -8,8 +8,17 @@ import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
 
+/**
+ * 该类对数据库中的medical_record_diagnose_template_item表进行数据持久化操作
+ */
 @Mapper
 public interface MedicalRecordDiagnoseTemplateItemMapper {
+    /**
+     * 根据诊断模版id和诊断类型查找对应的诊断模版子目
+     * @param medical_record_diagnose_template_id 诊断模版id
+     * @param diagnose_type 诊断类型
+     * @return 返回对应的诊断模版子目
+     */
     @Select({
             "select",
             "id, medical_record_diagnose_template_id, disease_id, disease_name, disease_code, ",
@@ -31,6 +40,11 @@ public interface MedicalRecordDiagnoseTemplateItemMapper {
     })
     List<MedicalRecordDiagnoseTemplateItem> selectByDiagnoseTemplateIdAndType(Integer medical_record_diagnose_template_id, String diagnose_type);
 
+    /**
+     * 根据诊断模版id查找对应的诊断模版子目
+     * @param medical_record_diagnose_template_id 诊断模版id
+     * @return 返回对应的诊断模版子目
+     */
     @Select({
             "select",
             "id, medical_record_diagnose_template_id, disease_id, disease_name, disease_code, ",

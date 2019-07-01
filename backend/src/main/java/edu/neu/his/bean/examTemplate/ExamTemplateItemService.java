@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *实现处理数据库中exam_template_item、exam_template表的相关操作
+ */
 @Service
 public class ExamTemplateItemService {
 
@@ -25,6 +28,11 @@ public class ExamTemplateItemService {
     @Autowired
     NonDrugChargeItemMapper nonDrugChargeItemMapper;
 
+    /**
+     * 向数据库中插入一条模版详情记录
+     * @param examTemplateItem 要插入数据库中的examTemplateItem对象
+     * @return 插入数据库中的examTemplateItem对象id
+     */
     @Transactional
     public int insert(ExamTemplateItem examTemplateItem){
         return examTemplateItemMapper.insert(examTemplateItem);

@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现处理数据库中daily_collect、daily_detail、bill_record、expense_classification、outpatient_charges_record表的相关操作
+ */
 @Service
 public class DailyCheckService {
     @Autowired
@@ -29,11 +32,22 @@ public class DailyCheckService {
     private List<ChartsData> chartsDatas = new ArrayList<ChartsData>();
     private int colNum = 0;
 
+    /**
+     * 从数据库中获得所有收费员名单
+     * @return 返回所有收费员名单
+     */
     @Transactional
     public List<InitUser> getTollCollector() {
         return dailyCheckMapper.getTollCollector();
     }
 
+    /**
+     * 从数据库中根据起止日期和收费员id找到日结核对报告
+     * @param start_date 起始日期
+     * @param end_date 截止日期
+     * @param toll_collector_id 收费员id
+     * @return 返回根据起止日期和收费员id找到的日结核对报告
+     */
     @Transactional
     public List<Report> getReport(String start_date,String end_date,int toll_collector_id){
         List<Report> reports = dailyCheckMapper.getReport(start_date,end_date,toll_collector_id);
@@ -46,6 +60,13 @@ public class DailyCheckService {
         return dailyCheckMapper.getReport(start_date,end_date,toll_collector_id);
     }
 
+    /**
+     * 计算发票汇总总金额，获得挂号费总金额
+     * @param start_date 起始日期
+     * @param end_date 截止日期
+     * @param toll_collector_id 收费员id
+     * @return 返回发票汇总总金额，获得挂号费总金额
+     */
     @Transactional
     public Float[] getTotal(String start_date,String end_date,int toll_collector_id){
         Float[] t= new Float[]{total,getRegistrationFee(start_date,end_date,toll_collector_id)};
@@ -60,11 +81,23 @@ public class DailyCheckService {
         return registrationFee;
     }
 
+    /**
+     *从数据库中获得的所有费用科目
+     * @return 返回所有费用科目
+     */
     @Transactional
     public List<ExpenseClassification> getAllClassifitation(){
         return dailyCheckMapper.getAllClassifitation();
     }
 
+    /**
+     *从数据库中查询所有费用科目的金额，并计算总金额
+     * @param expenseClassifications 费用科目列表
+     * @param toll_collector_id 收费员id
+     * @param start_date 起始日期
+     * @param end_date 截止日期
+     * @return 返回各个费用科目总金额
+     */
     @Transactional
     public List<ClassificationFee> getClassifitationFee(List<ExpenseClassification> expenseClassifications, int toll_collector_id,String start_date,String end_date){
         List<ClassificationFee> classifitationFees = new ArrayList<ClassificationFee>();
@@ -84,21 +117,48 @@ public class DailyCheckService {
         //return dailyCheckMapper.getClassifitationFee(expense_classification_id,toll_collector_id);
     }
 
+    /**
+     *更新数据库中的日结记录
+     * @param start_date 起始日期
+     * @param end_date 截止日期
+     * @param toll_collector_id 收费员id
+     * @param checker_id 核对人员id
+     */
     @Transactional
     public void confirmCheck(String start_date,String end_date,int toll_collector_id,int checker_id) {
         dailyCheckMapper.confirmCheck(start_date,end_date,toll_collector_id,checker_id);
     }
 
+    /**
+     *查找数据库中符合条件的日结记录数量
+     * @param start_date 起始日期
+     * @param end_date 截止日期
+     * @param toll_collector_id 收费员id
+     * @param checker_id 核对人员id
+     * @return 返回是否存在符合条件的日结核对记录
+     */
     @Transactional
     public boolean exist(String start_date,String end_date,int toll_collector_id,int checker_id) {
         return dailyCheckMapper.checkIdExistNums(start_date,end_date,toll_collector_id,checker_id)>0;
     }
 
+    /**
+     *从数据库中查找票据记录
+     * @param start_date 起始日期
+     * @param end_date 截止日期
+     * @return 返回满足条件的票据记录
+     */
     @Transactional
     public List<BillRecord> history(String start_date, String end_date) {
         return dailyCheckMapper.history(start_date, end_date);
     }
 
+    /**
+     *查找数据库中所有科室的列表
+     * @param start_date 起始日期
+     * @param end_date 截止日期
+     * @return 返回查找到的所有科室列表
+     */
     @Transactional
     public List<Column> getDepartmentColumns(String start_date, String end_date){
         List<Column> columns = new ArrayList<Column>();
@@ -130,6 +190,12 @@ public class DailyCheckService {
         return columns;
     }
 
+    /**
+     *从数据库中查询科室总金额和每个费用科目总金额
+     * @param start_date 起始日期
+     * @param end_date 截止日期
+     * @return 返回科室总金额和每个费用科目总金额
+     */
     @Transactional
     public List<Map<String,String>> getDepartmentCheck(String start_date,String end_date){
         List<ObjectCount> departmentCounts = dailyCheckMapper.getDepartmentCount(start_date,end_date);
@@ -178,6 +244,10 @@ public class DailyCheckService {
         return tableDatas;
     }
 
+    /**
+     *获得渲染统计图需要的数据
+     * @return 返回渲染统计图需要的数据
+     */
     @Transactional
     public List<ChartsData> getChartsDatas(){
         return chartsDatas;
@@ -205,6 +275,12 @@ public class DailyCheckService {
         return userChecks;
     }*/
 
+    /**
+     *查找数据库中所有医生的列表
+     * @param start_date 起始日期
+     * @param end_date 截止日期
+     * @return 返回查找到的所有医生列表
+     */
     @Transactional
     public List<Column> getUserColumns(String start_date, String end_date){
         List<Column> columns = new ArrayList<Column>();
@@ -230,6 +306,12 @@ public class DailyCheckService {
         return columns;
     }
 
+    /**
+     *从数据库中查询医生总金额和每个费用科目总金额
+     * @param start_date 起始日期
+     * @param end_date 截止日期
+     * @return 返回医生总金额和每个费用科目总金额
+     */
     @Transactional
     public List<Map<String,String>> getUserCheck(String start_date,String end_date){
         List<ObjectCount> userCounts = dailyCheckMapper.getUserCount(start_date,end_date);

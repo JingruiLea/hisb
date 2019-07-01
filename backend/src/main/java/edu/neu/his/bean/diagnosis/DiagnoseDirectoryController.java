@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现诊断目录管理
+ */
 //3.5 诊断目录管理
 @RestController
 @RequestMapping("/diagnoseDirectoryManagement")
@@ -17,12 +20,21 @@ public class DiagnoseDirectoryController {
     @Autowired
     private DiagnoseDirectoryService diagnoseDirectoryService;
 
+    /**
+     *获得全部疾病分类
+     * @return 返回查找到的所有疾病分类和状态码等信息
+     */
     @RequestMapping("/allClassification")
     @ResponseBody
     public Map allDiseaseClassification(){
         return Response.ok(diagnoseDirectoryService.findAllDiseaseClassification());
     }
 
+    /**
+     *通过疾病目录类别id查询在此类别中的所有的疾病
+     * @param req 前端传递的request，包含“classification_id”字段
+     * @return 返回查找结果
+     */
     @PostMapping("/searchAllByClassificationId")
     @ResponseBody
     public Map listAllDisease(@RequestBody Map req){
@@ -32,6 +44,11 @@ public class DiagnoseDirectoryController {
         return Response.ok(data);
     }
 
+    /**
+     *通过疾病名称查询疾病信息
+     * @param req 前端传递的request，包含“name”字段
+     * @return 返回查找结果
+     */
     @PostMapping("/findByName")
     @ResponseBody
     public Map DiseaseFindByName(@RequestBody Map req){
@@ -39,6 +56,11 @@ public class DiagnoseDirectoryController {
         return Response.ok(diagnoseDirectoryService.findDiseaseByName(name));
     }
 
+    /**
+     *修改疾病目录
+     * @param req 前端传递的request，包含Disease类中的各个字段
+     * @return response，表示是否成功
+     */
     @PostMapping("/update")
     @ResponseBody
     public Map updateDisease(@RequestBody Map req){
@@ -58,6 +80,11 @@ public class DiagnoseDirectoryController {
         }
     }
 
+    /**
+     *添加疾病
+     * @param req 前端传递的request，包含Disease类中的各个字段
+     * @return response，表示是否成功
+     */
     @PostMapping("/add")
     @ResponseBody
     public Map insertDisease(@RequestBody Map req){
@@ -72,6 +99,11 @@ public class DiagnoseDirectoryController {
         }
     }
 
+    /**
+     *删除疾病
+     * @param req 前端传递的request，要删除的疾病id的列表
+     * @return 返回response，表示是否成功
+     */
     @PostMapping("/delete")
     @ResponseBody
     public Map  deleteDisease(@RequestBody Map req){

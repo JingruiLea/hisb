@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * 实现病历管理的相关功能
+ */
 @RestController
 @RequestMapping("/medicalRecord")
 public class MedicalRecordController {
@@ -36,6 +39,11 @@ public class MedicalRecordController {
     @Autowired
     DiseaseMapper diseaseMapper;
 
+    /**
+     * 获取全部中医诊断和西医诊断
+     * @param req 前端传递的request，包含用户id
+     * @return 返回查找结果
+     */
     @RequestMapping("/allDiagnoseDiseases")
     public Map allDiagnoseDiseases(@RequestBody Map req){
         Map data = new HashMap();
@@ -47,6 +55,11 @@ public class MedicalRecordController {
         return Response.ok(data);
     }
 
+    /**
+     * 获得等待看诊和暂存的病人挂号列表
+     * @param req 前端传递的request，包含用户id
+     * @return 返回查找结果
+     */
     @PostMapping("/getPatientList")
     @ResponseBody
     public Map getPatientList(@RequestBody Map req){
@@ -71,6 +84,11 @@ public class MedicalRecordController {
         return Response.ok(data);
     }
 
+    /**
+     * 获得患者挂号基本信息
+     * @param req 前端传递的request，包含患者证件类型和信息
+     * @return 查找到的该患者所有未看诊状态的挂号信息
+     */
     @PostMapping("/registrationInfo")
     @ResponseBody
     public Map registrationInfo(@RequestBody Map req){
@@ -79,6 +97,11 @@ public class MedicalRecordController {
         return Response.ok(medicalRecordService.find(type,medical_certificate_number, RegistrationConfig.registrationAvailable));
     }
 
+    /**
+     * 获得全部历史病历
+     * @param req 前端传递的request，包含患者证件类型和信息
+     * @return 查找到的该患者历史病历
+     */
     @PostMapping("/allHistoryMedicalRecord")
     @ResponseBody
     public Map recordHistory(@RequestBody Map req){
@@ -110,6 +133,11 @@ public class MedicalRecordController {
         return Response.ok(data);
     }
 
+    /**
+     * 根据病历号获得对应病历
+     * @param req 前端传递的request，包含病历号
+     * @return 根据病历号获得的对应病历
+     */
     @PostMapping("/getMedicalRecord")
     @ResponseBody
     public Map createMedicalRecord(@RequestBody Map req){
@@ -148,6 +176,11 @@ public class MedicalRecordController {
         return Response.ok(data);
     }
 
+    /**
+     * 提交保存病历
+     * @param req 前端传递的request，包含病历号和MedicalRecord类中的各个字段
+     * @return 状态码
+     */
     @PostMapping("/saveMedicalRecord")
     @ResponseBody
     public Map saveMedicalRecord(@RequestBody Map req){
@@ -170,6 +203,11 @@ public class MedicalRecordController {
         return Response.ok();
     }
 
+    /**
+     * 更新病历
+     * @param req 前端传递的request，包含MedicalRecord类中的各个字段
+     * @return 状态码
+     */
     @PostMapping("/updateMedicalRecord")
     @ResponseBody
     public Map updateMedicalRecord(@RequestBody Map req){
@@ -192,6 +230,11 @@ public class MedicalRecordController {
         return Response.ok();
     }
 
+    /**
+     * 提交确诊病历
+     * @param req 前端传递的request，包含病历号和MedicalRecord类中的各个字段
+     * @return 状态码
+     */
     @PostMapping("/confirmMedicalRecord")
     @ResponseBody
     public Map confirmMedicalRecord(@RequestBody Map req){

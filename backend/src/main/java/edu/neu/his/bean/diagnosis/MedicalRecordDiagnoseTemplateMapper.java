@@ -8,8 +8,17 @@ import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
 
+/**
+ * 该类对数据库中的medical_record_diagnose_template表进行数据持久化操作
+ */
 @Mapper
 public interface MedicalRecordDiagnoseTemplateMapper {
+    /**
+     * 根据用户id和诊断类型查找对应的诊断模版
+     * @param user_id 用户id
+     * @param type 诊断类型
+     * @return 返回对应的诊断模版
+     */
     @Select({
             "select",
             "id, title, user_id, department_id, `type`, create_time",
@@ -27,6 +36,12 @@ public interface MedicalRecordDiagnoseTemplateMapper {
     })
     List<MedicalRecordDiagnoseTemplate> selectByUserId(Integer user_id, Integer type);
 
+    /**
+     * 根据科室id和诊断类型查找对应的诊断模版
+     * @param department_id 科室id
+     * @param type 诊断类型
+     * @return 返回对应的诊断模版
+     */
     @Select({
             "select",
             "id, title, user_id, department_id, `type`, create_time",
@@ -44,6 +59,11 @@ public interface MedicalRecordDiagnoseTemplateMapper {
     })
     List<MedicalRecordDiagnoseTemplate> selectByDepartmentId(Integer department_id, Integer type);
 
+    /**
+     * 根据诊断类型查找对应的诊断模版
+     * @param type 诊断类型
+     * @return 返回对应的诊断模版
+     */
     @Select({
             "select",
             "id, title, user_id, department_id, `type`, create_time",
@@ -60,6 +80,11 @@ public interface MedicalRecordDiagnoseTemplateMapper {
     })
     List<MedicalRecordDiagnoseTemplate> selectByType(Integer type);
 
+    /**
+     * 根据诊断名称查找对应的诊断模版
+     * @param title 诊断名称
+     * @return 返回对应的诊断模版
+     */
     @Select({
             "select",
             "id, title, user_id, department_id, `type`, create_time",

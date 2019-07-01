@@ -1,5 +1,8 @@
 package edu.neu.his.bean.operateLog;
 
+/**
+ * 该类代表操作记录
+ */
 public class OperateLog {
     private int id;
     private int user_id;

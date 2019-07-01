@@ -24,7 +24,7 @@ public class DepartmentManageController {
     private DepartmentService departmentService;
 
     /**
-     *根据名称查找科室
+     * 根据名称查找科室
      * @param req 前端传递的request，包含“name”等字段
      * @return 返回查找结果
      */
@@ -36,7 +36,7 @@ public class DepartmentManageController {
     }
 
     /**
-     *获得所有科室的列表
+     * 获得所有科室的列表
      * @return 返回查找到的所有科室和状态码等信息
      */
     @RequestMapping("/getAll")
@@ -49,7 +49,7 @@ public class DepartmentManageController {
     }
 
     /**
-     *更新科室
+     * 更新科室
      * @param req 前端传递的request，包含Department类中的各个字段
      * @return 返回response，表示是否成功
      */
@@ -66,7 +66,7 @@ public class DepartmentManageController {
     }
 
     /**
-     *创建新的科室
+     * 创建新的科室
      * @param req 前端传递的request，包含Department类中的各个字段
      * @return 返回response，表示是否成功
      */
@@ -83,7 +83,7 @@ public class DepartmentManageController {
     }
 
     /**
-     *批量删除科室
+     * 批量删除科室
      * @param req 前端传递的request，要删除的科室id的列表
      * @return 返回response，表示是否成功
      */
@@ -99,7 +99,7 @@ public class DepartmentManageController {
     }
 
     /**
-     *从文件中批量导入科室
+     * 从文件中批量导入科室
      * @param file 需要上传的文件
      * @return 返回response，表示是否成功
      */
@@ -132,7 +132,7 @@ public class DepartmentManageController {
     }
 
     /**
-     *从前端传递的response中获得信息创建Department对象
+     * 从前端传递的response中获得信息创建Department对象
      * @param req 前端传递的response
      * @return 返回创建的Department对象
      */
@@ -146,7 +146,7 @@ public class DepartmentManageController {
     }
 
     /**
-     *判断该科室能否插入数据库
+     * 判断该科室能否插入数据库
      * @param department 要插入数据库的Department对象
      * @return 返回能否插入数据库，true代表能，false代表不能
      */
@@ -157,7 +157,7 @@ public class DepartmentManageController {
     }
 
     /**
-     *判断该科室能否进行更新
+     * 判断该科室能否进行更新
      * @param department 要进行更新的科室
      * @return 返回能否对数据库中的记录进行更新，true代表能，false代表不能
      */

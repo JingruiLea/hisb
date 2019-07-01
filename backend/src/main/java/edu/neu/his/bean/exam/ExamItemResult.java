@@ -2,6 +2,9 @@ package edu.neu.his.bean.exam;
 
 import java.io.Serializable;
 
+/**
+ * 该类代表检查/检验/处置结果
+ */
 public class ExamItemResult implements Serializable {
     private Integer id;
 

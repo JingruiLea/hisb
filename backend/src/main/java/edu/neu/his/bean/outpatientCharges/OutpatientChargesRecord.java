@@ -2,6 +2,9 @@ package edu.neu.his.bean.outpatientCharges;
 
 import java.io.Serializable;
 
+/**
+ * 该类代表收费记录
+ */
 public class OutpatientChargesRecord implements Serializable {
     private Integer id;
 

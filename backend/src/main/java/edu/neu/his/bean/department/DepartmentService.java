@@ -132,7 +132,7 @@ public class DepartmentService {
     }
 
     /**
-     *检查科室分类是否存在
+     * 检查科室分类是否存在
      * @param department 要进行检查的Department对象
      * @return 返回该科室的科室分类是否存在，true代表存在，false代表不存在
      */

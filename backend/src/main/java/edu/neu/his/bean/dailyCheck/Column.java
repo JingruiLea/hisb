@@ -1,5 +1,8 @@
 package edu.neu.his.bean.dailyCheck;
 
+/**
+ * 该类的列和对应序号
+ */
 public class Column {
     private String title;
     private String dataIndex;

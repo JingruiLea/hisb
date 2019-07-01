@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现非药品项目管理的相关功能
+ */
 //3.6 非药品收费项目管理
 @RestController
 @RequestMapping("/nonDrugChargeItemManagement")
@@ -20,7 +23,11 @@ public class NonDrugChargeItemController {
     @Autowired
     private DepartmentService departmentService;
 
-
+    /**
+     * 根据名称查找非药品收费项目
+     * @param req 前端传递的request，包含“name”等字段
+     * @return 返回查找结果
+     */
     @PostMapping("/findByName")
     @ResponseBody
     public Map NonDrugChargeFindByName(@RequestBody Map req){
@@ -28,6 +35,10 @@ public class NonDrugChargeItemController {
         return Response.ok(nonDrugChargeService.findNonDrugChargeByName(name));
     }
 
+    /**
+     * 获得所有非药品收费项目的列表
+     * @return 返回查找到的所有非药品收费项目和状态码等信息
+     */
     @RequestMapping("/all")
     @ResponseBody
     public Map listAllNonDrugCharge(){
@@ -38,6 +49,11 @@ public class NonDrugChargeItemController {
         return Response.ok(data);
     }
 
+    /**
+     * 更新非药品收费项目
+     * @param nonDrugChargeItem 前端传递NonDrugChargeItem对象
+     * @return 返回response，表示是否成功
+     */
     @PostMapping("/update")
     @ResponseBody
     public Map updateNonDrugCharge(@RequestBody NonDrugChargeItem nonDrugChargeItem) {
@@ -49,6 +65,11 @@ public class NonDrugChargeItemController {
         }
     }
 
+    /**
+     * 创建非药品收费项目
+     * @param nonDrugChargeItem 前端传递NonDrugChargeItem对象
+     * @return 返回response，表示是否成功
+     */
     @PostMapping("/add")
     @ResponseBody
     public Map insertNonDrugCharge(@RequestBody NonDrugChargeItem nonDrugChargeItem){
@@ -60,6 +81,11 @@ public class NonDrugChargeItemController {
         }
     }
 
+    /**
+     * 批量删除非药品收费项目
+     * @param req 前端传递的request，要删除的非药品收费项目id的列表
+     * @return 返回response，表示是否成功
+     */
     @PostMapping("/delete")
     @ResponseBody
     public Map  deleteNonDrugCharge(@RequestBody Map req){

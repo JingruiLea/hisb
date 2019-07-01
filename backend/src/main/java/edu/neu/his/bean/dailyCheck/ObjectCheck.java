@@ -3,6 +3,9 @@ package edu.neu.his.bean.dailyCheck;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 该类代表各科室/医生日结核对
+ */
 public class ObjectCheck {
     private String name;
     private int person_time;

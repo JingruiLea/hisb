@@ -6,8 +6,16 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.type.JdbcType;
 
+/**
+ * 该类对数据库中的medical_record_diagnose表进行数据持久化操作
+ */
 @Mapper
 public interface MedicalRecordDiagnoseMapper {
+    /**
+     * 根据病历号查找对应的诊断
+     * @param medical_record_id 病历号
+     * @return 返回对应的诊断
+     */
     @Select({
             "select",
             "id, medical_record_id",

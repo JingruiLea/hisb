@@ -8,6 +8,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 该类将用户对应角色
+ */
 public class UserPrincipal implements UserDetails {
 
     private User user;

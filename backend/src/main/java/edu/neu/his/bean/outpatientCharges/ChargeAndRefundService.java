@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现处理数据库中outpatient_charges_record表的相关操作
+ */
 @Service
 public class ChargeAndRefundService {
     @Autowired
@@ -51,6 +54,12 @@ public class ChargeAndRefundService {
     @Autowired
     ExpenseClassificationMapper expenseClassificationMapper;
 
+    /**
+     * 从数据库中根据病历号和状态找到对应的缴费记录列表
+     * @param medical_record_id 病历号
+     * @param status 状态
+     * @return 根据病历号和状态找到的对应缴费记录列表
+     */
     @Transactional
     public List<OutpatientChargesRecord> findByMedicalRecordIdAndStatus(int medical_record_id,String status){
         List<OutpatientChargesRecord> list = chargeAndRefundMapper.findByMedicalRecordId(medical_record_id);
@@ -62,21 +71,44 @@ public class ChargeAndRefundService {
         return records;
     }
 
+    /**
+     * 从数据库中根据病历号和id找到对应的缴费记录
+     * @param medical_record_id 病历号
+     * @param id id
+     * @return 根据病历号和id找到的对应缴费记录
+     */
     @Transactional
     public OutpatientChargesRecord findByMedicalRecordIdAndId(int medical_record_id, int id){
         return  chargeAndRefundMapper.findByMedicalRecordIdAndId(medical_record_id, id);
     }
 
+    /**
+     * 从数据库中根据病历号和起止时间找到对应的缴费记录列表
+     * @param medical_record_id 病历号
+     * @param start_time 起始时间
+     * @param end_time 截止时间
+     * @return 根据病历号和起止时间找到的对应缴费记录列表
+     */
     @Transactional
     public List<OutpatientChargesRecord> findByMedicalRecordIdAndTime(int medical_record_id, String start_time, String end_time){
         return  chargeAndRefundMapper.findByMedicalRecordIdAndTime(medical_record_id, start_time, end_time);
     }
 
+    /**
+     * 更新数据库中的一条相应的缴费记录
+     * @param outpatientChargesRecord 要进行更新的OutpatientChargesRecord对象
+     * @return 更新的OutpatientChargesRecord对象id
+     */
     @Transactional
     public int update (OutpatientChargesRecord outpatientChargesRecord){
         return outpatientChargesRecordMapper.updateByPrimaryKey(outpatientChargesRecord);
     }
 
+    /**
+     * 将缴费记录转换为api需要的格式
+     * @param record 缴费记录
+     * @return 转换的缴费信息
+     */
     @Transactional
     public Map outpatientChargesRecordToMap(OutpatientChargesRecord record){
         Map res = Utils.objectToMap(record);
@@ -107,12 +139,22 @@ public class ChargeAndRefundService {
         return res;
     }
 
+    /**
+     * 向数据库中插入一条缴费记录
+     * @param record 要插入数据库中的OutpatientChargesRecord对象
+     * @return 插入数据库中的OutpatientChargesRecord对象id
+     */
     @Transactional
     public int insert(OutpatientChargesRecord record){
         outpatientChargesRecordMapper.insert(record);
         return record.getId();
     }
 
+    /**
+     * 判断是否已退药
+     * @param record 缴费记录
+     * @return 是否已退药
+     */
     @Transactional
     public boolean itemHasReturn(OutpatientChargesRecord record){
         int item_id = record.getItem_id();

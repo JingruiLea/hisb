@@ -2,6 +2,9 @@ package edu.neu.his.bean;
 
 import java.io.Serializable;
 
+/**
+ * 该类代表处方模版
+ */
 public class PrescriptionTemplateItem implements Serializable {
     private Integer id;
 

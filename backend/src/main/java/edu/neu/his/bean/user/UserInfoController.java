@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 实现用户信息的相关功能
+ */
 @RestController
 @RequestMapping("/user")
 public class UserInfoController {
@@ -18,6 +21,11 @@ public class UserInfoController {
     @Autowired
     UserMapper userMapper;
 
+    /**
+     * 获取用户信息
+     * @param req 前端传递的request，包含用户id
+     * @return 返回查找结果
+     */
     @PostMapping("/info")
     @ResponseBody
     public Map getUserInfo(@RequestBody Map req) {
@@ -33,6 +41,11 @@ public class UserInfoController {
             return Response.error("用户信息读取失败，请检查数据库约束！");
     }
 
+    /**
+     * 用户登录
+     * @param req 前端传递的request，包含用户名和用户密码
+     * @return 登录是否成功
+     */
     @PostMapping("/login")
     @ResponseBody
     public Map login(@RequestBody Map req) {

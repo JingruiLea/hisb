@@ -14,15 +14,28 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 
+/**
+ * 该类对数据库中的medical_record表进行数据持久化操作
+ */
 @Mapper
 @Component(value = "MedicalRecordMapper")
 public interface MedicalRecordMapper {
+    /**
+     * 根据id从数据库中删除对应的病历
+     * @param id 病历号
+     * @return 删除对应的病历id
+     */
     @Delete({
         "delete from medical_record",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int deleteByPrimaryKey(Integer id);
 
+    /**
+     * 向数据库的medical_record表中插入一条记录
+     * @param record 要插入数据库中的MedicalRecord对象
+     * @return 插入数据库中的MedicalRecord的id
+     */
     @Insert({
         "insert into medical_record (id, create_time, `status`, ",
         "chief_complaint, current_medical_history, ",
@@ -36,6 +49,11 @@ public interface MedicalRecordMapper {
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(MedicalRecord record);
 
+    /**
+     * 根据id查找对应的病历
+     * @param id 病历id
+     * @return 根据id查找的对应病历
+     */
     @Select({
         "select",
         "id, create_time, `status`, chief_complaint, current_medical_history, current_treatment_situation, ",
@@ -56,6 +74,10 @@ public interface MedicalRecordMapper {
     })
     MedicalRecord selectByPrimaryKey(Integer id);
 
+    /**
+     * 查找所有病历
+     * @return 查找到的所有病历
+     */
     @Select({
         "select",
         "id, create_time, `status`, chief_complaint, current_medical_history, current_treatment_situation, ",
@@ -75,6 +97,11 @@ public interface MedicalRecordMapper {
     })
     List<MedicalRecord> selectAll();
 
+    /**
+     * 根据id更新数据库的medical_record表中相应的记录
+     * @param record 要在数据库中更新的MedicalRecord对象
+     * @return 更新的MedicalRecord对象id
+     */
     @Update({
         "update medical_record",
         "set create_time = #{create_time,jdbcType=VARCHAR},",

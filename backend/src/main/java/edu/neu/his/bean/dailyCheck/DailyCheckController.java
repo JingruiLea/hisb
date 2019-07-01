@@ -14,7 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 实现日结核对管理相关功能
+ */
 @RestController
 @RequestMapping("/outpatientDailyReportCheck")
 public class DailyCheckController {
@@ -34,12 +36,21 @@ public class DailyCheckController {
     int invalid_bill_record_num = 0;
     int reprint_bill_record_num = 0;
 
+    /**
+     * 初始化，加载基本数据
+     * @return 返回收费员名单
+     */
     @RequestMapping("/init")
     @ResponseBody
     public Map init(){
         return Response.ok(dailyCheckService.getTollCollector());
     }
 
+    /**
+     * 获得日结核对报告
+     * @param req 前端传递的request，包含起止日期和收费员id
+     * @return 返回日结核对报告，包括发票汇总总金额、挂号费总金额和各费用科目的总金额
+     */
     @PostMapping("/getReport")
     @ResponseBody
     public Map getReport(@RequestBody Map req){
@@ -106,6 +117,11 @@ public class DailyCheckController {
         });
     }
 
+    /**
+     * 完成财务入库
+     * @param req 前端传递的request，包含起止日期和收费员id
+     * @return 返回response，表示是否成功
+     */
     @PostMapping("/confirmCheck")
     @ResponseBody
     public Map confirmCheck(@RequestBody Map req){
@@ -127,6 +143,11 @@ public class DailyCheckController {
         return dailyCheckService.exist(start_date,end_date,toll_collector_id,checker_id);
     }
 
+    /**
+     * 获取日结核对的记录列
+     * @param req 前端传递的request，包含起止日期
+     * @return 返回查找结果
+     */
     @PostMapping("/history")
     @ResponseBody
     public Map history(@RequestBody Map req){
@@ -135,7 +156,11 @@ public class DailyCheckController {
         return Response.ok(dailyCheckService.history(start_date,end_date));
     }
 
-
+    /**
+     * 统计门诊科室工作量
+     * @param req 前端传递的request，包含起止日期
+     * @return 返回各个科室各个费用项目的统计
+     */
     @PostMapping("/departmentCheck")
     @ResponseBody
     public Map getDepartmentCheck(@RequestBody Map req){
@@ -149,6 +174,11 @@ public class DailyCheckController {
         return Response.ok(data);
     }
 
+    /**
+     * 统计门诊医生工作量
+     * @param req 前端传递的request，包含起止日期
+     * @return 返回各个医生各个费用项目的统计
+     */
     @PostMapping("/userCheck")
     @ResponseBody
     public Map getUserCheck(@RequestBody Map req){

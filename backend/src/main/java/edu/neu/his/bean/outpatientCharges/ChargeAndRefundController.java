@@ -24,6 +24,9 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * 实现收费记录管理的相关功能
+ */
 @RestController
 @RequestMapping("/outpatientCharge")
 public class ChargeAndRefundController {
@@ -45,6 +48,11 @@ public class ChargeAndRefundController {
     @Autowired
     private DepartmentMapper departmentMapper;
 
+    /**
+     * 获取收费项目列表
+     * @param req 前端传递的request，包含病历号
+     * @return 返回查找到的所有收费项目列表和状态码等信息
+     */
     @RequestMapping("/getChargeItems")
     @ResponseBody
     public Map info(@RequestBody Map req){
@@ -52,6 +60,11 @@ public class ChargeAndRefundController {
         return Response.ok(chargeAndRefundService.findByMedicalRecordIdAndStatus(medical_record_id, OutpatientChargesRecordStatus.ToCharge));
     }
 
+    /**
+     * 查询历史费用
+     * @param req 前端传递的request，包含病历号和查询的起止时间
+     * @return 查询到的收费记录和费用
+     */
     @RequestMapping("/getHistoryChargeItems")
     @ResponseBody
     public Map historyInfo(@RequestBody Map req){
@@ -70,6 +83,11 @@ public class ChargeAndRefundController {
         return Response.ok(res);
     }
 
+    /**
+     * 统计患者费用
+     * @param req 前端传递的request，包含病历号
+     * @return 查找到的患者费用统计信息
+     */
     @RequestMapping("/historyChargeItems")
     @ResponseBody
     public Map getHistoryChargeItems5(@RequestBody Map req){
@@ -94,6 +112,11 @@ public class ChargeAndRefundController {
         }
     }
 
+    /**
+     * 收费
+     * @param req 前端传递的request，包含"medical_record_id","charges_id_list"等字段
+     * @return 不能收费的id
+     */
     @PostMapping("/charge")
     @ResponseBody
     public Map collect(@RequestBody Map req) {
@@ -163,6 +186,11 @@ public class ChargeAndRefundController {
         }
     }
 
+    /**
+     * 退费
+     * @param req 前端传递的request，包含"medical_record_id","charges_id_list"等字段
+     * @return  状态码
+     */
     @PostMapping("/withdraw")
     @ResponseBody
     public Map refund(@RequestBody Map req){
@@ -236,6 +264,11 @@ public class ChargeAndRefundController {
         }
     }
 
+    /**
+     * 根据病历号查找挂号基本信息
+     * @param req 前端传递的request，包含病历号
+     * @return 查询到的挂号基本信息
+     */
     @RequestMapping("/registrationByRecordId")
     @ResponseBody
     public Map registrationByRecordId(@RequestBody Map req){

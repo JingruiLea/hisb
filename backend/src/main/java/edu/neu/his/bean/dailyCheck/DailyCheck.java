@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 该类代表日结核对，即每日挂号收费员报账时，收费员应该报账金额和报账发票数量。
+ */
 public class DailyCheck {
     private Integer toll_collector_id;
     private Float classificationTotal;

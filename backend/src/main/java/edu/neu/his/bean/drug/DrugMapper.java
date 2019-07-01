@@ -7,8 +7,16 @@ import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
 
+/**
+ * 该类对数据库中的drug表进行数据持久化操作
+ */
 @Mapper
 public interface DrugMapper extends Importable<Drug> {
+    /**
+     * 向数据库的drug表中插入一条记录
+     * @param record  要插入数据库中的drug对象
+     * @return 药品id
+     */
     @Insert({
             "insert into drug (id, code, `name`, ",
             "format, unit, manufacturer, ",
@@ -22,6 +30,11 @@ public interface DrugMapper extends Importable<Drug> {
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(Drug record);
 
+    /**
+     * 根据名称查找对应的药品
+     * @param name 药品名称
+     * @return 药品
+     */
     @Select({
             "select",
             "id, code, `name`, format, unit, manufacturer, dosage_form, `type`, price, pinyin, ",

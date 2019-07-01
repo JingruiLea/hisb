@@ -1,5 +1,8 @@
 package edu.neu.his.bean.dailyCheck;
 
+/**
+ * 该类代表费用科目
+ */
 public class ClassificationFee {
     private String name;
     private Float fee;

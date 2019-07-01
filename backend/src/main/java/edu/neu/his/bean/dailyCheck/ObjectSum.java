@@ -1,5 +1,8 @@
 package edu.neu.his.bean.dailyCheck;
 
+/**
+ * 该类代表各科室/医生票据总额
+ */
 public class ObjectSum {
     private String name;
     private String fee_name;

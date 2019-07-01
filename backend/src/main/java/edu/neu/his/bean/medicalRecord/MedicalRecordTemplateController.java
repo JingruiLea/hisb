@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现病历模版管理的相关功能
+ */
 @RestController
 @RequestMapping("/medicalRecordTemplate")
 public class MedicalRecordTemplateController {
@@ -20,12 +23,22 @@ public class MedicalRecordTemplateController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 获得所有病历模版的列表
+     * @param req 前端传递的request，包含用户id
+     * @return 查找到的所有病历模版的列表
+     */
     @PostMapping("/list")
     @ResponseBody
     public Map list(@RequestBody Map req){
         return Response.ok(returnList(req));
     }
 
+    /**
+     * 获得病历模版详情
+     * @param req 前端传递的request，包含病历号
+     * @return 查找到的所有病历模版详情的列表
+     */
     @PostMapping("/detail")
     @ResponseBody
     public Map detail(@RequestBody Map req){
@@ -33,6 +46,11 @@ public class MedicalRecordTemplateController {
         return Response.ok(medicalRecordTemplateService.selectById(id));
     }
 
+    /**
+     * 创建病历模版
+     * @param req 前端传递的request，包含MedicalRecordTemplate类中的各个字段
+     * @return 创建的病历模版列表
+     */
     @PostMapping("/create")
     @ResponseBody
     public Map create(@RequestBody Map req){
@@ -53,6 +71,11 @@ public class MedicalRecordTemplateController {
         return Response.ok(returnList(req));
     }
 
+    /**
+     * 更新病历模版
+     * @param req 前端传递的request，包含MedicalRecordTemplate类中的各个字段
+     * @return 更新的病历模版列表
+     */
     @PostMapping("/update")
     @ResponseBody
     public Map update(@RequestBody Map req) {
@@ -76,6 +99,11 @@ public class MedicalRecordTemplateController {
         return Response.ok(returnList(req));
     }
 
+    /**
+     * 删除病历模版
+     * @param req 前端传递的request，要删除的病历模版id的列表
+     * @return 删除的的病历模版列表
+     */
     @PostMapping("/delete")
     @ResponseBody
     public Map delete(@RequestBody Map req){

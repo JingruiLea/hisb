@@ -1,5 +1,8 @@
 package edu.neu.his.bean.medicalRecord;
 
+/**
+ * 将病历的状态（已提交、暂存、诊毕；个人0、科室1、全院2）作为静态变量存放
+ */
 public class MedicalRecordStatus {
     public static String Committed = "已提交";
     public static String TemporaryStorage = "暂存";

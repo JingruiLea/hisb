@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * 实现处理数据库中exam、examItem表的相关操作
+ */
 @Service
 public class ExamService {
     @Autowired
@@ -48,22 +51,42 @@ public class ExamService {
         return true;
     }
 
+    /**
+     * 向数据库中插入一条检查/检验/处置记录
+     * @param exam  要插入数据库中的Exam对象
+     * @return 检查/检验/处置id
+     */
     @Transactional
     public int insert(Exam exam){
         return examMapper.insert(exam);
     }
 
+    /**
+     * 从数据库中根据检查/检验/处置id找到对应的非药品项目id
+     * @param id 检查/检验/处置id
+     * @return 对应的非药品项目id列表
+     */
     @Transactional
     public List<Integer> getNonDrugItemIdListById(Integer id){
         List<ExamItem> itemList = examItemMapper.selectByExamId(id);
         return itemList.stream().map(ExamItem::getNon_drug_item_id).collect(Collectors.toList());
     }
 
+    /**
+     * 从数据库中根据检查/检验/处置id找到对应的检查/检验/处置
+     * @param id 检查/检验/处置id
+     * @return 对应的检查/检验/处置
+     */
     @Transactional
     public Exam selectById(Integer id){
         return examMapper.selectByPrimaryKey(id);
     }
 
+    /**
+     * 更新数据库中的一条相应的检查/检验/处置记录
+     * @param record 要进行更新的Exam对象
+     * @return 检查/检验/处置id
+     */
     @Transactional
     public int updateByPrimaryKey(Exam record){
         return examMapper.updateByPrimaryKey(record);
@@ -80,6 +103,12 @@ public class ExamService {
         return res;
     }
 
+    /**
+     * 从数据库中根据病历号和医生找到对应的检查/检验/处置列表
+     * @param medicalRecordId 病历号
+     * @param user 医生
+     * @return 对应的检查/检验/处置列表
+     */
     @Transactional
     public List list(int medicalRecordId, User user){
         List res = new ArrayList();
@@ -102,7 +131,11 @@ public class ExamService {
         return res;
     }
 
-
+    /**
+     * 从数据库中根据类别找到对应的非药品项目列表
+     * @param type 检查/检验/处置类别
+     * @return 对应的非药品项目列表
+     */
     @Transactional
     public List<NonDrugChargeItem> allItemsByType(int type){
         return nonDrugChargeService.findAll().stream().filter(item->{
@@ -117,11 +150,21 @@ public class ExamService {
         }).collect(Collectors.toList());
     }
 
+    /**
+     * 根据id从数据库中删除对应检查/检验/处置
+     * @param id 检查/检验/处置id
+     * @return 删除的检查/检验/处置id
+     */
     @Transactional
     public int delete(int id){
         return examMapper.deleteByPrimaryKey(id);
     }
 
+    /**
+     * 根据检查/检验/处置id从数据库中删除对应检查/检验/处置子目
+     * @param id 检查/检验/处置id
+     * @return 是否删除成功
+     */
     @Transactional
     public boolean deleteAllItemById(int id) {
         List<ExamItem> list = examItemMapper.selectByExamId(id);

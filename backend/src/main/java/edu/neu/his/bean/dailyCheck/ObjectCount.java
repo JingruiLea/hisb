@@ -1,5 +1,8 @@
 package edu.neu.his.bean.dailyCheck;
 
+/**
+ * 该类代表各科室/医生票据数量
+ */
 public class ObjectCount {
     private String name;
     private int person_time;

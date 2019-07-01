@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现处理数据库中registration、bill_record、operate_log表的相关操作
+ */
 @Service
 public class OutpatientRegistrationService {
     @Autowired
@@ -33,6 +36,12 @@ public class OutpatientRegistrationService {
     @Autowired
     private UserService userService;
 
+    /**
+     * 从数据库中根据科室id和挂号等级id找到对应的挂号记录
+     * @param department_id 科室id
+     * @param registration_level_id 挂号等级id
+     * @return 根据科室id和挂号等级id找到的对应挂号记录
+     */
     @Transactional
     public List<User> findByDepartmentAndRegistrationLevel(int department_id, int registration_level_id){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
@@ -41,32 +50,61 @@ public class OutpatientRegistrationService {
         return outpatientRegistrationMapper.findByDepartmentAndTitle(department_id,registration_level_id,curr_date);
     }
 
+    /**
+     * 向数据库中插入一条挂号记录
+     * @param registration 挂号信息
+     * @return 病历号id
+     */
     @Transactional
     public int insertRegistration(Registration registration){
         outpatientRegistrationMapper.insert(registration);
         return  registration.getMedical_record_id();
     }
 
+    /**
+     * 从数据库中根据病历号找到对应的挂号记录
+     * @param medical_record_id 病历号
+     * @return 根据病历号找到的对应挂号记录
+     */
     @Transactional
     public Registration findRegistrationById(int medical_record_id){
         return outpatientRegistrationMapper.findRegistrationById(medical_record_id);
     }
 
+    /**
+     * 更新挂号状态
+     * @param registration 挂号信息
+     */
     @Transactional
     public void updateStatus(Registration registration){
        outpatientRegistrationMapper.update(registration);
     }
 
+    /**
+     * 从数据库中根据医生找到对应的挂号记录
+     * @param id 医生id
+     * @return 根据医生找到的对应挂号记录
+     */
     @Transactional
     public List<Registration> findByDoctor(int id){
         return outpatientRegistrationMapper.findRegistrationByDoctor(id);
     }
 
+    /**
+     * 从数据库中根据患者姓名找到对应的病历号
+     * @param name 患者姓名
+     * @return 根据患者姓名找到的对应病历号
+     */
     @Transactional
     public List<Integer> findMedicalRecordIdByName(String name){
         return outpatientRegistrationMapper.findMedicalRecordIdByName(name);
     }
 
+    /**
+     * 退号
+     * @param registration 挂号记录
+     * @param uid 用户id
+     */
     @Transactional
     public void cancelRegistration(Registration registration, int uid){
         //退号
@@ -84,6 +122,14 @@ public class OutpatientRegistrationService {
         operateLogService.insertOperateLog(operateLog);
     }
 
+    /**
+     * 挂号
+     * @param registration 挂号信息
+     * @param req 包含票据记录和科室id
+     * @param fee 费用
+     * @param uid 用户id
+     * @return 挂号信息
+     */
     @Transactional
     public Map createRegistration(Registration registration, Map req, float fee, int uid){
         Map data = new HashMap();
@@ -117,6 +163,14 @@ public class OutpatientRegistrationService {
         return data;
     }
 
+    /**
+     * 退号时添加操作记录
+     * @param registration 挂号信息
+     * @param type 操作类型
+     * @param bill_record_id 票据记录id
+     * @param uid 用户id
+     * @return 新增的操作记录
+     */
     private OperateLog registrationToWithdrawOperateLog(Registration registration, String type,int bill_record_id, int uid){
         String create_time = Utils.getSystemTime();
         int medical_record_number = registration.getMedical_record_id();
@@ -127,6 +181,13 @@ public class OutpatientRegistrationService {
         return operateLog;
     }
 
+    /**
+     * 退号时添加票据记录
+     * @param registration 挂号信息
+     * @param type 票据类型
+     * @param uid 用户id
+     * @return 新增的票据记录
+     */
     private BillRecord registrationToWithdrawBill(Registration registration, String type,int uid){
         BillRecord billRecord = new BillRecord();
         billRecord.setCost(0-registration.getCost());

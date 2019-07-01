@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现收费员日结的相关功能
+ */
 @RestController
 @RequestMapping("/dailyCollect")
 public class RegistrationDailyCollectController {
@@ -28,6 +31,11 @@ public class RegistrationDailyCollectController {
     @Autowired
     private BillRecordService billRecordService;
 
+    /**
+     * 获得日结历史列表
+     * @param req 前端传递的request，包含隐式用户id
+     * @return 查找到的日结历史列表
+     */
     @RequestMapping("/list")
     @ResponseBody
     public Map list(@RequestBody Map req){
@@ -38,6 +46,11 @@ public class RegistrationDailyCollectController {
             return Response.error("错误，该用户ID不存在");
     }
 
+    /**
+     * 根据名称查找日结详细信息
+     * @param req 前端传递的request，包含日结id
+     * @return 日结的票据记录列表
+     */
     @RequestMapping("/detail")
     @ResponseBody
     public Map detail(@RequestBody Map req){
@@ -54,6 +67,11 @@ public class RegistrationDailyCollectController {
         return Response.ok(billRecordList);
     }
 
+    /**
+     * 根据起止时间日结
+     * @param req 前端传递的request，包含起止时间
+     * @return 日结记录
+     */
     @PostMapping("/collect")
     @ResponseBody
     public Map collect(@RequestBody Map req){

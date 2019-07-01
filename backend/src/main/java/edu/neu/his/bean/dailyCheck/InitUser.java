@@ -1,5 +1,8 @@
 package edu.neu.his.bean.dailyCheck;
 
+/**
+ * 该类代表收费员
+ */
 public class InitUser {
     private int id;
     private String name;

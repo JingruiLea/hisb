@@ -14,6 +14,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * 实现录入检查/检验/处置的相关功能
+ *
+ */
 @RestController
 @RequestMapping("/examExcute")
 public class ExamExecuteController {
@@ -30,6 +34,11 @@ public class ExamExecuteController {
 
     @Autowired ExamItemResultService examItemResultMapper;
 
+    /**
+     * 根据姓名/身份证/医保/病例号获取挂号列表
+     * @param req 前端传递的request，包含类型（姓名/身份证/医保/病例号）和它的值
+     * @return 对应的挂号列表
+     */
     @RequestMapping("/searchRegistration")
     public Map searchRegistration(@RequestBody Map req){
         int type = (int) req.get("type");
@@ -56,6 +65,11 @@ public class ExamExecuteController {
         return Response.ok(res);
     }
 
+    /**
+     * 登记检查/检验
+     * @param req 前端传递的request，为检查/检验id
+     * @return 状态码
+     */
     @PostMapping("register")
     public Map register(@RequestBody Map req){
         List<Integer> examItemIds = (List<Integer>) req.get("exam_item_id");
@@ -66,6 +80,11 @@ public class ExamExecuteController {
         }
     }
 
+    /**
+     * 获取全部检查/检验
+     * @param req 前端传递的request，为病历号
+     * @return 全部检查/检验列表
+     */
     @PostMapping("/allExam")
     public Map allExam(@RequestBody Map req){
         int medicalRecordId = (int) req.get("medical_record_id");
@@ -73,6 +92,11 @@ public class ExamExecuteController {
         return Response.ok(res);
     }
 
+    /**
+     * 提交检查/检验结果
+     * @param req 前端传递的request，检查/检验结果
+     * @return 状态码
+     */
     @PostMapping("submitResult")
     public Map submitResult(@RequestParam Map req){
         int examItemId = (int) req.get("exam_item_id");
@@ -100,6 +124,11 @@ public class ExamExecuteController {
         return Response.ok();
     }
 
+    /**
+     * 获得检查/检验结果
+     * @param req 前端传递的request，包含检查/检验id
+     * @return 对应的检查/检验结果
+     */
     @PostMapping("getResult")
     public Map getResult(@RequestBody Map req){
         int examItemId = (int)req.get("exam_item_id");

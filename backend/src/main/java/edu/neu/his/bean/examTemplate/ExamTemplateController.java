@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+/**
+ * 实现检查/检验/处置组套管理的相关功能
+ */
 @RestController
 @RequestMapping("/examTemplate")
 public class ExamTemplateController {
@@ -23,9 +26,14 @@ public class ExamTemplateController {
     @Autowired
     ExamTemplateItemService examTemplateItemService;
 
-
     @Autowired
     NonDrugChargeService nonDrugChargeService;
+
+    /**
+     * 根据类型获得所有检查/检验/处置组套的列表
+     * @param req 前端传递的request，包含类型（0 成药 1 草药 2 医技补录）
+     * @return 所有检查/检验/处置组套的列表
+     */
     @PostMapping("/all")
     public Map list(@RequestBody Map req){
         int type = (int)req.get("type");
@@ -35,6 +43,11 @@ public class ExamTemplateController {
         return Response.ok(res);
     }
 
+    /**
+     * 将检查/检验/处置存为组套
+     * @param req 前端传递的request，包含ExamTemplate类中的各个字段
+     * @return 返回组套类型和名称
+     */
     @PostMapping("/create")
     public Map create(@RequestBody Map req){
         User user = Utils.getSystemUser(req);
@@ -62,12 +75,22 @@ public class ExamTemplateController {
         return Response.ok(examTemplateService.findAll(Utils.getSystemUser(req)));
     }
 
+    /**
+     * 获得组套详细信息
+     * @param req 前端传递的request，包含"exam_template_id"
+     * @return 组套详细信息
+     */
     @PostMapping("/detail")
     public Map detail(@RequestBody Map req){
         int examTemplateId = (int)req.get("exam_template_id");
         return Response.ok(examTemplateItemService.detail(examTemplateId));
     }
 
+    /**
+     * 删除组套
+     * @param req 前端传递的request，要删除的组套id的列表
+     * @return 删除的组套id的列表
+     */
     @PostMapping("delete")
     public Map delete(@RequestBody Map req){
         List<Integer> ids = (List<Integer>) req.get("id");
@@ -80,6 +103,11 @@ public class ExamTemplateController {
         return Response.ok(examTemplateService.findAll(Utils.getSystemUser(req)));
     }
 
+    /**
+     * 添加组套详情
+     * @param map 前端传递的map，包含组套id和非药品项目列表
+     * @return 非药品项目id列表
+     */
     @PostMapping("/addItem")
     public Map addOne(@RequestBody Map map){
         int examId = (int)map.get("exam_template_id");
@@ -104,7 +132,11 @@ public class ExamTemplateController {
         return Response.ok(res);
     }
 
-
+    /**
+     * 删除组套详情
+     * @param map 前端传递的map，要删除的组套id
+     * @return 删除的非药品项目id的列表
+     */
     @PostMapping("/delItem")
     public Map delOne(@RequestBody Map map) {
         int examId = (int)map.get("exam_id");
@@ -127,7 +159,11 @@ public class ExamTemplateController {
         return Response.ok(res);
     }
 
-
+    /**
+     * 更新组套详情
+     * @param req 前端传递的request，包含ExamTemplateItem类中的各个字段
+     * @return 状态码
+     */
     @PostMapping("update")
     public Map update(@RequestBody Map req){
         int id = (int) req.get("id");

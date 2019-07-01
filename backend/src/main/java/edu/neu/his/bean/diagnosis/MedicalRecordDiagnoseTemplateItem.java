@@ -2,6 +2,9 @@ package edu.neu.his.bean.diagnosis;
 
 import java.io.Serializable;
 
+/**
+ * 该类为诊断子目模版，医生可把诊断存为诊断子目模版
+ */
 public class MedicalRecordDiagnoseTemplateItem implements Serializable {
     private Integer id;
 

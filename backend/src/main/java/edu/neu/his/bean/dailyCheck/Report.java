@@ -1,5 +1,8 @@
 package edu.neu.his.bean.dailyCheck;
 
+/**
+ * 该类代表日结核对报告
+ */
 public class Report {
     private Integer medical_record_id;
     private Float cost;

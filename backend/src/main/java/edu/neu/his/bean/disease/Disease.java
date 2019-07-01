@@ -1,5 +1,8 @@
 package edu.neu.his.bean.disease;
 
+/**
+ * 该类代表疾病
+ */
 public class Disease {
     private int id;
     private String code;

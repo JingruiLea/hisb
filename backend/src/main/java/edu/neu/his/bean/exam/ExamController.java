@@ -23,6 +23,10 @@ import java.util.*;
 
 import static org.springframework.util.ResourceUtils.CLASSPATH_URL_PREFIX;
 
+/**
+ * 实现检查/检验/处置管理的相关功能
+ *
+ */
 @RestController
 @RequestMapping("/exam")
 public class ExamController {
@@ -59,12 +63,22 @@ public class ExamController {
     @Autowired
     ExamItemResultService examItemResultMapper;
 
+    /**
+     * 根据类型查找全部的非药品项目
+     * @param req 检查/检验/处置类型
+     * @return 对应的非药品项目
+     */
     @PostMapping("/allItems")
     public Map allItemsByType(@RequestBody Map req){
         List res = examService.allItemsByType((Integer) req.get("type"));
         return Response.ok(res);
     }
 
+    /**
+     * 作废检查/检验/处置
+     * @param req 前端传递的request，包含检查/检验/处置id列表
+     * @return 状态码
+     */
     @PostMapping("/cancel")
     public Map cancel(@RequestBody Map req){
         List<Integer> ids = (List<Integer>) req.get("id");
@@ -77,6 +91,11 @@ public class ExamController {
         return Response.ok();
     }
 
+    /**
+     * 创建检查/检验/处置
+     * @param req 前端传递的request，包含“type”,"medical_record_id","non_drug_id_list"字段
+     * @return 状态码
+     */
     @PostMapping("/create")
     public Map create(@RequestBody Map req){
 //         = examService.selectByMedicalRecordIdAndType((int)req.get("medical_record_id"), (int)req.get("type"));
@@ -113,6 +132,11 @@ public class ExamController {
         return Response.ok(res);
     }
 
+    /**
+     * 更新检查/检验/处置
+     * @param req 前端传递的request，包含“type”,"medical_record_id","non_drug_id_list"字段
+     * @return 状态码
+     */
     @PostMapping("/update")
     public Map update(@RequestBody Map req){
         int examId = (int) req.get("id");
@@ -163,6 +187,11 @@ public class ExamController {
         return Response.ok(res);
     }
 
+    /**
+     * 发送检查/检验/处置
+     * @param map 前端传递的request，包含检查/检验/处置id
+     * @return 状态码
+     */
     @PostMapping("/send")
     public Map submit(@RequestBody Map map){
         List<Integer> examIds = (List<Integer>) map.get("id");
@@ -203,6 +232,11 @@ public class ExamController {
         return Response.ok();
     }
 
+    /**
+     * 删除检查/检验/处置
+     * @param req 前端传递的request，包含需要删除的检查/检验/处置id
+     * @return 状态码
+     */
     @PostMapping("/delete")
     public Map delete(@RequestBody Map req){
         List<Integer> examIds = (List<Integer>) req.get("id");
@@ -239,6 +273,11 @@ public class ExamController {
         return Response.ok(res);
     }
 
+    /**
+     * 根据病历号和类型获取全部检查/检验/处置
+     * @param req 前端传递的request，包含需要删除的检查/检验/处置的类型和病历号
+     * @return 全部检查/检验/处置列表
+     */
     @PostMapping("/list")
     public Map list(@RequestBody Map req){
         int medicalRecordId = (int) req.get("medical_record_id");
@@ -247,6 +286,11 @@ public class ExamController {
         return Response.ok(res);
     }
 
+    /**
+     * 根据病历号获取全部检查/检验/处置
+     * @param req 前端传递的request，包含需要删除的检查/检验/处置的病历号
+     * @return 全部检查/检验/处置列表
+     */
     @PostMapping("/allExam")
     public Map allExam(@RequestBody Map req){
         int medicalRecordId = (int) req.get("medical_record_id");
@@ -254,6 +298,11 @@ public class ExamController {
         return Response.ok(res);
     }
 
+    /**
+     * 登记检查/检验/处置
+     * @param req 前端传递的request，包含检查/检验/处置id
+     * @return 状态码
+     */
     @PostMapping("register")
     public Map register(@RequestBody Map req){
         List<Integer> examItemIds = (List<Integer>) req.get("exam_item_id");
@@ -264,6 +313,12 @@ public class ExamController {
         }
     }
 
+    /**
+     * 提交检查/检验结果
+     * @param req 前端传递的request，检查/检验/处置结果
+     * @param files 前端传递的request，文件路径名
+     * @return 状态码
+     */
     @PostMapping("submitResult")
     public Map submitResult(@RequestParam Map req, @RequestParam("file")MultipartFile[] files){
         int examItemId = Integer.parseInt((String) req.get("exam_item_id"));
@@ -298,6 +353,11 @@ public class ExamController {
         return Response.ok();
     }
 
+    /**
+     * 获得检查/检验结果
+     * @param req 前端传递的request，包含检查/检验id
+     * @return 对应的检查/检验结果
+     */
     @PostMapping("getResult")
     public Map getResult(@RequestBody Map req){
         int examItemId = (int)req.get("exam_item_id");
@@ -319,6 +379,12 @@ public class ExamController {
         return Response.ok(res);
     }
 
+    /**
+     * 获得检查/检验结果文件
+     * @param req 前端传递的request，包含文件名
+     * @param response
+     * @throws IOException 抛出文件IO异常
+     */
     @RequestMapping("getResultFile")
     public void getResultFile(@RequestParam Map req, HttpServletResponse response) throws IOException {
         String filename = (String) req.get("filename");

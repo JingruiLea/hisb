@@ -2,6 +2,9 @@ package edu.neu.his.bean.diagnosis;
 
 import java.io.Serializable;
 
+/**
+ * 该类代表门诊诊断子目，为首次接诊患者时，询问患者的一些信息，在“病历首页”的必填项目
+ */
 public class MedicalRecordDiagnoseItem implements Serializable {
     private Integer id;
 

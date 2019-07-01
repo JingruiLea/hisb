@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * 实现处方组套管理的相关功能
+ */
 @RestController
 @RequestMapping("/prescriptionTemplate")
 public class PrescriptionTemplateController {
@@ -29,6 +32,11 @@ public class PrescriptionTemplateController {
     @Autowired
     private DrugService drugService;
 
+    /**
+     * 创建处方组套
+     * @param req 前端传递的request，包含组套名称和处方组套列表
+     * @return 处方组套列表
+     */
     @PostMapping("/create")
     public Map create(@RequestBody Map req){
         List<Map> drugList = (List)req.get("prescription_item_list");
@@ -39,6 +47,11 @@ public class PrescriptionTemplateController {
         return Response.ok(prescriptionTemplateService.findAll(user));
     }
 
+    /**
+     * 删除处方组套
+     * @param req 前端传递的request，包含处方id列表
+     * @return 处方组套列表
+     */
     @PostMapping("/delete")
     public Map delete(@RequestBody Map req){
         List<Integer> prescriptionIds = (List<Integer>) req.get("id");
@@ -82,6 +95,11 @@ public class PrescriptionTemplateController {
         return Response.ok();
     }
 
+    /**
+     * 更新处方组套
+     * @param req 前端传递的request，包含处方id、处方详情列表和组套名称
+     * @return 状态码
+     */
     @PostMapping("/update")
     public Map update(@RequestBody Map req){
         int prescriptionId = (int)req.get("id");
@@ -108,6 +126,10 @@ public class PrescriptionTemplateController {
         return Response.ok();
     }
 
+    /**
+     * 获得所有处方状态的列表并按照类型分类
+     * @return 返回查找到的按照类型分类的所有处方状态的列表
+     */
     @PostMapping("/list")
     public Map list(@RequestBody Map req){
         int type = (int) req.get("type");
@@ -122,6 +144,11 @@ public class PrescriptionTemplateController {
         return Response.ok(res);
     }
 
+    /**
+     * 根据模版id获得组套详情
+     * @param req 前端传递的request，包含组套id
+     * @return 根据组套id获得组套详情
+     */
     @PostMapping("/detail")
     public Map detail(@RequestBody Map req){
         int templateId = (int) req.get("id");

@@ -2,6 +2,9 @@ package edu.neu.his.bean.nondrug;
 
 import java.io.Serializable;
 
+/**
+ * 该类代表非药品项目
+ */
 public class NonDrugChargeItem implements Serializable {
     private Integer id;
 

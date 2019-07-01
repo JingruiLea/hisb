@@ -7,9 +7,17 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * 该类对数据库中的prescription表进行数据持久化操作
+ */
 @Mapper
 @Component(value = "PrescriptionMapper")
 public interface PrescriptionMapper {
+    /**
+     * 根据病历号查找对应的处方
+     * @param medical_record_id 病历号
+     * @return 对应的处方
+     */
     @Select({
             "select",
             "id, medical_record_id, `type`, `status`, create_time, user_id",
@@ -27,7 +35,10 @@ public interface PrescriptionMapper {
     List<Prescription> selectByMedicalRecordId(int medical_record_id);
 
 
-
+    /**
+     * 根据处方id从数据库中删除对应的处方详情
+     * @param prescriptionId 处方id
+     */
     @Delete({
             "delete",
             "from prescription_item",

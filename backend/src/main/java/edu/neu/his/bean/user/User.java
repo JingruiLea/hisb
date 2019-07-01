@@ -1,5 +1,8 @@
 package edu.neu.his.bean.user;
 
+/**
+ * 该类代表用户
+ */
 public class User {
     private int uid;
     private String username;

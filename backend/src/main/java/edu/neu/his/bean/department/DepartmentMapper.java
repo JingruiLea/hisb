@@ -13,9 +13,9 @@ import java.util.List;
 @Component(value = "DepartmentMapper")
 public interface DepartmentMapper extends Importable<Department> {
     /**
-     *
-     * @param name
-     * @return
+     * 根据科室名称查找对应的科室
+     * @param name 科室名称
+     * @return 科室
      */
     @Select("SELECT department.id, pinyin, department.name, type,department_classification.name as classification_name, department_classification.id as classification_id " +
             "FROM department, department_classification " +
@@ -38,21 +38,21 @@ public interface DepartmentMapper extends Importable<Department> {
     int findClassificationIdByName(@Param("name") String name);
 
     /**
-     *向数据库的department表中插入一条记录
+     * 向数据库的department表中插入一条记录
      * @param department 要插入数据库中的Department对象
      */
     @Insert("INSERT INTO department(id,pinyin, name , type, classification_id ) VALUES(#{id}, #{pinyin}, #{name} ,#{type},#{classification_id})")
     int insert(Department department);
 
     /**
-     *根据id更新数据库的department表中相应的记录
+     * 根据id更新数据库的department表中相应的记录
      * @param department 要在数据库中更新的Department对象
      */
     @Update("UPDATE department SET pinyin = #{pinyin} ,type = #{type} ,name = #{name}, classification_id = #{classification_id} WHERE id = #{id}")
     void update(Department department);
 
     /**
-     *查找所有科室记录
+     * 查找所有科室记录
      * @return 返回所有科室记录的列表
      */
     @Select("SELECT department.id, pinyin, department.name, type,department_classification.name as classification_name, department_classification.id as classification_id " +
@@ -61,14 +61,14 @@ public interface DepartmentMapper extends Importable<Department> {
     List<Department> findAll();
 
     /**
-     *根据id从数据库中删除对应的科室
+     * 根据id从数据库中删除对应的科室
      * @param id 要删除的科室的id
      */
     @Delete("DELETE FROM department WHERE id=#{id}")
     void deleteDepartment(int id);
 
     /**
-     *检查数据库中是否已存在该科室id
+     * 检查数据库中是否已存在该科室id
      * @param id 要检查是否存在的科室id
      * @return 返回该科室id在数据库department表中存在的数量
      */
@@ -76,7 +76,7 @@ public interface DepartmentMapper extends Importable<Department> {
     int checkIdExists(@Param("id") int id);
 
     /**
-     *检查数据库中是否已存在该科室名称
+     * 检查数据库中是否已存在该科室名称
      * @param name 要检查是否存在的科室名称
      * @return 返回该科室名称在数据库department表中存在的数量
      */
@@ -84,7 +84,7 @@ public interface DepartmentMapper extends Importable<Department> {
     int checkNameExists(@Param("name") String name);
 
     /**
-     *检查数据库中是否存在该科室分类
+     * 检查数据库中是否存在该科室分类
      * @param id 科室分类id
      * @return 返回该科室分类id在department_classification表中存在的数量
      */
@@ -92,7 +92,7 @@ public interface DepartmentMapper extends Importable<Department> {
     int checkClassificationExists(@Param("id") int id);
 
     /**
-     *检查数据库中是否存在该科室分类
+     * 检查数据库中是否存在该科室分类
      * @param id 科室分类id
      * @return 返回该科室分类id在department_classification表中存在的数量
      */

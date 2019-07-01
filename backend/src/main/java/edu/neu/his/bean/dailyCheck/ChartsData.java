@@ -1,5 +1,8 @@
 package edu.neu.his.bean.dailyCheck;
 
+/**
+ * 该类统计图的行列
+ */
 public class ChartsData {
     private String name;
     private Float sum;

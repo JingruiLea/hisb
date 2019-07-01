@@ -2,6 +2,9 @@ package edu.neu.his.bean.prescription;
 
 import java.io.Serializable;
 
+/**
+ * 该类代表处方
+ */
 public class Prescription implements Serializable {
     private Integer id;
 

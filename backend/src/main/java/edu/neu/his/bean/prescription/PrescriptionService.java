@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现处理数据库中prescription、prescription_item表的相关操作
+ */
 @Service
 public class PrescriptionService {
     @Autowired
@@ -52,7 +55,14 @@ public class PrescriptionService {
     @Autowired
     private ChargeAndRefundMapper chargeAndRefundMapper;
 
-
+    /**
+     * 向数据库中插入一条处方记录
+     * @param user_id 用户id
+     * @param type 类型
+     * @param medical_record_id 病历号
+     * @param drugIds 药品id列表
+     * @return 添加的处方id
+     */
     @Transactional
     public int create(int user_id, int type, int medical_record_id, List<Map> drugIds){
         Prescription prescription = new Prescription();
@@ -66,11 +76,21 @@ public class PrescriptionService {
         return prescription.getId();
     }
 
+    /**
+     *  判断病历是否已提交
+     * @param medicalRecordId 病历id
+     * @return 是否已提交
+     */
     @Transactional
     public boolean recordMedicalHasSubmit(int medicalRecordId){
         return medicalRecordService.medicalRecordHasSubmit(medicalRecordId);
     }
 
+    /**
+     * 向数据库中插入处方详情
+     * @param prescriptionId 处方id
+     * @param drugInfos 药品信息列表
+     */
     @Transactional
     public void addItems(int prescriptionId, List<Map> drugInfos){
         for(Map i:drugInfos){
@@ -92,6 +112,12 @@ public class PrescriptionService {
         }
     }
 
+    /**
+     * 根据处方id和药品信息列表从数据库中删除对应处方详情
+     * @param prescriptionId 处方id
+     * @param drugInfos 药品信息列表
+     * @return 是否删除成功
+     */
     @Transactional
     public boolean removeItems(int prescriptionId, List<Map> drugInfos){
         for(Map i:drugInfos){
@@ -102,6 +128,11 @@ public class PrescriptionService {
         return true;
     }
 
+    /**
+     * 从数据库中根据处方id找到对应的处方详情列表
+     * @param prescriptionId 处方id
+     * @return 根据处方id找到的对应处方详情列表
+     */
     @Transactional
     public List<Map> detail(int prescriptionId){
         Prescription prescription = autoPrescriptionMapper.selectByPrimaryKey(prescriptionId);
@@ -113,6 +144,11 @@ public class PrescriptionService {
         return res;
     }
 
+    /**
+     * 提交处方
+     * @param user 用户
+     * @param prescriptionId 处方id
+     */
     @Transactional
     public void submit(User user, int prescriptionId){
         Prescription prescription = autoPrescriptionMapper.selectByPrimaryKey(prescriptionId);
@@ -149,16 +185,33 @@ public class PrescriptionService {
     @Autowired
     private AutoDrugMapper autoDrugMapper;
 
+    /**
+     * 从数据库中根据处方ID和状态找到对应的处方详情列表
+     * @param prescription_id 处方ID
+     * @param prescriptionStatus 处方状态
+     * @param recordStatus 病历状态
+     * @return 根据处方ID和状态找到的对应处方详情列表
+     */
     @Transactional
     public List<PrescriptionItem> findByPrescriptionAndStatus(int prescription_id, String prescriptionStatus, String recordStatus){
         return prescriptionItemMapper.selectByPrescriptionAndStatus(prescription_id, prescriptionStatus, recordStatus);
     }
 
+    /**
+     * 从数据库中根据病历号找到对应的处方列表
+     * @param medical_record_id 病历号
+     * @return 根据病历号找到的对应处方列表
+     */
     @Transactional
     public List<Prescription> findByMedicalRecordId(int medical_record_id){
         return prescriptionMapper.selectByMedicalRecordId(medical_record_id);
     }
 
+    /**
+     * 从数据库中根据处方id找到对应的处方
+     * @param prescriptionId 处方id
+     * @return 根据处方id找到的对应处方
+     */
     @Transactional
     public Prescription findById(int prescriptionId){
         return autoPrescriptionMapper.selectByPrimaryKey(prescriptionId);
@@ -187,11 +240,21 @@ public class PrescriptionService {
         return result;
     }
 
+    /**
+     * 从数据库中根据处方详情id找到对应的处方详情
+     * @param id 处方详情id
+     * @return 根据处方详情id找到的对应处方详情
+     */
     @Transactional
     public PrescriptionItem findPrescriptionItemById(int id){
         return autoPrescriptionItemMapper.selectByPrimaryKey(id);
     }
 
+    /**
+     * 获得能够退药的处方
+     * @param maps 处方详情id列表
+     * @return 能够退药的处方
+     */
     @Transactional
     public boolean allCanReturn(List<Map> maps){
         for (Map map : maps) {
@@ -203,6 +266,11 @@ public class PrescriptionService {
         return true;
     }
 
+    /**
+     * 获得能够发药的处方
+     * @param ids 处方详情id列表
+     * @return 能够发药的处方
+     */
     @Transactional
     public boolean allCanTake(List ids){
         List<Integer> cannotTake = new ArrayList<>();
@@ -215,11 +283,22 @@ public class PrescriptionService {
         return cannotTake.size()==0;
     }
 
+    /**
+     * 更新数据库中的一条相应的处方详情
+     * @param prescriptionItem 要进行更新的PrescriptionItem对象
+     * @return 更新的PrescriptionItem对象id
+     */
     @Transactional
     public int updatePrescriptionItem(PrescriptionItem prescriptionItem){
         return autoPrescriptionItemMapper.updateByPrimaryKey(prescriptionItem);
     }
 
+    /**
+     * 退药
+     * @param prescriptionItem 处方详情
+     * @param amount 总金额
+     * @param cost 价格
+     */
     @Transactional
     public void returnDrug(PrescriptionItem prescriptionItem, int amount, float cost, Map req){
         //修改处方详情
@@ -237,11 +316,20 @@ public class PrescriptionService {
         modifyChargeRecord(item_id,cost,new_item_id);
     }
 
+    /**
+     * 查找数据库中所有科室的列表
+     * @return 数据库中所有科室的列表
+     */
     @Transactional
     public List<Prescription> selectAll() {
         return autoPrescriptionMapper.selectAll();
     }
 
+    /**
+     * 根据处方id从数据库中删除对应处方详情
+     * @param prescriptionId 处方id
+     * @return 是否删除成功
+     */
     @Transactional
     public boolean removeAllItems(int prescriptionId) {
         if(autoPrescriptionMapper.selectByPrimaryKey(prescriptionId)==null){return false;}
@@ -284,6 +372,11 @@ public class PrescriptionService {
         return true;
     }
 
+    /**
+     * 向数据库中插入一条处方详情记录
+     * @param prescriptionItem 要插入数据库中的PrescriptionItem对象
+     * @return 插入数据库中的PrescriptionItem对象id
+     */
     @Transactional
     public int insert(PrescriptionItem prescriptionItem){
         autoPrescriptionItemMapper.insert(prescriptionItem);

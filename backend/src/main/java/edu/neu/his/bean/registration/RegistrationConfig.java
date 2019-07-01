@@ -2,6 +2,9 @@ package edu.neu.his.bean.registration;
 
 import java.util.HashMap;
 
+/**
+ * 将挂号的状态（未看诊、已退号、已看诊）和配置（专家1、主任2）作为静态变量存放
+ */
 public class RegistrationConfig {
     public static String registrationAvailable = "未看诊";
     public static String registrationCanceled = "已退号";

@@ -1,5 +1,8 @@
 package edu.neu.his.bean.settlementCategory;
 
+/**
+ * 该类代表结算类型
+ */
 public class SettlementCategory {
     private int id;
     private String name;

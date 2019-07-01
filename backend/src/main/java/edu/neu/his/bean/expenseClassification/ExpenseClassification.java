@@ -1,5 +1,8 @@
 package edu.neu.his.bean.expenseClassification;
 
+/**
+ * 该类代表费用类别
+ */
 public class ExpenseClassification {
     private int id;
     private String pinyin;

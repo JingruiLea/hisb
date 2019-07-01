@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ *  实现处理数据库中prescription_template、prescription_template_item表的相关操作
+ */
 @Service
 public class PrescriptionTemplateService {
 
@@ -41,7 +44,14 @@ public class PrescriptionTemplateService {
     @Autowired
     OutpatientChargesRecordMapper outpatientChargesRecordMapper;
 
-
+    /**
+     * 向数据库中插入一条处方组套记录
+     * @param req 要插入的PrescriptionTemplate对象的信息
+     * @param user 用户
+     * @param name 组套名称
+     * @param drugIds 药品id列表
+     * @return 添加的处方id
+     */
     @Transactional
     public int create(Map req, User user, String name, List<Map> drugIds){
         PrescriptionTemplate prescription = Utils.fromMap(req, PrescriptionTemplate.class);
@@ -54,11 +64,21 @@ public class PrescriptionTemplateService {
         return prescription.getId();
     }
 
+    /**
+     *  判断病历是否已提交
+     * @param id 病历id
+     * @return 是否已提交
+     */
     @Transactional
     public boolean recordMedicalHasSubmit(int id){
         return medicalRecordService.medicalRecordHasSubmit(id);
     }
 
+    /**
+     * 重命名组套
+     * @param templateName 组套名称
+     * @return 重命名的组套名称
+     */
     @Transactional
     public String rename(String templateName){
         while(prescriptionTemplateMapper.selectByName(templateName)!=null){
@@ -67,6 +87,11 @@ public class PrescriptionTemplateService {
         return templateName;
     }
 
+    /**
+     * 向数据库中插入处方组套详情
+     * @param prescriptionId 处方id
+     * @param drugInfos 药品信息列表
+     */
     @Transactional
     public void addItems(int prescriptionId, List<Map> drugInfos){
         for(Map i:drugInfos){
@@ -78,6 +103,11 @@ public class PrescriptionTemplateService {
         }
     }
 
+    /**
+     * 更新数据库中的一条相应的处方组套记录
+     * @param prescriptionId 组套id
+     * @param drugInfos 药品信息列表
+     */
     @Transactional
     public void updateItems(int prescriptionId, List<Map> drugInfos){
         for(Map i:drugInfos){
@@ -88,6 +118,11 @@ public class PrescriptionTemplateService {
         }
     }
 
+    /**
+     * 根据处方组套id和药品信息列表从数据库中删除对应处方组套详情
+     * @param prescriptionId 处方id
+     * @param drugInfos 药品信息列表
+     */
     @Transactional
     public void removeItems(int prescriptionId, List<Map> drugInfos){
         for(Map i:drugInfos){
@@ -96,12 +131,20 @@ public class PrescriptionTemplateService {
         }
     }
 
-
+    /**
+     * 根据处方组套id从数据库中删除对应处方组套详情
+     * @param prescriptionId 处方id
+     */
     @Transactional
     public void removeAllItems(int prescriptionId){
         itemMapper.deleteAllByPrescriptionId(prescriptionId);
     }
 
+    /**
+     * 从数据库中根据处方id找到对应的添加了药品的处方组套详情
+     * @param prescriptionId 处方id
+     * @return 根据处方id找到的对应的添加了药品的处方组套详情列表
+     */
     @Transactional
     public List<Map> items(int prescriptionId){
         List<PrescriptionTemplateItem> items = itemMapper.selectByPrescriptionId(prescriptionId);
@@ -115,6 +158,11 @@ public class PrescriptionTemplateService {
         return res;
     }
 
+    /**
+     * 从数据库中根据处方组套id找到对应的处方组套详情列表
+     * @param prescriptionId 处方id
+     * @return 根据处方组套id找到的对应处方组套详情列表
+     */
     @Transactional
     public Map detail(int prescriptionId){
         PrescriptionTemplate prescriptionTemplate = prescriptionTemplateMapper.selectByPrimaryKey(prescriptionId);
@@ -123,6 +171,11 @@ public class PrescriptionTemplateService {
         return res;
     }
 
+    /**
+     * 查找数据库中所有处方组套的列表
+     * @param user 用户
+     * @return 查找到的数据库中所有处方组套的列表
+     */
     @Transactional
     public List<PrescriptionTemplate> findAll(User user){
        return prescriptionTemplateMapper.selectAll().stream().filter(item->{
@@ -144,6 +197,10 @@ public class PrescriptionTemplateService {
        }).collect(Collectors.toList());
     }
 
+    /**
+     * 根据处方id从数据库中删除对应组套和组套详情
+     * @param id 处方id
+     */
     @Transactional
     public void delete(int id){
         List<PrescriptionTemplateItem> list = itemMapper.selectByPrescriptionId(id);
@@ -153,7 +210,11 @@ public class PrescriptionTemplateService {
         prescriptionTemplateMapper.deleteByPrimaryKey(id);
     }
 
-
+    /**
+     * 从数据库中根据id找到对应的组套
+     * @param id 组套id
+     * @return 根据id找到的对应组套
+     */
     @Transactional
     public PrescriptionTemplate selectById(int id){
         return prescriptionTemplateMapper.selectByPrimaryKey(id);

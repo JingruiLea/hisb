@@ -2,6 +2,9 @@ package edu.neu.his.bean.examTemplate;
 
 import java.io.Serializable;
 
+/**
+ * 该类代表检查/检验/处置组套详情
+ */
 public class ExamTemplateItem implements Serializable {
     private Integer id;
 

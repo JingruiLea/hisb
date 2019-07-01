@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现用户管理的相关功能
+ */
 @RestController
 @RequestMapping("/userManagement")
 public class UserManagementController {
@@ -24,6 +27,10 @@ public class UserManagementController {
     @Autowired
     private DepartmentService departmentService;
 
+    /**
+     * 获取全部用户列表
+     * @return 返回查找到的所有用户和状态码等信息
+     */
     @RequestMapping("/all")
     @ResponseBody
     public Map selectAllUser() {
@@ -37,6 +44,11 @@ public class UserManagementController {
         return Response.ok(data);
     }
 
+    /**
+     * 创建新的用户
+     * @param user 用户
+     * @return 状态码
+     */
     @PostMapping("/add")
     @ResponseBody
     public Map addNewUser(@RequestBody User user) {
@@ -50,6 +62,11 @@ public class UserManagementController {
         return userService.canInsert(user);
     }
 
+    /**
+     * 批量删除用户
+     * @param req 前端传递的request，要删除的用户id的列表
+     * @return 返回response，表示是否成功
+     */
     @PostMapping("/delete")
     @ResponseBody
     public Map deleteUser(@RequestBody Map req) {
@@ -75,6 +92,11 @@ public class UserManagementController {
         return userService.canDelete(id)!=0;
     }
 
+    /**
+     * 更新科＝用户
+     * @param req 前端传递的request，包含User类中的各个字段
+     * @return 返回response，表示是否成功
+     */
     @PostMapping("/update")
     @ResponseBody
     public Map updateUser(@RequestBody Map req) {
@@ -86,6 +108,11 @@ public class UserManagementController {
             return Response.error("名称冲突 或 id不存在");
     }
 
+    /**
+     * 将用户request转换为user对象
+     * @param req 前端传递的request，包含User类中的各个字段
+     * @return 用户对象
+     */
     private User map2User(Map req) {
         System.out.println(req);
         User user = new User();
@@ -100,11 +127,22 @@ public class UserManagementController {
         user.setRole_id((int)req.get("role_id"));
         return user;
     }
+
+    /**
+     * 判断该用户能否进行更新
+     * @param user 要进行更新的用户
+     * @return 返回能否对数据库中的记录进行更新，true代表能，false代表不能
+     */
     private boolean canUpdate(User user){
         return userService.canUpdate(user);
     }
 
 
+    /**
+     * 从文件中批量导入科室
+     * @param file 需要上传的文件
+     * @return 返回response，表示是否成功
+     */
     @PostMapping("/import")
     @ResponseBody
     public Map batchImport(@RequestParam("file") MultipartFile file) {

@@ -1,5 +1,8 @@
 package edu.neu.his.bean.user;
 
+/**
+ * 该类代表用户角色
+ */
 public class Role {
     int id;
     String name;

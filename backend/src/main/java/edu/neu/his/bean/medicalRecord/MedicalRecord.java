@@ -2,6 +2,9 @@ package edu.neu.his.bean.medicalRecord;
 
 import java.io.Serializable;
 
+/**
+ * 该类代表医院的病历
+ */
 public class MedicalRecord implements Serializable {
     private Integer id;
 

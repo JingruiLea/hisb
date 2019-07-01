@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 实现发药管理的相关功能
+ */
 @RestController
 @RequestMapping("/drugDispense")
 public class DrugDispenseController {
@@ -22,6 +25,11 @@ public class DrugDispenseController {
     @Autowired
     private DrugService drugService;
 
+    /**
+     * 获得所有可发药清单
+     * @param req 病历号
+     * @return 处方列表
+     */
     @PostMapping("/list")
     @ResponseBody
     public Map list(@RequestBody Map req){
@@ -32,6 +40,11 @@ public class DrugDispenseController {
         return Response.ok(result);
     }
 
+    /**
+     * 门诊发药
+     * @param req 处方详情id
+     * @return 状态码
+     */
     @PostMapping("/submit")
     @ResponseBody
     public Map submit(@RequestBody Map req){
@@ -52,6 +65,10 @@ public class DrugDispenseController {
         return Response.ok();
     }
 
+    /**
+     * 获得已退药列表
+     * @return 已退药处方列表
+     */
     @PostMapping("/withdrawHistory")
     @ResponseBody
     public Map withdrawHistory(){
