@@ -79,10 +79,6 @@ public class ExamController {
 
     @PostMapping("/create")
     public Map create(@RequestBody Map req){
-//         = examService.selectByMedicalRecordIdAndType((int)req.get("medical_record_id"), (int)req.get("type"));
-//        if(exam != null){
-//            return Response.ok(exam);
-//        }
         Exam exam = Utils.fromMap(req, Exam.class);
         if(!medicalRecordService.hasSubmit(exam.getMedical_record_id())){
             return Response.error("病历状态错误!");
