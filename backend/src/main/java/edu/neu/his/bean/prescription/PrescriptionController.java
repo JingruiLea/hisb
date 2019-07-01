@@ -23,12 +23,15 @@ public class PrescriptionController {
     PrescriptionService prescriptionService;
 
     @Autowired
+    PrescriptionMapper prescriptionMapper;
+
+    @Autowired
     DrugService drugService;
 
     @PostMapping("/create")
     public Map create(@RequestBody Map req){
         int medicalRecordId = (int)req.get("medical_record_id");
-        List<Map> drugList = (List)req.get("prescription_item_list");
+        List<Map> drugList = (List)req.get("drug_id_list");
         int type = (int)req.get("type");
         if(!prescriptionService.recordMedicalHasSubmit(medicalRecordId)){
             return Response.error("找不到已经提交的病历!");
@@ -43,7 +46,7 @@ public class PrescriptionController {
     @PostMapping("/addItem")
     public Map addItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_id");
-        List<Map> drugList = (List)req.get("drug_list");
+        List<Map> drugList = (List)req.get("drug_id_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
         }
@@ -54,7 +57,7 @@ public class PrescriptionController {
     @PostMapping("/deleteItem")
     public Map deleteItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_id");
-        List<Map> drugList = (List)req.get("drug_list");
+        List<Map> drugList = (List)req.get("drug_id_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
         }
@@ -65,7 +68,7 @@ public class PrescriptionController {
     @PostMapping("/update")
     public Map updateItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("id");
-        List<Map> drugList = (List)req.get("prescription_item_list");
+        List<Map> drugList = (List)req.get("drug_id_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
         }
@@ -89,13 +92,13 @@ public class PrescriptionController {
     }
 
     @PostMapping("/detail")
-    public Map detail(Map map){
+    public Map detail(@RequestBody Map map){
         int prescriptionId = (int)map.get("prescription_id");
-        List res = prescriptionService.detail(prescriptionId);
+        Map res = prescriptionService.detail(prescriptionId);
         return Response.ok(res);
     }
 
-    @RequestMapping("allDrugs")
+    @RequestMapping("/allDrugs")
     public Map allDrugs(@RequestBody Map req){
         int type = (int) req.get("type");
         List res = drugService.selectAllDrug().stream().filter(item->{
@@ -111,10 +114,11 @@ public class PrescriptionController {
         return Response.ok(res);
     }
 
-    @RequestMapping("allPrescription")
+    @RequestMapping("/allPrescription")
     public Map allPrescription(@RequestBody Map req){
         int type = (int) req.get("type");
-        List<Prescription> list = prescriptionService.selectAll();
+        int medical_record_id = (int) req.get("medical_record_id");
+        List<Prescription> list = prescriptionMapper.selectByMedicalRecordId(medical_record_id);
         List res = list.stream().filter(item-> item.getType() == type).collect(Collectors.toList());
         return Response.ok(res);
     }

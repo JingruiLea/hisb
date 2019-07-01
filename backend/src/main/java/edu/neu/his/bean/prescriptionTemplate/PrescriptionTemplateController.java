@@ -31,7 +31,7 @@ public class PrescriptionTemplateController {
 
     @PostMapping("/create")
     public Map create(@RequestBody Map req){
-        List<Map> drugList = (List)req.get("prescription_item_list");
+        List<Map> drugList = (List)req.get("drug_id_list");
         String name = (String)req.get("template_name");
         User user = Utils.getSystemUser(req);
         name = prescriptionTemplateService.rename(name);
@@ -54,7 +54,7 @@ public class PrescriptionTemplateController {
 
     public Map addItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_template_id");
-        List<Map> drugList = (List)req.get("prescription_item_list");
+        List<Map> drugList = (List)req.get("drug_id_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
         }
@@ -64,7 +64,7 @@ public class PrescriptionTemplateController {
 
     public Map deleteItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_template_id");
-        List<Map> drugList = (List)req.get("prescription_item_list");
+        List<Map> drugList = (List)req.get("drug_id_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
         }
@@ -74,7 +74,7 @@ public class PrescriptionTemplateController {
 
     public Map updateItem(@RequestBody Map req){
         int prescriptionId = (int)req.get("prescription_template_id");
-        List<Map> drugList = (List)req.get("prescription_item_list");
+        List<Map> drugList = (List)req.get("drug_id_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
         }
@@ -99,7 +99,7 @@ public class PrescriptionTemplateController {
         originPrescriptionTemplate.setDisplay_type(prescriptionTemplate.getDisplay_type());
         originPrescriptionTemplate.setType(prescriptionTemplate.getType());
         prescriptionTemplateMapper.updateByPrimaryKey(originPrescriptionTemplate);
-        List<Map> drugList = (List)req.get("prescription_item_list");
+        List<Map> drugList = (List)req.get("drug_id_list");
         if(!drugService.allItemValid(drugList)){
             return Response.error("该药品不存在!");
         }
@@ -112,13 +112,7 @@ public class PrescriptionTemplateController {
     public Map list(@RequestBody Map req){
         int type = (int) req.get("type");
         List<PrescriptionTemplate> list = prescriptionTemplateService.findAll(Utils.getSystemUser(req));
-        List personal = list.stream().filter(item->item.getType()==type && item.getDisplay_type() == 0).collect(Collectors.toList());
-        List department = list.stream().filter(item->item.getType()==type && item.getDisplay_type() == 1).collect(Collectors.toList());
-        List hospital = list.stream().filter(item->item.getType()==type && item.getDisplay_type() == 2).collect(Collectors.toList());
-        Map res = new HashMap();
-        res.put("personal",personal);
-        res.put("department", department);
-        res.put("hospital", hospital);
+        List res = list.stream().filter(item->item.getType()==type).collect(Collectors.toList());
         return Response.ok(res);
     }
 

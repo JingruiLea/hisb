@@ -103,13 +103,17 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public List<Map> detail(int prescriptionId){
+    public Map detail(int prescriptionId){
         Prescription prescription = autoPrescriptionMapper.selectByPrimaryKey(prescriptionId);
+        Map res = Utils.objectToMap(prescription);
         List<PrescriptionItem> items = itemMapper.selectByPrescriptionId(prescriptionId);
-        List<Map> res = new ArrayList<>();
+        List<Map> itemList = new ArrayList<>();
         for(PrescriptionItem item:items){
-            Utils.objectToMap(item);
+            Map itemMap = Utils.objectToMap(item);
+            itemMap.put("drug", drugMapper.selectByPrimaryKey(item.getDrug_id()));
+            itemList.add(itemMap);
         }
+        res.put("items",itemList);
         return res;
     }
 

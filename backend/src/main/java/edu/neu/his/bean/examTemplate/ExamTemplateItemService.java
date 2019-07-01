@@ -40,7 +40,7 @@ public class ExamTemplateItemService {
             resItemMap.put("non_drug_item", nonDrugChargeItemMapper.selectByPrimaryKey(item.getNon_drug_item_id()));
             resItem.add(resItemMap);
         }
-        res.put("items", resItem);
+        res.put("exam_item", resItem);
         return res;
     }
 
