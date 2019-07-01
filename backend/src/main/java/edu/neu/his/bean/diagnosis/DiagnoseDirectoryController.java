@@ -43,7 +43,7 @@ public class DiagnoseDirectoryController {
     @ResponseBody
     public Map updateDisease(@RequestBody Map req){
         Disease disease = req2Disease(req);
-        int rawId = (int)req.get("raw_id");
+        int rawId = (int)req.get("id");
         int classification_id = (int)req.get("classification_id");
         if(!checkIdExist(rawId)){
             return Response.error("错误，原ID不存在。");

@@ -19,6 +19,10 @@ public class NonDrugChargeItem implements Serializable {
 
     private Integer department_id;
 
+    private String expense_classification_name;
+
+    private String department_name;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -102,5 +106,21 @@ public class NonDrugChargeItem implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public String getExpense_classification_name() {
+        return expense_classification_name;
+    }
+
+    public void setExpense_classification_name(String expense_classification_name) {
+        this.expense_classification_name = expense_classification_name;
+    }
+
+    public String getDepartment_name() {
+        return department_name;
+    }
+
+    public void setDepartment_name(String department_name) {
+        this.department_name = department_name;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -25,6 +26,12 @@ public class DrugService {
     public int insertDrug(Drug drug){
         drugMapper.insert(drug);
         return drug.getId();
+    }
+
+    @Transactional
+    public List<Drug> selectDrugByPage(int pageNo, int pageSize){
+        int index = (pageNo-1)*pageSize;
+        return drugMapper.selectByPage(index,pageSize);
     }
 
     @Transactional
@@ -72,11 +79,6 @@ public class DrugService {
     }
 
     @Transactional
-    public List<Drug> selectDrugByName(String name){
-        return drugMapper.selectByName(name);
-    }
-
-    @Transactional
     public boolean importFromFile(InputStream inputStream) {
         try {
             ExcelImportation excel = new ExcelImportation(inputStream, Drug.class, drugMapper);
@@ -103,8 +105,33 @@ public class DrugService {
         }
 
     }
-    
+
+    @Transactional
+    public int findSize(){
+        return drugMapper.findSize();
+    }
+
+
     public Drug selectDrugById(int id){
         return autoDrugMapper.selectByPrimaryKey(id);
+    }
+
+    @Transactional
+    public List<Drug> search(Integer id, String code, String name, String type,int page,int limit){
+        int index = (page-1)*limit;
+        if(id == null) {
+            return drugMapper.search(code, name, type, index,limit);
+        }
+        else {
+            Drug drug = autoDrugMapper.selectByPrimaryKey(id);
+            List<Drug> list = new ArrayList<>();
+            list.add(drug);
+            return list;
+        }
+    }
+
+    @Transactional
+    public int searchSize(String code, String name, String type){
+        return drugMapper.searchSize(code, name, type);
     }
 }

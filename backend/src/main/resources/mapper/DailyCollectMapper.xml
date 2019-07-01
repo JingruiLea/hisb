@@ -24,7 +24,8 @@
     update daily_collect
     set start_time = #{start_time,jdbcType=VARCHAR},
       end_time = #{end_time,jdbcType=VARCHAR},
-      user_id = #{user_id,jdbcType=INTEGER}
+      user_id = #{user_id,jdbcType=INTEGER},
+      checked = #{checked,jdbcType=BOOLEAN}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -33,7 +34,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, start_time, end_time, user_id
+    select *
     from daily_collect
   </select>
 </mapper>

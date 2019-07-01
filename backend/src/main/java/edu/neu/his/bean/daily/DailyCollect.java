@@ -17,6 +17,8 @@ public class DailyCollect implements Serializable {
 
     private Integer user_id;
 
+    private boolean checked;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -64,5 +66,13 @@ public class DailyCollect implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

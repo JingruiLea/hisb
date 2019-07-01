@@ -5,6 +5,8 @@ import edu.neu.his.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,10 +55,50 @@ public class DrugManageController {
         return Response.ok(drugService.selectAllDrug());
     }
 
+    /*
     @PostMapping("/getDrugInfoByName")
     @ResponseBody
     public Map getDrugInfoByName(@RequestBody Map req){
         String name = (String)req.get("input");
         return Response.ok(drugService.selectDrugByName(name));
+    }
+    */
+
+    @PostMapping("/getDrugByPage")
+    @ResponseBody
+    public Map getDrugByPage(@RequestBody Map req){
+        int pageNo = (int)req.get("page");
+        int pageSize = (int)req.get("limit");
+        return Response.ok(drugService.selectDrugByPage(pageNo,pageSize));
+    }
+
+    @PostMapping("/getDrugSize")
+    @ResponseBody
+    public Map getDrugSize(){
+        return Response.ok(drugService.findSize());
+    }
+
+    @PostMapping("/search")
+    @ResponseBody
+    public Map search(@RequestBody Map req){
+        Integer id = (Integer) req.get("id");
+        String code = (String)req.get("code");
+        String name = (String)req.get("name");
+        String type = (String)req.get("type");
+        int limit = (int)req.get("limit");
+        int page = (int)req.get("page");
+        List<Drug> list = drugService.search(id,code,name,type,page,limit);
+        int total = 0;
+        if(list.size()<20){
+            total = list.size();
+        }else{
+            total = drugService.searchSize(code,name,type);
+        }
+
+        Map data = new HashMap();
+        data.put("list",list);
+        data.put("total",total);
+
+        return Response.ok(data);
     }
 }

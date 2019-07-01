@@ -40,6 +40,6 @@ public interface BillRecordMapper {
      * @param end_time 查找时间段的结束时间
      * @return 返回符合条件的所有票据记录列表
      */
-    @Select("SELECT * from bill_record where user_id = #{user_id} and create_time > #{start_time} and creat_time < #{end_time}")
+    @Select("SELECT * from bill_record where user_id = #{user_id} and create_time > #{start_time} and create_time < #{end_time}")
     List<BillRecord> findByUserIdAndTime(@Param("user_id") int user_id, @Param("start_time") String start_time, @Param("end_time") String end_time);
 }

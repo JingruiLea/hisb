@@ -32,7 +32,7 @@ public class DrugWithdrawController {
                 PrescriptionStatus.PrescriptionItemToTake, OutpatientChargesRecordStatus.Charged);
 
         List<Map> takenList = prescriptionService.getList(medical_record_id,
-                PrescriptionStatus.PrescriptionItemToTake, OutpatientChargesRecordStatus.Charged);
+                PrescriptionStatus.PrescriptionItemTaken, OutpatientChargesRecordStatus.Charged);
 
         toTakeList.addAll(takenList);
 
