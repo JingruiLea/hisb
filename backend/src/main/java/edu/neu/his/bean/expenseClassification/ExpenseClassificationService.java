@@ -55,4 +55,9 @@ public class ExpenseClassificationService {
         return expenseClassificationMapper.findClassificationById(id);
     }
 
+    @Transactional
+    public List<String> getName(){
+        return expenseClassificationMapper.getName();
+    }
+
 }
