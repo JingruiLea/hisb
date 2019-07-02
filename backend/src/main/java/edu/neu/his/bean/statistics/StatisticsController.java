@@ -41,6 +41,40 @@ public class StatisticsController {
         return Response.ok(result);
     }
 
+    @RequestMapping("/getByPrescribe")
+    @ResponseBody
+    public Map getByPrescribe(@RequestBody Map req){
+        String start_time = (String)req.get("start_time");
+        String end_time = (String)req.get("end_time");
+        int department_id = (int)req.get("department_id");
+        List<Map<String,Object>> data = statisticsService.getByPrescribe(start_time,end_time,department_id);
+        Map<String, Double> res = new HashMap<>();
+        data.forEach(ele->{
+            res.put((String) ele.get("fee_name"),(Double) ele.get("money"));
+        });
+
+        List<String> xList = expenseClassificationService.getName();
+
+        Map result = new HashMap();
+        result.put("xAxis",xList);
+        result.put("series",res);
+        return Response.ok(result);
+    }
+
+    @RequestMapping("/getTotalPrescribe")
+    @ResponseBody
+    public Map getTotalPrescribe(@RequestBody Map req){
+        String start_time = (String)req.get("start_time");
+        String end_time = (String)req.get("end_time");
+        List<Map<Object,Object>> data = statisticsService.getTotalPrescribe(start_time,end_time);
+        Map<Integer, Double> res = new HashMap<>();
+        data.forEach(ele->{
+            int department_id = (int)ele.get("department_id");
+            res.put(department_id,(Double) ele.get("total"));
+        });
+        return Response.ok(res);
+    }
+
     @RequestMapping("/getTotal")
     @ResponseBody
     public Map getTotal(@RequestBody Map req){
