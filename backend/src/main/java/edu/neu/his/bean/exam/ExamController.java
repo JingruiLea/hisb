@@ -179,7 +179,7 @@ public class ExamController {
                 record.setCreate_time(Utils.getSystemTime());
                 record.setMedical_record_id(exam.getMedical_record_id());
                 record.setBill_record_id(0);
-                record.setItem_id(itemId);
+                record.setItem_id(examId);
                 record.setType(Common.RECORD_TYPE_JIANCHA);
                 record.setExpense_classification_id(nonDrugChargeItem.getExpense_classification_id());
                 record.setStatus(Common.WEIJIAOFEI);
