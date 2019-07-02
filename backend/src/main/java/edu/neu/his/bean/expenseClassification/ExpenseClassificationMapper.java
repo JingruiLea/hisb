@@ -44,4 +44,6 @@ public interface ExpenseClassificationMapper {
     @Select("SELECT count(*) FROM expense_classification where id = #{id}")
     int checkId(@Param("id") int id);
 
+    @Select("SELECT fee_name FROM expense_classification")
+    List<String> getName();
 }

@@ -1,6 +1,4 @@
 package edu.neu.his.bean.diagnosis;
-
-import com.sun.org.glassfish.gmbal.ParameterNames;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
