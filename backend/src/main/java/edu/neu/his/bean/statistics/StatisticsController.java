@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +31,54 @@ public class StatisticsController {
         Map<String, Double> res = new HashMap<>();
         data.forEach(ele->{
            res.put((String) ele.get("fee_name"),(Double) ele.get("money"));
+        });
+
+        List<String> xList = expenseClassificationService.getName();
+
+        Map result = new HashMap();
+        result.put("xAxis",xList);
+        result.put("series",res);
+        return Response.ok(result);
+    }
+
+    @RequestMapping("/getTotal")
+    @ResponseBody
+    public Map getTotal(@RequestBody Map req){
+        String start_time = (String)req.get("start_time");
+        String end_time = (String)req.get("end_time");
+        List<Map<Object,Object>> data = statisticsService.getTotal(start_time,end_time);
+        Map<Integer, Double> res = new HashMap<>();
+        data.forEach(ele->{
+            int department_id = (int)ele.get("execute_department_id");
+            res.put(department_id,(Double) ele.get("total"));
+        });
+        return Response.ok(res);
+    }
+
+    @RequestMapping("/getTotalUser")
+    @ResponseBody
+    public Map getTotalUser(@RequestBody Map req){
+        String start_time = (String)req.get("start_time");
+        String end_time = (String)req.get("end_time");
+        List<Map<Object,Object>> data = statisticsService.getTotalUser(start_time,end_time);
+        Map<Integer, Double> res = new HashMap<>();
+        data.forEach(ele->{
+            int user_id = (int)ele.get("create_user_id");
+            res.put(user_id,(Double) ele.get("total"));
+        });
+        return Response.ok(res);
+    }
+
+    @RequestMapping("/statisticsByUser")
+    @ResponseBody
+    public Map statisticsByUser(@RequestBody Map req){
+        String start_time = (String)req.get("start_time");
+        String end_time = (String)req.get("end_time");
+        int user_id = (int)req.get("user_id");
+        List<Map<String,Object>> data = statisticsService.statisticsByUser(start_time,end_time,user_id);
+        Map<String, Double> res = new HashMap<>();
+        data.forEach(ele->{
+            res.put((String) ele.get("fee_name"),(Double) ele.get("money"));
         });
 
         List<String> xList = expenseClassificationService.getName();
