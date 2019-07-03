@@ -75,4 +75,27 @@ public interface StatisticsMapper {
                                                        @Param("end_time") String end_time,
                                                        @Param("user_id") int user_id,
                                                        @Param("status") String status);
+
+    @Select("SELECT medical_record_id,sum(cost) as total " +
+            "FROM outpatient_charges_record " +
+            "WHERE CAST(create_time AS DATETIME) > CAST(#{start_time} AS DATETIME) " +
+            "and CAST(create_time AS DATETIME) < CAST(#{end_time} AS DATETIME) " +
+            "and create_user_id = #{doctor_id} " +
+            "and status = #{status} group by medical_record_id")
+    List<Map<Object,Object>> getTotalPatient(@Param("start_time") String start_time,
+                                             @Param("end_time") String end_time,
+                                             @Param("status") String status,
+                                             @Param("doctor_id") int doctor_id);
+
+    @Select("SELECT expense_classification.fee_name,sum(cost) as money " +
+            "FROM outpatient_charges_record, expense_classification  " +
+            "WHERE  CAST(create_time AS DATETIME) > CAST(#{start_time} AS DATETIME) " +
+            "and CAST(create_time AS DATETIME) < CAST(#{end_time} AS DATETIME) " +
+            "and outpatient_charges_record.expense_classification_id=expense_classification.id " +
+            "and medical_record_id = #{medical_record_id} " +
+            "and status = #{status} group by expense_classification.fee_name")
+    List<Map<String,Object>> statisticsByDoctor(@Param("start_time") String start_time,
+                                              @Param("end_time") String end_time,
+                                              @Param("medical_record_id") int medical_record_id,
+                                              @Param("status") String status);
 }

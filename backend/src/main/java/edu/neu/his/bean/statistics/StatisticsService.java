@@ -48,4 +48,16 @@ public class StatisticsService {
         String status = OutpatientChargesRecordStatus.Charged;
         return statisticsMapper.getTotalUser(start_date,end_date,status);
     }
+
+    @Transactional
+    public List<Map<Object,Object>> getTotalPatient(String start_date, String end_date, int doctor_id){
+        String status = OutpatientChargesRecordStatus.Charged;
+        return statisticsMapper.getTotalPatient(start_date,end_date,status,doctor_id);
+    }
+
+    @Transactional
+    public List<Map<String,Object>> statisticsByDoctor(String start_date, String end_date, int medical_record_id){
+        String status = OutpatientChargesRecordStatus.Charged;
+        return statisticsMapper.statisticsByDoctor(start_date,end_date,medical_record_id,status);
+    }
 }
