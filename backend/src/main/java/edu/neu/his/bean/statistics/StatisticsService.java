@@ -1,5 +1,6 @@
 package edu.neu.his.bean.statistics;
 
+import edu.neu.his.bean.exam.ExamStatus;
 import edu.neu.his.bean.outpatientCharges.OutpatientChargesRecordStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,5 +60,18 @@ public class StatisticsService {
     public List<Map<String,Object>> statisticsByDoctor(String start_date, String end_date, int medical_record_id){
         String status = OutpatientChargesRecordStatus.Charged;
         return statisticsMapper.statisticsByDoctor(start_date,end_date,medical_record_id,status);
+    }
+
+    @Transactional
+    public List<Map<Object,Object>> getTotalRegister(String start_date, String end_date, int doctor_id, int department_id){
+        String status = ExamStatus.Registered;
+        return statisticsMapper.getTotalRegister(start_date,end_date,status,doctor_id,department_id);
+    }
+
+    @Transactional
+    public List<Map<String,Object>> statisticsByRegister(String start_date, String end_date, int medical_record_id,int doctor_id, int department_id){
+        String status = OutpatientChargesRecordStatus.Charged;
+        int type = OutpatientChargesRecordStatus.Exam;
+        return statisticsMapper.statisticsByRegister(start_date,end_date,medical_record_id,status,doctor_id,department_id,type);
     }
 }

@@ -2,6 +2,7 @@ package edu.neu.his.bean.statistics;
 
 import edu.neu.his.bean.expenseClassification.ExpenseClassificationService;
 import edu.neu.his.bean.registration.OutpatientRegistrationService;
+import edu.neu.his.bean.user.UserService;
 import edu.neu.his.config.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,9 @@ public class StatisticsController {
 
     @Autowired
     private OutpatientRegistrationService outpatientRegistrationService;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/getFeeName")
     @ResponseBody
@@ -122,6 +126,22 @@ public class StatisticsController {
         return Response.ok(res);
     }
 
+    @RequestMapping("/getTotalRegister")
+    @ResponseBody
+    public Map getTotalRegister(@RequestBody Map req){
+        String start_time = (String)req.get("start_time");
+        String end_time = (String)req.get("end_time");
+        int doctor_id = (int)req.get("_uid");
+        int department_id = userService.findByUid(doctor_id).getDepartment_id();
+        List<Map<Object,Object>> data = statisticsService.getTotalRegister(start_time,end_time,doctor_id,department_id);
+        Map<Integer, Double> res = new HashMap<>();
+        data.forEach(ele->{
+            int medical_record_id = (int)ele.get("medical_record_id");
+            res.put(medical_record_id,(Double) ele.get("total"));
+        });
+        return Response.ok(res);
+    }
+
     @RequestMapping("/statisticsByUser")
     @ResponseBody
     public Map statisticsByUser(@RequestBody Map req){
@@ -129,6 +149,28 @@ public class StatisticsController {
         String end_time = (String)req.get("end_time");
         int user_id = (int)req.get("user_id");
         List<Map<String,Object>> data = statisticsService.statisticsByUser(start_time,end_time,user_id);
+        Map<String, Double> res = new HashMap<>();
+        data.forEach(ele->{
+            res.put((String) ele.get("fee_name"),(Double) ele.get("money"));
+        });
+
+        List<String> xList = expenseClassificationService.getName();
+
+        Map result = new HashMap();
+        result.put("xAxis",xList);
+        result.put("series",res);
+        return Response.ok(result);
+    }
+
+    @RequestMapping("/statisticsByRegister")
+    @ResponseBody
+    public Map statisticsByRegister(@RequestBody Map req){
+        String start_time = (String)req.get("start_time");
+        String end_time = (String)req.get("end_time");
+        int doctor_id = (int)req.get("_uid");
+        int department_id = userService.findByUid(doctor_id).getDepartment_id();
+        int medical_record_id = (int)req.get("medical_record_id");
+        List<Map<String,Object>> data = statisticsService.statisticsByRegister(start_time,end_time,medical_record_id,doctor_id,department_id);
         Map<String, Double> res = new HashMap<>();
         data.forEach(ele->{
             res.put((String) ele.get("fee_name"),(Double) ele.get("money"));
