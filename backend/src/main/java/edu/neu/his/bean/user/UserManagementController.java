@@ -1,8 +1,11 @@
 package edu.neu.his.bean.user;
 
+import edu.neu.his.bean.department.Department;
+import edu.neu.his.bean.department.DepartmentMapper;
 import edu.neu.his.config.Response;
 import edu.neu.his.bean.department.DepartmentService;
 import edu.neu.his.util.Crypto;
+import edu.neu.his.util.ExcelImportation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 @RestController
 @RequestMapping("/userManagement")
@@ -23,6 +27,8 @@ public class UserManagementController {
     private UserService userService;
     @Autowired
     private DepartmentService departmentService;
+
+    @Autowired UserMapper userMapper;
 
     @RequestMapping("/all")
     @ResponseBody
@@ -100,37 +106,42 @@ public class UserManagementController {
         user.setRole_id((int)req.get("role_id"));
         return user;
     }
+
     private boolean canUpdate(User user){
         return userService.canUpdate(user);
     }
 
+    @Autowired
+    DepartmentMapper departmentMapper;
+
 
     @PostMapping("/import")
     @ResponseBody
-    public Map batchImport(@RequestParam("file") MultipartFile file) {
-        String pathName = ResourceUtils.CLASSPATH_URL_PREFIX;//想要存储文件的地址
-        String pname = file.getOriginalFilename();//获取文件名（包括后缀）
-        pathName += pname;
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(pathName);
-            fos.write(file.getBytes()); // 写入文件
-            System.out.println("文件上传成功");
-            if(departmentService.importFromFile(pathName))
-                return Response.ok();
-            else
-                return Response.error("解析失败");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Response.error("上传失败");
-        } finally {
-            try {
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return Response.error("上传失败");
-            }
-        }
+    public Map batchImport(@RequestParam("file") MultipartFile file) throws IOException {
+        ExcelImportation excel = new ExcelImportation(
+                file.getInputStream(),
+                User.class,
+                userService);
+        excel.skipLine(1);
+        excel.setColumnFields("uid", "username", "role_id", "real_name", "title", "department_id");
+        ((Map<String, Function<String, ?>>)
+                excel.getPreFunctionMap()).put("department_id",
+                str -> departmentMapper.findByName(str).getId()
+        );
+        ((Map<String, Function<String, ?>>)
+                excel.getPreFunctionMap()).put("role_id",
+                str -> {
+                    List<Role> roles = userMapper.allRoles();
+                    for (Role role : roles) {
+                        if(role.getName().equals(str)){
+                            return role.getId();
+                        }
+                    }
+                    return 0;
+                }
+        );
+        excel.exec();
+        return Response.ok();
     }
 
 }
