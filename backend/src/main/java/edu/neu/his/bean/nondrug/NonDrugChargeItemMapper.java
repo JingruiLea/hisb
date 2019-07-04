@@ -29,7 +29,7 @@ public interface NonDrugChargeItemMapper extends Importable<NonDrugChargeItem> {
     /**
      * 向数据库的non_drug_charge_item表中插入一条记录
      * @param nonDrugCharge 要插入数据库中的NonDrugChargeItem对象
-     * @return 插入的非药品收费项目id
+     * @return 向数据库中插入记录的次数
      */
     @Insert("INSERT INTO non_drug_charge_item(id, code, format, pinyin, name , fee, expense_classification_id, department_id) " +
             "VALUES(#{id}, #{code}, #{format}, #{pinyin}, #{name}, #{fee}, #{expense_classification_id}, #{department_id})")

@@ -19,7 +19,7 @@ public class ExamItemService {
     /**
      * 向数据库中插入一条科室记录检查/检验/处置子目
      * @param examItem 要插入数据库中的ExamItem对象
-     * @return 检查/检验/处置子目id
+     * @return 向数据库中插入记录的次数
      */
     @Transactional
     public int insert(ExamItem examItem){

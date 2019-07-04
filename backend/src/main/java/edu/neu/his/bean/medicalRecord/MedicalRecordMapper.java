@@ -34,7 +34,7 @@ public interface MedicalRecordMapper {
     /**
      * 向数据库的medical_record表中插入一条记录
      * @param record 要插入数据库中的MedicalRecord对象
-     * @return 插入数据库中的MedicalRecord的id
+     * @return 向数据库中插入记录的次数
      */
     @Insert({
         "insert into medical_record (id, create_time, `status`, ",

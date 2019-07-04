@@ -143,7 +143,7 @@ public interface MedicalRecordTemplateMapper {
     /**
      * 向数据库的medical_record_template表中插入一条记录
      * @param record 要插入数据库中的MedicalRecordTemplate对象
-     * @return 插入数据库中的MedicalRecordTemplate的id
+     * @return 向数据库中插入记录的次数
      */
     @Insert({
             "insert into medical_record_template (`title`, `type`, ",

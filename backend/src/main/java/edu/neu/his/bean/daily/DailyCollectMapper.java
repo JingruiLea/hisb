@@ -24,7 +24,7 @@ public interface DailyCollectMapper {
     /**
      * 向daily_collect表中插入一条数据
      * @param record 需要插入表中的DailyCollect对象
-     * @return 返回数据库为插入的对象自动生成的id
+     * @return 返回数据库为插入的对象的次数
      */
     int insert(DailyCollect record);
 

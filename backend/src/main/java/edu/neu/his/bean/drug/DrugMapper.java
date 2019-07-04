@@ -15,7 +15,7 @@ public interface DrugMapper extends Importable<Drug> {
     /**
      * 向数据库的drug表中插入一条记录
      * @param record  要插入数据库中的drug对象
-     * @return 药品id
+     * @return 向数据库中插入记录的次数
      */
     @Insert({
             "insert into drug (id, code, `name`, ",

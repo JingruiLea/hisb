@@ -54,7 +54,7 @@ public class ExamService {
     /**
      * 向数据库中插入一条检查/检验/处置记录
      * @param exam  要插入数据库中的Exam对象
-     * @return 检查/检验/处置id
+     * @return 向数据库中插入记录的次数
      */
     @Transactional
     public int insert(Exam exam){

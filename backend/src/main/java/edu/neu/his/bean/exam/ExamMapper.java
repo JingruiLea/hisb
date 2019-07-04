@@ -26,7 +26,7 @@ public interface ExamMapper {
     /**
      * 向数据库的exam表中插入一条记录
      * @param record 要插入数据库中的Exam对象
-     * @return 插入数据库中的Exam对象的id
+     * @return 向数据库中插入记录的次数
      */
     @Insert({
         "insert into exam (medical_record_id, `type`, ",

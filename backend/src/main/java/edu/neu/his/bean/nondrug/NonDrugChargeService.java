@@ -46,7 +46,7 @@ public class NonDrugChargeService {
 
     /**
      * 向数据库中插入一条非药品收费项目记录
-     * @param nonDrugCharge 要插入数据库中的NonDrugChargeItem对象
+     * @param nonDrugCharge 向数据库中插入记录的次数
      */
     @Transactional
     public void insertNonDrugCharge(NonDrugChargeItem nonDrugCharge) {

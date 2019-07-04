@@ -47,7 +47,7 @@ public class DailyCollectService {
     /**
      * 向数据库中插入日结记录
      * @param dailyCollect 要插入数据库中的日结记录
-     * @return 返回该日结记录插入数据库后自动生成的id
+     * @return 返回该日结记录插入数据库的id
      */
     @Transactional
     public int insertDailyCollect(DailyCollect dailyCollect){
@@ -58,7 +58,7 @@ public class DailyCollectService {
     /**
      * 向数据库中插入日结详细记录
      * @param dailyDetail 要插入数据库中的日结详细记录
-     * @return 返回该日结详细记录插入数据库后自动生成的id
+     * @return 返回该日结详细记录插入数据库的id
      */
     @Transactional
     public int insertDailyDetail(DailyDetail dailyDetail){

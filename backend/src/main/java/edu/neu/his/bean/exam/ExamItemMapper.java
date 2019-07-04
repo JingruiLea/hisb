@@ -27,7 +27,7 @@ public interface ExamItemMapper  {
     /**
      * 向数据库的exam_item表中插入一条记录
      * @param record 要插入数据库中的ExamItem对象
-     * @return 插入数据库中的ExamItem对象的id
+     * @return 向数据库中插入记录的次数
      */
     @Insert({
         "insert into exam_item (exam_id, non_drug_item_id, ",
