@@ -89,11 +89,8 @@ public class DrugManageController {
         int page = (int)req.get("page");
         List<Drug> list = drugService.search(id,code,name,type,page,limit);
         int total = 0;
-        if(list.size()<limit){
-            total = list.size();
-        }else{
-            total = drugService.searchSize(code,name,type);
-        }
+
+        total = drugService.searchSize(code,name,type);
 
         Map data = new HashMap();
         data.put("list",list);

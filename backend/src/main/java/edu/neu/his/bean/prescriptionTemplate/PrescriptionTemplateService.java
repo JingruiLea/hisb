@@ -109,7 +109,7 @@ public class PrescriptionTemplateService {
         for(PrescriptionTemplateItem item:items){
             Map map = Utils.objectToMap(item);
             Drug drug = drugMapper.selectByPrimaryKey(item.getDrug_id());
-            map.put("drug_item", Utils.objectToMap(drug));
+            map.put("drug", Utils.objectToMap(drug));
             res.add(map);
         }
         return res;

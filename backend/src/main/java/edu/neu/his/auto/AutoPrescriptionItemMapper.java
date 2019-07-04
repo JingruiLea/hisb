@@ -49,7 +49,7 @@ public interface AutoPrescriptionItemMapper {
         @Result(column="status", property="status", jdbcType=JdbcType.VARCHAR),
         @Result(column="note", property="note", jdbcType=JdbcType.LONGVARCHAR)
     })
-    PrescriptionItem selectByPrimaryKey(Integer id);
+    PrescriptionItem selectByPrimaryKey(@Param("id") Integer id);
 
     @Select({
         "select",

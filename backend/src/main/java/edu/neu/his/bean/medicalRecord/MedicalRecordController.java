@@ -95,7 +95,7 @@ public class MedicalRecordController {
                 Map record = Utils.objectToMap(medicalRecord);
                 //获得诊断
                 Map diagnose = new HashMap();
-                MedicalRecordDiagnose medicalRecordDiagnose = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id);
+                MedicalRecordDiagnose medicalRecordDiagnose = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id, true);
                 if(medicalRecordDiagnose!=null)
                     diagnose = medicalRecordDiagnoseService.getExistDiagnose(medicalRecordDiagnose);
 
@@ -132,18 +132,20 @@ public class MedicalRecordController {
         }
 
         data = Utils.objectToMap(medicalRecord);
-        MedicalRecordDiagnose medicalRecordDiagnose = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id);
+        MedicalRecordDiagnose medicalRecordDiagnose = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id,false);
 
         if(medicalRecordDiagnose!=null) {
             diagnose = medicalRecordDiagnoseService.getExistDiagnose(medicalRecordDiagnose);
         }else {
             medicalRecordDiagnose = new MedicalRecordDiagnose();
+            medicalRecordDiagnose.setIs_end(false);
             medicalRecordDiagnose.setMedical_record_id(medical_record_id);
             medicalRecordDiagnoseService.insertDiagnose(medicalRecordDiagnose);
             diagnose = medicalRecordDiagnoseService.getEmptyDiagnose(medicalRecordDiagnose);
         }
 
         data.put("diagnose", diagnose);
+        data.put("id", medical_record_id);
         return Response.ok(data);
     }
 
@@ -164,6 +166,22 @@ public class MedicalRecordController {
         medicalRecordService.updateMedicalRecord(newMedicalRecord);
 
         //更新诊断
+
+        return Response.ok();
+    }
+
+    @PostMapping("/end")
+    @ResponseBody
+    public Map end(@RequestBody Map req){
+        int medical_record_id = (int)req.get("id");
+        MedicalRecord medicalRecord = medicalRecordService.findMedicalRecordById(medical_record_id);
+        if(medicalRecord==null)
+            return Response.error("错误，该病历不存在");
+        else if(medicalRecord.getStatus().equals(MedicalRecordStatus.Finished))
+            return Response.error("错误，该病历已诊毕");
+
+        medicalRecord.setStatus(MedicalRecordStatus.Finished);
+        medicalRecordService.updateMedicalRecord(medicalRecord);
 
         return Response.ok();
     }
@@ -198,7 +216,6 @@ public class MedicalRecordController {
             return Response.error("错误，该病历已诊毕");
 
         //更新病历
-        medicalRecord = Utils.fromMap(req,MedicalRecord.class);
         medicalRecord.setStatus(MedicalRecordStatus.Finished);
         medicalRecordService.updateMedicalRecord(medicalRecord);
 
@@ -221,7 +238,7 @@ public class MedicalRecordController {
 
         int medical_record_id = (int) req.get("medical_record_id");
         //获得诊断ID
-        int diagnose_id = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id).getId();
+        int diagnose_id = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id, false).getId();
 
         //删除现有诊断子目
         medicalRecordDiagnoseService.deleteAllByDiagnoseId(diagnose_id);

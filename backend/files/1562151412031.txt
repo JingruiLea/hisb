@@ -1,0 +1,9 @@
+rm -rf build
+yarn build
+打包发布
+DOM
+
+map前为容器，后为函数
+
+mysql-8.0.13-winx64
+mysql -hlocalhost -uroot -p

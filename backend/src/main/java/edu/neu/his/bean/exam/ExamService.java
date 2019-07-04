@@ -1,9 +1,11 @@
 package edu.neu.his.bean.exam;
 
+import edu.neu.his.auto.OutpatientChargesRecordMapper;
 import edu.neu.his.bean.drug.Drug;
 import edu.neu.his.bean.medicalRecord.MedicalRecordService;
 import edu.neu.his.bean.nondrug.NonDrugChargeItem;
 import edu.neu.his.bean.nondrug.NonDrugChargeService;
+import edu.neu.his.bean.outpatientCharges.OutpatientChargesRecord;
 import edu.neu.his.bean.user.User;
 import edu.neu.his.util.Common;
 import edu.neu.his.util.Utils;
@@ -33,6 +35,8 @@ public class ExamService {
 
     @Autowired
     NonDrugChargeService nonDrugChargeService;
+    @Autowired
+    OutpatientChargesRecordMapper outpatientChargeMapper;
 
     @Transactional
     public int insertItem(ExamItem item){
@@ -92,9 +96,10 @@ public class ExamService {
                 Map examItemMap = Utils.objectToMap(examItem);
                 NonDrugChargeItem nonDrugChargeItem = nonDrugChargeService.selectById(examItem.getNon_drug_item_id());
                 examItemMap.put("non_drug_item", Utils.objectToMap(nonDrugChargeItem));
-                if(nonDrugChargeItem.getDepartment_id() == user.getDepartment_id()){
-                    itemList.add(examItemMap);
-                }
+//                if(nonDrugChargeItem.getDepartment_id() == user.getDepartment_id()){
+//                    itemList.add(examItemMap);
+//                }
+                itemList.add(examItemMap);
             }
             examMap.put("items", itemList);
             res.add(examMap);
@@ -131,6 +136,31 @@ public class ExamService {
             }
         }
         return true;
+    }
+
+    public List listPaid(int type, int medicalRecordId, User systemUser) {
+        List<Exam> examList = selectByMedicalRecordIdAndType(medicalRecordId, type);
+        List res = new ArrayList();
+        for (Exam exam : examList) {
+            Map examMap = Utils.objectToMap(exam);
+            if(exam.getType()!=type) continue;
+            List<ExamItem> examItemList = examItemMapper.selectByExamId(exam.getId());
+            List itemList = new ArrayList();
+            for (ExamItem examItem : examItemList) {
+                int id = examItem.getId();
+                OutpatientChargesRecord outpatientChargesRecord = outpatientChargeMapper.selectByExamId(id);
+                if(outpatientChargesRecord == null || !outpatientChargesRecord.getStatus().equals(Common.YIJIAOFEI)){
+                    continue;
+                }
+                Map examItemMap = Utils.objectToMap(examItem);
+                NonDrugChargeItem nonDrugChargeItem = nonDrugChargeService.selectById(examItem.getNon_drug_item_id());
+                examItemMap.put("non_drug_item", Utils.objectToMap(nonDrugChargeItem));
+                itemList.add(examItemMap);
+            }
+            examMap.put("exam_item", itemList);
+            res.add(examMap);
+        }
+        return res;
     }
 
     public List listByType(int type, int medicalRecordId, User systemUser) {

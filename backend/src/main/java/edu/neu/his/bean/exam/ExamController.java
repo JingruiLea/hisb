@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.springframework.util.ResourceUtils.CLASSPATH_URL_PREFIX;
 
@@ -39,13 +40,15 @@ public class ExamController {
     );
      */
 
-    private String filePath;
+    private String filePath = "./files/";
 
     @Autowired
     ExamService examService;
 
     @Autowired
     ExamItemService examItemService;
+    @Autowired
+    ExamItemMapper examItemMapper;
 
     @Autowired
     NonDrugChargeService nonDrugChargeService;
@@ -66,6 +69,18 @@ public class ExamController {
     }
 
     @PostMapping("/cancel")
+    public Map cancel2(@RequestBody Map req){
+        List<Integer> ids = (List<Integer>) req.get("exam_item_id");
+        for (Integer id : ids) {
+            ExamItem exam = examItemMapper.selectByPrimaryKey(id);
+            if(exam == null) return Response.error("没有该检查!");
+            exam.setStatus(Common.YIQUXIAO);
+            examItemMapper.updateByPrimaryKey(exam);
+        }
+        return Response.ok();
+    }
+
+
     public Map cancel(@RequestBody Map req){
         List<Integer> ids = (List<Integer>) req.get("id");
         for (Integer id : ids) {
@@ -79,10 +94,6 @@ public class ExamController {
 
     @PostMapping("/create")
     public Map create(@RequestBody Map req){
-//         = examService.selectByMedicalRecordIdAndType((int)req.get("medical_record_id"), (int)req.get("type"));
-//        if(exam != null){
-//            return Response.ok(exam);
-//        }
         Exam exam = Utils.fromMap(req, Exam.class);
         if(!medicalRecordService.hasSubmit(exam.getMedical_record_id())){
             return Response.error("病历状态错误!");
@@ -176,14 +187,15 @@ public class ExamController {
             }
             exam.setStatus(Common.YITIJIAO);
             examService.updateByPrimaryKey(exam);
-            List<Integer> nonDrugIdList = examService.getNonDrugItemIdListById(examId);
-            nonDrugIdList.forEach(itemId->{
-                NonDrugChargeItem nonDrugChargeItem = nonDrugChargeService.selectById(itemId);
+            List<ExamItem> itemList = examItemMapper.selectByExamId(examId);
+            itemList.forEach(item->{
+                int drugId = item.getNon_drug_item_id();
+                NonDrugChargeItem nonDrugChargeItem = nonDrugChargeService.selectById(drugId);
                 OutpatientChargesRecord record = new OutpatientChargesRecord();
                 record.setCreate_time(Utils.getSystemTime());
                 record.setMedical_record_id(exam.getMedical_record_id());
                 record.setBill_record_id(0);
-                record.setItem_id(itemId);
+                record.setItem_id(item.getId());
                 record.setType(Common.RECORD_TYPE_JIANCHA);
                 record.setExpense_classification_id(nonDrugChargeItem.getExpense_classification_id());
                 record.setStatus(Common.WEIJIAOFEI);
@@ -247,6 +259,14 @@ public class ExamController {
         return Response.ok(res);
     }
 
+    @PostMapping("/listPaid")
+    public Map listPaid(@RequestBody Map req){
+        int medicalRecordId = (int) req.get("medical_record_id");
+        int type = (int)req.get("type");
+        List res = examService.listPaid(type, medicalRecordId, Utils.getSystemUser(req));
+        return Response.ok(res);
+    }
+
     @PostMapping("/allExam")
     public Map allExam(@RequestBody Map req){
         int medicalRecordId = (int) req.get("medical_record_id");
@@ -264,9 +284,10 @@ public class ExamController {
         }
     }
 
-    @PostMapping("submitResult")
+    @PostMapping("/submitResult")
     public Map submitResult(@RequestParam Map req, @RequestParam("file")MultipartFile[] files){
         int examItemId = Integer.parseInt((String) req.get("exam_item_id"));
+        req.put("_uid", Integer.parseInt((String) req.get("_uid")));
         ExamItem examItem = examItemService.selectByPrimaryKey(examItemId);
         if(examItem == null){
             return Response.error("没有该检查!");
@@ -292,6 +313,7 @@ public class ExamController {
             DBFile += files[i].getOriginalFilename() + "&" + filename + ";";
         }
         examItemResult.setFile(DBFile);
+        examItemResult.setUser_id(Utils.getSystemUser(req).getUid());
         examItemResultMapper.insertOrUpdate(examItemResult);
         examItem.setStatus("已完成");
         examItemService.update(examItem);

@@ -1,10 +1,12 @@
 package edu.neu.his.auto;
 
+import edu.neu.his.bean.exam.ExamItem;
 import edu.neu.his.bean.outpatientCharges.OutpatientChargesRecord;
 import java.util.List;
 
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
+import org.springframework.security.core.parameters.P;
 
 @Mapper
 public interface OutpatientChargesRecordMapper {
@@ -108,4 +110,32 @@ public interface OutpatientChargesRecordMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(OutpatientChargesRecord record);
+
+    @Select({
+            "select",
+            "id, medical_record_id, bill_record_id, item_id, `type`, expense_classification_id, ",
+            "`status`, quantity, cost, execute_department_id, create_time, collect_time, ",
+            "return_time, create_user_id, collect_user_id, return_user_id",
+            "from outpatient_charges_record",
+            "where item_id = #{id,jdbcType=INTEGER} and `type` = 1"
+    })
+    @Results({
+            @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+            @Result(column="medical_record_id", property="medical_record_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="bill_record_id", property="bill_record_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="item_id", property="item_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="type", property="type", jdbcType=JdbcType.INTEGER),
+            @Result(column="expense_classification_id", property="expense_classification_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="status", property="status", jdbcType=JdbcType.VARCHAR),
+            @Result(column="quantity", property="quantity", jdbcType=JdbcType.INTEGER),
+            @Result(column="cost", property="cost", jdbcType=JdbcType.REAL),
+            @Result(column="execute_department_id", property="execute_department_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="create_time", property="create_time", jdbcType=JdbcType.VARCHAR),
+            @Result(column="collect_time", property="collect_time", jdbcType=JdbcType.VARCHAR),
+            @Result(column="return_time", property="return_time", jdbcType=JdbcType.VARCHAR),
+            @Result(column="create_user_id", property="create_user_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="collect_user_id", property="collect_user_id", jdbcType=JdbcType.INTEGER),
+            @Result(column="return_user_id", property="return_user_id", jdbcType=JdbcType.INTEGER)
+    })
+    OutpatientChargesRecord selectByExamId(@Param("id") Integer id);
 }
