@@ -61,7 +61,7 @@ public class RegistrationDailyCollectController {
         String start_time = (String)req.get("start_time");
         String end_time = (String)req.get("end_time");
 
-        if(start_time.compareTo(end_time)>=0 || end_time.compareTo(Utils.getSystemTime())>0)
+        if(start_time.compareTo(end_time)>=0 || end_time.compareTo(Utils.getTomorrowTime())>0)
             return Response.error("错误，开始时间不小于结束时间或结束时间大于当前时间");
 
         List<BillRecord> billRecordList = billRecordService.findByUserIdAndTime(uid,start_time,end_time);
