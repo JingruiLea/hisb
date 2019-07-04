@@ -2,6 +2,7 @@ package edu.neu.his.bean.user;
 
 import edu.neu.his.bean.registration.RegistrationLevel;
 import edu.neu.his.bean.registration.RegistrationLevelMapper;
+import edu.neu.his.util.Importable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +11,7 @@ import org.springframework.util.DigestUtils;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements Importable<User> {
     @Autowired
     private UserMapper userMapper;
 
@@ -84,5 +85,16 @@ public class UserService {
     @Transactional
     public int canDelete(int id) {
         return userMapper.checkIdExists(id);//0,不能删
+    }
+
+    @Override
+    public int insert(User instance) {
+        if (instance.getPassword() != null)
+            instance.setPassword(DigestUtils.md5DigestAsHex(instance.getPassword().getBytes()));
+        else
+            instance.setPassword(DigestUtils.md5DigestAsHex("12345".getBytes()));
+        userMapper.addUser(instance);
+        userMapper.addUserInfo(instance);
+        return 0;
     }
 }
