@@ -7,6 +7,8 @@ public class MedicalRecordDiagnose implements Serializable {
 
     private Integer medical_record_id;
 
+    private boolean is_end;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -36,5 +38,13 @@ public class MedicalRecordDiagnose implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public boolean isIs_end() {
+        return is_end;
+    }
+
+    public void setIs_end(boolean is_end) {
+        this.is_end = is_end;
     }
 }

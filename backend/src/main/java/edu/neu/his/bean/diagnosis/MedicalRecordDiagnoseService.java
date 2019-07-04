@@ -16,23 +16,24 @@ import java.util.Map;
 @Service
 public class MedicalRecordDiagnoseService {
     @Autowired
-    private MedicalRecordDiagnoseMapper medicalRecordDiagnoseMapper;
+     MedicalRecordDiagnoseMapper medicalRecordDiagnoseMapper;
 
     @Autowired
-    private MedicalRecordDiagnoseItemMapper medicalRecordDiagnoseItemMapper;
+     MedicalRecordDiagnoseItemMapper medicalRecordDiagnoseItemMapper;
 
     @Autowired
-    private AutoMedicalRecordDiagnoseMapper autoMedicalRecordDiagnoseMapper;
+     AutoMedicalRecordDiagnoseMapper autoMedicalRecordDiagnoseMapper;
 
     @Autowired
-    private AutoMedicalRecordDiagnoseItemMapper autoMedicalRecordDiagnoseItemMapper;
+     AutoMedicalRecordDiagnoseItemMapper autoMedicalRecordDiagnoseItemMapper;
 
     @Autowired
     DiseaseMapper diseaseMapper;
 
+
     @Transactional
-    public MedicalRecordDiagnose findDiagnoseByMedicalRecordId(int medical_record_id){
-        return medicalRecordDiagnoseMapper.selectByMedicalRecordId(medical_record_id);
+    public MedicalRecordDiagnose findDiagnoseByMedicalRecordId(int medical_record_id, boolean isEnd){
+        return medicalRecordDiagnoseMapper.selectByMedicalRecordId2(medical_record_id, isEnd);
     }
 
     @Transactional

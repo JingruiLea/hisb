@@ -68,7 +68,7 @@ public class ExamTemplateController {
         return Response.ok(examTemplateItemService.detail(examTemplateId));
     }
 
-    @PostMapping("delete")
+    @PostMapping("/delete")
     public Map delete(@RequestBody Map req){
         List<Integer> ids = (List<Integer>) req.get("id");
         for (Integer id : ids) {
@@ -128,7 +128,7 @@ public class ExamTemplateController {
     }
 
 
-    @PostMapping("update")
+    @PostMapping("/update")
     public Map update(@RequestBody Map req){
         int id = (int) req.get("id");
         User user = Utils.getSystemUser(req);

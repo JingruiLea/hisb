@@ -24,6 +24,8 @@ public class ExamExecuteController {
     @Autowired
     ExamService examService;
 
+    @Autowired
+    ExamMapper examMapper;
 
     @Autowired
     OutpatientRegistrationMapper outpatientRegistrationMapper;

@@ -229,7 +229,7 @@ public class PrescriptionService {
         //修改处方详情
         int new_amount = prescriptionItem.getAmount() - amount;
         if(new_amount <= 0){
-            prescriptionItem.setStatus(PrescriptionStatus.PrescriptionItemTaken);
+            prescriptionItem.setStatus(PrescriptionStatus.PrescriptionItemReturned);
             autoPrescriptionItemMapper.updateByPrimaryKey(prescriptionItem);
             return;
         }
