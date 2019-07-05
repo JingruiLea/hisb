@@ -59,4 +59,6 @@ public class DiagnoseController {
         });
         return Response.ok();
     }
+
+
 }

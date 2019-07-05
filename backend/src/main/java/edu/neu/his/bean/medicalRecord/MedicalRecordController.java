@@ -149,6 +149,29 @@ public class MedicalRecordController {
         return Response.ok(data);
     }
 
+    @RequestMapping("/getEndDiagnose")
+    public Map getEnd(@RequestBody Map req){
+        int medical_record_id = (int)req.get("medical_record_id");
+        MedicalRecordDiagnose medicalRecordDiagnose = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id,true);
+        Map diagnose;
+        MedicalRecordDiagnose medicalRecordDiagnose2 = medicalRecordDiagnoseService.findDiagnoseByMedicalRecordId(medical_record_id,false);
+        if(medicalRecordDiagnose!=null) {
+            diagnose = medicalRecordDiagnoseService.getExistDiagnose(medicalRecordDiagnose);
+        }else {
+            if(medicalRecordDiagnose2!=null){
+                diagnose = medicalRecordDiagnoseService.getExistDiagnose(medicalRecordDiagnose2);
+                return Response.ok(diagnose);
+            }
+            medicalRecordDiagnose = new MedicalRecordDiagnose();
+            medicalRecordDiagnose.setIs_end(true);
+            medicalRecordDiagnose.setMedical_record_id(medical_record_id);
+            medicalRecordDiagnoseService.insertDiagnose(medicalRecordDiagnose);
+            diagnose = medicalRecordDiagnoseService.getEmptyDiagnose(medicalRecordDiagnose);
+        }
+
+        return Response.ok(diagnose);
+    }
+
     @PostMapping("/saveMedicalRecord")
     @ResponseBody
     public Map saveMedicalRecord(@RequestBody Map req){
