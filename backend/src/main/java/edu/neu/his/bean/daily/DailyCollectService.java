@@ -82,4 +82,9 @@ public class DailyCollectService {
         dailyCollect.setChecked(true);
         return dailyCollectMapper.updateByPrimaryKey(dailyCollect);
     }
+
+    @Transactional
+    public int updateDailyCollect(DailyCollect dailyCollect){
+        return dailyCollectMapper.updateByPrimaryKey(dailyCollect);
+    }
 }
