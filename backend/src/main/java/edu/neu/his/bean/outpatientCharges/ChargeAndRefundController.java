@@ -252,4 +252,10 @@ public class ChargeAndRefundController {
             return Response.ok(data);
         }
     }
+
+    @RequestMapping("/getAllRecord")
+    @ResponseBody
+    public Map getAllRecord(){
+        return Response.ok(chargeAndRefundService.findAll());
+    }
 }
