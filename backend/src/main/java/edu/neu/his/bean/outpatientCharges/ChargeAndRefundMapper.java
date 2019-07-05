@@ -16,7 +16,8 @@ public interface ChargeAndRefundMapper {
     @Select("SELECT * from outpatient_charges_record where medical_record_id = #{medical_record_id} and id = #{id}")
     OutpatientChargesRecord findByMedicalRecordIdAndId(@Param("medical_record_id") int medical_record_id, @Param("id") int id);
 
-    @Select("SELECT * from outpatient_charges_record where medical_record_id = #{medical_record_id} and create_time > #{start_time} and create_time < #{end_time}")
+    @Select("SELECT * from outpatient_charges_record where medical_record_id = #{medical_record_id} and CAST(collect_time AS DATETIME) > CAST(#{start_time} AS DATETIME) " +
+            "and  CAST(collect_time AS DATETIME) < CAST(#{end_time} AS DATETIME)")
     List<OutpatientChargesRecord> findByMedicalRecordIdAndTime(@Param("medical_record_id") int medical_record_id,
                                                                @Param("start_time") String start_time, @Param("end_time") String end_time);
 

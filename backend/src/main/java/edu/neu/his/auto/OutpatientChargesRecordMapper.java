@@ -1,14 +1,14 @@
 package edu.neu.his.auto;
 
-import edu.neu.his.bean.exam.ExamItem;
 import edu.neu.his.bean.outpatientCharges.OutpatientChargesRecord;
 import java.util.List;
 
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
-import org.springframework.security.core.parameters.P;
+import org.springframework.stereotype.Component;
 
 @Mapper
+@Component("OutpatientChargesRecordMapper")
 public interface OutpatientChargesRecordMapper {
     @Delete({
         "delete from outpatient_charges_record",
