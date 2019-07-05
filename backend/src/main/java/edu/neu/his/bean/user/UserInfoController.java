@@ -23,7 +23,7 @@ public class UserInfoController {
     public Map getUserInfo(@RequestBody Map req) {
         //System.out.println(req);
         int uid = (int)req.get("_uid");
-        User user = userService.findByUid(uid);
+        User user = userService.findBeyUid(uid);
         if(user!=null) {
             user.setPassword(null);
             Map res = Utils.objectToMap(user);
