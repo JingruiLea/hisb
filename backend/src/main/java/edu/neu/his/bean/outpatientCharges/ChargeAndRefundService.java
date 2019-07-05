@@ -91,6 +91,7 @@ public class ChargeAndRefundService {
             Drug drug = drugMapper.selectByPrimaryKey(item.getDrug_id());
             itemName = drug.getName();
             res.putAll(Utils.objectToMap(drug));
+            res.put("item_status", item.getStatus());
         }else if(record.getType() == 1){
             ExamItem item = examItemMapper.selectByPrimaryKey(record.getItem_id());
             res.putAll(Utils.objectToMap(item));
@@ -101,6 +102,7 @@ public class ChargeAndRefundService {
             Map drugMap = Utils.objectToMap(drug);
             drugMap.put("price", drug.getFee());
             res.putAll(drugMap);
+            res.put("item_status", item.getStatus());
         }
         res.put("status", record.getStatus());
         res.put("item_name", itemName);
